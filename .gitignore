@@ -56,6 +56,7 @@ Release/
 
 # LLM directories
 .claude/
+CLAUDE.md
 .cursor/
 .copilot/
 .codeium/
