@@ -111,3 +111,20 @@ public:
 ```
 - Note the `currentItem()` function has a T return type and that allows us to get what type it has to change
 - Example Flyweight 
+
+```c++
+template <class T>
+class baseFly<T>
+{
+private:
+T *data;
+public:
+T* getData()=0;
+}
+
+class SeasonFlyweight : public baseFly<string>
+{
+	public:
+string* getData(){return this->data;};
+}
+```
