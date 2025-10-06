@@ -73,107 +73,111 @@ The Plant Nursery Simulator models:
 ---
 
 ## 3. Functional Requirements
+## 3. Functional Requirements
 
 ### 3.1 Greenhouse/Garden Subsystem
 
-**FR1: Plant Type Creation**  
-The system shall create different plant types (Tree, Shrub, Flower, Succulent) organized by seasonal families using factory methods.  
-_Pattern: Abstract Factory_
+**FR1: Plant Construction with Builder**  
+The system will provide builder classes that create plants with specific configurations such as water strategy, sun strategy and maturity state. A Director will coordinate the construction of custom plants, ensuring all required attributes are initialized.  
+_Pattern: Builder_
 
-**FR2: Seasonal Plant Families**  
-The system shall organize plants into seasonal families (Spring, Summer, Autumn, Winter) ensuring consistency within each family.  
-_Pattern: Abstract Factory_
-
-**FR3: Plant Cloning**  
-The system shall support cloning of existing plants to simulate stock replication and order fulfillment.  
+**FR2: Plant Cloning**  
+Cloning will allow new instances of plants to be created with copied attributes through the clone() method. This is used to efficiently recreate very specific versions of plants multiple times.  
 _Pattern: Prototype_
 
-**FR4: Dynamic Watering Strategy**  
-The system shall apply different watering strategies based on plant type and characteristics (high water, medium water, low water).  
+**FR3: Dynamic Watering Strategy**  
+Different watering strategies will be implemented that define the water amount and frequency for different types of plants. Watering strategies will change based on the lifecycle of the plant.  
 _Pattern: Strategy_
 
-**FR5: Dynamic Sunlight Strategy**  
-The system shall apply different sunlight exposure strategies based on plant requirements (full sun, partial sun, shade).  
+**FR4: Dynamic Sun Strategy**  
+Different sun strategies will be implemented that define the intensity and hours of sun needed for different types of plants.  
 _Pattern: Strategy_
 
-**FR6: Plant Lifecycle States**  
-The system shall track plant maturity through distinct states (Seed, Mid-growth, Mature, Dead) with different behaviors per state.  
+**FR5: Plant Lifecycle States**  
+The system will manage maturity states, which specify minimum ages, growth rates and price increases/decreases. Automatic transitions between states based on the age of the plant will be implemented.  
 _Pattern: State_
 
-**FR7: Plant Collections**  
-The system shall organize plants into composite hierarchical structures for efficient management and categorization.  
+**FR6: Inventory Structure**  
+Plants will be organised into a structure using Composite, where these structures can be individual plants or groups of plants. The system will implement operations that traverse through the structure and get the total amount of the contained plants. Plants will be grouped by categories but will ensure that individual plants will be handled in the same manner.  
 _Pattern: Composite_
 
-**FR8: Inventory Singleton**  
-The system shall maintain a single, globally accessible inventory instance to prevent data inconsistency.  
+**FR7: Inventory Singleton**  
+A single global inventory will be shared to ensure that customers and staff access the same inventory. The creation of multiple inventories will be prohibited.  
 _Pattern: Singleton_
 
 ### 3.2 Staff Subsystem
 
-**FR9: Plant State Monitoring**  
-Staff shall be automatically notified when plants change states or require attention.  
+**FR8: Plant State Monitoring**  
+Staff members will observe assigned plants' states to receive notifications about the health changes and lifecycle changes of the observed plant. The system will notify the assigned staff of state changes.  
 _Pattern: Observer_
 
-**FR10: Inventory Monitoring**  
-Staff shall be notified of inventory changes, stock levels, and availability updates.  
+**FR9: Inventory Monitoring**  
+Staff will be notified of inventory changes from sales and stock increases and decreases. Multiple staff will be able to observe the same inventory, ensuring awareness of stock levels.  
 _Pattern: Observer_
 
-**FR11: Customer Interaction Mediation**  
-Staff-customer interactions shall be coordinated through a centralized mediator to reduce coupling.  
+**FR10: Customer Interaction Mediation**  
+A mediator will coordinate communication between staff and customers on the sales floor, allowing decoupling of the staff. The mediator will broadcast necessary inventory updates to customers and staff on the sales floor.  
 _Pattern: Mediator_
 
 ### 3.3 Customer & Sales Floor Subsystem
 
-**FR12: Plant Customization**  
-Customers shall be able to add customizations to plants (decorative pots, gift wrapping, care packages) dynamically.  
+**FR11: Plant Customization**  
+Plants will be customisable, such as adding a charm or decorating the pot. Multiple decorators on a single plant will be possible, allowing wrapping on Plant objects. The Plant interface will be maintained such that decorated plants are treated the same as regular plants.  
 _Pattern: Decorator_
 
-**FR13: Seasonal Plant Browsing**  
-Customers shall be able to browse plants by season using specialized iterators.  
+**FR12: Seasonal Plant Browsing**  
+The Iterator will traverse through the Composite Plant structure based on the season the plant is assigned to.  
 _Pattern: Iterator_
 
-**FR14: Simplified GUI Interface**  
-The system shall provide a simplified interface to the complex nursery subsystems for GUI interaction.  
-_Pattern: Facade_
-
-**FR15: Complex Command Execution**  
-The system shall support complex, multi-step operations through encapsulated command objects.  
+**FR13: Command-Based Actions**  
+Actions such as watering plants, selling plants and hiring/firing staff will be executed through Command objects.  
 _Pattern: Command_
 
 ### 3.4 Additional Functional Requirements
 
-**FR16: Plant Information Retrieval**  
+**FR14: Plant Information Retrieval**  
 The system shall provide detailed plant information including care requirements, pricing, and availability.
 
-**FR17: Transaction Processing**  
+**FR15: Transaction Processing**  
 The system shall process plant purchases, update inventory, and record transaction details.
 
-**FR18: Stock Addition**  
+**FR16: Stock Addition**  
 The system shall support easy addition of new plant stock across all seasons and types.
 
----
-
 ## 4. Non-Functional Requirements
+## 4. Non-Functional Requirements (Quality Attributes)
 
-### 4.1 Scalability (NFR1)
+These specifications define how well the system performs, ensuring quality attributes such as performance, maintainability, usability, scalability, and reliability are met.
 
-**Requirement:** The system shall support adding new plant types, seasons, and care strategies without modifying existing code.  
+### 4.1 Performance (NFR1)
+
+**Requirement:** The system must be able to execute all staff care routines for a simulation of up to 10,000 active plants within a single simulated day cycle to ensure smooth progression.  
+**Rationale:** Ensures the system can handle large-scale nursery operations without performance degradation.  
+**Implementation:** Efficient algorithms, proper data structures, and optimized observer notifications.
+
+### 4.2 Maintainability/Extensibility (NFR2)
+
+**Requirement:** The system must be implemented such that adding a new type of care routine or a new plant species requires modification to only a maximum of two existing classes or files.  
 **Rationale:** Open/Closed Principle - open for extension, closed for modification.  
-**Implementation:** Factory patterns, Strategy patterns, and loose coupling through interfaces.
-
-### 4.2 Maintainability (NFR2)
-
-**Requirement:** The system shall maintain clear separation of concerns with each pattern addressing a specific responsibility.  
-**Rationale:** Single Responsibility Principle - each class has one reason to change.  
-**Implementation:** Pattern-based architecture with well-defined interfaces and minimal coupling.
+**Implementation:** Pattern-based architecture (Factory, Strategy, Builder) enables easy extension.
 
 ### 4.3 Usability (NFR3)
 
-**Requirement:** The system shall provide an intuitive GUI interface that abstracts complex subsystem interactions.  
-**Rationale:** Users should not need to understand internal system complexity.  
-**Implementation:** Facade pattern provides simplified interface; Command pattern enables intuitive user actions.
+**Requirement:** The system must utilise a clear text/visual based interface where all available actions and input parameters are displayed to the user upon request. A new user without any prior knowledge of the system should be able to navigate the system using only the text based system.  
+**Rationale:** Users should not need extensive training to use the system.  
+**Implementation:** Intuitive menu system, clear prompts, and comprehensive help documentation.
 
----
+### 4.4 Scalability (NFR4)
+
+**Requirement:** The system must be able to handle a simulation with an inventory of up to 5,000 unique plant instances without memory exhaustion or a noticeable decrease in simulation speed.  
+**Rationale:** Ensures the system scales to larger nursery operations.  
+**Implementation:** Efficient memory management, object pooling where appropriate, and optimized data structures.
+
+### 4.5 Reliability (NFR5)
+
+**Requirement:** The whole system must be designed with distinct modules for the staff, greenhouse and customer interactions. This ensures that a change in one area does not break any functionality in any other area.  
+**Rationale:** High cohesion, low coupling for system stability.  
+**Implementation:** Clear separation of concerns through subsystems, well-defined interfaces, and comprehensive testing.
 
 ## 5. Design Patterns
 
@@ -1020,3 +1024,280 @@ class RibbonDecoration : public PlantDecorator {
 ---
 
 _End of Design Document_
+
+
+---
+---
+
+# DESIGN DOCUMENT v2.0 - BUILDER PATTERN UPDATE
+
+**Date:** October 2025  
+**Version:** 2.0 (Builder Pattern Replacement)
+
+---
+
+## Change Log v2.0
+
+**Major Change: Abstract Factory → Builder Pattern**
+
+**Rationale:**
+- Plants require many configurable attributes (type, season, water, sun, soil, growth rate, price, name, age)
+- Builder provides superior flexibility for attribute combinations
+- Reduces from 16 concrete plant classes to single Plant class + Builder
+- Centralized validation logic
+- Builder is on the required pattern list
+- Easier to extend with new attributes
+
+---
+
+## Updated Functional Requirements
+
+### Greenhouse/Garden Subsystem (REVISED)
+
+**FR1: Configurable Plant Construction** ✨ NEW  
+The system shall construct plants with multiple configurable attributes (type, season, water needs, sun requirements, growth rate, soil type, price, name) using a step-by-step builder process.  
+_Pattern: Builder_
+
+**FR2: Plant Attribute Validation** ✨ NEW  
+The system shall validate plant attribute combinations during construction to ensure botanical consistency and prevent invalid configurations (e.g., cactus with high water needs).  
+_Pattern: Builder_
+
+**FR3-FR18:** Remain unchanged from v1.0
+
+---
+
+## 5.1.1 Builder Pattern (REPLACES Abstract Factory)
+
+### Purpose
+Construct complex plant objects with many configurable attributes step-by-step, separating construction from representation.
+
+### Problem Solved
+- Plants have many attributes (type, season, water, sun, soil, growth rate, price, name, etc.)
+- Need flexible construction without constructor explosion
+- Want to enforce attribute validation before object creation
+- Avoid creating 16+ concrete subclasses for every combination
+
+### Why This Pattern
+- Handles objects with many optional/required parameters elegantly
+- Provides control over construction process
+- Enables step-by-step configuration with validation
+- Separates complex construction logic from business logic
+- Allows same construction process for different representations
+- Eliminates telescoping constructor anti-pattern
+
+### Participants
+
+| Role | Participant | Responsibility |
+|------|-------------|----------------|
+| **Builder** | PlantBuilder | Specifies interface for creating parts of Product |
+| **ConcreteBuilder** | PlantBuilder (single impl) | Constructs and assembles parts, validates configuration |
+| **Director** | Client code / Stock | Constructs object using Builder (optional) |
+| **Product** | Plant | Complex object being constructed |
+
+### Functional Requirements
+FR1, FR2
+
+### Builder Interface Structure
+
+```
+PlantBuilder:
+Methods:
+- setType(PlantType): PlantBuilder&
+- setSeason(Season): PlantBuilder&
+- setWaterStrategy(WaterStrategy*): PlantBuilder&
+- setSunStrategy(SunStrategy*): PlantBuilder&
+- setGrowthRate(double): PlantBuilder&
+- setSoilType(SoilType): PlantBuilder&
+- setPrice(double): PlantBuilder&
+- setName(string): PlantBuilder&
+- setAge(int): PlantBuilder&
+- validate(): bool
+- build(): Plant*
+- reset(): void
+```
+
+### Usage Example
+
+**Creating a spring tree:**
+```cpp
+PlantBuilder builder;
+Plant* springTree = builder
+    .setType(PlantType::TREE)
+    .setSeason(Season::SPRING)
+    .setName("Cherry Blossom")
+    .setWaterStrategy(new MediumWaterStrategy())
+    .setSunStrategy(new FullSunStrategy())
+    .setGrowthRate(0.6)
+    .setSoilType(SoilType::LOAMY)
+    .setPrice(75.00)
+    .build();
+```
+
+**Creating a summer succulent:**
+```cpp
+builder.reset();
+Plant* summerSucculent = builder
+    .setType(PlantType::SUCCULENT)
+    .setSeason(Season::SUMMER)
+    .setName("Jade Plant")
+    .setWaterStrategy(new LowWaterStrategy())
+    .setSunStrategy(new FullSunStrategy())
+    .setGrowthRate(0.2)
+    .setSoilType(SoilType::SANDY)
+    .setPrice(25.00)
+    .build();
+```
+
+### Validation Logic
+
+The builder's `build()` method validates:
+- Succulents must have LowWaterStrategy
+- Shade-loving plants shouldn't have FullSunStrategy
+- Growth rate within valid range (0.0 - 1.0)
+- Price is positive
+- Required fields are set (type, season, name)
+
+### Benefits Over Abstract Factory
+
+✅ Single Plant class instead of 16 concrete classes  
+✅ Flexible attribute combinations  
+✅ Centralized validation  
+✅ Easy to add new attributes (just add setter)  
+✅ No factory hierarchy needed  
+✅ Supports custom plant configurations
+
+### Integration with Prototype
+
+Builder and Prototype work together seamlessly:
+
+```cpp
+// Create template with Builder
+Plant* template = builder
+    .setType(TREE)
+    .setSeason(SPRING)
+    .setWaterStrategy(new MediumWaterStrategy())
+    .build();
+
+// Clone for bulk stock using Prototype
+Plant* clone1 = template->clone();
+Plant* clone2 = template->clone();
+Plant* clone3 = template->clone();
+```
+
+---
+
+## Updated Class Structure
+
+### Single Plant Class (No Subclasses)
+
+```
+Plant:
+Attributes:
+- type: PlantType (TREE, SHRUB, FLOWER, SUCCULENT)
+- season: Season (SPRING, SUMMER, AUTUMN, WINTER)
+- name: string
+- age: int
+- growthRate: double
+- soilType: SoilType
+- price: double
+- health: int
+- waterStrategy: WaterStrategy*
+- sunStrategy: SunStrategy*
+- maturityState: MaturityState*
+- observers: vector<Staff*>
+
+Methods:
+- clone(): Plant*
+- getInfo(): string
+- water(): void
+- grow(): void
+- getPrice(): double
+- attach(Staff*): void
+- detach(Staff*): void
+- notify(): void
+```
+
+**No longer need:**
+- SpringTree, SpringShrub, SpringFlower, SpringSucculent
+- SummerTree, SummerShrub, SummerFlower, SummerSucculent
+- AutumnTree, AutumnShrub, AutumnFlower, AutumnSucculent
+- WinterTree, WinterShrub, WinterFlower, WinterSucculent
+
+All 16 concrete classes replaced with single configurable Plant class!
+
+---
+
+## Pattern Count Summary (v2.0)
+
+**Total: 11 patterns** (exceeds requirement of 10)
+
+### Creational (3):
+1. **Builder** ✨ (replaced Abstract Factory)
+2. Prototype
+3. Singleton
+
+### Behavioral (6):
+4. Observer
+5. Strategy
+6. State
+7. Mediator
+8. Iterator
+9. Command
+
+### Structural (3):
+10. Composite
+11. Decorator
+12. Facade
+
+**Required Patterns Used:**
+- ✅ Builder (on required list)
+- ✅ Observer
+- ✅ Iterator
+- ✅ Mediator
+- ✅ Command
+- ✅ Facade
+- ✅ Singleton
+
+**Pattern Distribution:**
+- ✅ At least 2 of each type (Creational: 3, Behavioral: 6, Structural: 3)
+- ✅ At least 5 required patterns used (7 used)
+
+---
+
+## Appendix: Builder vs Abstract Factory Decision
+
+### Why Builder Was Chosen
+
+**Attribute Complexity:**
+Plants have many configurable attributes:
+- Type, Season, Water needs, Sun requirements
+- Growth rate, Soil type, Price, Name, Age
+- Plus future: Fertilizer needs, Hardiness zone, etc.
+
+**Abstract Factory Problems:**
+- Requires 16+ concrete classes (4 seasons × 4 types)
+- Adding soil type attribute → 80+ classes (5 soil types × 16)
+- Limited flexibility for custom combinations
+- Class explosion with each new categorization
+
+**Builder Advantages:**
+- Single Plant class with unlimited flexibility
+- Easy to add new attributes (one setter method)
+- Centralized validation ensures consistency
+- Supports any attribute combination
+- Dramatically reduces class count
+
+**Trade-offs:**
+- Lose explicit "seasonal family" grouping
+- Season becomes just another attribute
+- More verbose creation code (mitigated by fluent interface)
+
+**Mitigation Strategies:**
+- Iterator pattern still supports seasonal browsing
+- Validation prevents inconsistent attribute combinations
+- Fluent interface makes code readable
+- Can add convenience methods for common configurations
+
+---
+
+*End of v2.0 Builder Pattern Update*
