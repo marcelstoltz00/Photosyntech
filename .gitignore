@@ -94,3 +94,5 @@ DerivedData/
 *.tmp
 *.temp
 *.log
+
+*.obsidian
