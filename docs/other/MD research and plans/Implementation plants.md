@@ -159,6 +159,7 @@ done by {}
 - Don't worry about specialized directors for MVP. 
 - You can team up with somone else if you are done early 
 - -> all plants must be given a season for iterator.
+- -> all builders for the getProduct function get a clone of what theyve made. 
 ### Singleton and flyweight
 done by {Wilmar Smit} (pls)
 - I really want to implement this one as i think i did tons of planning on flyweights and such and would love to implement this 
