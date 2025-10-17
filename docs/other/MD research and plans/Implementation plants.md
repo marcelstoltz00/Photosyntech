@@ -25,6 +25,60 @@
 ## Implementation components 
 ### Plants and its sub parts
 ![[Pasted image 20251016164540.png]]
+
+---
+==Copilot ideas==
+### 🌸 **Spring Plants**
+
+These often feature vibrant flowers and moderate stem growth.
+
+|Plant Name|Leaf Size|Flower Size|Stem Size|Thorns|
+|---|---|---|---|---|
+|**Rose**|Small|Large|Medium|Yes|
+|**Tulip**|Small|Large|Small|No|
+|**Peony**|Large|Large|Medium|No|
+|**Bougainvillea**|Small|Large|Medium|Yes|
+
+---
+
+### ☀️ **Summer Plants**
+
+Typically robust, sun-loving, and structurally large.
+
+|Plant Name|Leaf Size|Flower Size|Stem Size|Thorns|
+|---|---|---|---|---|
+|**Sunflower**|Large|Large|Large|No|
+|**Hibiscus**|Large|Large|Medium|No|
+|**Century Plant (Agave)**|Small|Small|Large|Yes|
+|**Zinnia**|Small|Large|Small|No|
+
+---
+
+### 🍂 **Autumn Plants**
+
+Often hardy, with defensive traits or drought adaptations.
+
+|Plant Name|Leaf Size|Flower Size|Stem Size|Thorns|
+|---|---|---|---|---|
+|**Japanese Barberry**|Small|Small|Medium|Yes|
+|**Chrysanthemum**|Small|Large|Medium|No|
+|**Hawthorn**|Small|Small|Medium|Yes|
+|**Sedum**|Small|Small|Small|No|
+
+---
+
+### ❄️ **Winter Plants**
+
+Survivors of harsh climates, often with minimal foliage and defensive structures.
+
+|Plant Name|Leaf Size|Flower Size|Stem Size|Thorns|
+|---|---|---|---|---|
+|**Cactus (Opuntia)**|Small|Small|Large|Yes|
+|**Juniper**|Small|Small|Medium|No|
+|**Yucca**|Large|Small|Large|Yes|
+|**Winter Jasmine**|Small|Small|Small|No|
+
+---
 #### Plant group 1 
 Done by {}
 - Includes
