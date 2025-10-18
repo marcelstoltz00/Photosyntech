@@ -11,6 +11,30 @@
  * Defines the interface for communicating between staff and customers.
  * Concrete mediators (SalesFloor, SuggestionFloor) implement coordination logic
  * and maintain references to colleagues, routing requests appropriately.
+ *
+ * **System Role:**
+ * Defines contract for staff-customer coordination. Different mediators handle
+ * different interaction types (sales vs. suggestions). Central hub for all
+ * staff-customer transactions and communication routing.
+ *
+ * **Pattern Role:** Abstract Mediator (coordination interface)
+ *
+ * **Related Patterns:**
+ * - Colleague: Staff and Customer implement colleague interface
+ * - Observer: Staff may use observer pattern for notifications
+ * - Command: May trigger command execution for transactions
+ * - Facade: Coordinates mediator setup and interactions
+ *
+ * **System Interactions:**
+ * - getAssistance(customer) routes customer requests to staff
+ * - assist() executes coordination logic
+ * - Maintains customerList and staffList for coordination
+ * - Concrete mediators implement transaction-specific logic
+ * - Decouples staff and customers through mediation
+ *
+ * @see Concrete mediators: SalesFloor, SuggestionFloor
+ * @see User (colleagues in mediation)
+ * @see Staff (concrete colleague)
  */
 class Mediator
 {

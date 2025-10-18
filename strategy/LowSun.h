@@ -8,6 +8,28 @@
  *
  * Implements a sun exposure strategy with low intensity and short durations,
  * suitable for shade-loving plants and indoor low-light environments.
+ *
+ * **System Role:**
+ * Strategy for shade-tolerant plants (many Herbs, Ferns, indoor plants). Applied
+ * via Builder. Enables indoor/low-light plant cultivation. Shared via flyweight
+ * factory across all low-sun plants.
+ *
+ * **Pattern Role:** Concrete Strategy (implements low-sun algorithm)
+ *
+ * **Related Patterns:**
+ * - SunStrategy: Implements abstract interface
+ * - LivingPlant: Context using this strategy
+ * - Builder: Assigns to shade-tolerant plant types
+ * - Singleton: Cached by flyweight factory
+ *
+ * **System Interactions:**
+ * - Builder assigns to shade-tolerant/indoor species
+ * - addSun() applies minimal sun exposure
+ * - getID() returns consistent identifier for caching
+ * - Enables indoor nursery environments
+ *
+ * @see SunStrategy (abstract interface)
+ * @see LivingPlant (context)
  */
 class LowSun : public SunStrategy
 {

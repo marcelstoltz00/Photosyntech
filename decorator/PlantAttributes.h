@@ -11,6 +11,31 @@
  * to Component. Concrete decorators add specific visual attributes and modify
  * plant characteristics like sunlight/water needs and price. Decorators can be
  * stacked to apply multiple customizations.
+ *
+ * **System Role:**
+ * Base class for all plant customizations. Wraps PlantComponent while preserving
+ * interface. Enables stacking decorators (pots + charms + seasonal features).
+ * Central to plant customization and pricing flexibility.
+ *
+ * **Pattern Role:** Abstract Decorator (defines wrapping and modification interface)
+ *
+ * **Related Patterns:**
+ * - PlantComponent: Component interface that decorators wrap
+ * - Composite: Wraps components while preserving hierarchy
+ * - Prototype: clone() preserves decorator layers
+ * - Builder: Decorators applied after plant construction
+ * - Flyweight: Decorator instances may be shared
+ *
+ * **System Interactions:**
+ * - Wraps PlantComponent reference maintaining interface
+ * - getInfo() adds decorator details to component info
+ * - getPrice() modifies base price with decorator cost
+ * - affectWater/Sunlight() modify care requirements
+ * - addAttribute() chains decorators together
+ * - clone() creates deep copy including all decorators
+ *
+ * @see PlantComponent (wrapped component)
+ * @see Concrete decorators: LargePot, Spring, etc.
  */
 class PlantAttributes : public PlantComponent
 {

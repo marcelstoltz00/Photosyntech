@@ -12,6 +12,30 @@
  * Defines the interface for sequential access to plant collections with
  * optional filtering capabilities. Concrete iterators apply specific
  * filtering logic (e.g., by season) without exposing collection structure.
+ *
+ * **System Role:**
+ * Defines contract for all collection traversal algorithms. Enables filtering
+ * and sequential access to plant inventory without exposing internal structure.
+ * Key to inventory browsing operations and filtering by season/criteria.
+ *
+ * **Pattern Role:** Abstract Iterator (defines traversal interface)
+ *
+ * **Related Patterns:**
+ * - Aggregate: Creates concrete iterators
+ * - Composite: Traverses plant hierarchies via PlantComponent interface
+ * - Facade: Provides convenient iterator creation methods
+ * - Command: BrowsePlantsCommand uses iterators for filtering
+ *
+ * **System Interactions:**
+ * - Aggregate creates concrete iterator instances
+ * - first() initializes iteration at beginning
+ * - next() advances to next filtered element
+ * - isDone() determines iteration completion
+ * - currentItem() returns current plant
+ * - Concrete iterators implement filtering logic
+ *
+ * @see Aggregate (creates iterators)
+ * @see Concrete iterators: PlantIterator, SpringIterator, etc.
  */
 class Iterator
 {
