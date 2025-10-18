@@ -16,6 +16,38 @@
  * characteristics like age, health, water level, and sun exposure. Manages strategies
  * for watering and sunlight, as well as maturity state. Serves as the Context for
  * State and Strategy patterns. Uses Flyweight pattern for shared immutable data.
+ *
+ * **System Role:**
+ * This abstract base class is the context and storage for all plant lifecycle data.
+ * It implements PlantComponent (Composite leaf) and enables deep cloning via the
+ * clone() method for Prototype pattern. Holds references to Strategy (water/sun)
+ * and State (maturity) flyweights for behavior delegation. Core entity in system.
+ *
+ * **Pattern Role:** Abstract Prototype (defines cloning interface)
+ *
+ * **Related Patterns:**
+ * - PlantComponent: Leaf implementation of composite interface
+ * - State Pattern: Delegates to MaturityState flyweights
+ * - Strategy Pattern: Delegates to WaterStrategy and SunStrategy flyweights
+ * - Flyweight Pattern: References to shared strategy and state objects
+ * - Builder Pattern: Created by concrete builders during plant construction
+ * - Decorator Pattern: Can be wrapped with PlantAttributes decorators
+ * - Composite Pattern: Leaf node in plant hierarchy
+ * - Observer Pattern: Subject notifications trigger on state changes
+ *
+ * **System Interactions:**
+ * - Builder creates LivingPlant subclass instances
+ * - Assigns water/sun strategies via setWaterStrategy(), setSunStrategy()
+ * - Assigns maturity state via setMaturity()
+ * - clone() creates deep copies for inventory mass production
+ * - Decorators wrap instances without changing interface
+ * - Strategies executed on water(), state processed by affectWater/Sunlight
+ *
+ * @see PlantComponent (Composite leaf interface)
+ * @see State pattern (MaturityState context)
+ * @see Strategy pattern (WaterStrategy, SunStrategy context)
+ * @see Flyweight pattern (shared strategy/state references)
+ * @see Decorator pattern (attributes wrap LivingPlant)
  */
 class LivingPlant : public PlantComponent
 {
