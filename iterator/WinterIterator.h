@@ -9,6 +9,22 @@
  *
  * Iterates through a plant collection returning only plants decorated
  * with the Winter seasonal decorator, enabling season-specific inventory views.
+ *
+ * **System Role:**
+ * Specialized iterator for winter-season inventory browsing. Enables customers to
+ * view plants suitable for winter growing. Skips non-winter plants during traversal
+ * for focused seasonal shopping.
+ *
+ * **Pattern Role:** Concrete Iterator (winter-specific filtering)
+ *
+ * **Related Patterns:**
+ * - Iterator: Implements filtering traversal
+ * - Aggregate: Created by AggWinter factory
+ * - Decorator: Identifies via Winter decorator
+ *
+ * @see Iterator (abstract interface)
+ * @see AggWinter (creates this iterator)
+ * @see Winter (decorator identifying winter plants)
  */
 class WinterIterator : public Iterator
 {

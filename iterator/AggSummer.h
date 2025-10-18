@@ -9,6 +9,15 @@
  * @brief Concrete aggregate for creating summer plant iterators.
  *
  * Creates SummerIterator instances that filter and return only summer-season plants.
+ *
+ * **System Role:**
+ * Factory for summer-season inventory iteration. Produces SummerIterator for browsing
+ * plants suitable for summer growing. Part of seasonal iterator family.
+ *
+ * **Pattern Role:** Concrete Aggregate (seasonal iterator factory)
+ *
+ * @see Aggregate (abstract factory)
+ * @see SummerIterator (concrete iterator created)
  */
 class AggSummer : public Aggregate
 {

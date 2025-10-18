@@ -9,6 +9,15 @@
  * @brief Concrete aggregate for creating autumn plant iterators.
  *
  * Creates AutumnIterator instances that filter and return only autumn-season plants.
+ *
+ * **System Role:**
+ * Factory for autumn-season inventory iteration. Produces AutumnIterator for browsing
+ * plants suitable for autumn growing. Part of seasonal iterator family.
+ *
+ * **Pattern Role:** Concrete Aggregate (seasonal iterator factory)
+ *
+ * @see Aggregate (abstract factory)
+ * @see AutumnIterator (concrete iterator created)
  */
 class AggAutumn : public Aggregate
 {

@@ -9,6 +9,22 @@
  *
  * Iterates through a plant collection returning only plants decorated
  * with the Autumn seasonal decorator, enabling season-specific inventory views.
+ *
+ * **System Role:**
+ * Specialized iterator for autumn-season inventory browsing. Enables customers to
+ * view plants suitable for autumn growing. Skips non-autumn plants during traversal
+ * for focused seasonal shopping.
+ *
+ * **Pattern Role:** Concrete Iterator (autumn-specific filtering)
+ *
+ * **Related Patterns:**
+ * - Iterator: Implements filtering traversal
+ * - Aggregate: Created by AggAutumn factory
+ * - Decorator: Identifies via Autumn decorator
+ *
+ * @see Iterator (abstract interface)
+ * @see AggAutumn (creates this iterator)
+ * @see Autumn (decorator identifying autumn plants)
  */
 class AutumnIterator : public Iterator
 {

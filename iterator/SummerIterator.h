@@ -9,6 +9,23 @@
  *
  * Iterates through a plant collection returning only plants decorated
  * with the Summer seasonal decorator, enabling season-specific inventory views.
+ *
+ * **System Role:**
+ * Specialized iterator for summer-season inventory browsing. Enables customers to
+ * view plants suitable for summer growing. Skips non-summer plants during traversal
+ * for focused seasonal shopping.
+ *
+ * **Pattern Role:** Concrete Iterator (summer-specific filtering)
+ *
+ * **Related Patterns:**
+ * - Iterator: Implements filtering traversal
+ * - Aggregate: Created by AggSummer factory
+ * - Decorator: Identifies via Summer decorator
+ * - Composite: Traverses summer plant hierarchies
+ *
+ * @see Iterator (abstract interface)
+ * @see AggSummer (creates this iterator)
+ * @see Summer (decorator identifying summer plants)
  */
 class SummerIterator : public Iterator
 {
