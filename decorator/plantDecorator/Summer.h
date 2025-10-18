@@ -8,6 +8,17 @@
  *
  * Seasonal decoration that categorizes the plant for summer growing season.
  * Enables seasonal filtering via Iterator pattern and may affect care requirements.
+ *
+ * **System Role:**
+ * Summer season categorization. Marks plants as summer-appropriate. Enables
+ * SummerIterator filtering for seasonal browsing. Works with Iterator pattern
+ * for seasonal inventory views.
+ *
+ * **Pattern Role:** Concrete Decorator (seasonal categorization)
+ *
+ * @see PlantAttributes (decorator base)
+ * @see Spring, Autumn, Winter (seasonal variants)
+ * @see SummerIterator (uses Summer decorator for filtering)
  */
 class Summer : public PlantAttributes
 {
