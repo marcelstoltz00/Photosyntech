@@ -1,5 +1,5 @@
-#ifndef __HighWater_h__
-#define __HighWater_h__
+#ifndef HighWater_h
+#define HighWater_h
 
 #include "WaterStrategy.h"
 

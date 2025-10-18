@@ -22,3 +22,41 @@ Encapsulates nursery operations (adding inventory, browsing plants, watering, pu
 - **NFR-3: Usability** - Commands provide clear action abstractions for the user interface
 - **NFR-5: Reliability** - Undo functionality prevents errors from becoming permanent
 - **FR-17: Unified System Interface** - Commands provide consistent interface for all system operations
+
+## System Role & Integration
+
+### Pattern Integration
+The **Command** pattern enables **operation encapsulation and reversibility** through these interactions:
+
+- **Facade Pattern**: NurseryFacade invokes commands and manages command history
+- **Singleton Pattern**: Commands modify inventory and resources accessed through singleton
+- **Composite Pattern**: Commands operate on plant components and groups uniformly
+- **Observer Pattern**: Command execution may trigger observer notifications (e.g., state changes)
+- **Mediator Pattern**: Sales transactions encapsulated as purchase commands
+- **Builder Pattern**: Plant creation wrapped as command with undo capability
+- **GUI/CLI**: User interactions translated to commands for consistent processing
+
+### System Dependencies
+- **Action Abstraction**: All user actions encapsulated as reusable command objects
+- **History Tracking**: Commands stored for undo/redo functionality
+- **Delayed Execution**: Commands can be queued and executed later
+- **Logging Foundation**: Command object structure enables operation audit trails
+
+## Design Rationale
+
+The Command pattern was chosen because:
+1. **Separation**: Decouples UI actions from business logic
+2. **Flexibility**: Operations treated as first-class objects (queued, logged, replayed)
+3. **Undo/Redo**: Command structure naturally supports action reversal
+4. **Consistency**: All user actions follow same command execution path
+5. **Extensibility**: New operations added as new command classes without modifying invokers
+
+## Extension Points
+
+**Adding New Operations:**
+1. Create concrete command class inheriting from `Command` in `command/` directory
+2. Implement `execute()` to perform the operation
+3. Implement `undo()` to reverse effects (store state if needed)
+4. Example commands: `WaterPlantCommand`, `AddToInventoryCommand`, `PurchasePlantCommand`
+5. Path: `command/NewOperationCommand.h` (follow naming convention)
+6. Register command in Facade for unified access

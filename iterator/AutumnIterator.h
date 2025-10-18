@@ -1,7 +1,8 @@
-#ifndef __AutumnIterator_h__
-#define __AutumnIterator_h__
+#ifndef AutumnIterator_h
+#define AutumnIterator_h
 
 #include "Iterator.h"
+#include "../prototype/LivingPlant.h"
 
 /**
  * @brief Concrete iterator for filtering autumn-season plants.

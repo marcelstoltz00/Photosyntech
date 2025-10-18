@@ -1,10 +1,10 @@
-#ifndef __Iterator_h__
-#define __Iterator_h__
+#ifndef Iterator_h
+#define Iterator_h
 
 #include <list>
+#include "../composite/PlantComponent.h"
+#include "../prototype/LivingPlant.h"
 
-class PlantComponent;
-class LivingPlant;
 
 /**
  * @brief Abstract iterator interface for traversing plant collections.
@@ -16,7 +16,7 @@ class LivingPlant;
 class Iterator
 {
 	protected:
-		std::list<PlantComponent*>* _plants;
+		std::list<PlantComponent*>* plants;
 
 	public:
 		/**

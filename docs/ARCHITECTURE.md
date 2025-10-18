@@ -1,8 +1,8 @@
 # Photosyntech System Architecture
 
 > **Version:** 1.0
-> **Last Updated:** 2025-10-16
-> **Implementation Location:** `GeneratedCPP/`
+> **Last Updated:** 2025-10-17
+> **Implementation Location:** Pattern-based directories at project root (`builder/`, `command/`, `composite/`, etc.)
 
 ## Table of Contents
 1. [System Overview](#system-overview)

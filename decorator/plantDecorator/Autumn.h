@@ -1,5 +1,5 @@
-#ifndef __Autumn_h__
-#define __Autumn_h__
+#ifndef Autumn_h
+#define Autumn_h
 
 #include "../PlantAttributes.h"
 

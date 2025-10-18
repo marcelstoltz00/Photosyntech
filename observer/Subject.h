@@ -1,7 +1,7 @@
-#ifndef __Subject_h__
-#define __Subject_h__
+#ifndef Subject_h
+#define Subject_h
 
-class Observer;
+#include "Observer.h"
 
 /**
  * @brief Abstract subject interface in the Observer pattern.
@@ -15,15 +15,15 @@ class Subject
 	public:
 		/**
 		 * @brief Attaches an observer to receive notifications.
-		 * @param aCareTaker Pointer to the Observer to attach.
+		 * @param careTaker Pointer to the Observer to attach.
 		 */
-		virtual void attach(Observer* aCareTaker) = 0;
+		virtual void attach(Observer* careTaker) = 0;
 
 		/**
 		 * @brief Detaches an observer from receiving notifications.
-		 * @param aCareTaker Pointer to the Observer to detach.
+		 * @param careTaker Pointer to the Observer to detach.
 		 */
-		virtual void detach(Observer* aCareTaker) = 0;
+		virtual void detach(Observer* careTaker) = 0;
 
 		/**
 		 * @brief Notifies all observers that plants need sunlight.

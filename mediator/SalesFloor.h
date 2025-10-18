@@ -1,5 +1,5 @@
-#ifndef __SalesFloor_h__
-#define __SalesFloor_h__
+#ifndef SalesFloor_h
+#define SalesFloor_h
 
 #include "Mediator.h"
 
@@ -14,9 +14,9 @@ class SalesFloor : public Mediator
 	public:
 		/**
 		 * @brief Routes customer assistance requests to available sales staff.
-		 * @param aCustomer Pointer to the User requesting sales assistance.
+		 * @param customer Pointer to the User requesting sales assistance.
 		 */
-		void getAssistance(User* aCustomer);
+		void getAssistance(User* customer);
 
 		/**
 		 * @brief Coordinates staff assistance for sales operations.

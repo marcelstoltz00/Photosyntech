@@ -1,5 +1,5 @@
-#ifndef __LowWater_h__
-#define __LowWater_h__
+#ifndef LowWater_h
+#define LowWater_h
 
 #include "WaterStrategy.h"
 

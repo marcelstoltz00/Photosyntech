@@ -1,5 +1,5 @@
-#ifndef __HighSun_h__
-#define __HighSun_h__
+#ifndef HighSun_h
+#define HighSun_h
 
 #include "SunStrategy.h"
 

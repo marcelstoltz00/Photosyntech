@@ -1,7 +1,8 @@
-#ifndef __WinterIterator_h__
-#define __WinterIterator_h__
+#ifndef WinterIterator_h
+#define WinterIterator_h
 
 #include "Iterator.h"
+#include "../prototype/LivingPlant.h"
 
 /**
  * @brief Concrete iterator for filtering winter-season plants.

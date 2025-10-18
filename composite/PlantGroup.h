@@ -1,14 +1,11 @@
-#ifndef __PlantGroup_h__
-#define __PlantGroup_h__
+#ifndef PlantGroup_h
+#define PlantGroup_h
 
 #include <string>
 #include <list>
 #include "PlantComponent.h"
 #include "../observer/Subject.h"
-
-class Singleton;
-class Observer;
-class PlantAttributes;
+#include "../decorator/PlantAttributes.h"
 
 /**
  * @brief Represents a group of plants in the Composite pattern.
@@ -21,7 +18,7 @@ class PlantAttributes;
 class PlantGroup : public PlantComponent, public Subject
 {
 	private:
-		std::list<PlantComponent*> _plants;
+		std::list<PlantComponent*> plants;
 
 	public:
 		/**
@@ -48,15 +45,15 @@ class PlantGroup : public PlantComponent, public Subject
 
 		/**
 		 * @brief Attaches an observer to receive notifications from this group.
-		 * @param aWatcher Pointer to the Observer to attach.
+		 * @param watcher Pointer to the Observer to attach.
 		 */
-		void attach(Observer* aWatcher);
+		void attach(Observer* watcher);
 
 		/**
 		 * @brief Detaches an observer from this group.
-		 * @param aWatcher Pointer to the Observer to detach.
+		 * @param watcher Pointer to the Observer to detach.
 		 */
-		void detach(Observer* aWatcher);
+		void detach(Observer* watcher);
 
 		/**
 		 * @brief Updates the state of this plant group.
@@ -98,9 +95,9 @@ class PlantGroup : public PlantComponent, public Subject
 
 		/**
 		 * @brief Adds an attribute decorator to all plants in this group.
-		 * @param aAttribute Pointer to the PlantAttributes decorator to add.
+		 * @param attribute Pointer to the PlantAttributes decorator to add.
 		 */
-		void addAttribute(PlantAttributes* aAttribute);
+		void addAttribute(PlantAttributes* attribute);
 };
 
 #endif

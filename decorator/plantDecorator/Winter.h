@@ -1,5 +1,5 @@
-#ifndef __Winter_h__
-#define __Winter_h__
+#ifndef Winter_h
+#define Winter_h
 
 #include "../PlantAttributes.h"
 

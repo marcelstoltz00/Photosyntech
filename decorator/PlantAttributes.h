@@ -1,5 +1,5 @@
-#ifndef __PlantAttributes_h__
-#define __PlantAttributes_h__
+#ifndef PlantAttributes_h
+#define PlantAttributes_h
 
 #include <string>
 #include "../composite/PlantComponent.h"
@@ -17,12 +17,12 @@ class PlantAttributes : public PlantComponent
 	public:
 		/**
 		 * @brief Constructs a plant attribute decorator.
-		 * @param aInfo Information string for this attribute.
-		 * @param aPrice Price modification for this attribute.
-		 * @param aWaterAffect Water affection modification.
-		 * @param aSunAffect Sun affection modification.
+		 * @param info Information string for this attribute.
+		 * @param price Price modification for this attribute.
+		 * @param waterAffect Water affection modification.
+		 * @param sunAffect Sun affection modification.
 		 */
-		PlantAttributes(std::string aInfo, double aPrice, int aWaterAffect, int aSunAffect);
+		PlantAttributes(std::string info, double price, int waterAffect, int sunAffect);
 
 		/**
 		 * @brief Gets the sunlight affection value including decorator modifications.
@@ -50,9 +50,9 @@ class PlantAttributes : public PlantComponent
 
 		/**
 		 * @brief Adds another attribute decorator to this plant.
-		 * @param aAttribute Pointer to the PlantAttributes decorator to add.
+		 * @param attribute Pointer to the PlantAttributes decorator to add.
 		 */
-		void addAttribute(PlantAttributes* aAttribute);
+		void addAttribute(PlantAttributes* attribute);
 
 		/**
 		 * @brief Clones the decorated plant including all decorators.

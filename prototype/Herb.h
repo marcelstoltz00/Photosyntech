@@ -1,5 +1,5 @@
-#ifndef __Herb_h__
-#define __Herb_h__
+#ifndef Herb_h
+#define Herb_h
 
 #include "LivingPlant.h"
 

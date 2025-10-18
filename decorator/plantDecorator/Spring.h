@@ -1,5 +1,5 @@
-#ifndef __Spring_h__
-#define __Spring_h__
+#ifndef Spring_h
+#define Spring_h
 
 #include "../PlantAttributes.h"
 

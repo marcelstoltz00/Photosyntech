@@ -21,3 +21,42 @@ Provides a simplified, unified interface to the complex nursery subsystems (plan
 - **NFR-5: Reliability** - Centralizes coordination logic, reducing coupling between subsystems
 - **NFR-2: Maintainability/Extensibility** - Changes to subsystem implementation hidden behind stable facade interface
 - **All FRs** - Facade provides access to all functional requirements through unified interface
+
+## System Role & Integration
+
+### Pattern Integration
+The **Facade** pattern serves as the **unified system entry point**, coordinating all patterns:
+
+- **All 12 Other Patterns**: Facade delegates to Director (Builder), Singleton (resources), Mediators (staff/customer), Commands (operations), Iterators (filtering), etc.
+- **Director & Builder**: Delegates plant creation requests
+- **Singleton**: Accesses centralized inventory and resource management
+- **Mediator**: Routes customer requests through appropriate floor mediators
+- **Command**: Provides command execution interface with undo/redo
+- **Iterator & Composite**: Filters and accesses plant collections
+- **Observer & Subject**: Coordinates staff monitoring setup
+- **Decorator & Prototype**: Provides plant customization and cloning operations
+- **Strategy & Flyweight**: Ensures strategy reuse and memory efficiency
+
+### System Dependencies
+- **Single Integration Point**: Only interface GUI and CLI need to know about
+- **Business Logic Coordination**: Coordinates complex multi-step operations
+- **Subsystem Isolation**: Changes to subsystems don't affect external interfaces
+- **Operation Routing**: Routes different operation types to appropriate pattern implementations
+
+## Design Rationale
+
+The Facade pattern was chosen because:
+1. **Complexity Hiding**: Shields GUI/CLI from 13 pattern interactions
+2. **Integration Point**: Single place to coordinate cross-pattern workflows
+3. **API Stability**: External interfaces remain stable despite internal changes
+4. **Reduced Coupling**: GUI/CLI depend only on facade, not individual patterns
+5. **Operation Composition**: Complex operations built from simpler pattern operations
+
+## Extension Points
+
+**Adding New System Operations:**
+1. Add public method to `NurseryFacade` in `facade/NurseryFacade.h`
+2. Method coordinates appropriate pattern operations internally
+3. Return results through consistent interface
+4. Example: `plantSeason(plant, season)` could compose Decorator and Observer patterns
+5. Path: `facade/NurseryFacade.h` - single location for all new high-level operations

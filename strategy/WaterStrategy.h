@@ -1,8 +1,5 @@
-#ifndef __WaterStrategy_h__
-#define __WaterStrategy_h__
-
-class Plant;
-class LivingPlant;
+#ifndef WaterStrategy_h
+#define WaterStrategy_h
 
 /**
  * @brief Abstract strategy interface for plant watering algorithms.
@@ -14,7 +11,7 @@ class LivingPlant;
 class WaterStrategy
 {
 	protected:
-		int _waterAmount;
+		int waterAmount;
 
 	public:
 		/**

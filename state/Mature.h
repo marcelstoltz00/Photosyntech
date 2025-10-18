@@ -1,9 +1,7 @@
-#ifndef __Mature_h__
-#define __Mature_h__
+#ifndef Mature_h
+#define Mature_h
 
 #include "MaturityState.h"
-
-class LivingPlant;
 
 /**
  * @brief Concrete state representing the Mature stage of plant maturity.
@@ -21,9 +19,9 @@ class Mature : public MaturityState
 		 * Applies mature-specific growth calculations and checks for
 		 * transition to the Dead state based on the plant's age.
 		 *
-		 * @param aPlant Pointer to the LivingPlant that is growing.
+		 * @param plant Pointer to the LivingPlant that is growing.
 		 */
-		void grow(LivingPlant* aPlant);
+		void grow(LivingPlant* plant);
 
 		/**
 		 * @brief Gets the unique identifier for the Mature state.

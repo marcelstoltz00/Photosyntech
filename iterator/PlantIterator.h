@@ -1,7 +1,8 @@
-#ifndef __PlantIterator_h__
-#define __PlantIterator_h__
+#ifndef PlantIterator_h
+#define PlantIterator_h
 
 #include "Iterator.h"
+#include "../prototype/LivingPlant.h"
 
 /**
  * @brief Concrete iterator for unfiltered plant traversal.

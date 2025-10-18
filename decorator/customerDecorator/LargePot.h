@@ -1,5 +1,5 @@
-#ifndef __LargePot_h__
-#define __LargePot_h__
+#ifndef LargePot_h
+#define LargePot_h
 
 #include "../PlantAttributes.h"
 

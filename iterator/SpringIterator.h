@@ -1,7 +1,8 @@
-#ifndef __SpringIterator_h__
-#define __SpringIterator_h__
+#ifndef SpringIterator_h
+#define SpringIterator_h
 
 #include "Iterator.h"
+#include "../prototype/LivingPlant.h"
 
 /**
  * @brief Concrete iterator for filtering spring-season plants.

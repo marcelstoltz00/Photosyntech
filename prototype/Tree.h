@@ -1,5 +1,5 @@
-#ifndef __Tree_h__
-#define __Tree_h__
+#ifndef Tree_h
+#define Tree_h
 
 #include "LivingPlant.h"
 

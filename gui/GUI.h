@@ -1,8 +1,6 @@
 
-#ifndef __GUI_h__
-#define __GUI_h__
-
-class GUI;
+#ifndef GUI_h
+#define GUI_h
 
 class GUI
 {

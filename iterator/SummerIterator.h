@@ -1,7 +1,8 @@
-#ifndef __SummerIterator_h__
-#define __SummerIterator_h__
+#ifndef SummerIterator_h
+#define SummerIterator_h
 
 #include "Iterator.h"
+#include "../prototype/LivingPlant.h"
 
 /**
  * @brief Concrete iterator for filtering summer-season plants.

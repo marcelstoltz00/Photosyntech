@@ -1,5 +1,5 @@
-#ifndef __ShopThemedCharm_h__
-#define __ShopThemedCharm_h__
+#ifndef ShopThemedCharm_h
+#define ShopThemedCharm_h
 
 #include "../PlantAttributes.h"
 

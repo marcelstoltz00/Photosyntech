@@ -1,10 +1,9 @@
-#ifndef __Mediator_h__
-#define __Mediator_h__
+#ifndef Mediator_h
+#define Mediator_h
 
 #include <vector>
-
-class User;
-class Staff;
+#include "User.h"
+#include "Staff.h"
 
 /**
  * @brief Abstract mediator interface for coordinating colleague interactions.
@@ -16,15 +15,15 @@ class Staff;
 class Mediator
 {
 	protected:
-		std::vector<User*> _customerList;
-		std::vector<Staff*> _staffList;
+		std::vector<User*> customerList;
+		std::vector<Staff*> staffList;
 
 	public:
 		/**
 		 * @brief Routes a customer's assistance request to available staff.
-		 * @param aCustomer Pointer to the User requesting assistance.
+		 * @param customer Pointer to the User requesting assistance.
 		 */
-		virtual void getAssistance(User* aCustomer) = 0;
+		virtual void getAssistance(User* customer) = 0;
 
 		/**
 		 * @brief Coordinates staff assistance operations.

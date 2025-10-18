@@ -1,9 +1,7 @@
-#ifndef __Seed_h__
-#define __Seed_h__
+#ifndef Seed_h
+#define Seed_h
 
 #include "MaturityState.h"
-
-class LivingPlant;
 
 /**
  * @brief Concrete state representing the Seed stage of plant maturity.
@@ -21,9 +19,9 @@ class Seed : public MaturityState
 		 * Applies seed-specific growth calculations and checks for transition
 		 * to the Vegetative state based on the plant's age.
 		 *
-		 * @param aPlant Pointer to the LivingPlant that is growing.
+		 * @param plant Pointer to the LivingPlant that is growing.
 		 */
-		void grow(LivingPlant* aPlant);
+		void grow(LivingPlant* plant);
 
 		/**
 		 * @brief Gets the unique identifier for the Seed state.

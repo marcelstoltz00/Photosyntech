@@ -1,5 +1,5 @@
-#ifndef __SuggestionFloor_h__
-#define __SuggestionFloor_h__
+#ifndef SuggestionFloor_h
+#define SuggestionFloor_h
 
 #include "Mediator.h"
 
@@ -14,9 +14,9 @@ class SuggestionFloor : public Mediator
 	public:
 		/**
 		 * @brief Routes customer assistance requests to available advisory staff.
-		 * @param aCustomer Pointer to the User requesting plant care suggestions.
+		 * @param customer Pointer to the User requesting plant care suggestions.
 		 */
-		void getAssistance(User* aCustomer);
+		void getAssistance(User* customer);
 
 		/**
 		 * @brief Coordinates staff assistance for suggestion operations.

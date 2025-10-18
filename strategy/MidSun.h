@@ -1,5 +1,5 @@
-#ifndef __MidSun_h__
-#define __MidSun_h__
+#ifndef MidSun_h
+#define MidSun_h
 
 #include "SunStrategy.h"
 

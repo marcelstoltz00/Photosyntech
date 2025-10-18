@@ -1,9 +1,8 @@
-#ifndef __User_h__
-#define __User_h__
+#ifndef User_h
+#define User_h
 
 #include <string>
-
-class Mediator;
+#include "Mediator.h"
 
 /**
  * @brief Abstract base class for users in the Mediator pattern.
@@ -15,9 +14,9 @@ class Mediator;
 class User
 {
 	protected:
-		std::string _name;
-		Mediator* _salesFloor;
-		Mediator* _suggestionFloor;
+		std::string name;
+		Mediator* salesFloor;
+		Mediator* suggestionFloor;
 
 	public:
 		/**

@@ -1,8 +1,8 @@
-#ifndef __Director_h__
-#define __Director_h__
+#ifndef Director_h
+#define Director_h
 
-class Builder;
-class Plant;
+#include "Builder.h"
+#include "Plant.h"
 
 /**
  * @brief Orchestrates the plant construction process using a Builder.
@@ -14,7 +14,7 @@ class Plant;
 class Director
 {
 	private:
-		Builder* _builder;
+		Builder* builder;
 
 	public:
 		/**

@@ -1,10 +1,10 @@
-#ifndef __Aggregate_h__
-#define __Aggregate_h__
+#ifndef Aggregate_h
+#define Aggregate_h
 
 #include <list>
+#include "Iterator.h"
+#include "../composite/PlantComponent.h"
 
-class Iterator;
-class PlantComponent;
 
 /**
  * @brief Abstract aggregate interface for creating iterators.
@@ -18,10 +18,10 @@ class Aggregate
 	public:
 		/**
 		 * @brief Creates an iterator for the given plant collection.
-		 * @param aPlants Pointer to the list of PlantComponents to iterate over.
+		 * @param plants Pointer to the list of PlantComponents to iterate over.
 		 * @return Pointer to a new Iterator configured for this aggregate type.
 		 */
-		virtual Iterator* createIterator(std::list<PlantComponent*>* aPlants) = 0;
+		virtual Iterator* createIterator(std::list<PlantComponent*>* plants) = 0;
 
 		/**
 		 * @brief Virtual destructor for proper cleanup of derived classes.

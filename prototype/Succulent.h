@@ -1,5 +1,5 @@
-#ifndef __Succulent_h__
-#define __Succulent_h__
+#ifndef Succulent_h
+#define Succulent_h
 
 #include "LivingPlant.h"
 

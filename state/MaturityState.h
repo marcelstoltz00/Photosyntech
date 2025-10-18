@@ -1,8 +1,7 @@
-#ifndef __MaturityState_h__
-#define __MaturityState_h__
+#ifndef MaturityState_h
+#define MaturityState_h
 
-class Plant;
-class LivingPlant;
+#include "../prototype/LivingPlant.h"
 
 /**
  * @brief Abstract base class for plant maturity states in the State pattern.
@@ -15,9 +14,9 @@ class LivingPlant;
 class MaturityState
 {
 	protected:
-		double _growthRate;
-		int _minAge;
-		int _maxAge;
+		double growthRate;
+		int minAge;
+		int maxAge;
 
 	public:
 		/**
@@ -26,9 +25,9 @@ class MaturityState
 		 * Applies growth calculations and may trigger a state transition
 		 * if the plant's age exceeds the state's age boundaries.
 		 *
-		 * @param aPlant Pointer to the LivingPlant that is growing.
+		 * @param plant Pointer to the LivingPlant that is growing.
 		 */
-		virtual void grow(LivingPlant* aPlant) = 0;
+		virtual void grow(LivingPlant* plant) = 0;
 
 		/**
 		 * @brief Gets the unique identifier for this state type.

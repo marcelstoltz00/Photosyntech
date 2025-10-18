@@ -1,5 +1,5 @@
-#ifndef __PlantCharm_h__
-#define __PlantCharm_h__
+#ifndef PlantCharm_h
+#define PlantCharm_h
 
 #include "../PlantAttributes.h"
 

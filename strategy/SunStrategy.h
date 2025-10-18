@@ -1,8 +1,5 @@
-#ifndef __SunStrategy_h__
-#define __SunStrategy_h__
-
-class Plant;
-class LivingPlant;
+#ifndef SunStrategy_h
+#define SunStrategy_h
 
 /**
  * @brief Abstract strategy interface for plant sunlight exposure algorithms.
@@ -14,8 +11,8 @@ class LivingPlant;
 class SunStrategy
 {
 	protected:
-		int _hoursNeeded;
-		int _intensity;
+		int hoursNeeded;
+		int intensity;
 
 	public:
 		/**

@@ -1,5 +1,5 @@
-#ifndef __LargeFlowers_h__
-#define __LargeFlowers_h__
+#ifndef LargeFlowers_h
+#define LargeFlowers_h
 
 #include "../PlantAttributes.h"
 

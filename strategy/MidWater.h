@@ -1,5 +1,5 @@
-#ifndef __MidWater_h__
-#define __MidWater_h__
+#ifndef MidWater_h
+#define MidWater_h
 
 #include "WaterStrategy.h"
 

@@ -1,5 +1,5 @@
-#ifndef __Shrub_h__
-#define __Shrub_h__
+#ifndef Shrub_h
+#define Shrub_h
 
 #include "LivingPlant.h"
 

@@ -1,9 +1,7 @@
-#ifndef __Dead_h__
-#define __Dead_h__
+#ifndef Dead_h
+#define Dead_h
 
 #include "MaturityState.h"
-
-class LivingPlant;
 
 /**
  * @brief Concrete state representing the Dead stage of plant maturity.
@@ -20,9 +18,9 @@ class Dead : public MaturityState
 		 *
 		 * Dead plants do not grow or transition to other states.
 		 *
-		 * @param aPlant Pointer to the LivingPlant (unused in this state).
+		 * @param plant Pointer to the LivingPlant (unused in this state).
 		 */
-		void grow(LivingPlant* aPlant);
+		void grow(LivingPlant* plant);
 
 		/**
 		 * @brief Gets the unique identifier for the Dead state.

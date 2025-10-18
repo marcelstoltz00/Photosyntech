@@ -1,5 +1,5 @@
-#ifndef __LivingPlant_h__
-#define __LivingPlant_h__
+#ifndef LivingPlant_h
+#define LivingPlant_h
 
 #include <string>
 #include "../composite/PlantComponent.h"
@@ -7,8 +7,7 @@
 #include "../state/MaturityState.h"
 #include "../strategy/WaterStrategy.h"
 #include "../strategy/SunStrategy.h"
-
-class PlantAttributes;
+#include "../decorator/PlantAttributes.h"
 
 /**
  * @brief Base class for all living plant objects in the Prototype pattern.
@@ -24,58 +23,58 @@ class LivingPlant : public PlantComponent
 		/**
 		 * Name of the plant.
 		 */
-		Flyweight<std::string> _name;
+		Flyweight<std::string> name;
 
 		/**
 		 * Age of the plant in months.
 		 */
-		int _age;
-		int _health;
-		int _waterLevel;
-		int _sunExposure;
+		int age;
+		int health;
+		int waterLevel;
+		int sunExposure;
 
 		/**
 		 * Growing season for the plant.
 		 */
-		Flyweight<std::string> _season;
+		Flyweight<std::string> season;
 
-		Flyweight<MaturityState>* _maturityState;
-		Flyweight<WaterStrategy>* _waterStrategy;
-		Flyweight<SunStrategy>* _sunStrategy;
+		Flyweight<MaturityState>* maturityState;
+		Flyweight<WaterStrategy>* waterStrategy;
+		Flyweight<SunStrategy>* sunStrategy;
 
 	public:
 		/**
 		 * @brief Constructs a living plant with basic attributes.
-		 * @param aInfo Information string describing the plant.
-		 * @param aPrice Base price of the plant.
-		 * @param aWaterAffect Water affection value.
-		 * @param aSunAffect Sun affection value.
+		 * @param info Information string describing the plant.
+		 * @param price Base price of the plant.
+		 * @param waterAffect Water affection value.
+		 * @param sunAffect Sun affection value.
 		 */
-		LivingPlant(std::string aInfo, double aPrice, int aWaterAffect, int aSunAffect);
+		LivingPlant(std::string info, double price, int waterAffect, int sunAffect);
 
 		/**
 		 * @brief Sets the water strategy for this plant.
-		 * @param aStrategy Integer ID of the water strategy to use.
+		 * @param strategy Integer ID of the water strategy to use.
 		 */
-		void setWaterStrategy(int aStrategy);
+		void setWaterStrategy(int strategy);
 
 		/**
 		 * @brief Sets the sun strategy for this plant.
-		 * @param aStrategy Integer ID of the sun strategy to use.
+		 * @param strategy Integer ID of the sun strategy to use.
 		 */
-		void setSunStrategy(int aStrategy);
+		void setSunStrategy(int strategy);
 
 		/**
 		 * @brief Sets the maturity state for this plant.
-		 * @param aState Integer ID of the maturity state.
+		 * @param state Integer ID of the maturity state.
 		 */
-		void setMaturity(int aState);
+		void setMaturity(int state);
 
 		/**
 		 * @brief Adds a decorator attribute to this plant.
-		 * @param aAttribute Pointer to the PlantAttributes decorator to add.
+		 * @param attribute Pointer to the PlantAttributes decorator to add.
 		 */
-		void addAttribute(PlantAttributes* aAttribute);
+		void addAttribute(PlantAttributes* attribute);
 
 		/**
 		 * @brief Gets the age of the plant in months.

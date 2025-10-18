@@ -20,3 +20,42 @@ Defines interchangeable algorithms for plant care operations (watering and sunli
 ### Supporting Requirements
 - **NFR-2: Maintainability/Extensibility** - New care strategies can be added without modifying plant classes
 - **FR-13: Staff Action Execution** - Enables staff to execute watering and care routines through strategy execution
+
+## System Role & Integration
+
+### Pattern Integration
+The **Strategy** pattern defines **interchangeable care algorithms** through these interactions:
+
+- **Flyweight Pattern**: Strategy instances shared via singleton-managed flyweight factories
+- **Builder Pattern**: Builder selects and assigns appropriate strategies during plant construction
+- **State Pattern**: State may inform strategy selection or modification
+- **Singleton Pattern**: Strategies obtained from singleton flyweight factories
+- **Command Pattern**: Staff watering/care commands execute selected strategies
+- **Composite Pattern**: Group operations apply strategies to all children
+- **Decorator Pattern**: Seasonal decorators may adjust strategy requirements
+
+### System Dependencies
+- **Algorithm Encapsulation**: Different watering and sunlight approaches isolated as strategy classes
+- **Runtime Selection**: Plants use different strategies based on type and lifecycle
+- **Interchangeability**: Strategies implement common interface, enabling swapping
+- **Memory Efficiency**: Sharing through flyweight prevents memory duplication
+
+## Design Rationale
+
+The Strategy pattern was chosen because:
+1. **Multiple Algorithms**: Different plant types need different watering/sun approaches
+2. **Runtime Selection**: Strategy choice based on plant type (Builder phase)
+3. **Algorithm Independence**: Strategies encapsulated separately from plant logic
+4. **Consistency**: All plants use same algorithm family (WaterStrategy or SunStrategy)
+5. **Extensibility**: New strategies added without modifying plant or existing strategies
+6. **Optimization**: Strategy sharing via flyweight critical for memory efficiency
+
+## Extension Points
+
+**Adding New Care Strategies:**
+1. **Water Strategies**: Create class inheriting from `WaterStrategy` in `strategy/` directory
+2. **Sun Strategies**: Create class inheriting from `SunStrategy` in `strategy/` directory
+3. Implement `execute()` returning care amount/intensity
+4. Implement `getID()` for flyweight factory identification
+5. Path: `strategy/VeryHighWater.h` or `strategy/VeryHighSun.h`
+6. Register new strategy ID in singleton's flyweight factory

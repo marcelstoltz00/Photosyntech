@@ -1,5 +1,5 @@
-#ifndef __LargeStem_h__
-#define __LargeStem_h__
+#ifndef LargeStem_h
+#define LargeStem_h
 
 #include "../PlantAttributes.h"
 

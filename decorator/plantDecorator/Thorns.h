@@ -1,5 +1,5 @@
-#ifndef __Thorns_h__
-#define __Thorns_h__
+#ifndef Thorns_h
+#define Thorns_h
 
 #include "../PlantAttributes.h"
 

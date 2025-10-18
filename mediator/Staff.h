@@ -1,11 +1,11 @@
-#ifndef __Staff_h__
-#define __Staff_h__
+#ifndef Staff_h
+#define Staff_h
 
 #include "User.h"
 #include "../observer/Observer.h"
+#include "../composite/PlantGroup.h"
+#include "../prototype/LivingPlant.h"
 
-class PlantGroup;
-class LivingPlant;
 
 /**
  * @brief Concrete colleague representing staff in the mediator and observer patterns.
@@ -24,27 +24,27 @@ class Staff : public User, public Observer
 
 		/**
 		 * @brief Assists customers with purchase transactions via the sales floor mediator.
-		 * @param aPlants Pointer to the PlantGroup being purchased.
+		 * @param plants Pointer to the PlantGroup being purchased.
 		 */
-		void assistPurchases(PlantGroup* aPlants);
+		void assistPurchases(PlantGroup* plants);
 
 		/**
 		 * @brief Receives notification that a plant needs water.
-		 * @param aPlant Pointer to the LivingPlant requiring water.
+		 * @param plant Pointer to the LivingPlant requiring water.
 		 */
-		void getWaterUpdate(LivingPlant* aPlant);
+		void getWaterUpdate(LivingPlant* plant);
 
 		/**
 		 * @brief Receives notification that a plant needs sunlight.
-		 * @param aPlant Pointer to the LivingPlant requiring sun exposure.
+		 * @param plant Pointer to the LivingPlant requiring sun exposure.
 		 */
-		void getSunUpdate(LivingPlant* aPlant);
+		void getSunUpdate(LivingPlant* plant);
 
 		/**
-		 * @brief Receives notification that a plant's state has changed.
-		 * @param aPlant Pointer to the LivingPlant with updated state.
+		 * @brief Receives notification that a plant's state has been updated.
+		 * @param plant Pointer to the LivingPlant with updated state.
 		 */
-		void getStateUpdate(LivingPlant* aPlant);
+		void getStateUpdate(LivingPlant* plant);
 };
 
 #endif

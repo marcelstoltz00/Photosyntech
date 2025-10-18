@@ -1,10 +1,9 @@
-#ifndef __PlantComponent_h__
-#define __PlantComponent_h__
+#ifndef PlantComponent_h
+#define PlantComponent_h
 
 #include <string>
+#include "../decorator/PlantAttributes.h"
 
-class PlantGroup;
-class PlantAttributes;
 
 /**
  * @brief Abstract base class representing a plant component in the Composite pattern.
@@ -12,14 +11,42 @@ class PlantAttributes;
  * Declares the common interface for both individual plants and plant groups.
  * This is the Component role in the Composite pattern, enabling uniform treatment
  * of individual objects and compositions. All concrete plant types inherit from this class.
+ *
+ * **System Role:**
+ * This abstract class defines the unified interface that all plant entities (individual
+ * plants and plant groups) must implement. It enables clients to work with individual
+ * plants and hierarchies of plant groups transparently through the same interface.
+ * Core to hierarchical inventory organization.
+ *
+ * **Pattern Role:** Abstract Component (defines interface for leaves and composites)
+ *
+ * **Related Patterns:**
+ * - LivingPlant: Leaf implementation of this interface
+ * - PlantGroup: Composite implementation of this interface
+ * - Decorator: PlantAttributes decorates PlantComponent
+ * - Prototype: clone() enables copying plant hierarchies
+ * - Composite Pattern: Enables tree traversal and operations
+ * - Iterator: Iterators traverse components via this interface
+ * - Observer: Subject implemented by PlantGroup (composite nodes)
+ *
+ * **System Interactions:**
+ * - All plants and groups accessed through PlantComponent interface
+ * - Operations (water, getInfo, getPrice) work uniformly on leaves and composites
+ * - Decorators wrap components, preserving interface
+ * - Iterators traverse hierarchies using this interface
+ * - Singleton inventory root is PlantGroup (PlantComponent)
+ *
+ * @see LivingPlant (leaf implementation)
+ * @see PlantGroup (composite implementation)
+ * @see PlantAttributes (decorator for components)
  */
 class PlantComponent
 {
 	private:
-		PlantComponent* _attributes;
-		double _price;
-		int _affectWaterValue;
-		int _affectSunValue;
+		PlantAttributes* attributes;
+		double price;
+		int affectWaterValue;
+		int affectSunValue;
 
 	public:
 		/**
@@ -69,9 +96,9 @@ class PlantComponent
 
 		/**
 		 * @brief Adds an attribute decorator to this plant component.
-		 * @param aAttribute Pointer to the PlantAttributes decorator to add.
+		 * @param attribute Pointer to the PlantAttributes decorator to add.
 		 */
-		virtual void addAttribute(PlantAttributes* aAttribute) = 0;
+		virtual void addAttribute(PlantAttributes* attribute) = 0;
 };
 
 #endif

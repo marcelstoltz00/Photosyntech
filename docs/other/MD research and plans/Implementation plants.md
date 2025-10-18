@@ -1,8 +1,26 @@
-## Before implementing begins
-- the .h files for all classes will be fully implemented as it stands in the class diagram
-	- For everyone to have the correct interface when implementing
-	- This will be done likely monday / tuesday.
-	- This ensures no feature creep and allows us to speed up the implementation 
+# Implementation Plans - Historical Notes
+
+> **⚠️ DOCUMENT STATUS**: This document contains historical planning and task assignment notes from the initial development phase.
+>
+> **For current project documentation, see:**
+> - **[ARCHITECTURE.md](../../ARCHITECTURE.md)** - Complete system architecture and design
+> - **[PATTERN_MAPPING.md](../../PATTERN_MAPPING.md)** - Functional requirements mapped to patterns
+> - **[CLAUDE.md](../../../CLAUDE.md)** - Project overview and quick start guide
+> - **[design-patterns/](../../design-patterns/)** - Individual pattern documentation
+
+---
+
+## Implementation Status
+
+> **Last Updated:** October 17, 2025
+
+### Header Files - ✅ COMPLETED
+- All .h files for all classes have been fully implemented as per the class diagram
+- This provides everyone with the correct interface for implementation
+- All 13 design patterns have complete header files in their respective directories:
+  - `builder/`, `command/`, `composite/`, `decorator/`, `facade/`, `flyweight/`
+  - `gui/`, `iterator/`, `mediator/`, `observer/`, `prototype/`, `singleton/`, `state/`, `strategy/`
+- This prevents feature creep and speeds up implementation 
 ## Implementation details 
 - The code will be broken down into sections such that everyone will work on systems related to what they are doing. 
 	- These plants will be listed below. 
@@ -22,12 +40,14 @@
 - The MVP will be the Terminal running interface for the project. 
 - A gui will be implemented the week after (pray for our souls) 
 - Speak to Wilmar (me) about Implementation if confused {i have a relative head canon about everything on the class diagram rn}
-## Implementation components 
-### Plants and its sub parts
-![[Pasted image 20251016164540.png]]
+## Implementation Components
+
+### Plant System Architecture
+See [ARCHITECTURE.md](../../ARCHITECTURE.md#greenhouse--plant-management-subsystem) for complete plant subsystem details.
 
 ---
-==Copilot ideas==
+
+### Plant Species Reference (from Planning Phase)
 ### 🌸 **Spring Plants**
 
 These often feature vibrant flowers and moderate stem growth.
@@ -79,8 +99,9 @@ Survivors of harsh climates, often with minimal foliage and defensive structures
 |**Winter Jasmine**|Small|Small|Small|No|
 
 ---
-#### Plant group 1 
-Done by {}
+#### Plant Group 1: Core Plant Components
+**Status**: Header files completed, implementation in progress
+**Location**: `prototype/`, `composite/`, `decorator/`
 - Includes
 	- ==Plant Component== 
 	- ==Living plant and its children==
@@ -124,8 +145,9 @@ Done by {}
 		return myValue;
 	}
 ```
-#### Plant group 2 
-Done by {};
+#### Plant Group 2: Strategies and States
+**Status**: Header files completed, implementation in progress
+**Location**: `strategy/`, `state/`, `composite/`
 - Includes 
 	- ==water strategy== => return the water value 
 	- ==Sun strategy== => return the sun value
@@ -135,9 +157,10 @@ Done by {};
 			- At the same time its water & sun can be upgraded / downgraded if we wish
 	- ==PlantGroup== => since composite can interact will all of these previously mentioned classes.
 
-### observer and mediator
-done by {}
-![[Pasted image 20251016164625.png]]
+### Observer and Mediator Patterns
+**Status**: Header files completed, implementation in progress
+**Location**: `observer/`, `mediator/`
+**See**: [observer.md](../../design-patterns/observer.md) and [mediator.md](../../design-patterns/mediator.md)
 - Mediator acts as the suggestion floor or as a sales floor 
 - A customer asking to purchase something will talk through mediator to a randomly selected staff member who will handle the purchase.
 	- Customers should get a plant group as their basket and pass that through 
@@ -152,22 +175,30 @@ done by {}
 			- staff return a string that is a receipt (could use chain of command) 
 				- And delete the plants in the basket (out of the systems scope) 
 - ==Also implement the observer keep tight communication with the person who implements composite these 2 systems need to cooperate==
-### Builder
-done by {}
-![[Pasted image 20251016165729.png]]
+### Builder Pattern
+**Status**: Header files completed, implementation in progress
+**Location**: `builder/`
+**See**: [builder.md](../../design-patterns/builder.md)
+**Implemented Builders**: RoseBuilder, SunflowerBuilder, Plant3Builder
 - Your job is to make as many builders as possible with the attributes we have 
 - Don't worry about specialized directors for MVP. 
 - You can team up with somone else if you are done early 
 - -> all plants must be given a season for iterator.
 - -> all builders for the getProduct function get a clone of what theyve made. 
-### Singleton and flyweight
-done by {Wilmar Smit} (pls)
-- I really want to implement this one as i think i did tons of planning on flyweights and such and would love to implement this 
-- Ill also start implementing the multi-threading for this where a thread in the singleton will run and do tick for all the plants (it will only be the outline since none of the plants have their tick functions )
-![[Pasted image 20251016165914.png]]
-### Iterator 
-done by {} -> i can also do this one if its a pain i kinda know how it can be done. 
-![[Pasted image 20251016170240.png]]
+### Singleton and Flyweight Patterns
+**Status**: Header files completed, implementation in progress
+**Location**: `singleton/`, `flyweight/`
+**See**: [singleton.md](../../design-patterns/singleton.md) and [flyweight.md](../../design-patterns/flyweight.md)
+**Assignee**: Wilmar Smit
+**Notes**:
+- Flyweight pattern provides 99.92% memory reduction for shared data (see ARCHITECTURE.md)
+- Singleton manages global inventory and flyweight factories
+- Multi-threading implementation planned for plant tick system
+### Iterator Pattern
+**Status**: Header files completed, implementation in progress
+**Location**: `iterator/`
+**See**: [iterator.md](../../design-patterns/iterator.md)
+**Implemented Iterators**: PlantIterator, SpringIterator, SummerIterator, AutumnIterator, WinterIterator
 - Im too tired to go through this one in its entirety 
 	- plant iterator checks for all plants matching a name given in the constructor of AggPlant
 	- the others Will iterate through different seasons 
@@ -175,10 +206,10 @@ done by {} -> i can also do this one if its a pain i kinda know how it can be do
 		- -> find out from whoever implements plants how getSeason() will work and what you need to access it if its through a living plant pointer etc 
 	- remember how the composite looks 
 	\[ \[ composite ] \[ composite  ] ]
-	- Somehow each inner composite should also be traversed. 
-	- your decision on depth first or breadth first searching. 
-	- ![[Pasted image 20251016171202.png]]
-		- This interface must be updated to have some means of accessing inner lists 
+	- Somehow each inner composite should also be traversed.
+	- your decision on depth first or breadth first searching.
+	- **Iterator Implementation Note**:
+		- The PlantComponent interface must be updated to have some means of accessing inner lists 
 		- Since the iterator does not know if the plant is a list or not, what can be done is something like this 
 ```c++
 void next()

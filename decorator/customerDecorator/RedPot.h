@@ -1,5 +1,5 @@
-#ifndef __RedPot_h__
-#define __RedPot_h__
+#ifndef RedPot_h
+#define RedPot_h
 
 #include "../PlantAttributes.h"
 

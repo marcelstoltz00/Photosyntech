@@ -1,10 +1,10 @@
-#ifndef __Customer_h__
-#define __Customer_h__
+#ifndef Customer_h
+#define Customer_h
 
 #include "User.h"
+#include "../composite/PlantGroup.h"
+#include "../composite/PlantComponent.h"
 
-class PlantGroup;
-class PlantComponent;
 
 /**
  * @brief Concrete colleague representing a customer in the mediator pattern.
@@ -16,7 +16,7 @@ class PlantComponent;
 class Customer : public User
 {
 	private:
-		PlantGroup* _basket;
+		PlantGroup* basket;
 
 	public:
 		/**
@@ -31,9 +31,9 @@ class Customer : public User
 
 		/**
 		 * @brief Adds a plant to the customer's shopping basket.
-		 * @param aPlant Pointer to the PlantComponent to add.
+		 * @param plant Pointer to the PlantComponent to add.
 		 */
-		void addPlant(PlantComponent* aPlant);
+		void addPlant(PlantComponent* plant);
 
 		/**
 		 * @brief Performs a customer operation.
