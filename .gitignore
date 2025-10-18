@@ -96,3 +96,5 @@ DerivedData/
 *.log
 
 *.obsidian
+
+docs/doxygen
