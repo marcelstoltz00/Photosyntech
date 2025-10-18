@@ -13,6 +13,31 @@
  * Staff members interact with customers through mediators and observe plant groups
  * for care notifications. Implements both User (for mediated communication) and
  * Observer (for receiving plant health updates) interfaces.
+ *
+ * **System Role:**
+ * Core operational actor in the system. Participates in two key roles:
+ * 1. Mediator colleague: Handles customer transactions via sales/suggestion floors
+ * 2. Observer: Monitors plant health and responds to care notifications
+ * Central to both customer service and plant care functions.
+ *
+ * **Pattern Role:** Concrete Colleague (implements mediated participant)
+ *
+ * **Related Patterns:**
+ * - Mediator: Participates in sales and suggestion floor coordination
+ * - Observer: Monitors plant groups and responds to notifications
+ * - Command: Executes care commands (watering, care routines)
+ * - User: Base class providing mediated communication interface
+ *
+ * **System Interactions:**
+ * - assistSuggestion() coordinates with SuggestionFloor for recommendations
+ * - assistPurchases() coordinates with SalesFloor for transactions
+ * - getWaterUpdate/getSunUpdate/getStateUpdate: Receives plant monitoring notifications
+ * - Executes care commands in response to plant needs
+ * - Provides customer service and inventory management
+ *
+ * @see Mediator (coordination infrastructure)
+ * @see Observer (plant monitoring interface)
+ * @see User (mediated communication base)
  */
 class Staff : public User, public Observer
 {
