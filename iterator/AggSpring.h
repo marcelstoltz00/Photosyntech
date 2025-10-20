@@ -39,12 +39,19 @@ class AggSpring : public Aggregate
 {
 	friend class SpringIterator;
 
+	private:
+		/**
+		 * @brief The target season for filtering.
+		 */
+		std::string targetSeason;
+
 	public:
 		/**
-		 * @brief Constructor that initializes the aggregate with a plant collection.
+		 * @brief Constructor that initializes the aggregate with a plant collection and target season.
 		 * @param plants Pointer to the list of PlantComponents to manage.
+		 * @param season The target season for filtering.
 		 */
-		AggSpring(std::list<PlantComponent*>* plants);
+		AggSpring(std::list<PlantComponent*>* plants, const std::string& season);
 
 		/**
 		 * @brief Creates a spring-filtered iterator for this aggregate's plant collection.

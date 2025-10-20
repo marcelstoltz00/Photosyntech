@@ -33,7 +33,7 @@ class AutumnIterator : public Iterator
 	public:
 		/**
 		 * @brief Constructor that initializes the iterator with an aggregate.
-		 * @param aggregate Pointer to the AggAutumn aggregate managing the collection.
+		 * @param aggregate Pointer to the AggAutumn aggregate managing the collection and target season.
 		 */
 		AutumnIterator(AggAutumn* aggregate);
 

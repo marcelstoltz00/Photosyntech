@@ -34,7 +34,7 @@ class SummerIterator : public Iterator
 	public:
 		/**
 		 * @brief Constructor that initializes the iterator with an aggregate.
-		 * @param aggregate Pointer to the AggSummer aggregate managing the collection.
+		 * @param aggregate Pointer to the AggSummer aggregate managing the collection and target season.
 		 */
 		SummerIterator(AggSummer* aggregate);
 

@@ -1,27 +1,47 @@
 #include "WinterIterator.h"
+#include "AggWinter.h"
+#include "../prototype/LivingPlant.h"
 
-WinterIterator::WinterIterator(std::list<PlantComponent*>* plants)
+WinterIterator::WinterIterator(AggWinter* aggregate)
 {
-	this->plants = plants;
+	this->aggregate = aggregate;
 	first();
 }
 
 void WinterIterator::first()
 {
-	current = plants->begin();
+	currentIndex = -1;
+	next();
 }
 
 void WinterIterator::next()
 {
-	++current;
+	++currentIndex;
+	while (!isDone()) {
+		auto it = aggregate->plants->begin();
+		for (int i = 0; i < currentIndex; ++i) {
+			++it;
+		}
+		PlantComponent* component = *it;
+		LivingPlant* plant = dynamic_cast<LivingPlant*>(component);
+
+		if (plant != nullptr && plant->getSeason() == aggregate->targetSeason) {
+			break;
+		}
+		++currentIndex;
+	}
 }
 
 bool WinterIterator::isDone()
 {
-	return current == plants->end();
+	return currentIndex >= (int)aggregate->plants->size();
 }
 
 LivingPlant* WinterIterator::currentItem()
 {
-	return dynamic_cast<LivingPlant*>(*current);
+	auto it = aggregate->plants->begin();
+	for (int i = 0; i < currentIndex; ++i) {
+		++it;
+	}
+	return dynamic_cast<LivingPlant*>(*it);
 }

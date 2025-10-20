@@ -25,12 +25,19 @@ class AggSummer : public Aggregate
 {
 	friend class SummerIterator;
 
+	private:
+		/**
+		 * @brief The target season for filtering.
+		 */
+		std::string targetSeason;
+
 	public:
 		/**
-		 * @brief Constructor that initializes the aggregate with a plant collection.
+		 * @brief Constructor that initializes the aggregate with a plant collection and target season.
 		 * @param plants Pointer to the list of PlantComponents to manage.
+		 * @param season The target season for filtering.
 		 */
-		AggSummer(std::list<PlantComponent*>* plants);
+		AggSummer(std::list<PlantComponent*>* plants, const std::string& season);
 
 		/**
 		 * @brief Creates a summer-filtered iterator for this aggregate's plant collection.

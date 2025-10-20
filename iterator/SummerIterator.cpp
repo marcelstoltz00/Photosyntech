@@ -1,27 +1,47 @@
 #include "SummerIterator.h"
+#include "AggSummer.h"
+#include "../prototype/LivingPlant.h"
 
-SummerIterator::SummerIterator(std::list<PlantComponent*>* plants)
+SummerIterator::SummerIterator(AggSummer* aggregate)
 {
-	this->plants = plants;
+	this->aggregate = aggregate;
 	first();
 }
 
 void SummerIterator::first()
 {
-	current = plants->begin();
+	currentIndex = -1;
+	next();
 }
 
 void SummerIterator::next()
 {
-	++current;
+	++currentIndex;
+	while (!isDone()) {
+		auto it = aggregate->plants->begin();
+		for (int i = 0; i < currentIndex; ++i) {
+			++it;
+		}
+		PlantComponent* component = *it;
+		LivingPlant* plant = dynamic_cast<LivingPlant*>(component);
+
+		if (plant != nullptr && plant->getSeason() == aggregate->targetSeason) {
+			break;
+		}
+		++currentIndex;
+	}
 }
 
 bool SummerIterator::isDone()
 {
-	return current == plants->end();
+	return currentIndex >= (int)aggregate->plants->size();
 }
 
 LivingPlant* SummerIterator::currentItem()
 {
-	return dynamic_cast<LivingPlant*>(*current);
+	auto it = aggregate->plants->begin();
+	for (int i = 0; i < currentIndex; ++i) {
+		++it;
+	}
+	return dynamic_cast<LivingPlant*>(*it);
 }

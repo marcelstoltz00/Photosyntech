@@ -1,7 +1,8 @@
 #include "AggSummer.h"
 
-AggSummer::AggSummer(std::list<PlantComponent*>* plants) : Aggregate(plants)
+AggSummer::AggSummer(std::list<PlantComponent*>* plants, const std::string& season) : Aggregate(plants)
 {
+	targetSeason = season;
 }
 
 Iterator* AggSummer::createIterator()

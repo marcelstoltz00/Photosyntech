@@ -1,27 +1,47 @@
 #include "AutumnIterator.h"
+#include "AggAutumn.h"
+#include "../prototype/LivingPlant.h"
 
-AutumnIterator::AutumnIterator(std::list<PlantComponent*>* plants)
+AutumnIterator::AutumnIterator(AggAutumn* aggregate)
 {
-	this->plants = plants;
+	this->aggregate = aggregate;
 	first();
 }
 
 void AutumnIterator::first()
 {
-	current = plants->begin();
+	currentIndex = -1;
+	next();
 }
 
 void AutumnIterator::next()
 {
-	++current;
+	++currentIndex;
+	while (!isDone()) {
+		auto it = aggregate->plants->begin();
+		for (int i = 0; i < currentIndex; ++i) {
+			++it;
+		}
+		PlantComponent* component = *it;
+		LivingPlant* plant = dynamic_cast<LivingPlant*>(component);
+
+		if (plant != nullptr && plant->getSeason() == aggregate->targetSeason) {
+			break;
+		}
+		++currentIndex;
+	}
 }
 
 bool AutumnIterator::isDone()
 {
-	return current == plants->end();
+	return currentIndex >= (int)aggregate->plants->size();
 }
 
 LivingPlant* AutumnIterator::currentItem()
 {
-	return dynamic_cast<LivingPlant*>(*current);
+	auto it = aggregate->plants->begin();
+	for (int i = 0; i < currentIndex; ++i) {
+		++it;
+	}
+	return dynamic_cast<LivingPlant*>(*it);
 }

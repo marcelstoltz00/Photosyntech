@@ -1,27 +1,47 @@
 #include "SpringIterator.h"
+#include "AggSpring.h"
+#include "../prototype/LivingPlant.h"
 
-SpringIterator::SpringIterator(std::list<PlantComponent*>* plants)
+SpringIterator::SpringIterator(AggSpring* aggregate)
 {
-	this->plants = plants;
+	this->aggregate = aggregate;
 	first();
 }
 
 void SpringIterator::first()
 {
-	current = plants->begin();
+	currentIndex = -1;
+	next();
 }
 
 void SpringIterator::next()
 {
-	++current;
+	++currentIndex;
+	while (!isDone()) {
+		auto it = aggregate->plants->begin();
+		for (int i = 0; i < currentIndex; ++i) {
+			++it;
+		}
+		PlantComponent* component = *it;
+		LivingPlant* plant = dynamic_cast<LivingPlant*>(component);
+
+		if (plant != nullptr && plant->getSeason() == aggregate->targetSeason) {
+			break;
+		}
+		++currentIndex;
+	}
 }
 
 bool SpringIterator::isDone()
 {
-	return current == plants->end();
+	return currentIndex >= (int)aggregate->plants->size();
 }
 
 LivingPlant* SpringIterator::currentItem()
 {
-	return dynamic_cast<LivingPlant*>(*current);
+	auto it = aggregate->plants->begin();
+	for (int i = 0; i < currentIndex; ++i) {
+		++it;
+	}
+	return dynamic_cast<LivingPlant*>(*it);
 }
