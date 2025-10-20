@@ -4,9 +4,11 @@
 
 int AlternatingWater::water(LivingPlant* plant) {
     
-    time_t now = time(nullptr);
-    long days = now / 86400; 
-    waterAmount = (days % 2 == 0) ? 25 : 15;
+   if (waterAmount < 5) {
+      waterAmount++;
+    } else {
+        waterAmount = 2; 
+    }
     
     // plant->addWaterLevel(waterAmount);
     return waterAmount;
@@ -17,6 +19,6 @@ int AlternatingWater::getID() {
 }
 
 AlternatingWater::AlternatingWater() {
-    waterAmount = 0;
+    waterAmount = 2;
    
 }
