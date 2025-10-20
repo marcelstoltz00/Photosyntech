@@ -12,6 +12,12 @@ TEST_SRC = unitTests.cpp\
 			strategy/MidSun.cpp\
 			strategy/HighSun.cpp\
 			singleton/Singleton.cpp\
+			prototype/LivingPlant.cpp\
+			composite/PlantComponent.cpp\
+			state/Dead.cpp\
+			state/Mature.cpp\
+			state/Seed.cpp\
+			state/Vegetative.cpp\
 
 SRC = $(TEST_SRC)
 OBJ := $(SRC:.cpp=.o)

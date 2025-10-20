@@ -11,10 +11,6 @@ using namespace std;
 #include "../strategy/MidSun.h"
 #include "../strategy/HighSun.h"
 
-// #include "../state/Dead.h"
-// #include "../state/Mature.h"
-// #include "../state/Vegetative.h"
-// #include "../state/Seed.h"
 
 // #include "../mediator/Staff.h"
 
@@ -68,6 +64,8 @@ class PlantGroup;
 class Staff;
 class Customer;
 class Inventory
+
+
 {
 private:
 	static Inventory *instance;

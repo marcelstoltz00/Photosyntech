@@ -1,4 +1,9 @@
 #include "Singleton.h"
+#include "../state/Dead.h"
+#include "../state/Mature.h"
+#include "../state/Vegetative.h"
+#include "../state/Seed.h"
+
 Inventory *Inventory::instance = nullptr;
 
 Inventory::Inventory()
@@ -28,11 +33,10 @@ Inventory::Inventory()
     sunStrategies->getFlyweight(MidSun::getID(), new MidSun());
     sunStrategies->getFlyweight(HighSun::getID(), new HighSun());
 
-    // adding the maturities { wating on header update}
-    // states->getFlyweight(Seed::getID(), new Seed());
-    // states->getFlyweight(Vegetative::getID(), new Vegetative());
-    // states->getFlyweight(Mature::getID(), new Mature());
-    // states->getFlyweight(Dead::getID(), new Dead());
+    states->getFlyweight(Seed::getID(), new Seed());
+    states->getFlyweight(Vegetative::getID(), new Vegetative());
+    states->getFlyweight(Mature::getID(), new Mature());
+    states->getFlyweight(Dead::getID(), new Dead());
 }
 Inventory::~Inventory()
 {

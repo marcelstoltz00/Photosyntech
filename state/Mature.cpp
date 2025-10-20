@@ -1,5 +1,5 @@
 #include "Mature.h"
-#include "LivingPlant.h"
+
 #include "Dead.h"
 #include <algorithm>
 

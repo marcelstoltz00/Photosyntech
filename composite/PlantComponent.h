@@ -2,8 +2,7 @@
 #define PlantComponent_h
 
 #include <string>
-#include "../decorator/PlantAttributes.h"
-
+class PlantAttributes;
 
 /**
  * @brief Abstract base class representing a plant component in the Composite pattern.
@@ -42,76 +41,76 @@
  */
 class PlantComponent
 {
-	protected:
-		double price;
-		int affectWaterValue;
-		int affectSunValue;
+protected:
+	double price;
+	int affectWaterValue;
+	int affectSunValue;
 
-	public:
-		/**
-		 * @brief Constructs a PlantComponent with basic attributes.
-		 * @param name Name of the plant.
-		 * @param price Base price of the plant.
-		 * @param waterAffect Water affection value.
-		 * @param sunAffect Sun affection value.
-		 */
-		PlantComponent(double price, int waterAffect, int sunAffect);
-		/**
-		 * @brief Clones the plant component (Prototype pattern).
-		 * @return Pointer to a new plant object that is a copy of this one.
-		 */
-		virtual PlantComponent* clone() = 0;
+public:
+	/**
+	 * @brief Constructs a PlantComponent with basic attributes.
+	 * @param name Name of the plant.
+	 * @param price Base price of the plant.
+	 * @param waterAffect Water affection value.
+	 * @param sunAffect Sun affection value.
+	 */
+	PlantComponent(double price, int waterAffect, int sunAffect);
+	/**
+	 * @brief Clones the plant component (Prototype pattern).
+	 * @return Pointer to a new plant object that is a copy of this one.
+	 */
+	virtual PlantComponent *clone() = 0;
 
-		/**
-		 * @brief Virtual destructor for proper cleanup of derived classes.
-		 */
-		virtual ~PlantComponent() {}
+	/**
+	 * @brief Virtual destructor for proper cleanup of derived classes.
+	 */
+	virtual ~PlantComponent() {}
 
-		/**
-		 * @brief Waters the plant component.
-		 */
-		virtual void water() = 0;
+	/**
+	 * @brief Waters the plant component.
+	 */
+	virtual void water() = 0;
 
-		/**
-		 * @brief Sets the plant component to be outside.(Calls Sun Strategy)
-		 */
-		virtual void setOutside() = 0;
+	/**
+	 * @brief Sets the plant component to be outside.(Calls Sun Strategy)
+	 */
+	virtual void setOutside() = 0;
 
-		/**
-		 * @brief Gets plant information as a string.
-		 * @return String containing plant details.
-		 */
-		virtual std::string getInfo() = 0;
+	/**
+	 * @brief Gets plant information as a string.
+	 * @return String containing plant details.
+	 */
+	virtual std::string getInfo() = 0;
 
-		/**
-		 * @brief Gets plant name as a formatted string.
-		 * @return String containing plant name.
-		 */
-		virtual std::string getName() = 0;
+	/**
+	 * @brief Gets plant name as a formatted string.
+	 * @return String containing plant name.
+	 */
+	virtual std::string getName() = 0;
 
-		/**
-		 * @brief Gets the sunlight affection value for this component.
-		 * @return Integer representing sunlight impact.
-		 */
-		virtual int getAffectSunlight() = 0;
+	/**
+	 * @brief Gets the sunlight affection value for this component.
+	 * @return Integer representing sunlight impact.
+	 */
+	virtual int getAffectSunlight() = 0;
 
-		/**
-		 * @brief Gets the water affection value for this component.
-		 * @return Integer representing water impact.
-		 */
-		virtual int getAffectWater() = 0;
+	/**
+	 * @brief Gets the water affection value for this component.
+	 * @return Integer representing water impact.
+	 */
+	virtual int getAffectWater() = 0;
 
-		/**
-		 * @brief Gets the price of this plant component.
-		 * @return Price in currency units.
-		 */
-		virtual double getPrice() = 0;
+	/**
+	 * @brief Gets the price of this plant component.
+	 * @return Price in currency units.
+	 */
+	virtual double getPrice() = 0;
 
-		/**
-		 * @brief Adds an attribute decorator to this plant component.
-		 * @param attribute Pointer to the PlantAttributes decorator to add.
-		 */
-		virtual void addAttribute(PlantAttributes* attribute) = 0;
+	/**
+	 * @brief Adds an attribute decorator to this plant component.
+	 * @param attribute Pointer to the PlantAttributes decorator to add.
+	 */
+	virtual void addAttribute(PlantAttributes *attribute) = 0;
 };
 
 #endif
