@@ -29,6 +29,11 @@ class AggWinter : public Aggregate
 		 * @return Pointer to a WinterIterator for season-filtered traversal.
 		 */
 		Iterator* createIterator(std::list<PlantComponent*>* plants);
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		 */
+		virtual ~AggWinter() {}
 };
 
 #endif

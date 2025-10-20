@@ -29,6 +29,11 @@ class AggSummer : public Aggregate
 		 * @return Pointer to a SummerIterator for season-filtered traversal.
 		 */
 		Iterator* createIterator(std::list<PlantComponent*>* plants);
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		 */
+		virtual ~AggSummer() {}
 };
 
 #endif

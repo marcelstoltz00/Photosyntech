@@ -42,6 +42,11 @@ class AggPlant : public Aggregate
 		 * @return Pointer to a PlantIterator for unfiltered traversal.
 		 */
 		Iterator* createIterator(std::list<PlantComponent*>* plants);
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		 */
+		virtual ~AggPlant() {}
 };
 
 #endif

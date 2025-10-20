@@ -30,6 +30,17 @@ class AutumnIterator : public Iterator
 {
 	public:
 		/**
+		 * @brief Constructor that initializes the iterator with a plant collection.
+		 * @param plants Pointer to the list of PlantComponents to iterate over.
+		 */
+		AutumnIterator(std::list<PlantComponent*>* plants);
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		 */
+		virtual ~AutumnIterator() {}
+
+		/**
 		 * @brief Positions the iterator at the first autumn plant.
 		 */
 		void first();
@@ -50,6 +61,9 @@ class AutumnIterator : public Iterator
 		 * @return Pointer to the current autumn LivingPlant.
 		 */
 		LivingPlant* currentItem();
+
+	private:
+		std::list<PlantComponent*>::iterator current;
 };
 
 #endif

@@ -31,6 +31,17 @@ class SummerIterator : public Iterator
 {
 	public:
 		/**
+		 * @brief Constructor that initializes the iterator with a plant collection.
+		 * @param plants Pointer to the list of PlantComponents to iterate over.
+		 */
+		SummerIterator(std::list<PlantComponent*>* plants);
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		 */
+		virtual ~SummerIterator() {}
+
+		/**
 		 * @brief Positions the iterator at the first summer plant.
 		 */
 		void first();
@@ -51,6 +62,9 @@ class SummerIterator : public Iterator
 		 * @return Pointer to the current summer LivingPlant.
 		 */
 		LivingPlant* currentItem();
+
+	private:
+		std::list<PlantComponent*>::iterator current;
 };
 
 #endif

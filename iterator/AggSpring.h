@@ -42,6 +42,11 @@ class AggSpring : public Aggregate
 		 * @return Pointer to a SpringIterator for season-filtered traversal.
 		 */
 		Iterator* createIterator(std::list<PlantComponent*>* plants);
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		 */
+		virtual ~AggSpring() {}
 };
 
 #endif

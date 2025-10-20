@@ -38,6 +38,17 @@ class PlantIterator : public Iterator
 {
 	public:
 		/**
+		 * @brief Constructor that initializes the iterator with a plant collection.
+		 * @param plants Pointer to the list of PlantComponents to iterate over.
+		 */
+		PlantIterator(std::list<PlantComponent*>* plants);
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		 */
+		virtual ~PlantIterator() {}
+
+		/**
 		 * @brief Positions the iterator at the first plant.
 		 */
 		void first();
@@ -58,6 +69,9 @@ class PlantIterator : public Iterator
 		 * @return Pointer to the current LivingPlant.
 		 */
 		LivingPlant* currentItem();
+
+	private:
+		std::list<PlantComponent*>::iterator current;
 };
 
 #endif

@@ -38,6 +38,17 @@ class SpringIterator : public Iterator
 {
 	public:
 		/**
+		 * @brief Constructor that initializes the iterator with a plant collection.
+		 * @param plants Pointer to the list of PlantComponents to iterate over.
+		 */
+		SpringIterator(std::list<PlantComponent*>* plants);
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		 */
+		virtual ~SpringIterator() {}
+
+		/**
 		 * @brief Positions the iterator at the first spring plant.
 		 */
 		void first();
@@ -58,6 +69,9 @@ class SpringIterator : public Iterator
 		 * @return Pointer to the current spring LivingPlant.
 		 */
 		LivingPlant* currentItem();
+
+	private:
+		std::list<PlantComponent*>::iterator current;
 };
 
 #endif

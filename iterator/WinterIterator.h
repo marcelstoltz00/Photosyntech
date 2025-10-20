@@ -30,6 +30,17 @@ class WinterIterator : public Iterator
 {
 	public:
 		/**
+		 * @brief Constructor that initializes the iterator with a plant collection.
+		 * @param plants Pointer to the list of PlantComponents to iterate over.
+		 */
+		WinterIterator(std::list<PlantComponent*>* plants);
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		 */
+		virtual ~WinterIterator() {}
+
+		/**
 		 * @brief Positions the iterator at the first winter plant.
 		 */
 		void first();
@@ -50,6 +61,9 @@ class WinterIterator : public Iterator
 		 * @return Pointer to the current winter LivingPlant.
 		 */
 		LivingPlant* currentItem();
+
+	private:
+		std::list<PlantComponent*>::iterator current;
 };
 
 #endif
