@@ -98,3 +98,7 @@ DerivedData/
 *.obsidian
 
 docs/doxygen
+
+app 
+*.gcda
+*.gcno

@@ -110,6 +110,9 @@ public:
 
 	const vector<const Customer *> *getCustomers();
 	const vector<const Staff *> *getStaff();
+
+	void addCustomer(Staff *staff);
+	void addCustomer(Customer *Customer);
 };
 
 #endif
