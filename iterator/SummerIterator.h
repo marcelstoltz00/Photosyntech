@@ -66,7 +66,7 @@ class SummerIterator : public Iterator
 		LivingPlant* currentItem();
 
 	private:
-		std::list<PlantComponent*>::iterator current;
+		int currentIndex;
 };
 
 #endif
