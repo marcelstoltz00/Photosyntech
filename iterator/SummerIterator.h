@@ -3,25 +3,28 @@
 
 #include "Iterator.h"
 #include "../prototype/LivingPlant.h"
+#include "../composite/PlantComponent.h"
+#include "../composite/PlantGroup.h"
 
 /**
  * @brief Concrete iterator for filtering summer-season plants.
  *
  * Iterates through a plant collection returning only plants decorated
- * with the Summer seasonal decorator, enabling season-specific inventory views.
+ * with the Summer seasonal decorator. Handles nested hierarchies by
+ * recursively descending into PlantGroups to find matching LivingPlants.
  *
  * **System Role:**
  * Specialized iterator for summer-season inventory browsing. Enables customers to
  * view plants suitable for summer growing. Skips non-summer plants during traversal
  * for focused seasonal shopping.
  *
- * **Pattern Role:** Concrete Iterator (summer-specific filtering)
+ * **Pattern Role:** Concrete Iterator (summer-specific filtering with composite support)
  *
  * **Related Patterns:**
  * - Iterator: Implements filtering traversal
  * - Aggregate: Created by AggSummer factory
  * - Decorator: Identifies via Summer decorator
- * - Composite: Traverses summer plant hierarchies
+ * - Composite: Handles nested PlantGroup hierarchies
  *
  * @see Iterator (abstract interface)
  * @see AggSummer (creates this iterator)
@@ -66,7 +69,18 @@ class SummerIterator : public Iterator
 		LivingPlant* currentItem();
 
 	private:
-		int currentIndex;
+		/**
+		 * @brief Cached pointer to the current matching plant, or nullptr if not found.
+		 */
+		LivingPlant* currentPlant;
+
+		/**
+		 * @brief Recursively searches for the next matching plant in the hierarchy.
+		 * @param plants Pointer to the plant collection to search.
+		 * @param findFirst If true, returns the first matching plant; if false, returns the plant after currentPlant.
+		 * @return Pointer to matching LivingPlant, or nullptr if none found.
+		 */
+		LivingPlant* findNextMatch(std::list<PlantComponent*>* plants, bool findFirst);
 };
 
 #endif
