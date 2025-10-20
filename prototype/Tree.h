@@ -43,6 +43,16 @@ class Tree : public LivingPlant
 		Tree();
 
 		/**
+		 * @brief Constructs a copy of an existing tree.
+		 *
+		 * Performs a member-wise shallow copy for flyweights.
+		 * and a deep copy for the decorator chain.
+		 *
+		 * @param other The tree object to copy.
+		 */
+		Tree(const Tree& other);
+
+		/**
 		 * @brief Clones this tree creating a deep copy.
 		 * @return Pointer to a new Tree object that is a copy of this one.
 		 */

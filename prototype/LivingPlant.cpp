@@ -1,5 +1,12 @@
 #include "LivingPlant.h"
+
+#include "Herb.h"
+#include "Shrub.h"
+#include "Succulent.h"
+#include "Tree.h"
+
 #include "PlantComponent.h"
+
 #include "Singleton.h";
 
 LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int sunAffect)
@@ -101,8 +108,58 @@ std::string LivingPlant::getInfo(){
     return baseInfo;
 };
 
-
-
 PlantComponent* LivingPlant::clone(){
     return new LivingPlant(*this);
 };
+
+
+Herb::Herb()
+    : LivingPlant("", 0, 0, 0)
+{};
+
+Herb::Herb(const Herb& other) 
+    : LivingPlant(other) 
+{};
+
+PlantComponent* Herb::clone(){
+    return new Herb(*this);
+}
+
+
+Shrub::Shrub()
+    : LivingPlant("", 0, 0, 0)
+{};
+
+Shrub::Shrub(const Shrub& other) 
+    : LivingPlant(other) 
+{};
+
+PlantComponent* Shrub::clone(){
+    return new Shrub(*this);
+}
+
+
+Succulent::Succulent()
+    : LivingPlant("", 0, 0, 0)
+{};
+
+Succulent::Succulent(const Succulent& other) 
+    : LivingPlant(other) 
+{};
+
+PlantComponent* Succulent::clone(){
+    return new Succulent(*this);
+}
+
+
+Tree::Tree()
+    : LivingPlant("", 0, 0, 0)
+{};
+
+Tree::Tree(const Tree& other) 
+    : Tree(other) 
+{};
+
+PlantComponent* Tree::clone(){
+    return new Tree(*this);
+}
