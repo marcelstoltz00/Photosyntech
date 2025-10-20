@@ -33,6 +33,37 @@ Inventory::Inventory()
     // states->getFlyweight(Mature::getID(), new Mature());
     // states->getFlyweight(Dead::getID(), new Dead());
 }
+Inventory::~Inventory()
+{
+    if (inventory)
+        delete inventory;
+
+    delete stringFactory;
+    delete waterStrategies;
+    delete sunStrategies;
+    delete states;
+
+    std::vector<Staff *>::iterator itr = staffList->begin();
+    while (itr != staffList->end())
+    {
+        if (*itr != nullptr)
+        {
+            delete *itr;
+        }
+        itr++;
+    }
+    
+    std::vector<Customer *>::iterator itrCustomer = customerList->begin();
+    while (itrCustomer != customerList->end())
+    {
+        if (*itrCustomer != nullptr)
+        {
+            delete *itrCustomer;
+        }
+        itrCustomer++;
+    }
+
+}
 Inventory *Inventory::getInstance()
 {
     if (!instance)

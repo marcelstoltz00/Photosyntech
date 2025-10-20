@@ -130,6 +130,8 @@ public:
 
 	void addCustomer(Staff *staff);
 	void addCustomer(Customer *Customer);
+
+	~Inventory();
 };
 
 #endif
