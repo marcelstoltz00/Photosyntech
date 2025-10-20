@@ -24,12 +24,12 @@ Flyweight<T> *FlyweightFactory<ID, T>::getFlyweight(ID id, T data)
 template <class ID, class T>
 FlyweightFactory<ID, T>::~FlyweightFactory()
 {
-    typename unordered_map<ID, T>::iterator itr = cache.begin();
+    auto itr = cache.begin();
     while (itr != cache.end())
     {
-        if (*itr)
+        if (itr->second)
         {
-            delete *itr->second();
+            delete itr->second;
         }
         itr++;
     }

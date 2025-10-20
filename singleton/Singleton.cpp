@@ -1,4 +1,5 @@
 #include "Singleton.h"
+Inventory *Inventory::instance = nullptr;
 
 Inventory::Inventory()
 {
@@ -44,7 +45,7 @@ Inventory::~Inventory()
     delete states;
 
     std::vector<Staff *>::iterator itr = staffList->begin();
-    while (itr != staffList->end())
+    while (!(itr == staffList->end()))
     {
         if (*itr != nullptr)
         {
@@ -52,9 +53,9 @@ Inventory::~Inventory()
         }
         itr++;
     }
-    
+
     std::vector<Customer *>::iterator itrCustomer = customerList->begin();
-    while (itrCustomer != customerList->end())
+    while (!(itrCustomer == customerList->end()))
     {
         if (*itrCustomer != nullptr)
         {
@@ -62,7 +63,8 @@ Inventory::~Inventory()
         }
         itrCustomer++;
     }
-
+    delete staffList;
+    delete customerList;
 }
 Inventory *Inventory::getInstance()
 {
@@ -74,7 +76,7 @@ Inventory *Inventory::getInstance()
     return instance;
 }
 
-const Flyweight<std::string *> *Inventory::getString(std::string str)
+Flyweight<std::string *> *Inventory::getString(std::string str)
 {
     string *flyweightData = new string(str);
     Flyweight<std::string *> *fly = stringFactory->getFlyweight(*flyweightData, flyweightData);
@@ -85,31 +87,31 @@ const Flyweight<std::string *> *Inventory::getString(std::string str)
 
     return fly;
 }
-const Flyweight<WaterStrategy *> *Inventory::getWaterFly(int id)
+Flyweight<WaterStrategy *> *Inventory::getWaterFly(int id)
 {
 
     return waterStrategies->getFlyweight(id);
 }
-const Flyweight<MaturityState *> *Inventory::getStates(int id)
+Flyweight<MaturityState *> *Inventory::getStates(int id)
 {
     return states->getFlyweight(id);
 }
 
-const Flyweight<SunStrategy *> *Inventory::getSunFly(int id)
+Flyweight<SunStrategy *> *Inventory::getSunFly(int id)
 {
     return sunStrategies->getFlyweight(id);
 }
 
-const PlantGroup *Inventory::getInventory()
+PlantGroup *Inventory::getInventory()
 {
     return inventory;
 }
 
-const vector<Customer *> *Inventory::getCustomers()
+vector<Customer *> *Inventory::getCustomers()
 {
     return customerList;
 }
-const vector<Staff *> *Inventory::getStaff()
+vector<Staff *> *Inventory::getStaff()
 {
     return staffList;
 }
