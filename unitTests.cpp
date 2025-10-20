@@ -7,6 +7,8 @@ void flyweightTests()
 }
 
 
+
+
 int main()
 {
     SingleTonTests();
