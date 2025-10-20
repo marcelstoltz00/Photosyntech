@@ -1,0 +1,30 @@
+#ifndef LargeFlowers_h
+#define LargeFlowers_h
+
+#include "../PlantAttributes.h"
+
+/**
+ * @brief Concrete decorator adding large flowers to plants.
+ *
+ * Physical feature decoration that adds large-sized flowers to the plant,
+ * affecting visual appearance and potentially modifying water/sun requirements.
+ *
+ * **System Role:**
+ * Plant feature decoration for bold flowering. Adds dramatic visual appeal with
+ * prominent flowers. Increases care requirements. Premium feature option.
+ *
+ * **Pattern Role:** Concrete Decorator (flower feature)
+ *
+ * @see PlantAttributes (decorator base)
+ * @see SmallFlowers (alternative size)
+ */
+class LargeFlowers : public PlantAttributes
+{
+	public:
+		/**
+		 * @brief Constructs a LargeFlowers decorator with predefined characteristics.
+		 */
+		LargeFlowers();
+};
+
+#endif
