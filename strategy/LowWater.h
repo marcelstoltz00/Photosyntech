@@ -24,7 +24,7 @@
  *
  * **System Interactions:**
  * - Builder assigns to drought-tolerant plant species
- * - water() applies minimal water amount
+ * - water() applies minimal water amount directly to plant object
  * - getID() returns consistent identifier for caching
  * - Shared across all succulent instances
  *
@@ -33,18 +33,19 @@
  */
 class LowWater : public WaterStrategy
 {
-	public:
-		/**
-		 * @brief Applies low-level watering to the plant.
-		 * @return Integer representing the minimal water amount applied.
-		 */
-		int water();
+public:
+	/**
+	 * @brief Applies low-level watering to the plant.
+	 * @param plant Pointer to the plant to be watered.
+	 * @return Integer representing the minimal water amount applied.
+	 */
+	int water(LivingPlant *plant);
 
-		/**
-		 * @brief Gets the unique identifier for the LowWater strategy.
-		 * @return Integer ID representing the LowWater strategy.
-		 */
-		int getID();
+	/**
+	 * @brief Gets the unique identifier for the LowWater strategy.
+	 * @return Integer ID representing the LowWater strategy.
+	 */
+	static int getID();
 };
 
 #endif

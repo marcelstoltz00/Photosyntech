@@ -25,7 +25,7 @@
  *
  * **System Interactions:**
  * - Builder assigns to specialized/premium plant species
- * - water() applies cyclic watering pattern
+ * - water() applies cyclic watering pattern directly to plant object
  * - getID() returns consistent identifier for caching
  * - Requires stateful tracking between executions
  *
@@ -34,18 +34,19 @@
  */
 class AlternatingWater : public WaterStrategy
 {
-	public:
-		/**
-		 * @brief Applies alternating watering pattern to the plant.
-		 * @return Integer representing the water amount for current cycle.
-		 */
-		int water();
+    public:
+        /**
+         * @brief Applies alternating watering pattern to the plant.
+         * @param plant Pointer to the plant to be watered.
+         * @return Integer representing the water amount for current cycle.
+         */
+        int water(LivingPlant* plant);
 
-		/**
-		 * @brief Gets the unique identifier for the AlternatingWater strategy.
-		 * @return Integer ID representing the AlternatingWater strategy.
-		 */
-		int getID();
+        /**
+         * @brief Gets the unique identifier for the AlternatingWater strategy.
+         * @return Integer ID representing the AlternatingWater strategy.
+         */
+       static int getID();
 };
 
 #endif
