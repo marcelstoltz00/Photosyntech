@@ -3,7 +3,7 @@
 
 int HighSun::addSun(LivingPlant* plant) {
     int applied = intensity * hoursNeeded;
-    // plant->addSunlight(applied);
+       plant->setSunExposure(plant->getSunExposure() + applied);
     return applied;
 }
 

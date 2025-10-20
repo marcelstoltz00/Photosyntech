@@ -85,6 +85,40 @@ class LivingPlant : public PlantComponent
 		LivingPlant(std::string name, double price, int waterAffect, int sunAffect);
 
 		/**
+		 * @brief Constructs a copy of an existing living plant.
+		 *
+		 * Performs a member-wise shallow copy for flyweights.
+		 * and a deep copy for the decorator chain.
+		 *
+		 * @param other The living plant object to copy.
+		 */
+		LivingPlant(const LivingPlant& other);
+
+		/**
+		 * @brief Sets the age for this plant.
+		 * @param strategy Integer age for the new age of the plant.
+		 */
+		void setAge(int age);
+
+		/**
+		 * @brief Sets the health for this plant.
+		 * @param strategy Integer health for the new health of the plant.
+		 */
+		void setHealth(int health);
+
+		/**
+		 * @brief Sets the waterLevel for this plant.
+		 * @param strategy Integer waterLevel for the new waterLevel of the plant.
+		 */
+		void setWaterLevel(int waterLevel);
+
+		/**
+		 * @brief Sets the sunExposure for this plant.
+		 * @param strategy Integer sunExposure for the new sunExposure of the plant.
+		 */
+		void setSunExposure(int sunExposure);
+
+		/**
 		 * @brief Sets the water strategy for this plant.
 		 * @param strategy Integer ID of the water strategy to use.
 		 */

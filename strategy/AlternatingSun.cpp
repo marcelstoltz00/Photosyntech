@@ -6,7 +6,7 @@ int AlternatingSun::addSun(LivingPlant* plant) {
     hoursNeeded = hoursNeeded == 4 ? 6 : 4;
 
     int applied = intensity * hoursNeeded;
-    // plant->addSunlight(applied);
+         plant->setSunExposure(plant->getSunExposure() + applied);
     return applied;
 }
 
