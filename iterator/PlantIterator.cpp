@@ -1,27 +1,32 @@
 #include "PlantIterator.h"
+#include "AggPlant.h"
 
-PlantIterator::PlantIterator(std::list<PlantComponent*>* plants)
+PlantIterator::PlantIterator(AggPlant* aggregate)
 {
-	this->plants = plants;
+	this->aggregate = aggregate;
 	first();
 }
 
 void PlantIterator::first()
 {
-	current = plants->begin();
+	currentIndex = 0;
 }
 
 void PlantIterator::next()
 {
-	++current;
+	++currentIndex;
 }
 
 bool PlantIterator::isDone()
 {
-	return current == plants->end();
+	return currentIndex >= (int)aggregate->plants->size();
 }
 
 LivingPlant* PlantIterator::currentItem()
 {
-	return dynamic_cast<LivingPlant*>(*current);
+	auto it = aggregate->plants->begin();
+	for (int i = 0; i < currentIndex; ++i) {
+		++it;
+	}
+	return dynamic_cast<LivingPlant*>(*it);
 }
