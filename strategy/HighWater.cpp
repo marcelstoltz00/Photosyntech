@@ -3,8 +3,8 @@
 
 int HighWater::water(LivingPlant* plant) {
    
-    waterAmount = 30;
-    // plant->addWaterLevel(waterAmount);
+  
+       plant->setWaterLevel(plant->getWaterLevel() + waterAmount);
     return waterAmount;
 }
 
@@ -13,5 +13,5 @@ int HighWater::water(LivingPlant* plant) {
 }
 
 HighWater::HighWater() {
-    waterAmount = 5; 
+    waterAmount = 30; 
 }

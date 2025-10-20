@@ -125,7 +125,7 @@ class LivingPlant : public PlantComponent
 		void setSunExposure(int sunExposure);
 
 		/**
->>>>>>> e373760 (Added getters and setters for season in LivingPlant)
+
 		 * @brief Sets the water strategy for this plant.
 		 * @param strategy Integer ID of the water strategy to use.
 		 */
