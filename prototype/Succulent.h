@@ -19,6 +19,16 @@ class Succulent : public LivingPlant
 		Succulent();
 
 		/**
+		 * @brief Constructs a copy of an existing succulent.
+		 *
+		 * Performs a member-wise shallow copy for flyweights.
+		 * and a deep copy for the decorator chain.
+		 *
+		 * @param other The succulent object to copy.
+		 */
+		Succulent(const Succulent& other);
+
+		/**
 		 * @brief Clones this succulent creating a deep copy.
 		 * @return Pointer to a new Succulent object that is a copy of this one.
 		 */

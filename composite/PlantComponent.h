@@ -42,8 +42,7 @@
  */
 class PlantComponent
 {
-	private:
-		PlantAttributes* attributes;
+	protected:
 		double price;
 		int affectWaterValue;
 		int affectSunValue;
@@ -71,12 +70,12 @@ class PlantComponent
 		/**
 		 * @brief Waters the plant component.
 		 */
-		void water();
+		virtual void water() = 0;
 
 		/**
-		 * @brief Sets the plant component to be outside.
+		 * @brief Sets the plant component to be outside.(Calls Sun Strategy)
 		 */
-		void setOutside();
+		virtual void setOutside() = 0;
 
 		/**
 		 * @brief Gets plant information as a string.
@@ -85,16 +84,22 @@ class PlantComponent
 		virtual std::string getInfo() = 0;
 
 		/**
+		 * @brief Gets plant name as a formatted string.
+		 * @return String containing plant name.
+		 */
+		virtual std::string getName() = 0;
+
+		/**
 		 * @brief Gets the sunlight affection value for this component.
 		 * @return Integer representing sunlight impact.
 		 */
-		virtual int affectSunlight() = 0;
+		virtual int getAffectSunlight() = 0;
 
 		/**
 		 * @brief Gets the water affection value for this component.
 		 * @return Integer representing water impact.
 		 */
-		virtual int affectWater() = 0;
+		virtual int getAffectWater() = 0;
 
 		/**
 		 * @brief Gets the price of this plant component.

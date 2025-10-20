@@ -10,7 +10,7 @@ int AlternatingWater::water(LivingPlant* plant) {
         waterAmount = 2; 
     }
     
-    // plant->addWaterLevel(waterAmount);
+    plant->setWaterLevel(plant->getWaterLevel() + waterAmount);
     return waterAmount;
 }
 

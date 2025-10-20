@@ -4,7 +4,7 @@
 int LowWater::water(LivingPlant* plant) {
 
     waterAmount = 10;
-    // plant->affectWater(waterAmount);
+      plant->setWaterLevel(plant->getWaterLevel() + waterAmount);
     return waterAmount;
 }
 
@@ -13,5 +13,5 @@ int LowWater::getID() {
 }
 
 LowWater::LowWater() {
-    waterAmount = 1; 
+    waterAmount = 10; 
 }

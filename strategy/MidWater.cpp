@@ -4,7 +4,7 @@
 int MidWater::water(LivingPlant* plant) {
  
     waterAmount = 20;
-    // plant->addWaterLevel(waterAmount);
+    plant->setWaterLevel(plant->getWaterLevel() + waterAmount);
     return waterAmount;
 }
 
@@ -13,5 +13,5 @@ int MidWater::getID() {
 }
 
 MidWater::MidWater() {
-    waterAmount = 3; 
+    waterAmount = 20; 
 }
