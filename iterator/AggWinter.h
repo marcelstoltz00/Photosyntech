@@ -14,11 +14,25 @@
  *
  * **System Role:**
  * Factory for winter-season inventory iteration. Produces WinterIterator for browsing
- * plants suitable for winter growing. Part of seasonal iterator family.
+ * plants suitable for winter growing. Enables seasonal browsing and category-specific
+ * customer shopping experiences.
  *
  * **Pattern Role:** Concrete Aggregate (seasonal iterator factory)
  *
- * @see Aggregate (abstract factory)
+ * **Related Patterns:**
+ * - Aggregate: Implements iterator factory interface
+ * - Iterator: Creates WinterIterator instances (declared as friend)
+ * - Decorator: Works with Winter decorator for filtering
+ * - Facade: Enables seasonal browsing through system
+ *
+ * **System Interactions:**
+ * - Constructor stores reference to plant collection and target season
+ * - createIterator() creates WinterIterator
+ * - Returns iterator pre-configured for winter filtering
+ * - Used by seasonal browsing commands
+ * - Part of seasonal iterator family (Spring, Summer, Autumn variants)
+ *
+ * @see Aggregate (abstract factory interface)
  * @see WinterIterator (concrete iterator created, has friend access)
  */
 class AggWinter : public Aggregate

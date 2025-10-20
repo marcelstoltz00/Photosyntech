@@ -9,8 +9,8 @@
 /**
  * @brief Concrete iterator for filtering winter-season plants.
  *
- * Iterates through a plant collection returning only plants decorated
- * with the Winter seasonal decorator. Handles nested hierarchies by
+ * Iterates through a plant collection returning only plants whose getSeason()
+ * method matches the target season string. Handles nested hierarchies by
  * recursively descending into PlantGroups to find matching LivingPlants.
  *
  * **System Role:**
@@ -21,14 +21,21 @@
  * **Pattern Role:** Concrete Iterator (winter-specific filtering with composite support)
  *
  * **Related Patterns:**
- * - Iterator: Implements filtering traversal
- * - Aggregate: Created by AggWinter factory
- * - Decorator: Identifies via Winter decorator
+ * - Iterator: Implements filtering traversal interface
+ * - Aggregate: Created by AggWinter aggregate factory
+ * - Decorator: Filters plants based on their seasonal decorator chain (via getSeason())
  * - Composite: Handles nested PlantGroup hierarchies
+ *
+ * **System Interactions:**
+ * - first() finds first plant matching target season
+ * - next() advances to next matching plant
+ * - isDone() checks iteration completion
+ * - currentItem() returns current matching plant
+ * - Filters by comparing plant->getSeason() to aggregate->targetSeason
  *
  * @see Iterator (abstract interface)
  * @see AggWinter (creates this iterator)
- * @see Winter (decorator identifying winter plants)
+ * @see LivingPlant::getSeason() (method used for filtering)
  */
 class AggWinter;
 

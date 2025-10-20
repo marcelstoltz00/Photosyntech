@@ -9,8 +9,8 @@
 /**
  * @brief Concrete iterator for filtering spring-season plants.
  *
- * Iterates through a plant collection returning only plants decorated
- * with the Spring seasonal decorator. Handles nested hierarchies by
+ * Iterates through a plant collection returning only plants whose getSeason()
+ * method matches the target season string. Handles nested hierarchies by
  * recursively descending into PlantGroups to find matching LivingPlants.
  *
  * **System Role:**
@@ -23,19 +23,19 @@
  * **Related Patterns:**
  * - Iterator: Implements filtering traversal interface
  * - Aggregate: Created by AggSpring aggregate factory
- * - Decorator: Relies on Spring decorator for identification
+ * - Decorator: Filters plants based on their seasonal decorator chain (via getSeason())
  * - Composite: Handles nested PlantGroup hierarchies
  *
  * **System Interactions:**
- * - first() finds first spring-decorated plant
- * - next() advances to next spring plant
- * - isDone() checks spring iteration completion
- * - currentItem() returns current spring plant
- * - Filters based on Spring decorator presence
+ * - first() finds first plant matching target season
+ * - next() advances to next matching plant
+ * - isDone() checks iteration completion
+ * - currentItem() returns current matching plant
+ * - Filters by comparing plant->getSeason() to aggregate->targetSeason
  *
  * @see Iterator (abstract interface)
  * @see AggSpring (creates this iterator)
- * @see Spring (decorator identifying spring plants)
+ * @see LivingPlant::getSeason() (method used for filtering)
  */
 class AggSpring;
 

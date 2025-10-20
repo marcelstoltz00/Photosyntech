@@ -9,8 +9,8 @@
 /**
  * @brief Concrete iterator for filtering summer-season plants.
  *
- * Iterates through a plant collection returning only plants decorated
- * with the Summer seasonal decorator. Handles nested hierarchies by
+ * Iterates through a plant collection returning only plants whose getSeason()
+ * method matches the target season string. Handles nested hierarchies by
  * recursively descending into PlantGroups to find matching LivingPlants.
  *
  * **System Role:**
@@ -21,14 +21,21 @@
  * **Pattern Role:** Concrete Iterator (summer-specific filtering with composite support)
  *
  * **Related Patterns:**
- * - Iterator: Implements filtering traversal
- * - Aggregate: Created by AggSummer factory
- * - Decorator: Identifies via Summer decorator
+ * - Iterator: Implements filtering traversal interface
+ * - Aggregate: Created by AggSummer aggregate factory
+ * - Decorator: Filters plants based on their seasonal decorator chain (via getSeason())
  * - Composite: Handles nested PlantGroup hierarchies
+ *
+ * **System Interactions:**
+ * - first() finds first plant matching target season
+ * - next() advances to next matching plant
+ * - isDone() checks iteration completion
+ * - currentItem() returns current matching plant
+ * - Filters by comparing plant->getSeason() to aggregate->targetSeason
  *
  * @see Iterator (abstract interface)
  * @see AggSummer (creates this iterator)
- * @see Summer (decorator identifying summer plants)
+ * @see LivingPlant::getSeason() (method used for filtering)
  */
 class AggSummer;
 
