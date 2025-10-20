@@ -170,6 +170,24 @@ class LivingPlant : public PlantComponent
 		std::string getName();
 
 		/**
+		 * @brief Gets plant health as an Integer.
+		 * @return Integer containing plant health.
+		 */
+		int getHealth();
+
+		/**
+		 * @brief Gets plant sunExposure as an Integer.
+		 * @return Integer containing plant sunExposure.
+		 */
+		int getSunExposure();
+
+		/**
+		 * @brief Gets plant waterLevel as an Integer.
+		 * @return Integer containing plant waterLevel.
+		 */
+		int getWaterLevel();
+
+		/**
 		 * @brief Gets the sunlight affection value.
 		 * @return Integer representing sunlight impact.
 		 */

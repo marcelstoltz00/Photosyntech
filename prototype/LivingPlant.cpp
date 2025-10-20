@@ -78,6 +78,18 @@ int LivingPlant::getAge(){
     return this->age;
 };
 
+int LivingPlant::getHealth(){
+    return this->health;
+};
+
+int LivingPlant::getSunExposure(){
+    return this->sunExposure;
+};
+
+int LivingPlant::getWaterLevel(){
+    return this->waterLevel;
+};
+
 std::string LivingPlant::getName(){
     return *name.getState();
 };
@@ -125,7 +137,7 @@ void LivingPlant::water(){
 
         WaterStrategy* strategy = this->waterStrategy->getState();
 
-        int waterApplied = strategy->water(); 
+        int waterApplied = strategy->water(this); 
 
         this->waterLevel += waterApplied; 
 
@@ -138,7 +150,7 @@ void LivingPlant::setOutside(){
 
         SunStrategy* strategy = this->sunStrategy->getState();
 
-        int sunApplied = strategy->addSun(); 
+        int sunApplied = strategy->addSun(this); 
 
         this->sunExposure += sunApplied; 
 
