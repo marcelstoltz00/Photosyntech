@@ -1,4 +1,6 @@
 // please use testing like this.
+#include "flyweight/Flyweight.h"
+#include "flyweight/FlyweightFactory.h"
 void SingleTonTests()
 {
 }

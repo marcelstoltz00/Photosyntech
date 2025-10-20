@@ -3,7 +3,8 @@ CXXFLAGS = -std=c++11 -g --coverage -Werror=sign-compare -Werror=delete-non-virt
 
 # add the cpp files here that you want to compile.
 
-TEST_SRC = unitTests.cpp
+TEST_SRC = unitTests.cpp\
+			
 
 
 
