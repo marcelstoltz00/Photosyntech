@@ -70,12 +70,12 @@ class PlantComponent
 		/**
 		 * @brief Waters the plant component.
 		 */
-		void water();
+		virtual void water() = 0;
 
 		/**
-		 * @brief Sets the plant component to be outside.
+		 * @brief Sets the plant component to be outside.(Calls Sun Strategy)
 		 */
-		void setOutside();
+		virtual void setOutside() = 0;
 
 		/**
 		 * @brief Gets plant information as a string.

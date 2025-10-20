@@ -112,6 +112,32 @@ PlantComponent* LivingPlant::clone(){
     return new LivingPlant(*this);
 };
 
+void LivingPlant::water(){
+    if (this->waterStrategy != nullptr){
+
+        WaterStrategy* strategy = this->waterStrategy->getState();
+
+        int waterApplied = strategy->water(); 
+
+        this->waterLevel += waterApplied; 
+
+        //should we add a limit to the amount we can water? And should this be MVP
+    }
+}
+
+void LivingPlant::setOutside(){
+        if (this->sunStrategy != nullptr){
+
+        SunStrategy* strategy = this->sunStrategy->getState();
+
+        int sunApplied = strategy->addSun(); 
+
+        this->sunExposure += sunApplied; 
+
+        //should we add a limit to the amount we can leave plants outside? And should this be MVP
+    }
+}
+
 
 Herb::Herb()
     : LivingPlant("", 0, 0, 0)

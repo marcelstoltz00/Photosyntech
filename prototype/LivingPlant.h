@@ -185,6 +185,16 @@ class LivingPlant : public PlantComponent
 		PlantComponent* clone();
 
 		/**
+		 * @brief Waters the plant component.
+		 */
+		void water();
+
+		/**
+		 * @brief Sets the plant component to be outside. (Calls Sun Strategy)
+		 */
+		void setOutside();
+
+		/**
 		 * @brief Virtual destructor for proper cleanup of derived classes.
 		 */
 		virtual ~LivingPlant() {}
