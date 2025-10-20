@@ -2,7 +2,13 @@
 
 Inventory::Inventory()
 {
-    inventory = new PlantGroup();
+    // waiting for update of header file
+    // inventory = new PlantGroup();
+
+    // remove
+    inventory = nullptr;
+    // remove
+
     stringFactory = new FlyweightFactory<string, string *>();
     waterStrategies = new FlyweightFactory<int, WaterStrategy *>();
     sunStrategies = new FlyweightFactory<int, SunStrategy *>();
@@ -22,10 +28,10 @@ Inventory::Inventory()
     sunStrategies->getFlyweight(HighSun::getID(), new HighSun());
 
     // adding the maturities { wating on header update}
-    //states->getFlyweight(Seed::getID(), new Seed());
-    //states->getFlyweight(Vegetative::getID(), new Vegetative());
-    //states->getFlyweight(Mature::getID(), new Mature());
-    //states->getFlyweight(Dead::getID(), new Dead());
+    // states->getFlyweight(Seed::getID(), new Seed());
+    // states->getFlyweight(Vegetative::getID(), new Vegetative());
+    // states->getFlyweight(Mature::getID(), new Mature());
+    // states->getFlyweight(Dead::getID(), new Dead());
 }
 Inventory *Inventory::getInstance()
 {
@@ -66,4 +72,22 @@ const Flyweight<SunStrategy *> *Inventory::getSunFly(int id)
 const PlantGroup *Inventory::getInventory()
 {
     return inventory;
+}
+
+const vector<Customer *> *Inventory::getCustomers()
+{
+    return customerList;
+}
+const vector<Staff *> *Inventory::getStaff()
+{
+    return staffList;
+}
+
+void Inventory::addCustomer(Staff *staff)
+{
+    staffList->push_back(staff);
+}
+void Inventory::addCustomer(Customer *customer)
+{
+    customerList->push_back(customer);
 }

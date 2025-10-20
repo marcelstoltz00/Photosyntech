@@ -72,8 +72,8 @@ private:
 	FlyweightFactory<int, SunStrategy *> *sunStrategies;
 	FlyweightFactory<int, MaturityState *> *states;
 
-	const vector<Staff *> *staffList;
-	const vector<Customer *> *customerList;
+	vector<Staff *> *staffList;
+	vector<Customer *> *customerList;
 	/**
 	 * @brief Private constructor to prevent direct instantiation.
 	 */
@@ -123,9 +123,10 @@ public:
 	 */
 	Inventory &operator=(const Inventory &) = delete;
 
-	const vector<const Customer *> *getCustomers();
-	const vector<const Staff *> *getStaff();
 	const Flyweight<MaturityState *> *getStates(int id);
+
+	const vector<Customer *> *getCustomers();
+	const vector<Staff *> *getStaff();
 
 	void addCustomer(Staff *staff);
 	void addCustomer(Customer *Customer);
