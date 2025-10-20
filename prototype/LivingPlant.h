@@ -85,6 +85,16 @@ class LivingPlant : public PlantComponent
 		LivingPlant(std::string name, double price, int waterAffect, int sunAffect);
 
 		/**
+		 * @brief Constructs a copy of an existing living plant.
+		 *
+		 * Performs a member-wise shallow copy for flyweights.
+		 * and a deep copy for the decorator chain.
+		 *
+		 * @param other The living plant object to copy.
+		 */
+		LivingPlant(const LivingPlant& other);
+
+		/**
 		 * @brief Sets the age for this plant.
 		 * @param strategy Integer age for the new age of the plant.
 		 */
@@ -161,6 +171,12 @@ class LivingPlant : public PlantComponent
 		 * @return Price in currency units.
 		 */
 		double getPrice();
+		
+		/**
+		 * @brief Gets plant information as a string.
+		 * @return String containing plant details.
+		 */
+		std::string getInfo();
 
 		/**
 		 * @brief Clones the plant creating a deep copy (Prototype pattern).
