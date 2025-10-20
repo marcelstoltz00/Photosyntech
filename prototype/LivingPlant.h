@@ -124,25 +124,41 @@ class LivingPlant : public PlantComponent
 		 * @brief Gets the sunlight affection value.
 		 * @return Integer representing sunlight impact.
 		 */
-		int affectSunlight();
+		int getAffectSunlight();
 
 		/**
 		 * @brief Gets the water affection value.
 		 * @return Integer representing water impact.
 		 */
-		int affectWater();
+		int getAffectWater();
 
 		/**
 		 * @brief Gets the price of this plant.
 		 * @return Price in currency units.
 		 */
 		double getPrice();
+		
+		/**
+		 * @brief Gets plant information as a string.
+		 * @return String containing plant details.
+		 */
+		std::string getInfo();
 
 		/**
 		 * @brief Clones the plant creating a deep copy (Prototype pattern).
 		 * @return Pointer to a new plant object that is a copy of this one.
 		 */
 		PlantComponent* clone();
+
+		/**
+		 * @brief Waters the plant component.
+		 */
+		void water();
+
+		/**
+		 * @brief Sets the plant component to be outside. (Calls Sun Strategy)
+		 */
+		void setOutside();
 
 		/**
 		 * @brief Virtual destructor for proper cleanup of derived classes.
