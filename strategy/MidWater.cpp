@@ -11,3 +11,7 @@ int MidWater::water(LivingPlant* plant) {
 int MidWater::getID() {
     return 2;
 }
+
+MidWater::MidWater() {
+    waterAmount = 3; 
+}

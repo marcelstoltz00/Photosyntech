@@ -46,6 +46,12 @@ class MidWater : public WaterStrategy
          * @return Integer ID representing the MidWater strategy.
          */
    static      int getID();
+    /**
+     * @brief Constructs a MidWater strategy with a sensible default amount.
+     *
+     * Default sets WaterStrategy::waterAmount to 3 (moderate volume).
+     */
+    MidWater();
 };
 
 #endif

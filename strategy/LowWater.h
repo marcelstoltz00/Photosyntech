@@ -46,6 +46,13 @@ public:
 	 * @return Integer ID representing the LowWater strategy.
 	 */
 	static int getID();
+
+	/**
+	 * @brief Constructs a LowWater strategy with a sensible default amount.
+	 *
+	 * Default sets WaterStrategy::waterAmount to 1 (minimal drip amount).
+	 */
+	LowWater();
 };
 
 #endif

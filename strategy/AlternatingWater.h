@@ -47,6 +47,14 @@ class AlternatingWater : public WaterStrategy
          * @return Integer ID representing the AlternatingWater strategy.
          */
        static int getID();
+
+  /**
+   * @brief Constructs an AlternatingWater strategy with a sensible default amount.
+   *
+   * Default sets WaterStrategy::waterAmount to 2 (moderate pulses) and
+   * prepares internal cycle state (implementation-owned).
+   */
+  AlternatingWater();
 };
 
 #endif

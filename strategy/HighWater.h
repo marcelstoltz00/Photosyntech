@@ -46,6 +46,13 @@ public:
 	 * @return Integer ID representing the HighWater strategy.
 	 */
 	static int getID();
+
+	/**
+	 * @brief Constructs a HighWater strategy with a sensible default amount.
+	 *
+	 * Default sets WaterStrategy::waterAmount to 5 (abundant watering).
+	 */
+	HighWater();
 };
 
 #endif

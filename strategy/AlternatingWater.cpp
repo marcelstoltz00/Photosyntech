@@ -15,3 +15,8 @@ int AlternatingWater::water(LivingPlant* plant) {
 int AlternatingWater::getID() {
     return 4;
 }
+
+AlternatingWater::AlternatingWater() {
+    waterAmount = 0;
+   
+}

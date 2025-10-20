@@ -11,3 +11,7 @@ int HighWater::water(LivingPlant* plant) {
  int HighWater::getID() {
     return 3;
 }
+
+HighWater::HighWater() {
+    waterAmount = 5; 
+}

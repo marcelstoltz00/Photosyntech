@@ -11,3 +11,7 @@ int LowWater::water(LivingPlant* plant) {
 int LowWater::getID() {
     return 1;
 }
+
+LowWater::LowWater() {
+    waterAmount = 1; 
+}

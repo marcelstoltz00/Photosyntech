@@ -40,21 +40,26 @@ class LivingPlant; // Forward declaration
  */
 class WaterStrategy
 {
-    protected:
-        int waterAmount;
+protected:
+    int waterAmount;
 
-    public:
-        /**
-         * @brief Executes the watering algorithm on the specified plant.
-         * @param plant Pointer to the plant to be watered.
-         * @return Integer representing the amount of water applied.
-         */
-        virtual int water(LivingPlant* plant) = 0;
+public:
+    /**
+     * @brief Executes the watering algorithm on the specified plant.
+     * @param plant Pointer to the plant to be watered.
+     * @return Integer representing the amount of water applied.
+     */
+    virtual int water(LivingPlant *plant) = 0;
 
-        /**
-         * @brief Virtual destructor for proper cleanup of derived classes.
-         */
-        virtual ~WaterStrategy() {}
+    /**
+     * @brief Virtual destructor for proper cleanup of derived classes.
+     */
+    virtual ~WaterStrategy() {}
+
+    static int getID()
+    {
+        return -1; // Abstract strategy has no ID
+    }
 };
 
 #endif
