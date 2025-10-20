@@ -2,56 +2,42 @@
 #define Mature_h
 
 #include "MaturityState.h"
+#include "../prototype/LivingPlant.h"
+
+class LivingPlant; // Forward declaration
 
 /**
- * @brief Concrete state representing the Mature stage of plant maturity.
- *
- * The fully developed state where plants have reached their optimal growth.
- * Plants in this state have reduced growth rates and will eventually
- * transition to the Dead state as they age beyond their lifecycle.
- *
- * **System Role:**
- * Peak plant value and characteristics. Encapsulates mature-specific behavior
- * with reduced growth rate. grow() checks for Dead transition. Mature plants command
- * premium pricing due to full development and flowering/fruiting capability.
- *
- * **Pattern Role:** Concrete State (implements mature lifecycle behavior)
- *
- * **Related Patterns:**
- * - MaturityState: Implements abstract state interface
- * - LivingPlant: Context for mature phase
- * - Decorator: Mature state increases decorated properties value
- * - Observer: Transition to Dead triggers urgent notifications
- *
- * **System Interactions:**
- * - Plants transition to Mature from Vegetative
- * - grow() applies reduced growth rate (stabilization)
- * - Maximum pricing value reached in Mature state
- * - When age exceeds maxAge, transitions to Dead
- * - Dead transition triggers replacement notifications to staff
- *
- * @see MaturityState (base class)
- * @see Vegetative (previous state)
- * @see Dead (next state after transition)
+ * @brief Represents the Mature state of a plant
+ * 
+ * Age range: 30-119 days
+ * Health range: 30-100
+ * Water range: 30-100
+ * Sun exposure range: 40-100
+ * Baseline water usage: 8 units/day
+ * Health gain when conditions met: +1 unit/day
  */
-class Mature : public MaturityState
-{
-	public:
-		/**
-		 * @brief Advances the plant's growth while in the Mature state.
-		 *
-		 * Applies mature-specific growth calculations and checks for
-		 * transition to the Dead state based on the plant's age.
-		 *
-		 * @param plant Pointer to the LivingPlant that is growing.
-		 */
-		void grow(LivingPlant* plant);
-
-		/**
-		 * @brief Gets the unique identifier for the Mature state.
-		 * @return Integer ID representing the Mature state.
-		 */
-		int getID();
+class Mature : public MaturityState {
+public:
+    /**
+     * @brief Handles daily growth in Mature state
+     * 
+     * Process:
+     * 1. Increment age by 1 day
+     * 2. Apply water usage (8 units * season multiplier)
+     * 3. If water ≥ 30 and sun ≥ 40, increase health by 1
+     * 4. Check transition to Dead if:
+     *    - age ≥ 120 OR health ≤ 0
+     *    - On transition: health = 0, water = 0, sun = 0
+     * 
+     * @param plant The plant to update
+     */
+    void grow(LivingPlant* plant) ;
+    
+    /**
+     * @brief Returns the identifier for the Mature state
+     * 
+     * @return Integer identifier for the state
+     */
+    static const int getID() { return 2; }
 };
-
-#endif
+#endif /* Mature_h */
