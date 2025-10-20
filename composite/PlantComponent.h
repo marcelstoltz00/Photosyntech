@@ -50,6 +50,14 @@ class PlantComponent
 
 	public:
 		/**
+		 * @brief Constructs a PlantComponent with basic attributes.
+		 * @param name Name of the plant.
+		 * @param price Base price of the plant.
+		 * @param waterAffect Water affection value.
+		 * @param sunAffect Sun affection value.
+		 */
+		PlantComponent(double price, int waterAffect, int sunAffect);
+		/**
 		 * @brief Clones the plant component (Prototype pattern).
 		 * @return Pointer to a new plant object that is a copy of this one.
 		 */

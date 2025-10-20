@@ -77,12 +77,12 @@ class LivingPlant : public PlantComponent
 	public:
 		/**
 		 * @brief Constructs a living plant with basic attributes.
-		 * @param info Information string describing the plant.
+		 * @param name Name of the plant.
 		 * @param price Base price of the plant.
 		 * @param waterAffect Water affection value.
 		 * @param sunAffect Sun affection value.
 		 */
-		LivingPlant(std::string info, double price, int waterAffect, int sunAffect);
+		LivingPlant(std::string name, double price, int waterAffect, int sunAffect);
 
 		/**
 		 * @brief Sets the water strategy for this plant.
@@ -115,10 +115,10 @@ class LivingPlant : public PlantComponent
 		int getAge();
 
 		/**
-		 * @brief Gets plant information as a formatted string.
-		 * @return String containing plant details.
+		 * @brief Gets plant name as a formatted string.
+		 * @return String containing plant name.
 		 */
-		std::string getInfo();
+		std::string getName();
 
 		/**
 		 * @brief Gets the sunlight affection value.

@@ -33,7 +33,12 @@
  * @see Concrete strategies: LowSun, MidSun, HighSun
  * @see LivingPlant (context)
  * @see Singleton (manages flyweight factories)
+ * @see LivingPlant (context)
+ * @see Singleton (manages flyweight factories)
  */
+
+class LivingPlant; // forward declaration
+
 class SunStrategy
 {
 	protected:
@@ -43,15 +48,19 @@ class SunStrategy
 	public:
 		/**
 		 * @brief Applies sunlight exposure to the plant.
+		 * @param plant Pointer to the LivingPlant receiving sunlight.
 		 * @return Integer representing the amount of sunlight applied.
 		 */
-		virtual int addSun() = 0;
+		virtual int addSun(LivingPlant* plant) = 0;
 
 		/**
 		 * @brief Gets the unique identifier for this sun strategy type.
 		 * @return Integer ID representing the strategy.
 		 */
-		virtual int getID() = 0;
+    static int getID()
+    {
+        return -1; // Abstract strategy has no ID
+    }
 
 		/**
 		 * @brief Virtual destructor for proper cleanup of derived classes.

@@ -1,5 +1,5 @@
-#ifndef HighSun_h
-#define HighSun_h
+#ifndef AlternatingSun_h
+#define AlternatingSun_h
 
 #include "SunStrategy.h"
 
@@ -31,7 +31,7 @@
  * @see SunStrategy (abstract interface)
  * @see LivingPlant (context)
  */
-class HighSun : public SunStrategy
+class AlternatingSun : public SunStrategy
 {
 	public:
 		/**
@@ -42,17 +42,17 @@ class HighSun : public SunStrategy
 		int addSun(LivingPlant* plant);
 
 		/**
-		 * @brief Gets the unique identifier for the HighSun strategy.
-		 * @return Integer ID representing the HighSun strategy.
+		 * @brief Gets the unique identifier for the AlternatingSun strategy.
+		 * @return Integer ID representing the AlternatingSun strategy.
 		 */
 		static int getID();
 
 		/**
-		 * @brief Constructs a HighSun strategy with sensible defaults.
+		 * @brief Constructs a AlternatingSun strategy with sensible defaults.
 		 *
-		 * Default sets intensity to 9 (high) and hoursNeeded to 8 (long exposure).
+		 * Default sets intensity to alternating levels and hoursNeeded to alternating durations.
 		 */
-		HighSun();
+		AlternatingSun();
 };
 
 #endif
