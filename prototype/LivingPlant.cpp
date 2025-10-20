@@ -66,12 +66,28 @@ void LivingPlant::setMaturity(int state){
     //waiting on wilmar's final implementation for flyweight
 };
 
+void LivingPlant::setSeason(Flyweight<std::string> season){
+    this->season = season;
+}
+
 void LivingPlant::addAttribute(PlantAttributes* attribute){
 //stub since this is the ConcreteComponent
 };
 
 int LivingPlant::getAge(){
     return this->age;
+};
+
+int LivingPlant::getHealth(){
+    return this->health;
+};
+
+int LivingPlant::getSunExposure(){
+    return this->sunExposure;
+};
+
+int LivingPlant::getWaterLevel(){
+    return this->waterLevel;
 };
 
 std::string LivingPlant::getName(){
@@ -108,6 +124,10 @@ std::string LivingPlant::getInfo(){
     return baseInfo;
 };
 
+Flyweight<std::string> LivingPlant::getSeason(){
+    return this->season;
+}
+
 PlantComponent* LivingPlant::clone(){
     return new LivingPlant(*this);
 };
@@ -117,7 +137,7 @@ void LivingPlant::water(){
 
         WaterStrategy* strategy = this->waterStrategy->getState();
 
-        int waterApplied = strategy->water(); 
+        int waterApplied = strategy->water(this); 
 
         this->waterLevel += waterApplied; 
 
@@ -130,7 +150,7 @@ void LivingPlant::setOutside(){
 
         SunStrategy* strategy = this->sunStrategy->getState();
 
-        int sunApplied = strategy->addSun(); 
+        int sunApplied = strategy->addSun(this); 
 
         this->sunExposure += sunApplied; 
 

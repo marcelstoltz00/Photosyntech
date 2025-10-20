@@ -96,29 +96,36 @@ class LivingPlant : public PlantComponent
 
 		/**
 		 * @brief Sets the age for this plant.
-		 * @param strategy Integer age for the new age of the plant.
+		 * @param age Integer age for the new age of the plant.
 		 */
 		void setAge(int age);
 
 		/**
 		 * @brief Sets the health for this plant.
-		 * @param strategy Integer health for the new health of the plant.
+		 * @param health Integer health for the new health of the plant.
 		 */
 		void setHealth(int health);
 
 		/**
 		 * @brief Sets the waterLevel for this plant.
-		 * @param strategy Integer waterLevel for the new waterLevel of the plant.
+		 * @param waterLevel Integer waterLevel for the new waterLevel of the plant.
+		 */
+		void setSeason(Flyweight<std::string> season);
+
+		/**
+		 * @brief Sets the season for this plant.
+		 * @param waterLevel Integer waterLevel for the new waterLevel of the plant.
 		 */
 		void setWaterLevel(int waterLevel);
 
 		/**
 		 * @brief Sets the sunExposure for this plant.
-		 * @param strategy Integer sunExposure for the new sunExposure of the plant.
+		 * @param sunExposure Integer sunExposure for the new sunExposure of the plant.
 		 */
 		void setSunExposure(int sunExposure);
 
 		/**
+
 		 * @brief Sets the water strategy for this plant.
 		 * @param strategy Integer ID of the water strategy to use.
 		 */
@@ -143,6 +150,14 @@ class LivingPlant : public PlantComponent
 		void addAttribute(PlantAttributes* attribute);
 
 		/**
+		 * @brief Gets the season of the plant.
+		 * @return Season of the plant.
+		 */
+		Flyweight<std::string> getSeason(){
+			
+		}
+
+		/**
 		 * @brief Gets the age of the plant in months.
 		 * @return Age in months.
 		 */
@@ -153,6 +168,24 @@ class LivingPlant : public PlantComponent
 		 * @return String containing plant name.
 		 */
 		std::string getName();
+
+		/**
+		 * @brief Gets plant health as an Integer.
+		 * @return Integer containing plant health.
+		 */
+		int getHealth();
+
+		/**
+		 * @brief Gets plant sunExposure as an Integer.
+		 * @return Integer containing plant sunExposure.
+		 */
+		int getSunExposure();
+
+		/**
+		 * @brief Gets plant waterLevel as an Integer.
+		 * @return Integer containing plant waterLevel.
+		 */
+		int getWaterLevel();
 
 		/**
 		 * @brief Gets the sunlight affection value.
