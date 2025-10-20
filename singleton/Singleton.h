@@ -1,12 +1,16 @@
 #ifndef Singleton_h
 #define Singleton_h
 
+using namespace std;
 #include <string>
+#include <vector>
 #include "../flyweight/FlyweightFactory.h"
 #include "../flyweight/Flyweight.h"
 #include "../strategy/WaterStrategy.h"
 #include "../strategy/SunStrategy.h"
 #include "../composite/PlantGroup.h"
+#include "../mediator/Customer.h"
+#include "../mediator/Staff.h"
 
 /**
  * @brief Singleton class managing global inventory and flyweight factories.
@@ -44,63 +48,68 @@
  * @see Builder (obtains strategies from singleton)
  * @see Facade (primary access point for singleton)
  */
-class Singleton
+
+class Inventory
 {
-	private:
-		static Singleton* instance;
-		PlantGroup* inventory;
-		FlyweightFactory<std::string, std::string>* stringFactory;
-		FlyweightFactory<int, WaterStrategy>* waterStrategies;
-		FlyweightFactory<int, SunStrategy>* sunStrategies;
+private:
+	static Inventory *instance;
+	PlantGroup *inventory;
+	FlyweightFactory<std::string, std::string> *stringFactory;
+	FlyweightFactory<int, WaterStrategy> *waterStrategies;
+	FlyweightFactory<int, SunStrategy> *sunStrategies;
+	const vector<Staff *> *staffList;
+	const vector<Staff *> *customerList;
+	/**
+	 * @brief Private constructor to prevent direct instantiation.
+	 */
+	Inventory();
 
-		/**
-		 * @brief Private constructor to prevent direct instantiation.
-		 */
-		Singleton();
+public:
+	/**
+	 * @brief Gets the singleton instance.
+	 * @return Pointer to the single Singleton instance.
+	 */
+	static Inventory *getInstance();
 
-	public:
-		/**
-		 * @brief Gets the singleton instance.
-		 * @return Pointer to the single Singleton instance.
-		 */
-		static Singleton* getInstance();
+	/**
+	 * @brief Gets a flyweight for a season name.
+	 * @param season Season name string.
+	 * @return Const pointer to the Flyweight wrapping the season string.
+	 */
+	const Flyweight<std::string> *getSeason(std::string season);
 
-		/**
-		 * @brief Gets a flyweight for a season name.
-		 * @param season Season name string.
-		 * @return Const pointer to the Flyweight wrapping the season string.
-		 */
-		const Flyweight<std::string>* getSeason(std::string season);
+	/**
+	 * @brief Gets a flyweight for a water strategy.
+	 * @param level Integer identifier for the water strategy level.
+	 * @return Const pointer to the Flyweight wrapping the WaterStrategy.
+	 */
+	const Flyweight<WaterStrategy> *getWaterFly(int level);
 
-		/**
-		 * @brief Gets a flyweight for a water strategy.
-		 * @param level Integer identifier for the water strategy level.
-		 * @return Const pointer to the Flyweight wrapping the WaterStrategy.
-		 */
-		const Flyweight<WaterStrategy>* getWaterFly(int level);
+	/**
+	 * @brief Gets a flyweight for a sun strategy.
+	 * @param level Integer identifier for the sun strategy level.
+	 * @return Const pointer to the Flyweight wrapping the SunStrategy.
+	 */
+	const Flyweight<SunStrategy> *getSunFly(int level);
 
-		/**
-		 * @brief Gets a flyweight for a sun strategy.
-		 * @param level Integer identifier for the sun strategy level.
-		 * @return Const pointer to the Flyweight wrapping the SunStrategy.
-		 */
-		const Flyweight<SunStrategy>* getSunFly(int level);
+	/**
+	 * @brief Gets the global plant inventory.
+	 * @return Const pointer to the PlantGroup representing the inventory.
+	 */
+	const PlantGroup *getInventory();
 
-		/**
-		 * @brief Gets the global plant inventory.
-		 * @return Const pointer to the PlantGroup representing the inventory.
-		 */
-		const PlantGroup* getInventory();
+	/**
+	 * @brief Deleted copy constructor to prevent copying.
+	 */
+	Inventory(const Inventory &) = delete;
 
-		/**
-		 * @brief Deleted copy constructor to prevent copying.
-		 */
-		Singleton(const Singleton&) = delete;
+	/**
+	 * @brief Deleted assignment operator to prevent assignment.
+	 */
+	Inventory &operator=(const Inventory &) = delete;
 
-		/**
-		 * @brief Deleted assignment operator to prevent assignment.
-		 */
-		Singleton& operator=(const Singleton&) = delete;
+	const vector<const Customer *> *getCustomers();
+	const vector<const Staff *> *getStaff();
 };
 
 #endif
