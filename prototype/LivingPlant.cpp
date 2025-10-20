@@ -66,6 +66,10 @@ void LivingPlant::setMaturity(int state){
     //waiting on wilmar's final implementation for flyweight
 };
 
+void LivingPlant::setSeason(Flyweight<std::string> season){
+    this->season = season;
+}
+
 void LivingPlant::addAttribute(PlantAttributes* attribute){
 //stub since this is the ConcreteComponent
 };
@@ -107,6 +111,10 @@ std::string LivingPlant::getInfo(){
     
     return baseInfo;
 };
+
+Flyweight<std::string> LivingPlant::getSeason(){
+    return this->season;
+}
 
 PlantComponent* LivingPlant::clone(){
     return new LivingPlant(*this);

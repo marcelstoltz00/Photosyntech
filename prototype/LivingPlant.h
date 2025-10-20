@@ -85,6 +85,47 @@ class LivingPlant : public PlantComponent
 		LivingPlant(std::string name, double price, int waterAffect, int sunAffect);
 
 		/**
+		 * @brief Constructs a copy of an existing living plant.
+		 *
+		 * Performs a member-wise shallow copy for flyweights.
+		 * and a deep copy for the decorator chain.
+		 *
+		 * @param other The living plant object to copy.
+		 */
+		LivingPlant(const LivingPlant& other);
+
+		/**
+		 * @brief Sets the age for this plant.
+		 * @param age Integer age for the new age of the plant.
+		 */
+		void setAge(int age);
+
+		/**
+		 * @brief Sets the health for this plant.
+		 * @param health Integer health for the new health of the plant.
+		 */
+		void setHealth(int health);
+
+		/**
+		 * @brief Sets the waterLevel for this plant.
+		 * @param waterLevel Integer waterLevel for the new waterLevel of the plant.
+		 */
+		void setSeason(Flyweight<std::string> season);
+
+		/**
+		 * @brief Sets the season for this plant.
+		 * @param waterLevel Integer waterLevel for the new waterLevel of the plant.
+		 */
+		void setWaterLevel(int waterLevel);
+
+		/**
+		 * @brief Sets the sunExposure for this plant.
+		 * @param sunExposure Integer sunExposure for the new sunExposure of the plant.
+		 */
+		void setSunExposure(int sunExposure);
+
+		/**
+>>>>>>> e373760 (Added getters and setters for season in LivingPlant)
 		 * @brief Sets the water strategy for this plant.
 		 * @param strategy Integer ID of the water strategy to use.
 		 */
@@ -107,6 +148,14 @@ class LivingPlant : public PlantComponent
 		 * @param attribute Pointer to the PlantAttributes decorator to add.
 		 */
 		void addAttribute(PlantAttributes* attribute);
+
+		/**
+		 * @brief Gets the season of the plant.
+		 * @return Season of the plant.
+		 */
+		Flyweight<std::string> getSeason(){
+			
+		}
 
 		/**
 		 * @brief Gets the age of the plant in months.
