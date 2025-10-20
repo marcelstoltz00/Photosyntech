@@ -24,7 +24,7 @@
  *
  * **System Interactions:**
  * - Builder assigns to mid-care plant species
- * - water() applies balanced water amount
+ * - water() applies balanced water amount directly to plant object
  * - getID() returns consistent identifier for caching
  * - Most commonly shared strategy across plant types
  *
@@ -33,18 +33,25 @@
  */
 class MidWater : public WaterStrategy
 {
-	public:
-		/**
-		 * @brief Applies moderate watering to the plant.
-		 * @return Integer representing the medium water amount applied.
-		 */
-		int water();
+    public:
+        /**
+         * @brief Applies moderate watering to the plant.
+         * @param plant Pointer to the plant to be watered.
+         * @return Integer representing the medium water amount applied.
+         */
+        int water(LivingPlant* plant);
 
-		/**
-		 * @brief Gets the unique identifier for the MidWater strategy.
-		 * @return Integer ID representing the MidWater strategy.
-		 */
-		int getID();
+        /**
+         * @brief Gets the unique identifier for the MidWater strategy.
+         * @return Integer ID representing the MidWater strategy.
+         */
+   static      int getID();
+    /**
+     * @brief Constructs a MidWater strategy with a sensible default amount.
+     *
+     * Default sets WaterStrategy::waterAmount to 3 (moderate volume).
+     */
+    MidWater();
 };
 
 #endif
