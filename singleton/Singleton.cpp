@@ -9,6 +9,23 @@ Inventory::Inventory()
     states = new FlyweightFactory<int, MaturityState *>();
     staffList = new vector<Staff *>();
     customerList = new vector<Customer *>();
+
+    // Adding the water strategies
+    waterStrategies->getFlyweight(LowWater::getID(), new LowWater());
+    waterStrategies->getFlyweight(MidWater::getID(), new MidWater());
+    waterStrategies->getFlyweight(HighWater::getID(), new HighWater());
+    waterStrategies->getFlyweight(AlternatingWater::getID(), new AlternatingWater());
+
+    // adding the water strategies
+    sunStrategies->getFlyweight(LowSun::getID(), new LowSun());
+    sunStrategies->getFlyweight(MidSun::getID(), new MidSun());
+    sunStrategies->getFlyweight(HighSun::getID(), new HighSun());
+
+    // adding the maturities { wating on header update}
+    //states->getFlyweight(Seed::getID(), new Seed());
+    //states->getFlyweight(Vegetative::getID(), new Vegetative());
+    //states->getFlyweight(Mature::getID(), new Mature());
+    //states->getFlyweight(Dead::getID(), new Dead());
 }
 Inventory *Inventory::getInstance()
 {

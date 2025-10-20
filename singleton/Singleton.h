@@ -16,7 +16,11 @@ using namespace std;
 #include "../strategy/MidSun.h"
 #include "../strategy/HighSun.h"
 
-#include "../strategy/SunStrategy.h"
+#include "../state/Dead.h"
+#include "../state/Mature.h"
+#include "../state/Vegetative.h"
+#include "../state/Seed.h"
+
 #include "../composite/PlantGroup.h"
 #include "../mediator/Customer.h"
 #include "../mediator/Staff.h"
