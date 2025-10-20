@@ -158,6 +158,10 @@ void LivingPlant::setOutside(){
     }
 }
 
+int LivingPlant::getWaterLevel(){
+    return this->waterLevel;
+};
+
 
 Herb::Herb()
     : LivingPlant("", 0, 0, 0)

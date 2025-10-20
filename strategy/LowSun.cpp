@@ -12,6 +12,6 @@ int LowSun::getID() {
 }
 
 LowSun::LowSun() {
-    intensity = 2;    // low intensity
-    hoursNeeded = 3;  // short exposure
+    intensity = 2;    
+    hoursNeeded = 3; 
 }
