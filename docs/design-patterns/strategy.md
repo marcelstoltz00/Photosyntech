@@ -9,7 +9,7 @@ Defines interchangeable algorithms for plant care operations (watering and sunli
 |--------------|------------------------|----------------|
 | **Context** | `LivingPlant` | Maintains references to WaterStrategy and SunStrategy and delegates care operations to them |
 | **Strategy** | `WaterStrategy` (abstract)<br>`SunStrategy` (abstract) | Define interfaces for care algorithm families |
-| **ConcreteStrategy** | **Water:** `LowWater`, `MidWater`, `HighWater`, `AlternatingWater`<br>**Sun:** `LowSun`, `MidSun`, `HighSun` | Implement specific care algorithms with varying water amounts, frequencies, sun intensity, and duration |
+| **ConcreteStrategy** | **Water:** `LowWater`, `MidWater`, `HighWater`, `AlternatingWater`<br>**Sun:** `LowSun`, `MidSun`, `HighSun` | Implement specific care algorithms that directly modify plant's waterLevel and sunExposure attributes with varying amounts, frequencies, intensity, and duration |
 
 ## Functional Requirements
 
@@ -26,6 +26,7 @@ Defines interchangeable algorithms for plant care operations (watering and sunli
 ### Pattern Integration
 The **Strategy** pattern defines **interchangeable care algorithms** through these interactions:
 
+- **Direct Plant Modification**: Strategies directly modify plant's waterLevel and sunExposure attributes
 - **Flyweight Pattern**: Strategy instances shared via singleton-managed flyweight factories
 - **Builder Pattern**: Builder selects and assigns appropriate strategies during plant construction
 - **State Pattern**: State may inform strategy selection or modification
@@ -39,6 +40,7 @@ The **Strategy** pattern defines **interchangeable care algorithms** through the
 - **Runtime Selection**: Plants use different strategies based on type and lifecycle
 - **Interchangeability**: Strategies implement common interface, enabling swapping
 - **Memory Efficiency**: Sharing through flyweight prevents memory duplication
+- **Direct State Management**: Strategies directly modify plant's internal state
 
 ## Design Rationale
 
@@ -49,13 +51,14 @@ The Strategy pattern was chosen because:
 4. **Consistency**: All plants use same algorithm family (WaterStrategy or SunStrategy)
 5. **Extensibility**: New strategies added without modifying plant or existing strategies
 6. **Optimization**: Strategy sharing via flyweight critical for memory efficiency
+7. **Direct State Management**: Strategies can directly manipulate plant attributes
 
 ## Extension Points
 
 **Adding New Care Strategies:**
 1. **Water Strategies**: Create class inheriting from `WaterStrategy` in `strategy/` directory
 2. **Sun Strategies**: Create class inheriting from `SunStrategy` in `strategy/` directory
-3. Implement `execute()` returning care amount/intensity
+3. Implement `water(LivingPlant* plant)` or `addSun(LivingPlant* plant)` directly modifying the plant and returning care amount/intensity
 4. Implement `getID()` for flyweight factory identification
 5. Path: `strategy/VeryHighWater.h` or `strategy/VeryHighSun.h`
 6. Register new strategy ID in singleton's flyweight factory

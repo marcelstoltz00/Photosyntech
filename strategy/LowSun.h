@@ -36,15 +36,23 @@ class LowSun : public SunStrategy
 	public:
 		/**
 		 * @brief Applies low-level sunlight exposure to the plant.
+		 * @param plant Pointer to the LivingPlant receiving sunlight.
 		 * @return Integer representing the minimal sun exposure applied.
 		 */
-		int addSun();
+		int addSun(LivingPlant* plant);
 
 		/**
 		 * @brief Gets the unique identifier for the LowSun strategy.
 		 * @return Integer ID representing the LowSun strategy.
 		 */
-		int getID();
+		static int getID();
+
+		/**
+		 * @brief Constructs a LowSun strategy with sensible defaults.
+		 *
+		 * Default sets intensity to 2 (low) and hoursNeeded to 3 (short exposure).
+		 */
+		LowSun();
 };
 
 #endif

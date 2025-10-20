@@ -24,7 +24,7 @@
  *
  * **System Interactions:**
  * - Builder assigns to tropical/water-loving species
- * - water() applies abundant water amount
+ * - water() applies abundant water amount directly to plant object
  * - getID() returns consistent identifier for caching
  * - Shared across all high-water plant instances
  *
@@ -33,18 +33,26 @@
  */
 class HighWater : public WaterStrategy
 {
-	public:
-		/**
-		 * @brief Applies high-level watering to the plant.
-		 * @return Integer representing the abundant water amount applied.
-		 */
-		int water();
+public:
+	/**
+	 * @brief Applies high-level watering to the plant.
+	 * @param plant Pointer to the plant to be watered.
+	 * @return Integer representing the abundant water amount applied.
+	 */
+	int water(LivingPlant *plant);
 
-		/**
-		 * @brief Gets the unique identifier for the HighWater strategy.
-		 * @return Integer ID representing the HighWater strategy.
-		 */
-		int getID();
+	/**
+	 * @brief Gets the unique identifier for the HighWater strategy.
+	 * @return Integer ID representing the HighWater strategy.
+	 */
+	static int getID();
+
+	/**
+	 * @brief Constructs a HighWater strategy with a sensible default amount.
+	 *
+	 * Default sets WaterStrategy::waterAmount to 5 (abundant watering).
+	 */
+	HighWater();
 };
 
 #endif
