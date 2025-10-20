@@ -34,6 +34,6 @@ void Mature::grow(LivingPlant* plant) {
         plant->setHealth(0);
         plant->setSunExposure(0);
         
-        plant->setMaturity(3);
+        plant->setMaturity(Dead::getID());
     }
 }

@@ -38,6 +38,6 @@ void Seed::grow(LivingPlant* plant) {
         plant->setHealth(std::max(plant->getHealth(), 50));
         plant->setSunExposure(50);
         
-        plant->setMaturity(1);
+        plant->setMaturity(Vegetative::getID());
     }
 }
