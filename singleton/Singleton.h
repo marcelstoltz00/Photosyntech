@@ -57,8 +57,8 @@ private:
 	FlyweightFactory<std::string, std::string> *stringFactory;
 	FlyweightFactory<int, WaterStrategy> *waterStrategies;
 	FlyweightFactory<int, SunStrategy> *sunStrategies;
-	vector<Staff *> *staffList;
-	vector<Staff *> *customerList;
+	const vector<Staff *> *staffList;
+	const vector<Staff *> *customerList;
 	/**
 	 * @brief Private constructor to prevent direct instantiation.
 	 */
@@ -108,8 +108,8 @@ public:
 	 */
 	Inventory &operator=(const Inventory &) = delete;
 
-	const vector<const Customer *>  * getCustomers();
-	const vector<const Staff *>  * getStaff();
+	const vector<const Customer *> *getCustomers();
+	const vector<const Staff *> *getStaff();
 };
 
 #endif
