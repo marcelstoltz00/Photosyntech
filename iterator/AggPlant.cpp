@@ -1,6 +1,10 @@
 #include "AggPlant.h"
 
-Iterator* AggPlant::createIterator(std::list<PlantComponent*>* plants)
+AggPlant::AggPlant(std::list<PlantComponent*>* plants) : Aggregate(plants)
 {
-	return new PlantIterator(plants);
+}
+
+Iterator* AggPlant::createIterator()
+{
+	return new PlantIterator(this);
 }

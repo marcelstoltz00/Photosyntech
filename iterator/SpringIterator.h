@@ -34,14 +34,16 @@
  * @see AggSpring (creates this iterator)
  * @see Spring (decorator identifying spring plants)
  */
+class AggSpring;
+
 class SpringIterator : public Iterator
 {
 	public:
 		/**
-		 * @brief Constructor that initializes the iterator with a plant collection.
-		 * @param plants Pointer to the list of PlantComponents to iterate over.
+		 * @brief Constructor that initializes the iterator with an aggregate.
+		 * @param aggregate Pointer to the AggSpring aggregate managing the collection.
 		 */
-		SpringIterator(std::list<PlantComponent*>* plants);
+		SpringIterator(AggSpring* aggregate);
 
 		/**
 		 * @brief Virtual destructor for proper cleanup.

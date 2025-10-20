@@ -1,6 +1,10 @@
 #include "AggWinter.h"
 
-Iterator* AggWinter::createIterator(std::list<PlantComponent*>* plants)
+AggWinter::AggWinter(std::list<PlantComponent*>* plants) : Aggregate(plants)
 {
-	return new WinterIterator(plants);
+}
+
+Iterator* AggWinter::createIterator()
+{
+	return new WinterIterator(this);
 }

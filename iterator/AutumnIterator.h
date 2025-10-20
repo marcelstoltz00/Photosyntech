@@ -26,14 +26,16 @@
  * @see AggAutumn (creates this iterator)
  * @see Autumn (decorator identifying autumn plants)
  */
+class AggAutumn;
+
 class AutumnIterator : public Iterator
 {
 	public:
 		/**
-		 * @brief Constructor that initializes the iterator with a plant collection.
-		 * @param plants Pointer to the list of PlantComponents to iterate over.
+		 * @brief Constructor that initializes the iterator with an aggregate.
+		 * @param aggregate Pointer to the AggAutumn aggregate managing the collection.
 		 */
-		AutumnIterator(std::list<PlantComponent*>* plants);
+		AutumnIterator(AggAutumn* aggregate);
 
 		/**
 		 * @brief Virtual destructor for proper cleanup.

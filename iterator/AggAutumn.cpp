@@ -1,6 +1,10 @@
 #include "AggAutumn.h"
 
-Iterator* AggAutumn::createIterator(std::list<PlantComponent*>* plants)
+AggAutumn::AggAutumn(std::list<PlantComponent*>* plants) : Aggregate(plants)
 {
-	return new AutumnIterator(plants);
+}
+
+Iterator* AggAutumn::createIterator()
+{
+	return new AutumnIterator(this);
 }

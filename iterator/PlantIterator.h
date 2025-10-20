@@ -34,14 +34,16 @@
  * @see Iterator (abstract interface)
  * @see AggPlant (creates this iterator)
  */
+class AggPlant;
+
 class PlantIterator : public Iterator
 {
 	public:
 		/**
-		 * @brief Constructor that initializes the iterator with a plant collection.
-		 * @param plants Pointer to the list of PlantComponents to iterate over.
+		 * @brief Constructor that initializes the iterator with an aggregate.
+		 * @param aggregate Pointer to the AggPlant aggregate managing the collection.
 		 */
-		PlantIterator(std::list<PlantComponent*>* plants);
+		PlantIterator(AggPlant* aggregate);
 
 		/**
 		 * @brief Virtual destructor for proper cleanup.

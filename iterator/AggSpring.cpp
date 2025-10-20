@@ -1,6 +1,10 @@
 #include "AggSpring.h"
 
-Iterator* AggSpring::createIterator(std::list<PlantComponent*>* plants)
+AggSpring::AggSpring(std::list<PlantComponent*>* plants) : Aggregate(plants)
 {
-	return new SpringIterator(plants);
+}
+
+Iterator* AggSpring::createIterator()
+{
+	return new SpringIterator(this);
 }

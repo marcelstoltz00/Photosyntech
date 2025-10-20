@@ -26,14 +26,16 @@
  * @see AggWinter (creates this iterator)
  * @see Winter (decorator identifying winter plants)
  */
+class AggWinter;
+
 class WinterIterator : public Iterator
 {
 	public:
 		/**
-		 * @brief Constructor that initializes the iterator with a plant collection.
-		 * @param plants Pointer to the list of PlantComponents to iterate over.
+		 * @brief Constructor that initializes the iterator with an aggregate.
+		 * @param aggregate Pointer to the AggWinter aggregate managing the collection.
 		 */
-		WinterIterator(std::list<PlantComponent*>* plants);
+		WinterIterator(AggWinter* aggregate);
 
 		/**
 		 * @brief Virtual destructor for proper cleanup.

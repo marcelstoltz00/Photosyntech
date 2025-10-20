@@ -10,6 +10,7 @@
  * @brief Concrete aggregate for creating winter plant iterators.
  *
  * Creates WinterIterator instances that filter and return only winter-season plants.
+ * Stores the plant collection and provides access to WinterIterator through friend relationship.
  *
  * **System Role:**
  * Factory for winter-season inventory iteration. Produces WinterIterator for browsing
@@ -18,17 +19,24 @@
  * **Pattern Role:** Concrete Aggregate (seasonal iterator factory)
  *
  * @see Aggregate (abstract factory)
- * @see WinterIterator (concrete iterator created)
+ * @see WinterIterator (concrete iterator created, has friend access)
  */
 class AggWinter : public Aggregate
 {
+	friend class WinterIterator;
+
 	public:
 		/**
-		 * @brief Creates a winter-filtered iterator for the given plant collection.
-		 * @param plants Pointer to the list of PlantComponents to iterate over.
+		 * @brief Constructor that initializes the aggregate with a plant collection.
+		 * @param plants Pointer to the list of PlantComponents to manage.
+		 */
+		AggWinter(std::list<PlantComponent*>* plants);
+
+		/**
+		 * @brief Creates a winter-filtered iterator for this aggregate's plant collection.
 		 * @return Pointer to a WinterIterator for season-filtered traversal.
 		 */
-		Iterator* createIterator(std::list<PlantComponent*>* plants);
+		Iterator* createIterator();
 
 		/**
 		 * @brief Virtual destructor for proper cleanup.

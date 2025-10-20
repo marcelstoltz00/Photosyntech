@@ -37,10 +37,12 @@
  * @see Aggregate (creates iterators)
  * @see Concrete iterators: PlantIterator, SpringIterator, etc.
  */
+class Aggregate;
+
 class Iterator
 {
 	protected:
-		std::list<PlantComponent*>* plants;
+		Aggregate* aggregate;
 
 	public:
 		/**

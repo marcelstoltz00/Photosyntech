@@ -27,14 +27,16 @@
  * @see AggSummer (creates this iterator)
  * @see Summer (decorator identifying summer plants)
  */
+class AggSummer;
+
 class SummerIterator : public Iterator
 {
 	public:
 		/**
-		 * @brief Constructor that initializes the iterator with a plant collection.
-		 * @param plants Pointer to the list of PlantComponents to iterate over.
+		 * @brief Constructor that initializes the iterator with an aggregate.
+		 * @param aggregate Pointer to the AggSummer aggregate managing the collection.
 		 */
-		SummerIterator(std::list<PlantComponent*>* plants);
+		SummerIterator(AggSummer* aggregate);
 
 		/**
 		 * @brief Virtual destructor for proper cleanup.
