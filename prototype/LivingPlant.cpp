@@ -94,9 +94,9 @@ std::string LivingPlant::getInfo(){
     baseInfo += "Age: " + std::to_string(age) + " days\n";
     baseInfo += "Water Level: " + std::to_string(waterLevel) + "\n";
     baseInfo += "Sun Exposure: " + std::to_string(sunExposure) + "\n";
-    baseInfo += "Base Price: R" + std::to_string(PlantComponent::price) + "\n";
-    baseInfo += "Water Affection: " + std::to_string(PlantComponent::affectWaterValue) + "\n";
-    baseInfo += "Sun Affection: " + std::to_string(PlantComponent::affectSunValue) + "\n";
+    baseInfo += "Base Price: R" + std::to_string(price) + "\n";
+    baseInfo += "Water Affection: " + std::to_string(affectWaterValue) + "\n";
+    baseInfo += "Sun Affection: " + std::to_string(affectSunValue) + "\n";
     
     return baseInfo;
 };
