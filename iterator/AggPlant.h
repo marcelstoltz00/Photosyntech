@@ -2,6 +2,7 @@
 #define AggPlant_h
 
 #include "Aggregate.h"
+#include "PlantIterator.h"
 #include <list>
 #include "../composite/PlantComponent.h"
 

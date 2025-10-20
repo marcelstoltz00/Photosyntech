@@ -2,6 +2,7 @@
 #define AggWinter_h
 
 #include "Aggregate.h"
+#include "WinterIterator.h"
 #include <list>
 #include "../composite/PlantComponent.h"
 

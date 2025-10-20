@@ -2,6 +2,7 @@
 #define AggAutumn_h
 
 #include "Aggregate.h"
+#include "AutumnIterator.h"
 #include <list>
 #include "../composite/PlantComponent.h"
 

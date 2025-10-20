@@ -2,6 +2,7 @@
 #define AggSummer_h
 
 #include "Aggregate.h"
+#include "SummerIterator.h"
 #include <list>
 #include "../composite/PlantComponent.h"
 

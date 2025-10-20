@@ -2,6 +2,7 @@
 #define AggSpring_h
 
 #include "Aggregate.h"
+#include "SpringIterator.h"
 #include <list>
 #include "../composite/PlantComponent.h"
 
