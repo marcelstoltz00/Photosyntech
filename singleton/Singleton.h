@@ -4,6 +4,7 @@
 using namespace std;
 #include <string>
 #include <vector>
+
 #include "../flyweight/FlyweightFactory.h"
 #include "../flyweight/Flyweight.h"
 
@@ -21,9 +22,9 @@ using namespace std;
 #include "../state/Vegetative.h"
 #include "../state/Seed.h"
 
-#include "../composite/PlantGroup.h"
-#include "../mediator/Customer.h"
-#include "../mediator/Staff.h"
+// #include "../composite/PlantGroup.h"
+// #include "../mediator/Customer.h"
+// #include "../mediator/Staff.h"
 
 /**
  * @brief Singleton class managing global inventory and flyweight factories.
@@ -61,6 +62,10 @@ using namespace std;
  * @see Builder (obtains strategies from singleton)
  * @see Facade (primary access point for singleton)
  */
+
+class Staff;
+class Customer;
+class PlantGroup;
 
 class Inventory
 {
