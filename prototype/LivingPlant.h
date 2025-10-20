@@ -77,12 +77,36 @@ class LivingPlant : public PlantComponent
 	public:
 		/**
 		 * @brief Constructs a living plant with basic attributes.
-		 * @param info Information string describing the plant.
+		 * @param name Name of the plant.
 		 * @param price Base price of the plant.
 		 * @param waterAffect Water affection value.
 		 * @param sunAffect Sun affection value.
 		 */
-		LivingPlant(std::string info, double price, int waterAffect, int sunAffect);
+		LivingPlant(std::string name, double price, int waterAffect, int sunAffect);
+
+		/**
+		 * @brief Sets the age for this plant.
+		 * @param strategy Integer age for the new age of the plant.
+		 */
+		void setAge(int age);
+
+		/**
+		 * @brief Sets the health for this plant.
+		 * @param strategy Integer health for the new health of the plant.
+		 */
+		void setHealth(int health);
+
+		/**
+		 * @brief Sets the waterLevel for this plant.
+		 * @param strategy Integer waterLevel for the new waterLevel of the plant.
+		 */
+		void setWaterLevel(int waterLevel);
+
+		/**
+		 * @brief Sets the sunExposure for this plant.
+		 * @param strategy Integer sunExposure for the new sunExposure of the plant.
+		 */
+		void setSunExposure(int sunExposure);
 
 		/**
 		 * @brief Sets the water strategy for this plant.
@@ -115,22 +139,22 @@ class LivingPlant : public PlantComponent
 		int getAge();
 
 		/**
-		 * @brief Gets plant information as a formatted string.
-		 * @return String containing plant details.
+		 * @brief Gets plant name as a formatted string.
+		 * @return String containing plant name.
 		 */
-		std::string getInfo();
+		std::string getName();
 
 		/**
 		 * @brief Gets the sunlight affection value.
 		 * @return Integer representing sunlight impact.
 		 */
-		int affectSunlight();
+		int getAffectSunlight();
 
 		/**
 		 * @brief Gets the water affection value.
 		 * @return Integer representing water impact.
 		 */
-		int affectWater();
+		int getAffectWater();
 
 		/**
 		 * @brief Gets the price of this plant.
