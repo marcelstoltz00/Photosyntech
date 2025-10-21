@@ -28,10 +28,11 @@ Inventory::Inventory()
     waterStrategies->getFlyweight(HighWater::getID(), new HighWater());
     waterStrategies->getFlyweight(AlternatingWater::getID(), new AlternatingWater());
 
-    // adding the water strategies
+    // adding the Sun strategies
     sunStrategies->getFlyweight(LowSun::getID(), new LowSun());
     sunStrategies->getFlyweight(MidSun::getID(), new MidSun());
     sunStrategies->getFlyweight(HighSun::getID(), new HighSun());
+    sunStrategies->getFlyweight(AlternatingSun::getID(), new AlternatingSun());
 
     states->getFlyweight(Seed::getID(), new Seed());
     states->getFlyweight(Vegetative::getID(), new Vegetative());
@@ -94,16 +95,40 @@ Flyweight<std::string *> *Inventory::getString(std::string str)
 Flyweight<WaterStrategy *> *Inventory::getWaterFly(int id)
 {
 
-    return waterStrategies->getFlyweight(id);
+    try
+    {
+        return waterStrategies->getFlyweight(id);
+    }
+    catch (const char *e)
+    {
+        std::cerr << e << '\n';
+        return waterStrategies->getFlyweight(LowWater::getID());
+    }
 }
 Flyweight<MaturityState *> *Inventory::getStates(int id)
 {
-    return states->getFlyweight(id);
+    try
+    {
+        return states->getFlyweight(id);
+    }
+    catch (const char *e)
+    {
+        std::cerr << e << '\n';
+        return states->getFlyweight(Seed::getID());
+    }
 }
 
 Flyweight<SunStrategy *> *Inventory::getSunFly(int id)
 {
-    return sunStrategies->getFlyweight(id);
+    try
+    {
+        return sunStrategies->getFlyweight(id);
+    }
+    catch (const char *e)
+    {
+        std::cerr << e << '\n';
+        return sunStrategies->getFlyweight(LowSun::getID());
+    }
 }
 
 PlantGroup *Inventory::getInventory()
