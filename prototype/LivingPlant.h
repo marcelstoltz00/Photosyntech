@@ -198,6 +198,11 @@ public:
 	int getAffectWater();
 
 	/**
+	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
+	 */
+	void update();
+
+	/**
 	 * @brief Gets the price of this plant.
 	 * @return Price in currency units.
 	 */

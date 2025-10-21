@@ -84,8 +84,6 @@ int LivingPlant::getSunExposure(){
     return this->sunExposure;
 };
 
-
-
 std::string LivingPlant::getName(){
     return *name->getState();
 };
@@ -140,6 +138,11 @@ void LivingPlant::water(){
         //should we add a limit to the amount we can water? And should this be MVP
     }
 }
+	
+void LivingPlant::update(){
+    waterLevel -= affectWaterValue;
+    sunExposure -= affectSunValue;
+};
 
 void LivingPlant::setOutside(){
         if (this->sunStrategy != nullptr){
@@ -160,7 +163,7 @@ int LivingPlant::getWaterLevel(){
 
 
 Herb::Herb()
-    : LivingPlant("", 0, 0, 0)
+    : LivingPlant("Herb", 30.00, 3, 3)
 {};
 
 Herb::Herb(const Herb& other) 
@@ -173,7 +176,7 @@ PlantComponent* Herb::clone(){
 
 
 Shrub::Shrub()
-    : LivingPlant("", 0, 0, 0)
+    : LivingPlant("Shrub", 75.00, 4, 4)
 {};
 
 Shrub::Shrub(const Shrub& other) 
@@ -186,7 +189,7 @@ PlantComponent* Shrub::clone(){
 
 
 Succulent::Succulent()
-    : LivingPlant("", 0, 0, 0)
+    : LivingPlant("Succulent", 45.00, 1, 5)
 {};
 
 Succulent::Succulent(const Succulent& other) 
@@ -199,7 +202,7 @@ PlantComponent* Succulent::clone(){
 
 
 Tree::Tree()
-    : LivingPlant("", 0, 0, 0)
+    : LivingPlant("Tree", 150.00, 5, 5)
 {};
 
 Tree::Tree(const Tree& other) 

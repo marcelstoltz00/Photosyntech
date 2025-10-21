@@ -77,6 +77,11 @@ public:
 	virtual void setOutside() = 0;
 
 	/**
+	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
+	 */
+	virtual void update() = 0;
+
+	/**
 	 * @brief Gets plant information as a string.
 	 * @return String containing plant details.
 	 */
