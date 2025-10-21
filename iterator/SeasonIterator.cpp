@@ -1,33 +1,33 @@
-#include "AutumnIterator.h"
-#include "AggAutumn.h"
+#include "SeasonIterator.h"
+#include "AggSeason.h"
 
-AutumnIterator::AutumnIterator(AggAutumn* aggregate) : currentPlant(nullptr)
+SeasonIterator::SeasonIterator(AggSeason* aggregate) : currentPlant(nullptr)
 {
 	this->aggregate = aggregate;
 	first();
 }
 
-void AutumnIterator::first()
+void SeasonIterator::first()
 {
 	currentPlant = findNextMatch(aggregate->plants, true);
 }
 
-void AutumnIterator::next()
+void SeasonIterator::next()
 {
 	currentPlant = findNextMatch(aggregate->plants, false);
 }
 
-bool AutumnIterator::isDone()
+bool SeasonIterator::isDone()
 {
 	return currentPlant == nullptr;
 }
 
-LivingPlant* AutumnIterator::currentItem()
+LivingPlant* SeasonIterator::currentItem()
 {
 	return currentPlant;
 }
 
-LivingPlant* AutumnIterator::findNextMatch(std::list<PlantComponent*>* plants, bool findFirst)
+LivingPlant* SeasonIterator::findNextMatch(std::list<PlantComponent*>* plants, bool findFirst)
 {
 	for (auto component : *plants) {
 		// Try to cast to LivingPlant
