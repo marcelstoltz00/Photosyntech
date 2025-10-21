@@ -36,7 +36,13 @@ void MapleBuilder::assignMaturityState() {
 LivingPlant* MapleBuilder::getResult() {
     return plant;
 }
-void MapleBuilder::addDecorators() {}
+void MapleBuilder::addDecorators() {
+// if (plant) {
+//         plant->addAttribute(new LargeLeaf(plant));
+//         plant->addAttribute(new LargeStem(plant));   
+//     }
+
+}
 
 MapleBuilder::~MapleBuilder() {
 }

@@ -39,7 +39,16 @@ LivingPlant* RoseBuilder::getResult() {
     return plant;
 }
 
-void RoseBuilder::addDecorators() {}
+void RoseBuilder::addDecorators() {
+
+// if (plant) {
+//         plant->addAttribute(new LargeFlowers(plant));
+//         plant->addAttribute(new SmallLeaf(plant));
+//         plant->addAttribute(new LargeStem(plant));
+//         plant->addAttribute(new Thorns(plant));
+//     }
+
+}
 
 RoseBuilder::~RoseBuilder() {
 }

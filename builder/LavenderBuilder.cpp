@@ -38,7 +38,14 @@ LivingPlant* LavenderBuilder::getResult() {
     return plant;
 }
 
-void LavenderBuilder::addDecorators() {}
+void LavenderBuilder::addDecorators() {
+
+    // if (plant) {
+    //     plant->addAttribute(new SmallFlowers(plant));
+    //     plant->addAttribute(new SmallLeaf(plant));
+    //     plant->addAttribute(new LargeStem(plant));
+    // }
+}
 
 LavenderBuilder::~LavenderBuilder() {
 }

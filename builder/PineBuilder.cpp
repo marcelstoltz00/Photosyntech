@@ -37,7 +37,12 @@ LivingPlant* PineBuilder::getResult() {
     return plant;
 }
 
-void PineBuilder::addDecorators() {}
+void PineBuilder::addDecorators() {
+//  if (plant) {
+//         plant->addAttribute(new SmallLeaf(plant));
+//         plant->addAttribute(new LargeStem(plant));   
+//     }
+}
 
 PineBuilder::~PineBuilder() {
 }

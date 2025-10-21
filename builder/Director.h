@@ -18,6 +18,11 @@ class Director
 
 	public:
 		/**
+		 * @brief Constructor for Director with a specific Builder.
+		 * @param builder Pointer to the Builder instance to use.
+		 */
+		Director(Builder* builder);
+		/**
 		 * @brief Executes the construction sequence using the assigned builder.
 		 *
 		 * Calls the builder methods in the correct order to create a complete
