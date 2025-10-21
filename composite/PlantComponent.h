@@ -77,6 +77,11 @@ public:
 	virtual void setOutside() = 0;
 
 	/**
+	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
+	 */
+	virtual void update() = 0;
+
+	/**
 	 * @brief Gets plant information as a string.
 	 * @return String containing plant details.
 	 */
@@ -99,6 +104,18 @@ public:
 	 * @return Integer representing water impact.
 	 */
 	virtual int getAffectWater() = 0;
+
+	/**
+	 * @brief Gets the sunlight affection value including decorator modifications.
+	 * @return Integer representing total sunlight impact.
+	 */
+	virtual void affectSunlight() = 0;
+
+	/**
+	 * @brief Gets the water affection value including decorator modifications.
+	 * @return Integer representing total water impact.
+	 */
+	virtual void affectWater() = 0;
 
 	/**
 	 * @brief Gets the price of this plant component.

@@ -21,10 +21,27 @@
 class RedPot : public PlantAttributes
 {
 	public:
-		/**
-		 * @brief Constructs a RedPot decorator with predefined characteristics.
-		 */
-		RedPot();
+        /**
+         * @brief Constructs a RedPot decorator, wrapping the given component.
+         * @param component The PlantComponent to decorate.
+         */
+        RedPot(PlantComponent* component);
+
+        /**
+         * @brief Copy constructor for cloning.
+         */
+        RedPot(const RedPot &other);
+
+        /**
+         * @brief Clones the decorated plant component (Prototype pattern).
+         * @return Pointer to a new RedPot decorator wrapping a clone of the underlying component.
+         */
+        PlantComponent* clone();
+
+        /**
+         * @brief Virtual destructor for proper cleanup.
+         */
+        virtual ~RedPot() {}
 };
 
 #endif

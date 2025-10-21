@@ -198,6 +198,23 @@ public:
 	int getAffectWater();
 
 	/**
+	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
+	 */
+	void update();
+
+	/**
+	 * @brief Gets the sunlight affection value including decorator modifications.
+	* @return Integer representing total sunlight impact.
+	*/
+	void affectSunlight();
+
+	/**
+ 	* @brief Gets the water affection value including decorator modifications.
+	* @return Integer representing total water impact.
+	*/
+	void affectWater();
+
+	/**
 	 * @brief Gets the price of this plant.
 	 * @return Price in currency units.
 	 */
