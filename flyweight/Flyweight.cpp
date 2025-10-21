@@ -12,5 +12,6 @@ T Flyweight<T>::getState()
 template <class T>
 Flyweight<T>::~Flyweight()
 {
-    delete this->data;
+    if (data)
+        delete this->data;
 }
