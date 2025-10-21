@@ -73,7 +73,7 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
     delete plant;
 }
 
-//testing decorator
+// //testing decorator
 // #include <iostream>
 // #include "prototype/LivingPlant.h"
 // #include "decorator/customerDecorator/LargePot.h"

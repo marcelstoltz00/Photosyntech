@@ -58,9 +58,7 @@ protected:
 	 */
 	Flyweight<std::string *> *name;
 
-	/**
-	 * Age of the plant in months.
-	 */
+	PlantComponent* decorator;
 	int age;
 	int health;
 	int waterLevel;
@@ -246,6 +244,17 @@ public:
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
 	virtual ~LivingPlant() {}
+
+	/**
+	 * @brief Gets the decorator for builder purposes
+	 */
+	PlantComponent* getDecorator();
+
+	/**
+	 * @brief Sets the decorator for builder purposes
+	 * @param other Pointer to the decorator.
+	 */
+	void setDecorator(PlantComponent* other);
 };
 
 #endif

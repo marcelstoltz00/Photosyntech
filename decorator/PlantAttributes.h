@@ -139,6 +139,12 @@ class PlantAttributes : public PlantComponent
 		virtual ~PlantAttributes() {
 			delete nextComponent;
 		}
+
+		// /**
+		//  * @brief Sets the decorator for builder purposes
+		//  * @param other Pointer to the decorator.
+	 	// */
+		// void setDecorator(PlantComponent* other);
 };
 
 #endif

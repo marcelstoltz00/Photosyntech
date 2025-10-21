@@ -128,6 +128,12 @@ public:
 	 * @param attribute Pointer to the PlantAttributes decorator to add.
 	 */
 	virtual void addAttribute(PlantComponent *attribute) = 0;
+
+	/**
+	 * @brief Sets the decorator for builder purposes
+	 * @param other Pointer to the decorator.
+	 */
+	//virtual void setDecorator(PlantComponent* other) = 0;
 };
 
 #endif

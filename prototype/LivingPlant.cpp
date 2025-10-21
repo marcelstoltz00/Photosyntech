@@ -68,6 +68,14 @@ void LivingPlant::setSeason(Flyweight<std::string*>* season){
     this->season = season;
 }
 
+void LivingPlant::setDecorator(PlantComponent* other){
+    decorator = other;
+};
+
+PlantComponent* LivingPlant::getDecorator(){
+    return decorator;
+};
+
 int LivingPlant::getAge(){
     return this->age;
 };
