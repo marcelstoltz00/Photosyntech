@@ -121,7 +121,6 @@ std::string LivingPlant::getInfo(){
     std::string baseInfo;
 
     baseInfo += "Name: " + plantName + "\n";
-    baseInfo += "--------------------------------------\n";
     baseInfo += "Health: " + std::to_string(health) + "\n";
     baseInfo += "Age: " + std::to_string(age) + " days\n";
     baseInfo += "Water Level: " + std::to_string(waterLevel) + "\n";
