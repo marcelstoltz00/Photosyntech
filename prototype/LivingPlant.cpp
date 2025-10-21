@@ -121,7 +121,6 @@ std::string LivingPlant::getInfo(){
     std::string baseInfo;
 
     baseInfo += "Name: " + plantName + "\n";
-    baseInfo += "Status: Basic Plant Component\n";
     baseInfo += "--------------------------------------\n";
     baseInfo += "Health: " + std::to_string(health) + "\n";
     baseInfo += "Age: " + std::to_string(age) + " days\n";
@@ -158,11 +157,15 @@ void LivingPlant::water(){
 void LivingPlant::affectWater(){
     waterLevel -= affectWaterValue;
     // cant really be done in here since you need the value from the decorator. 
+
+    //checked in unitTests and it worked
 };
 
 void LivingPlant::affectSunlight(){
     sunExposure -= affectSunValue;
         // cant really be done in here since you need the value from the decorator. 
+
+        //checked in unitTests and it worked
 };
 	
 void LivingPlant::update(){
@@ -194,6 +197,8 @@ void LivingPlant::addAttribute(PlantComponent *attribute){
     // what is the structure here for the decorator object
     // in decorator elements are added to the end of the list until a null...
     // please confirm.
+
+    //this is specific to the builder. I am double checking if this simple solution works with Marcel, but this has nothing to do with the actual chain.
 };
 
 
