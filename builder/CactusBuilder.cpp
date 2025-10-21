@@ -40,6 +40,7 @@ LivingPlant* CactusBuilder::getResult() {
 
 void CactusBuilder::addDecorators() {
     // if (plant) {
+    //     plant->addAttribute(new Summer(plant));
     //     plant->addAttribute(new SmallFlowers(plant));
     //     plant->addAttribute(new LargeStem(plant));
     //     plant->addAttribute(new Thorns(plant));

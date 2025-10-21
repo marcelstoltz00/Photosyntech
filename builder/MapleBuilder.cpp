@@ -37,10 +37,11 @@ LivingPlant* MapleBuilder::getResult() {
     return plant;
 }
 void MapleBuilder::addDecorators() {
-// if (plant) {
-//         plant->addAttribute(new LargeLeaf(plant));
-//         plant->addAttribute(new LargeStem(plant));   
-//     }
+    // if (plant) {
+    //     plant->addAttribute(new Autumn(plant));
+    //     plant->addAttribute(new LargeLeaf(plant));
+    //     plant->addAttribute(new LargeStem(plant));
+    // }
 
 }
 

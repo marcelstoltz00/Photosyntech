@@ -38,11 +38,12 @@ LivingPlant* JadePlantBuilder::getResult() {
     return plant;
 }
 void JadePlantBuilder::addDecorators() {
-// if (plant) {
-//         plant->addAttribute(new SmallFlowers(plant));
-//         plant->addAttribute(new SmallLeaf(plant));
-//         plant->addAttribute(new LargeStem(plant));
-//     }
+    // if (plant) {
+    //     plant->addAttribute(new  Winter(plant));
+    //     plant->addAttribute(new SmallFlowers(plant));
+    //     plant->addAttribute(new SmallLeaf(plant));
+    //     plant->addAttribute(new LargeStem(plant));
+    // }
 
 }
 

@@ -6,50 +6,65 @@
 #include "../decorator/plantDecorator/LargeStem.h"
 #include "../state/Seed.h"
 
-PineBuilder::PineBuilder() : plant(nullptr) {
+PineBuilder::PineBuilder() : plant(nullptr)
+{
 }
 
-void PineBuilder::createObject() {
-    if (!plant) {
+void PineBuilder::createObject()
+{
+    if (!plant)
+    {
         plant = new Tree();
     }
 }
 
-void PineBuilder::assignWaterStrategy() {
-    if (plant) {
+void PineBuilder::assignWaterStrategy()
+{
+    if (plant)
+    {
         plant->setWaterStrategy(LowWater::getID());
     }
 }
 
-void PineBuilder::assignSunStrategy() {
-    if (plant) {
+void PineBuilder::assignSunStrategy()
+{
+    if (plant)
+    {
         plant->setSunStrategy(HighSun::getID());
     }
 }
 
-void PineBuilder::assignMaturityState() {
-    if (plant) {
+void PineBuilder::assignMaturityState()
+{
+    if (plant)
+    {
         plant->setMaturity(Seed::getID());
     }
 }
 
-LivingPlant* PineBuilder::getResult() {
+LivingPlant *PineBuilder::getResult()
+{
     return plant;
 }
 
-void PineBuilder::addDecorators() {
-//  if (plant) {
-//         plant->addAttribute(new SmallLeaf(plant));
-//         plant->addAttribute(new LargeStem(plant));   
-//     }
+void PineBuilder::addDecorators()
+{
+    //  if (plant) {
+    //     plant->addAttribute(new  Winter(plant));
+    //         plant->addAttribute(new SmallLeaf(plant));
+    //         plant->addAttribute(new LargeStem(plant));
+    //     }
 }
-void PineBuilder::setUp() {
-    if (plant) {
-        plant->setHealth(100);  
-        plant->setWaterLevel(40);   
-        plant->setSunExposure(80);    
+void PineBuilder::setUp()
+{
+    if (plant)
+    {
+        plant->setHealth(100);
+        plant->setWaterLevel(40);
+        plant->setSunExposure(80);
     }
 }
 
-PineBuilder::~PineBuilder() {
+PineBuilder::~PineBuilder()
+{
 }

@@ -39,45 +39,50 @@
  */
 class Builder
 {
-	private:
-		LivingPlant* Plant = nullptr;
+private:
+	LivingPlant *Plant = nullptr;
 
-	public:
-		/**
-		 * @brief Creates a new LivingPlant object of the specific type.
-		 */
-		virtual void createObject() = 0;
+public:
+	/**
+	 * @brief Creates a new LivingPlant object of the specific type.
+	 */
+	virtual void createObject() = 0;
 
-		/**
-		 * @brief Assigns the appropriate water strategy to the LivingPlant.
-		 */
-		virtual void assignWaterStrategy() = 0;
+	/**
+	 * @brief Assigns the appropriate water strategy to the LivingPlant.
+	 */
+	virtual void assignWaterStrategy() = 0;
 
-		/**
-		 * @brief Assigns the appropriate sun strategy to the LivingPlant.
-		 */
-		virtual void assignSunStrategy() = 0;
+	/**
+	 * @brief Assigns the appropriate sun strategy to the LivingPlant.
+	 */
+	virtual void assignSunStrategy() = 0;
 
-		/**
-		 * @brief Assigns the initial maturity state to the LivingPlant.
-		 */
-		virtual void assignMaturityState() = 0;
+	/**
+	 * @brief Assigns the initial maturity state to the LivingPlant.
+	 */
+	virtual void assignMaturityState() = 0;
 
-		/**
-		 * @brief Adds decorators to the LivingPlant.
-		 */
-		virtual void addDecorators() = 0;
+	/**
+	 * @brief Adds decorators to the LivingPlant.
+	 */
+	virtual void addDecorators() = 0;
 
-		/**
-		 * @brief Returns the fully constructed LivingPlant object.
-		 * @return Pointer to the constructed LivingPlant object.
-		 */
-		virtual LivingPlant* getResult() = 0;
+	/**
+	 * @brief Sets up the initial health, water, and sun levels for the living plant.
+	 */
+	virtual void setUp() = 0;
 
-		/**
-		 * @brief Virtual destructor for the Builder class.
-		 */
-		virtual ~Builder() = default;
+	/**
+	 * @brief Returns the fully constructed LivingPlant object.
+	 * @return Pointer to the constructed LivingPlant object.
+	 */
+	virtual LivingPlant *getResult() = 0;
+
+	/**
+	 * @brief Virtual destructor for the Builder class.
+	 */
+	virtual ~Builder() = default;
 };
 
 #endif

@@ -40,6 +40,7 @@ LivingPlant* CherryBlossomBuilder::getResult() {
 
 void CherryBlossomBuilder::addDecorators(){
 //  if (plant) {
+  //     plant->addAttribute(new Spring(plant));
 //         plant->addAttribute(new LargeFlowers(plant));
 //         plant->addAttribute(new SmallLeaf(plant));
 //         plant->addAttribute(new LargeStem(plant));

@@ -39,11 +39,12 @@ LivingPlant* SunflowerBuilder::getResult() {
 }
 
 void SunflowerBuilder::addDecorators() {
-// if (plant) {
-//         plant->addAttribute(new LargeFlowers(plant));
-//         plant->addAttribute(new LargeLeaf(plant)); 
-//         plant->addAttribute(new LargeStem(plant));      
-//     }
+    // if (plant) {
+    //     plant->addAttribute(new Summer(plant));
+    //     plant->addAttribute(new LargeFlowers(plant));
+    //     plant->addAttribute(new LargeLeaf(plant));
+    //     plant->addAttribute(new LargeStem(plant));
+    // }
 }
 
 void SunflowerBuilder::setUp() {
