@@ -2,10 +2,10 @@
 #define Director_h
 
 #include "Builder.h"
-#include "Plant.h"
+#include "prototype/LivingPlant.h"
 
 /**
- * @brief Orchestrates the plant construction process using a Builder.
+ * @brief Orchestrates the LivingPlant construction process using a Builder.
  *
  * The Director controls the order of construction steps and ensures that all
  * necessary components are properly initialized. It uses the Builder interface
@@ -27,9 +27,9 @@ class Director
 
 		/**
 		 * @brief Retrieves the constructed plant from the builder.
-		 * @return Pointer to the fully constructed Plant object.
+		 * @return Pointer to the fully constructed LivingPlant object.
 		 */
-		Plant* getPlant();
+		LivingPlant* getPlant();
 };
 
 #endif

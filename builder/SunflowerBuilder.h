@@ -1,67 +1,64 @@
-#ifndef SunflowerBuilder_h
-#define SunflowerBuilder_h
+#ifndef SUNFLOWERBUILDER_H
+#define SUNFLOWERBUILDER_H
 
 #include "Builder.h"
 
 /**
- * @brief Concrete builder for constructing Sunflower plants.
+ * @brief Concrete builder for Sunflower plants.
  *
- * Implements the Builder interface to create Sunflower plants with specific
- * water strategies, sun strategies, and maturity states appropriate for sunflowers.
+ * Implements the Builder interface to construct Sunflower plants with specific attributes:
+ * - Base Type: Herb
+ * - Sun Strategy: HighSun
+ * - Water Strategy: MidWater
+ * - Decorators: Large Flowers, Large Leaves, Large Stem, No Thorns
  *
- * **System Role:**
- * Concrete implementation of Builder pattern for Sunflower plant species.
- * Encapsulates sunflower-specific construction including high sun requirements,
- * moderate water needs, and sunflower lifecycle characteristics.
- * Enables Director to create sunflowers with consistent configuration.
- *
- * **Pattern Role:** Concrete Builder (implements construction steps for Sunflower species)
- *
- * **Related Patterns:**
- * - Builder: Implements interface defined by abstract Builder
- * - Director: Orchestrates sunflower construction via builder methods
- * - Strategy: Assigns sunflower-appropriate high-sun and moderate-water strategies
- * - Prototype: Created sunflowers become prototypes for inventory cloning
- * - Singleton: Obtains sunflower strategies from singleton's flyweight factories
- *
- * **System Interactions:**
- * - Director calls methods in sequence to build sunflower with characteristics
- * - Sunflower strategies obtained from singleton-managed strategy factories
- * - Sunflower initialized in Seed state with high-sun requirements
- * - getResult() returns fully constructed Sunflower instance ready for inventory
- *
- * @see Builder (abstract interface)
- * @see Director (orchestrates sunflower creation)
- * @see Strategy (sunflower-specific water/sun strategies)
+ * @see Builder
+ * @see Herb
  */
 class SunflowerBuilder : public Builder
 {
-	public:
-		/**
-		 * @brief Creates a new Sunflower plant object.
-		 */
-		void createObject();
+private:
+    LivingPlant *plant;
 
-		/**
-		 * @brief Assigns the water strategy suitable for sunflowers.
-		 */
-		void assignWaterStrategy();
+public:
+    /**
+     * @brief Constructor for SunflowerBuilder.
+     */
+    SunflowerBuilder();
 
-		/**
-		 * @brief Assigns the sun strategy suitable for sunflowers.
-		 */
-		void assignSunStrategy();
+    /**
+     * @brief Creates a new Herb object as the base for the Sunflower.
+     */
+    void createObject() override;
 
-		/**
-		 * @brief Assigns the initial maturity state for the sunflower.
-		 */
-		void assignMaturityState();
+    /**
+     * @brief Assigns MidWater strategy to the Sunflower plant.
+     */
+    void assignWaterStrategy() override;
 
-		/**
-		 * @brief Returns the fully constructed plant object.
-		 * @return Pointer to the constructed Plant object.
-		 */
-		Plant* getResult();
+    /**
+     * @brief Assigns HighSun strategy to the Sunflower plant.
+     */
+    void assignSunStrategy() override;
+
+    /**
+     * @brief Assigns initial Seed state to the Sunflower plant.
+     */
+    void assignMaturityState() override;
+    /**
+     * @brief Adds decorators to the LivingPlant.
+     */
+    virtual void addDecorators() = 0;
+    /**
+     * @brief Returns the fully constructed Sunflower plant.
+     * @return Pointer to the constructed Sunflower plant.
+     */
+    LivingPlant *getResult() override;
+
+    /**
+     * @brief Destructor for SunflowerBuilder.
+     */
+    ~SunflowerBuilder();
 };
 
-#endif
+#endif // SUNFLOWERBUILDER_H
