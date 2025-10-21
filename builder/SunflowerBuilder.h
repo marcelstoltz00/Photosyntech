@@ -45,6 +45,11 @@ public:
      * @brief Assigns initial Seed state to the Sunflower plant.
      */
     void assignMaturityState() override;
+
+    /**
+     * @brief Sets up the initial health, water, and sun levels for the Sunflower plant.
+     */
+    void setUp();
     /**
      * @brief Adds decorators to the LivingPlant.
      */

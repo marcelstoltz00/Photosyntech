@@ -45,6 +45,11 @@ public:
      * @brief Assigns initial Seed state to the Maple tree.
      */
     void assignMaturityState() override;
+
+    /**
+     * @brief Sets up the initial health, water, and sun levels for the Maple tree.
+     */
+    void setUp();
     /**
      * @brief Adds decorators to the LivingPlant.
      */

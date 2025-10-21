@@ -43,6 +43,13 @@ void PineBuilder::addDecorators() {
 //         plant->addAttribute(new LargeStem(plant));   
 //     }
 }
+void PineBuilder::setUp() {
+    if (plant) {
+        plant->setHealth(100);  // Full health
+        plant->setWaterLevel(40);    // Low water requirement for pine trees
+        plant->setSunExposure(80);      // High sun requirement for pine trees
+    }
+}
 
 PineBuilder::~PineBuilder() {
 }

@@ -47,6 +47,11 @@ public:
     void assignMaturityState() override;
 
     /**
+     * @brief Sets up the initial health, water, and sun levels for the Cherry Blossom tree.
+     */
+    void setUp();
+
+    /**
      * @brief Adds decorators to the LivingPlant.
      */
     virtual void addDecorators() = 0;

@@ -46,5 +46,13 @@ void JadePlantBuilder::addDecorators() {
 
 }
 
+void JadePlantBuilder::setUp() {
+    if (plant) {
+        plant->setHealth(100);  // Full health
+        plant->setWaterLevel(30);    // Low water requirement for jade plants
+        plant->setSunExposure(60);      // Medium sun requirement for jade plants
+    }
+}
+
 JadePlantBuilder::~JadePlantBuilder() {
 }

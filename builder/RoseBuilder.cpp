@@ -49,6 +49,13 @@ void RoseBuilder::addDecorators() {
 //     }
 
 }
+void RoseBuilder::setUp() {
+    if (plant) {
+        plant->setHealth(100);  // Full health
+        plant->setWaterLevel(60);    // Medium water requirement for roses
+        plant->setSunExposure(60);      // Medium sun requirement for roses
+    }
+}
 
 RoseBuilder::~RoseBuilder() {
 }

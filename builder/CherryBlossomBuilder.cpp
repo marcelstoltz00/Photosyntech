@@ -44,7 +44,14 @@ void CherryBlossomBuilder::addDecorators(){
 //         plant->addAttribute(new SmallLeaf(plant));
 //         plant->addAttribute(new LargeStem(plant));
 //     }
+}
 
+void CherryBlossomBuilder::setUp() {
+    if (plant) {
+        plant->setHealth(100);  // Full health
+        plant->setWaterLevel(60);    // Medium water requirement for cherry blossom
+        plant->setSunExposure(60);      // Medium sun requirement for cherry blossom
+    }
 }
 
 CherryBlossomBuilder::~CherryBlossomBuilder() {
