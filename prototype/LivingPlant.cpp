@@ -145,16 +145,18 @@ void LivingPlant::water(){
 
 void LivingPlant::affectWater(){
     waterLevel -= affectWaterValue;
+    // cant really be done in here since you need the value from the decorator. 
 };
 
 void LivingPlant::affectSunlight(){
     sunExposure -= affectSunValue;
+        // cant really be done in here since you need the value from the decorator. 
 };
 	
 void LivingPlant::update(){
     affectWater();
     affectSunlight();
-
+    
 };
 
 void LivingPlant::setOutside(){
@@ -177,6 +179,9 @@ int LivingPlant::getWaterLevel(){
 void LivingPlant::addAttribute(PlantComponent *attribute){
     //stub 
     decorator = attribute;
+    // what is the structure here for the decorator object
+    // in decorator elements are added to the end of the list until a null...
+    // please confirm.
 };
 
 
