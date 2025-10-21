@@ -53,15 +53,27 @@ void LivingPlant::setSunExposure(int sunExposure){
 };
 
 void LivingPlant::setWaterStrategy(int strategy){
-    //waiting on wilmar's final implementation for flyweight
+    Inventory* inv = Inventory::getInstance();
+
+    Flyweight<WaterStrategy *>* newStrategy = inv->getWaterFly(strategy);
+
+    this->waterStrategy = newStrategy;
 };
 
 void LivingPlant::setSunStrategy(int strategy){
-    //waiting on wilmar's final implementation for flyweight
+    Inventory* inv = Inventory::getInstance();
+
+    Flyweight<SunStrategy *>* newStrategy = inv->getSunFly(strategy);
+
+    this->sunStrategy = newStrategy;
 };
 
 void LivingPlant::setMaturity(int state){
-    //waiting on wilmar's final implementation for flyweight
+    Inventory* inv = Inventory::getInstance();
+
+    Flyweight<MaturityState *>* newState = inv->getStates(state);
+
+    this->maturityState = newState;
 };
 
 void LivingPlant::setSeason(Flyweight<std::string*>* season){

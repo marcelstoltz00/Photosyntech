@@ -13,9 +13,7 @@ PlantAttributes::PlantAttributes(const PlantAttributes &other)
     : PlantComponent(other), 
       nextComponent(other.nextComponent->clone()), 
       name(other.name)
-{
-    this->nextComponent = (other.nextComponent) ? other.nextComponent->clone() : nullptr;
-};
+{};
 
 void PlantAttributes::affectSunlight(){
     if (nextComponent) 
