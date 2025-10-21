@@ -9,7 +9,7 @@
 #include "prototype/Tree.h"
 #include "state/Seed.h"
 
-TEST_CASE("Overall Testing of flyweight strings")
+TEST_CASE("Overall Testing of flyweight strings + error handling")
 {
     FlyweightFactory<int, string *> *fac = new FlyweightFactory<int, string *>();
 
@@ -22,6 +22,16 @@ TEST_CASE("Overall Testing of flyweight strings")
     CHECK(*fac->getFlyweight(1)->getState() == "Insert2");
 
     CHECK(*fac->getFlyweight(0)->getState() == "Insert1");
+
+    try
+    {
+        fac->getFlyweight(5);
+    }
+    catch (const char *e)
+    {
+        std::cerr << e << '\n';
+    }
+
     delete fac;
 }
 TEST_CASE("Overall Testing of flyweight water strategies")
@@ -52,7 +62,8 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
         Inventory::getInstance()->getStates(Seed::getID())->getState()->grow(plant);
     };
     CHECK(plant->getAge() == 7);
-    
+
+    CHECK(Inventory::getInstance()->getWaterFly(5000)->getState()->water(plant) == 10);
 
     delete inv;
     delete plant;
