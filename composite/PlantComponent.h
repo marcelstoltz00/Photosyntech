@@ -85,28 +85,6 @@ public:
 	virtual ComponentType getType() const = 0;
 
 	/**
-	 * @brief Gets direct access to the internal plants list (PlantGroup only).
-	 *
-	 * Enables iterators to recursively traverse plant hierarchies without
-	 * needing friend access to private members. Returns nullptr for all
-	 * components except PlantGroup.
-	 *
-	 * @return Pointer to the list of PlantComponent pointers, or nullptr if not a PlantGroup.
-	 */
-	virtual std::list<PlantComponent*>* getPlants() = 0;
-
-	/**
-	 * @brief Gets the season associated with this component.
-	 *
-	 * For LivingPlant: Returns the plant's assigned season.
-	 * For PlantGroup: Returns nullptr (groups don't have seasons).
-	 * For Decorators: Returns nullptr (decorators don't have seasons).
-	 *
-	 * @return Flyweight pointer to the season string, or nullptr.
-	 */
-	virtual Flyweight<std::string*>* getSeason() = 0;
-
-	/**
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
 	virtual ~PlantComponent() {}

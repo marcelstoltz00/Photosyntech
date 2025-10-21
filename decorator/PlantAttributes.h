@@ -97,27 +97,6 @@ class PlantAttributes : public PlantComponent
 			return ComponentType::PLANT_COMPONENT;
 		}
 
-		/**
-		 * @brief Gets the internal plants list (not applicable for decorators).
-		 *
-		 * Decorators do not contain plant collections.
-		 *
-		 * @return nullptr (only PlantGroup returns a valid list)
-		 */
-		std::list<PlantComponent*>* getPlants() override {
-			return nullptr;
-		}
-
-		/**
-		 * @brief Gets the season associated with this decorator.
-		 *
-		 * Decorators don't have their own season, so this returns nullptr.
-		 *
-		 * @return nullptr (only LivingPlant returns a valid season)
-		 */
-		Flyweight<std::string*>* getSeason() override {
-			return nullptr;
-		}
 
 		/**
 		 * @brief Virtual destructor for proper cleanup of derived classes.

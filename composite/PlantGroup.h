@@ -116,16 +116,7 @@ class PlantGroup : public PlantComponent, public Subject
 		 *
 		 * @return Pointer to the list of PlantComponent pointers.
 		 */
-		std::list<PlantComponent*>* getPlants() override;
-
-		/**
-		 * @brief Gets the season associated with this plant group.
-		 *
-		 * PlantGroups don't have their own season, so this returns nullptr.
-		 *
-		 * @return nullptr (only LivingPlant returns a valid season)
-		 */
-		Flyweight<std::string*>* getSeason() override;
+		std::list<PlantComponent*>* getPlants();
 };
 
 #endif

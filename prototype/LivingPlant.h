@@ -154,7 +154,7 @@ public:
 	 * @brief Gets the season of the plant.
 	 * @return Season of the plant.
 	 */
-	Flyweight<std::string *> *getSeason() override;
+	Flyweight<std::string *> *getSeason();
 
 	/**
 	 * @brief Gets the component type (LIVING_PLANT).
@@ -164,15 +164,6 @@ public:
 	 * @return ComponentType::LIVING_PLANT
 	 */
 	ComponentType getType() const override;
-
-	/**
-	 * @brief Gets the internal plants list (not applicable for LivingPlant).
-	 *
-	 * LivingPlant is a leaf node and does not contain other plants.
-	 *
-	 * @return nullptr (only PlantGroup returns a valid list)
-	 */
-	std::list<PlantComponent*>* getPlants() override;
 
 	/**
 	 * @brief Gets the age of the plant in months.

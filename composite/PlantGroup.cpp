@@ -41,7 +41,3 @@ std::list<PlantComponent*>* PlantGroup::getPlants(){
 ComponentType PlantGroup::getType() const {
     return ComponentType::PLANT_GROUP;
 }
-
-Flyweight<std::string*>* PlantGroup::getSeason() {
-    return nullptr;
-}
