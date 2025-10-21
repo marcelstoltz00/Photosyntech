@@ -18,7 +18,7 @@ TEST_SRC = unitTests.cpp\
 			state/Mature.cpp\
 			state/Seed.cpp\
 			state/Vegetative.cpp\
-			strategy/AlternatingSun.cpp
+			strategy/AlternatingSun.cpp\
 			prototype/LivingPlant.cpp\
 			decorator/PlantAttributes.cpp\
 			decorator/ConcreteDecorators.cpp\
