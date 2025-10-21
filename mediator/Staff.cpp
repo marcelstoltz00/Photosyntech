@@ -113,4 +113,5 @@ void Staff::getStateUpdate(LivingPlant* plant) {
     std::cout << "Staff received state update for plant: " << plant->getName()
               << " (Health: " << plant->getHealth() << ", Age: " << plant->getAge() << ")" << std::endl;
     // Optional: React to state, e.g., water or move outside depending on strategy
+    
 }

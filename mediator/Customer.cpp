@@ -64,7 +64,7 @@ void Customer::addPlant(PlantComponent* plant) {
         std::cout << "Customer: Cannot add null plant to basket" << std::endl;
         return;
     }
-    
+
     if (basket == 0) {
         basket = new PlantGroup();
         std::cout << "Customer: Created new shopping basket" << std::endl;

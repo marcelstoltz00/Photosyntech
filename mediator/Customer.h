@@ -62,6 +62,7 @@ class Customer : public User
 		 * @brief Performs a customer operation.
 		 */
 		void operation();
+
 };
 
 #endif
