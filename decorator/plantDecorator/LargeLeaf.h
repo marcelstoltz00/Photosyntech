@@ -20,11 +20,28 @@
  */
 class LargeLeaf : public PlantAttributes
 {
-	public:
-		/**
-		 * @brief Constructs a LargeLeaf decorator with predefined characteristics.
-		 */
-		LargeLeaf();
+public:
+        /**
+         * @brief Constructs a LargeLeaf decorator, wrapping the given component.
+         * @param component The PlantComponent to decorate.
+         */
+        LargeLeaf(PlantComponent* component);
+
+        /**
+         * @brief Copy constructor for cloning.
+         */
+        LargeLeaf(const LargeLeaf &other);
+
+        /**
+         * @brief Clones the decorated plant component (Prototype pattern).
+         * @return Pointer to a new LargeLeaf decorator wrapping a clone of the underlying component.
+         */
+        PlantComponent* clone();
+
+        /**
+         * @brief Virtual destructor for proper cleanup.
+         */
+        virtual ~LargeLeaf() {}
 };
 
 #endif

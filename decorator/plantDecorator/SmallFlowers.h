@@ -21,10 +21,27 @@
 class SmallFlowers : public PlantAttributes
 {
 	public:
-		/**
-		 * @brief Constructs a SmallFlowers decorator with predefined characteristics.
-		 */
-		SmallFlowers();
+        /**
+         * @brief Constructs a SmallFlowers decorator, wrapping the given component.
+         * @param component The PlantComponent to decorate.
+         */
+        SmallFlowers(PlantComponent* component);
+
+        /**
+         * @brief Copy constructor for cloning.
+         */
+        SmallFlowers(const SmallFlowers &other);
+
+        /**
+         * @brief Clones the decorated plant component (Prototype pattern).
+         * @return Pointer to a new SmallFlowers decorator wrapping a clone of the underlying component.
+         */
+        PlantComponent* clone();
+
+        /**
+         * @brief Virtual destructor for proper cleanup.
+         */
+        virtual ~SmallFlowers() {}
 };
 
 #endif

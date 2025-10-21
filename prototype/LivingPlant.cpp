@@ -138,10 +138,19 @@ void LivingPlant::water(){
         //should we add a limit to the amount we can water? And should this be MVP
     }
 }
+
+void LivingPlant::affectWater(){
+    waterLevel -= affectWaterValue;
+};
+
+void LivingPlant::affectSunlight(){
+    sunExposure -= affectSunValue;
+};
 	
 void LivingPlant::update(){
-    waterLevel -= affectWaterValue;
-    sunExposure -= affectSunValue;
+    affectWater();
+    affectSunlight();
+
 };
 
 void LivingPlant::setOutside(){

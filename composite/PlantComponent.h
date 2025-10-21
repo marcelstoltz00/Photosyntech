@@ -106,6 +106,18 @@ public:
 	virtual int getAffectWater() = 0;
 
 	/**
+	 * @brief Gets the sunlight affection value including decorator modifications.
+	 * @return Integer representing total sunlight impact.
+	 */
+	virtual void affectSunlight() = 0;
+
+	/**
+	 * @brief Gets the water affection value including decorator modifications.
+	 * @return Integer representing total water impact.
+	 */
+	virtual void affectWater() = 0;
+
+	/**
 	 * @brief Gets the price of this plant component.
 	 * @return Price in currency units.
 	 */

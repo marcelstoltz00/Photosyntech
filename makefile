@@ -18,6 +18,9 @@ TEST_SRC = unitTests.cpp\
 			state/Mature.cpp\
 			state/Seed.cpp\
 			state/Vegetative.cpp\
+			prototype/LivingPlant.cpp\
+			decorator/PlantAttributes.cpp\
+			decorator/ConcreteDecorators.cpp\
 
 SRC = $(TEST_SRC)
 OBJ := $(SRC:.cpp=.o)
