@@ -65,6 +65,8 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
 
     CHECK(Inventory::getInstance()->getWaterFly(5000)->getState()->water(plant) == 10);
 
+    CHECK(*Inventory::getInstance()->getString("Insert1")->getState() == "Insert1");
+
     delete inv;
     delete plant;
 }
