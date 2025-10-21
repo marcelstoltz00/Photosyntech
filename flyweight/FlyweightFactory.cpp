@@ -14,9 +14,10 @@ Flyweight<T> *FlyweightFactory<ID, T>::getFlyweight(ID id, T data)
     }
     else
     {
-        if (data != NULL)
-            cache[id] = new Flyweight<T>(data);
+        cache[id] = new Flyweight<T>(data);
 
+        if (data == NULL)
+            throw "Data given for flyweight is NULL";
         return cache[id];
     }
 }

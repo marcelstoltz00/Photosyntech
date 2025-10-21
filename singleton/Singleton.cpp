@@ -28,10 +28,11 @@ Inventory::Inventory()
     waterStrategies->getFlyweight(HighWater::getID(), new HighWater());
     waterStrategies->getFlyweight(AlternatingWater::getID(), new AlternatingWater());
 
-    // adding the water strategies
+    // adding the Sun strategies
     sunStrategies->getFlyweight(LowSun::getID(), new LowSun());
     sunStrategies->getFlyweight(MidSun::getID(), new MidSun());
     sunStrategies->getFlyweight(HighSun::getID(), new HighSun());
+    sunStrategies->getFlyweight(AlternatingSun::getID(), new AlternatingSun());
 
     states->getFlyweight(Seed::getID(), new Seed());
     states->getFlyweight(Vegetative::getID(), new Vegetative());
