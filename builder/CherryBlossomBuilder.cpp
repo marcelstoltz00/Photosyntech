@@ -48,9 +48,9 @@ void CherryBlossomBuilder::addDecorators(){
 
 void CherryBlossomBuilder::setUp() {
     if (plant) {
-        plant->setHealth(100);  // Full health
-        plant->setWaterLevel(60);    // Medium water requirement for cherry blossom
-        plant->setSunExposure(60);      // Medium sun requirement for cherry blossom
+        plant->setHealth(100);
+        plant->setWaterLevel(60);   
+        plant->setSunExposure(60);      
     }
 }
 

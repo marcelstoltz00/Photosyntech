@@ -48,9 +48,9 @@ void CactusBuilder::addDecorators() {
 
 void CactusBuilder::setUp() {
     if (plant) {
-        plant->setHealth(100);  // Full health
-        plant->setWaterLevel(30);    // Lower initial water for desert plant
-        plant->setSunExposure(80);      // High sun requirement for cactus
+        plant->setHealth(100);  
+        plant->setWaterLevel(30);   
+        plant->setSunExposure(80);      
     }
 }
 

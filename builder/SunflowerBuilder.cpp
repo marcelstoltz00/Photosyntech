@@ -48,9 +48,9 @@ void SunflowerBuilder::addDecorators() {
 
 void SunflowerBuilder::setUp() {
     if (plant) {
-        plant->setHealth(100);  // Full health
-        plant->setWaterLevel(60);    // Medium water requirement for sunflowers
-        plant->setSunExposure(80);      // High sun requirement for sunflowers
+        plant->setHealth(100); 
+        plant->setWaterLevel(60);   
+        plant->setSunExposure(80);      
     }
 }
 

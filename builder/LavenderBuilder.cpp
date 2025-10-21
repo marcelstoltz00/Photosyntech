@@ -49,9 +49,9 @@ void LavenderBuilder::addDecorators() {
 
 void LavenderBuilder::setUp() {
     if (plant) {
-        plant->setHealth(100);  // Full health
-        plant->setWaterLevel(40);    // Low water requirement for lavender
-        plant->setSunExposure(80);      // High sun requirement for lavender
+        plant->setHealth(100);  
+        plant->setWaterLevel(40);
+        plant->setSunExposure(80);    
     }
 }
 

@@ -46,9 +46,9 @@ void MapleBuilder::addDecorators() {
 
 void MapleBuilder::setUp() {
     if (plant) {
-        plant->setHealth(100);  // Full health
-        plant->setWaterLevel(60);    // Medium water requirement for maple trees
-        plant->setSunExposure(60);      // Medium sun requirement for maple trees
+        plant->setHealth(100); 
+        plant->setWaterLevel(60);   
+        plant->setSunExposure(60);    
     }
 }
 
