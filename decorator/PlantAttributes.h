@@ -32,6 +32,7 @@
  * - getPrice() modifies base price with decorator cost
  * - affectWater/Sunlight() modify care requirements
  * - addAttribute() chains decorators together
+ * 
  * - clone() creates deep copy including all decorators
  *
  * @see PlantComponent (wrapped component)

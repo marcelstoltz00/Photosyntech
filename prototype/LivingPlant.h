@@ -4,7 +4,7 @@
 #include <string>
 #include "../composite/PlantComponent.h"
 #include "../flyweight/Flyweight.h"
-#include "../state/MaturityState.h"
+
 #include "../strategy/WaterStrategy.h"
 #include "../strategy/SunStrategy.h"
 #include "../decorator/PlantAttributes.h"
@@ -49,13 +49,14 @@
  * @see Flyweight pattern (shared strategy/state references)
  * @see Decorator pattern (attributes wrap LivingPlant)
  */
+class MaturityState;
 class LivingPlant : public PlantComponent
 {
 protected:
 	/**
 	 * Name of the plant.
 	 */
-	Flyweight<std::string> name;
+	Flyweight<std::string *> *name;
 
 	/**
 	 * Age of the plant in months.
@@ -68,11 +69,11 @@ protected:
 	/**
 	 * Growing season for the plant.
 	 */
-	Flyweight<std::string> season;
+	Flyweight<std::string *> *season;
 
-	Flyweight<MaturityState> *maturityState;
-	Flyweight<WaterStrategy> *waterStrategy;
-	Flyweight<SunStrategy> *sunStrategy;
+	Flyweight<MaturityState *> *maturityState;
+	Flyweight<WaterStrategy *> *waterStrategy;
+	Flyweight<SunStrategy *> *sunStrategy;
 
 public:
 	/**
@@ -110,7 +111,7 @@ public:
 	 * @brief Sets the waterLevel for this plant.
 	 * @param waterLevel Integer waterLevel for the new waterLevel of the plant.
 	 */
-	void setSeason(Flyweight<std::string> season);
+	void setSeason(Flyweight<std::string *> *season);
 
 	/**
 	 * @brief Sets the season for this plant.
@@ -144,12 +145,6 @@ public:
 	void setMaturity(int state);
 
 	/**
-	 * @brief Gets the waterlevel of the plant.
-	 * @return Waterlevel of the plant.
-	 */
-	int getWaterLevel();
-
-	/**
 	 * @brief Adds a decorator attribute to this plant.
 	 * @param attribute Pointer to the PlantAttributes decorator to add.
 	 */
@@ -159,10 +154,7 @@ public:
 	 * @brief Gets the season of the plant.
 	 * @return Season of the plant.
 	 */
-	Flyweight<std::string> getSeason()
-	{
-	}
-
+	Flyweight<std::string *> *getSeason();
 	/**
 	 * @brief Gets the age of the plant in months.
 	 * @return Age in months.

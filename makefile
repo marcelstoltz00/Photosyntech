@@ -1,11 +1,23 @@
 CXX = g++
-CXXFLAGS = -std=c++11 -g --coverage -Werror=sign-compare -Werror=delete-non-virtual-dtor
+CXXFLAGS = -std=c++11 -g --coverage 
 
 # add the cpp files here that you want to compile.
 
-TEST_SRC = unitTests.cpp
-
-
+TEST_SRC = unitTests.cpp\
+			strategy/LowWater.cpp\
+			strategy/MidWater.cpp\
+			strategy/HighWater.cpp\
+			strategy/AlternatingWater.cpp\
+			strategy/LowSun.cpp\
+			strategy/MidSun.cpp\
+			strategy/HighSun.cpp\
+			singleton/Singleton.cpp\
+			prototype/LivingPlant.cpp\
+			composite/PlantComponent.cpp\
+			state/Dead.cpp\
+			state/Mature.cpp\
+			state/Seed.cpp\
+			state/Vegetative.cpp\
 
 SRC = $(TEST_SRC)
 OBJ := $(SRC:.cpp=.o)

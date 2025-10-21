@@ -1,5 +1,5 @@
 #include "Seed.h"
-#include "LivingPlant.h"
+
 #include "Vegetative.h"
 #include <algorithm>
 

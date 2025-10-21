@@ -102,3 +102,4 @@ docs/doxygen
 app 
 *.gcda
 *.gcno
+vgcore.*

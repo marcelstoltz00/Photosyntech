@@ -4,13 +4,20 @@
 using namespace std;
 #include <string>
 #include <vector>
+
 #include "../flyweight/FlyweightFactory.h"
-#include "../flyweight/Flyweight.h"
-#include "../strategy/WaterStrategy.h"
-#include "../strategy/SunStrategy.h"
-#include "../composite/PlantGroup.h"
-#include "../mediator/Customer.h"
-#include "../mediator/Staff.h"
+
+#include "../strategy/LowSun.h"
+#include "../strategy/MidSun.h"
+#include "../strategy/HighSun.h"
+
+
+// #include "../mediator/Staff.h"
+
+#include "../strategy/LowWater.h"
+#include "../strategy/MidWater.h"
+#include "../strategy/HighWater.h"
+#include "../strategy/AlternatingWater.h"
 
 /**
  * @brief Singleton class managing global inventory and flyweight factories.
@@ -49,16 +56,27 @@ using namespace std;
  * @see Facade (primary access point for singleton)
  */
 
+class Customer;
+class WaterStrategy;
+class SunStrategy;
+class MaturityState;
+class PlantGroup;
+class Staff;
+class Customer;
 class Inventory
+
+
 {
 private:
 	static Inventory *instance;
 	PlantGroup *inventory;
-	FlyweightFactory<std::string, std::string> *stringFactory;
-	FlyweightFactory<int, WaterStrategy> *waterStrategies;
-	FlyweightFactory<int, SunStrategy> *sunStrategies;
-	const vector<Staff *> *staffList;
-	const vector<Staff *> *customerList;
+	FlyweightFactory<std::string, string *> *stringFactory;
+	FlyweightFactory<int, WaterStrategy *> *waterStrategies;
+	FlyweightFactory<int, SunStrategy *> *sunStrategies;
+	FlyweightFactory<int, MaturityState *> *states;
+
+	vector<Staff *> *staffList;
+	vector<Customer *> *customerList;
 	/**
 	 * @brief Private constructor to prevent direct instantiation.
 	 */
@@ -76,27 +94,27 @@ public:
 	 * @param season Season name string.
 	 * @return Const pointer to the Flyweight wrapping the season string.
 	 */
-	const Flyweight<std::string> *getSeason(std::string season);
+	Flyweight<std::string *> *getString(std::string season);
 
 	/**
 	 * @brief Gets a flyweight for a water strategy.
 	 * @param level Integer identifier for the water strategy level.
 	 * @return Const pointer to the Flyweight wrapping the WaterStrategy.
 	 */
-	const Flyweight<WaterStrategy> *getWaterFly(int level);
+	Flyweight<WaterStrategy *> *getWaterFly(int level);
 
 	/**
 	 * @brief Gets a flyweight for a sun strategy.
 	 * @param level Integer identifier for the sun strategy level.
 	 * @return Const pointer to the Flyweight wrapping the SunStrategy.
 	 */
-	const Flyweight<SunStrategy> *getSunFly(int level);
+	Flyweight<SunStrategy *> *getSunFly(int level);
 
 	/**
 	 * @brief Gets the global plant inventory.
 	 * @return Const pointer to the PlantGroup representing the inventory.
 	 */
-	const PlantGroup *getInventory();
+	PlantGroup *getInventory();
 
 	/**
 	 * @brief Deleted copy constructor to prevent copying.
@@ -108,11 +126,15 @@ public:
 	 */
 	Inventory &operator=(const Inventory &) = delete;
 
-	const vector<const Customer *> *getCustomers();
-	const vector<const Staff *> *getStaff();
+	Flyweight<MaturityState *> *getStates(int id);
+
+	vector<Customer *> *getCustomers();
+	vector<Staff *> *getStaff();
 
 	void addCustomer(Staff *staff);
 	void addCustomer(Customer *Customer);
+
+	~Inventory();
 };
 
 #endif
