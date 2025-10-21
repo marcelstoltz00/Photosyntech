@@ -4,16 +4,14 @@
 #include "Shrub.h"
 #include "Succulent.h"
 #include "Tree.h"
-
-#include "PlantComponent.h"
-
-#include "Singleton.h";
+#include "../composite/PlantComponent.h"
+#include "../singleton/Singleton.h"
 
 LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int sunAffect)
     : PlantComponent(price, waterAffect, sunAffect), 
     //remember to change to getString() after Wilmar fixes getSeason()
-      name(*Inventory::getInstance()->getSeason("")),
-      season(*Inventory::getInstance()->getSeason("")),
+      name(Inventory::getInstance()->getString("")),
+      season(Inventory::getInstance()->getString("")),
       age(0), 
       health(0), 
       waterLevel(0), 
@@ -66,7 +64,7 @@ void LivingPlant::setMaturity(int state){
     //waiting on wilmar's final implementation for flyweight
 };
 
-void LivingPlant::setSeason(Flyweight<std::string> season){
+void LivingPlant::setSeason(Flyweight<std::string*>* season){
     this->season = season;
 }
 
@@ -86,12 +84,10 @@ int LivingPlant::getSunExposure(){
     return this->sunExposure;
 };
 
-int LivingPlant::getWaterLevel(){
-    return this->waterLevel;
-};
+
 
 std::string LivingPlant::getName(){
-    return *name.getState();
+    return *name->getState();
 };
 
 int LivingPlant::getAffectSunlight(){
@@ -107,7 +103,7 @@ double LivingPlant::getPrice(){
 };
 
 std::string LivingPlant::getInfo(){
-    std::string plantName = *name.getState();
+    std::string plantName = *name->getState();
     std::string baseInfo;
 
     baseInfo += "Name: " + plantName + "\n";
@@ -124,7 +120,7 @@ std::string LivingPlant::getInfo(){
     return baseInfo;
 };
 
-Flyweight<std::string> LivingPlant::getSeason(){
+Flyweight<std::string*> *LivingPlant::getSeason(){
     return this->season;
 }
 
@@ -157,6 +153,10 @@ void LivingPlant::setOutside(){
         //should we add a limit to the amount we can leave plants outside? And should this be MVP
     }
 }
+
+int LivingPlant::getWaterLevel(){
+    return this->waterLevel;
+};
 
 
 Herb::Herb()
@@ -203,7 +203,7 @@ Tree::Tree()
 {};
 
 Tree::Tree(const Tree& other) 
-    : Tree(other) 
+    : LivingPlant(other) 
 {};
 
 PlantComponent* Tree::clone(){

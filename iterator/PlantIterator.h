@@ -3,24 +3,27 @@
 
 #include "Iterator.h"
 #include "../prototype/LivingPlant.h"
+#include "../composite/PlantComponent.h"
+#include "../composite/PlantGroup.h"
 
 /**
  * @brief Concrete iterator for unfiltered plant traversal.
  *
  * Iterates through all plants in a collection without applying any filters.
- * Provides sequential access to the entire plant inventory.
+ * Handles nested hierarchies by recursively descending into PlantGroups
+ * to find all LivingPlants. Provides sequential access to the entire plant inventory.
  *
  * **System Role:**
  * Default iterator providing complete inventory traversal. Used by browse commands
  * when no filtering is requested. Enables systematic access to all plants regardless
  * of season, type, or other attributes. Foundation for other filtered iterators.
  *
- * **Pattern Role:** Concrete Iterator (implements complete traversal)
+ * **Pattern Role:** Concrete Iterator (implements complete traversal with composite support)
  *
  * **Related Patterns:**
  * - Iterator: Implements abstract traversal interface
  * - Aggregate: Created by AggPlant aggregate factory
- * - Composite: Traverses PlantComponent hierarchies
+ * - Composite: Handles nested PlantGroup hierarchies
  * - Command: BrowsePlantsCommand uses for full inventory display
  *
  * **System Interactions:**
@@ -34,9 +37,22 @@
  * @see Iterator (abstract interface)
  * @see AggPlant (creates this iterator)
  */
+class AggPlant;
+
 class PlantIterator : public Iterator
 {
 	public:
+		/**
+		 * @brief Constructor that initializes the iterator with an aggregate.
+		 * @param aggregate Pointer to the AggPlant aggregate managing the collection.
+		 */
+		PlantIterator(AggPlant* aggregate);
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		 */
+		virtual ~PlantIterator() {}
+
 		/**
 		 * @brief Positions the iterator at the first plant.
 		 */
@@ -58,6 +74,20 @@ class PlantIterator : public Iterator
 		 * @return Pointer to the current LivingPlant.
 		 */
 		LivingPlant* currentItem();
+
+	private:
+		/**
+		 * @brief Cached pointer to the current plant, or nullptr if not found.
+		 */
+		LivingPlant* currentPlant;
+
+		/**
+		 * @brief Recursively searches for the next plant in the hierarchy.
+		 * @param plants Pointer to the plant collection to search.
+		 * @param findFirst If true, returns the first plant; if false, returns the plant after currentPlant.
+		 * @return Pointer to next LivingPlant, or nullptr if none found.
+		 */
+		LivingPlant* findNextMatch(std::list<PlantComponent*>* plants, bool findFirst);
 };
 
 #endif

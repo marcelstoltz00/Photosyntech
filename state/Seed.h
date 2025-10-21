@@ -15,6 +15,7 @@ class LivingPlant;
  * Baseline water usage: 6 units/day
  * Health gain when conditions met: +4 units/day
  */
+
 class Seed : public MaturityState {
 public:
     /**
