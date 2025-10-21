@@ -176,6 +176,7 @@ int LivingPlant::getWaterLevel(){
 
 void LivingPlant::addAttribute(PlantComponent *attribute){
     //stub 
+    decorator = attribute;
 };
 
 
