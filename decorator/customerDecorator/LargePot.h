@@ -40,7 +40,7 @@ class LargePot : public PlantAttributes
          * @brief Constructs a LargePot decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        LargePot(PlantComponent* component);
+        LargePot();
 
         /**
          * @brief Copy constructor for cloning.

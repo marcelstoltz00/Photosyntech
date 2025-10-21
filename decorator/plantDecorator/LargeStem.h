@@ -25,7 +25,7 @@ class LargeStem : public PlantAttributes
          * @brief Constructs a LargeStem decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        LargeStem(PlantComponent* component);
+        LargeStem();
 
         /**
          * @brief Copy constructor for cloning.

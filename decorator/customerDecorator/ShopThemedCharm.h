@@ -25,7 +25,7 @@ class ShopThemedCharm : public PlantAttributes
          * @brief Constructs a ShopThemedCharm decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        ShopThemedCharm(PlantComponent* component);
+        ShopThemedCharm();
 
         /**
          * @brief Copy constructor for cloning.

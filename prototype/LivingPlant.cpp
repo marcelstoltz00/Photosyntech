@@ -68,10 +68,6 @@ void LivingPlant::setSeason(Flyweight<std::string*>* season){
     this->season = season;
 }
 
-void LivingPlant::addAttribute(PlantAttributes* attribute){
-//stub since this is the ConcreteComponent
-};
-
 int LivingPlant::getAge(){
     return this->age;
 };
@@ -168,6 +164,10 @@ void LivingPlant::setOutside(){
 
 int LivingPlant::getWaterLevel(){
     return this->waterLevel;
+};
+
+void LivingPlant::addAttribute(PlantComponent *attribute){
+    //stub 
 };
 
 

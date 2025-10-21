@@ -27,7 +27,7 @@ class Winter : public PlantAttributes
          * @brief Constructs a Winter decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        Winter(PlantComponent* component);
+        Winter();
 
         /**
          * @brief Copy constructor for cloning.

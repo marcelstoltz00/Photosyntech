@@ -27,7 +27,7 @@ class Summer : public PlantAttributes
          * @brief Constructs a Summer decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        Summer(PlantComponent* component);
+        Summer();
 
         /**
          * @brief Copy constructor for cloning.

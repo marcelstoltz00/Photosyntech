@@ -42,7 +42,7 @@ class Spring : public PlantAttributes
          * @brief Constructs a Spring decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        Spring(PlantComponent* component);
+        Spring();
 
         /**
          * @brief Copy constructor for cloning.

@@ -72,3 +72,24 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
     delete inv;
     delete plant;
 }
+
+//testing decorator
+// #include <iostream>
+// #include "prototype/LivingPlant.h"
+// #include "decorator/customerDecorator/LargePot.h"
+// #include "decorator/customerDecorator/ShopThemedCharm.h"
+
+// int main() {
+//     PlantComponent* myPlant = new LargePot();
+
+//     myPlant->addAttribute(new ShopThemedCharm());
+
+//     myPlant->addAttribute(new LivingPlant("Herb", 30.00, 3, 3));
+
+//     std::cout << "Final Plant Info:\n" << myPlant->getInfo() << std::endl;
+//     std::cout << "Final Price: R" << myPlant->getPrice() << std::endl;
+    
+//     delete myPlant;
+    
+//     return 0;
+// }

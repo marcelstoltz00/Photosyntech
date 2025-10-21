@@ -29,7 +29,7 @@ class Autumn : public PlantAttributes
          * decoration details (name, price modifier, and care modifiers).
          * * @param component The PlantComponent to decorate.
          */
-        Autumn(PlantComponent* component);
+        Autumn();
 
         /**
          * @brief Copy constructor for cloning.

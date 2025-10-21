@@ -148,7 +148,7 @@ public:
 	 * @brief Adds a decorator attribute to this plant.
 	 * @param attribute Pointer to the PlantAttributes decorator to add.
 	 */
-	void addAttribute(PlantAttributes *attribute);
+	void addAttribute(PlantComponent *attribute);
 
 	/**
 	 * @brief Gets the season of the plant.

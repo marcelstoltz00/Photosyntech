@@ -127,7 +127,7 @@ public:
 	 * @brief Adds an attribute decorator to this plant component.
 	 * @param attribute Pointer to the PlantAttributes decorator to add.
 	 */
-	virtual void addAttribute(PlantAttributes *attribute) = 0;
+	virtual void addAttribute(PlantComponent *attribute) = 0;
 };
 
 #endif
