@@ -98,6 +98,34 @@ class PlantGroup : public PlantComponent, public Subject
 		 * @param attribute Pointer to the PlantAttributes decorator to add.
 		 */
 		void addAttribute(PlantAttributes* attribute);
+
+		/**
+		 * @brief Gets the component type (PLANT_GROUP).
+		 *
+		 * Enables efficient type identification without dynamic_cast.
+		 *
+		 * @return ComponentType::PLANT_GROUP
+		 */
+		ComponentType getType() const override;
+
+		/**
+		 * @brief Gets direct access to the internal plants list.
+		 *
+		 * Enables iterators to recursively traverse plant hierarchies without
+		 * needing friend access to private members.
+		 *
+		 * @return Pointer to the list of PlantComponent pointers.
+		 */
+		std::list<PlantComponent*>* getPlants() override;
+
+		/**
+		 * @brief Gets the season associated with this plant group.
+		 *
+		 * PlantGroups don't have their own season, so this returns nullptr.
+		 *
+		 * @return nullptr (only LivingPlant returns a valid season)
+		 */
+		Flyweight<std::string*>* getSeason() override;
 };
 
 #endif

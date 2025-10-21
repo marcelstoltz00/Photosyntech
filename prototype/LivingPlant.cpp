@@ -124,6 +124,14 @@ Flyweight<std::string*> *LivingPlant::getSeason(){
     return this->season;
 }
 
+ComponentType LivingPlant::getType() const {
+    return ComponentType::LIVING_PLANT;
+}
+
+std::list<PlantComponent*>* LivingPlant::getPlants() {
+    return nullptr;
+}
+
 PlantComponent* LivingPlant::clone(){
     return new LivingPlant(*this);
 };

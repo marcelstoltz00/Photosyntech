@@ -33,3 +33,15 @@ std::string PlantGroup::getInfo(){
     ss << "---------------------------------" << std::endl;
     return ss.str();
 };
+
+std::list<PlantComponent*>* PlantGroup::getPlants(){
+    return &plants;
+}
+
+ComponentType PlantGroup::getType() const {
+    return ComponentType::PLANT_GROUP;
+}
+
+Flyweight<std::string*>* PlantGroup::getSeason() {
+    return nullptr;
+}
