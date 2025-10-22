@@ -36,7 +36,7 @@ void JadePlantBuilder::assignMaturityState() {
 }
 
 PlantComponent* JadePlantBuilder::getResult() {
-    return plant->getDecorator()->clone();
+    return plant->clone();
 }
 void JadePlantBuilder::addDecorators() {
     if (plant) {

@@ -17,25 +17,26 @@
  */
 class PlantGroup : public PlantComponent, public Subject
 {
-private:
-	std::list<PlantComponent *> plants;
+	private:
+		std::list<PlantComponent*> plants;
 
-public:
-	/**
-	 * @brief Constructs a PlantGroup with 0 as attributes.
-	 */
-	PlantGroup();
+	public:
 
-	/**
-	 * @brief Copy constructor for deep copying the group hierarchy.
-	 * @param other The PlantGroup object to copy.
-	 */
-	PlantGroup(const PlantGroup &other);
+		/**
+		 * @brief Constructs a PlantGroup with 0 as attributes.
+		 */
+		PlantGroup();
 
-	/**
-	 * @brief Virtual destructor for proper cleanup.
-	 */
-	virtual ~PlantGroup();
+		/**
+         * @brief Copy constructor for deep copying the group hierarchy.
+         * @param other The PlantGroup object to copy.
+         */
+        PlantGroup(const PlantGroup& other);
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		*/
+		virtual ~PlantGroup();
 
 		/**
 		 * @brief Sets all plants in this group to be outside.
@@ -121,16 +122,31 @@ public:
 		 */
 		void addAttribute(PlantComponent* component) override;
 
-	/**
-	 * @brief Adds a component to the list of plants.
-	 * @param component Pointer to the component to add.
-	 */
-	void addComponent(PlantComponent *component);
-	virtual PlantComponent *correctShape(PlantComponent *plant)
-	{
-		throw "Plant Groups should not be in the chain";
-		return nullptr;
-	}
+		/**
+		 * @brief Adds a component to the list of plants.
+		 * @param component Pointer to the component to add.
+		 */
+		void addAttribute(PlantAttributes* attribute);
+
+		/**
+		 * @brief Gets the component type (PLANT_GROUP).
+		 *
+		 * Enables efficient type identification without dynamic_cast.
+		 *
+		 * @return ComponentType::PLANT_GROUP
+		 */
+		ComponentType getType() const override;
+
+		/**
+		 * @brief Gets direct access to the internal plants list.
+		 *
+		 * Enables iterators to recursively traverse plant hierarchies without
+		 * needing friend access to private members.
+		 *
+		 * @return Pointer to the list of PlantComponent pointers.
+		 */
+		std::list<PlantComponent*>* getPlants();
+		void addComponent(PlantComponent* component);
 };
 
 #endif
