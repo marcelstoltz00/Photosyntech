@@ -8,19 +8,21 @@
 #include "../singleton/Singleton.h"
 
 LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int sunAffect)
-    : PlantComponent(price, waterAffect, sunAffect),
-      // remember to change to getString() after Wilmar fixes getSeason()
-      name(Inventory::getInstance()->getString("")),
-      season(Inventory::getInstance()->getString("")),
-      age(0),
-      health(0),
-      waterLevel(0),
-      sunExposure(0),
-      maturityState(nullptr),
-      waterStrategy(nullptr),
-      sunStrategy(nullptr),
-      decorator(nullptr) {};
-    
+    : PlantComponent(price, waterAffect, sunAffect),  age(0),
+        health(0),
+        waterLevel(0),
+        sunExposure(0),
+        maturityState(nullptr),
+        waterStrategy(nullptr),
+        sunStrategy(nullptr),
+        decorator(nullptr)
+{
+    // remember to change to getString() after Wilmar fixes getSeason()
+    this->name = Inventory::getInstance()->getString("");
+
+    this->season= (Inventory::getInstance()->getString(""));
+      
+};
 
 LivingPlant::LivingPlant(const LivingPlant &other)
     : PlantComponent(other),
@@ -117,7 +119,7 @@ double LivingPlant::getPrice()
 std::string LivingPlant::getInfo()
 {
     std::string plantName = *name->getState();
-    std::string baseInfo ="";
+    std::string baseInfo = "";
 
     baseInfo += "Name: " + plantName + "\n";
     baseInfo += "Health: " + std::to_string(health) + "\n";
@@ -155,7 +157,6 @@ void LivingPlant::water()
 int LivingPlant::affectWater()
 {
     return affectWaterValue;
-
 };
 
 int LivingPlant::affectSunlight()

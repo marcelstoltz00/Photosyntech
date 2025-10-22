@@ -70,6 +70,7 @@ Inventory::~Inventory()
     }
     delete staffList;
     delete customerList;
+    instance = NULL;
 }
 Inventory *Inventory::getInstance()
 {
