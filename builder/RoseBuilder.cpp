@@ -42,7 +42,9 @@ PlantComponent* RoseBuilder::getResult() {
 
 void RoseBuilder::addDecorators() {
     if (plant) {
-        plant->addAttribute(new Spring());
+          PlantComponent *season = new Spring();
+        plant->setSeason(Inventory::getInstance()->getString(season->getName()));
+        plant->addAttribute(season);
         plant->addAttribute(new LargeFlowers());
         plant->addAttribute(new SmallLeaf());
         plant->addAttribute(new LargeStem());
@@ -58,4 +60,9 @@ void RoseBuilder::setUp() {
 }
 
 RoseBuilder::~RoseBuilder() {
+     if (plant)
+    {
+         delete plant->getDecorator();
+        plant = nullptr;
+    }
 }

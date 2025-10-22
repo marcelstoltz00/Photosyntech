@@ -70,6 +70,7 @@ Inventory::~Inventory()
     }
     delete staffList;
     delete customerList;
+    instance = NULL;
 }
 Inventory *Inventory::getInstance()
 {
@@ -89,7 +90,6 @@ Flyweight<std::string *> *Inventory::getString(std::string str)
     {
         delete flyweightData;
     }
-
     return fly;
 }
 Flyweight<WaterStrategy *> *Inventory::getWaterFly(int id)

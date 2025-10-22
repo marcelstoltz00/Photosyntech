@@ -11,6 +11,7 @@ void Director::construct() {
     builder->assignSunStrategy();
     builder->assignMaturityState();
     builder->addDecorators();
+    builder->setUp();
 }
 PlantComponent* Director::getPlant() {
     if (!builder) {

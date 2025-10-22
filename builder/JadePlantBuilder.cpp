@@ -40,7 +40,10 @@ PlantComponent* JadePlantBuilder::getResult() {
 }
 void JadePlantBuilder::addDecorators() {
     if (plant) {
-        plant->addAttribute(new Winter());
+             PlantComponent *season = new Winter();
+        plant->setSeason(Inventory::getInstance()->getString(season->getName()));
+        plant->addAttribute(season);
+    
         plant->addAttribute(new SmallFlowers());
         plant->addAttribute(new SmallLeaf());
         plant->addAttribute(new LargeStem());
@@ -56,4 +59,9 @@ void JadePlantBuilder::setUp() {
 }
 
 JadePlantBuilder::~JadePlantBuilder() {
+     if (plant)
+    {
+   delete plant->getDecorator();
+        plant = nullptr;
+    }
 }

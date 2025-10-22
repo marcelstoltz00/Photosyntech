@@ -39,7 +39,9 @@ PlantComponent* MapleBuilder::getResult() {
 }
 void MapleBuilder::addDecorators() {
     if (plant) {
-        plant->addAttribute(new Autumn());
+        PlantComponent *season = new Autumn();
+        plant->setSeason(Inventory::getInstance()->getString(season->getName()));
+        plant->addAttribute(season);
         plant->addAttribute(new LargeLeaf());
         plant->addAttribute(new LargeStem());
     }
@@ -54,4 +56,9 @@ void MapleBuilder::setUp() {
 }
 
 MapleBuilder::~MapleBuilder() {
+     if (plant)
+    {
+        delete plant->getDecorator();
+        plant = nullptr;
+    }
 }

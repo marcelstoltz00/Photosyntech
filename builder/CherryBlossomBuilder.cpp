@@ -41,7 +41,10 @@ PlantComponent* CherryBlossomBuilder::getResult() {
 
 void CherryBlossomBuilder::addDecorators() {
     if (plant) {
-        plant->addAttribute(new Spring());
+        PlantComponent *season = new Spring();
+        plant->setSeason(Inventory::getInstance()->getString(season->getName()));
+        plant->addAttribute(season);
+
         plant->addAttribute(new LargeFlowers());
         plant->addAttribute(new SmallLeaf());
         plant->addAttribute(new LargeStem());
@@ -57,4 +60,9 @@ void CherryBlossomBuilder::setUp() {
 }
 
 CherryBlossomBuilder::~CherryBlossomBuilder() {
+     if (plant)
+    {
+        delete plant->getDecorator();
+        plant = nullptr;
+    }
 }
