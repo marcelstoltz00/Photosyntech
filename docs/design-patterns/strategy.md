@@ -53,12 +53,3 @@ The Strategy pattern was chosen because:
 6. **Optimization**: Strategy sharing via flyweight critical for memory efficiency
 7. **Direct State Management**: Strategies can directly manipulate plant attributes
 
-## Extension Points
-
-**Adding New Care Strategies:**
-1. **Water Strategies**: Create class inheriting from `WaterStrategy` in `strategy/` directory
-2. **Sun Strategies**: Create class inheriting from `SunStrategy` in `strategy/` directory
-3. Implement `water(LivingPlant* plant)` or `addSun(LivingPlant* plant)` directly modifying the plant and returning care amount/intensity
-4. Implement `getID()` for flyweight factory identification
-5. Path: `strategy/VeryHighWater.h` or `strategy/VeryHighSun.h`
-6. Register new strategy ID in singleton's flyweight factory
