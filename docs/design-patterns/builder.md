@@ -46,18 +46,3 @@ The Builder pattern was chosen for plant creation because:
 2. **Flexibility**: Different plant species follow same construction sequence but with different strategy assignments
 3. **Separation of Concerns**: Construction logic isolated from plant classes, enabling independent evolution
 4. **Extensibility**: New plant species require only new builder classes, not modifications to existing plant code
-
-## Extension Points
-
-**Adding New Plant Species:**
-1. Create `NewPlantBuilder` class inheriting from `Builder`
-2. Define the plant's base type (Tree, Herb, Shrub, or Succulent)
-3. Specify appropriate sun and water strategies (Low/Mid/High)
-4. Configure decorators:
-   - Flower size (Large/Small/No Flowers)
-   - Leaf size (Large/Small/No Leaves)
-   - Stem size (Large/Medium/Small)
-   - Thorns presence
-5. Add the plant specifications to `PlantLayouts.md` under the appropriate season
-6. Create both header (.h) and implementation (.cpp) files in the `builder/` directory
-7. Update the Director class to support the new builder if needed
