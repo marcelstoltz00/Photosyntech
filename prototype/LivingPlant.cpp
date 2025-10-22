@@ -136,8 +136,11 @@ Flyweight<std::string *> *LivingPlant::getSeason()
     return this->season;
 }
 
-PlantComponent *LivingPlant::clone()
-{
+ComponentType LivingPlant::getType() const {
+    return ComponentType::LIVING_PLANT;
+}
+
+PlantComponent* LivingPlant::clone(){
     return new LivingPlant(*this);
 };
 
@@ -243,10 +246,4 @@ PlantComponent *Tree::clone()
 PlantComponent *LivingPlant::getDecorator()
 {
     return this->decorator;
-}
-PlantComponent *LivingPlant::correctShape(PlantComponent *mainDecorator)
-{
-
-    this->decorator = mainDecorator;
-    return this;
 }
