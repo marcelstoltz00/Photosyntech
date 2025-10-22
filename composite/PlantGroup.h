@@ -126,7 +126,7 @@ class PlantGroup : public PlantComponent, public Subject
 		 * @brief Adds a component to the list of plants.
 		 * @param component Pointer to the component to add.
 		 */
-		void PlantGroup::addComponent(PlantComponent* component);
+		void addComponent(PlantComponent* component);
 };
 
 #endif

@@ -22,6 +22,7 @@ TEST_SRC = unitTests.cpp\
             decorator/PlantAttributes.cpp\
             decorator/ConcreteDecorators.cpp\
 			strategy/AlternatingSun.cpp\
+			composite/PlantGroup.cpp\
 
 SRC = $(TEST_SRC)
 OBJ := $(SRC:.cpp=.o)
