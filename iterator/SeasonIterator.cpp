@@ -70,7 +70,8 @@ void SeasonIterator::advanceToNextPlant()
 		if (type == ComponentType::LIVING_PLANT) {
 			LivingPlant* plant = static_cast<LivingPlant*>(component);
 
-			// Check season match using static_cast access
+			// Check season match using direct Flyweight pointer comparison
+			// Flyweight pattern ensures same season strings share same pointer
 			if (plant->getSeason() == seasonAgg->targetSeason) {
 				currentPlant = plant;
 				return;

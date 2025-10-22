@@ -4,7 +4,9 @@
 #include "Aggregate.h"
 #include "SeasonIterator.h"
 #include <list>
+#include <string>
 #include "../composite/PlantComponent.h"
+#include "../flyweight/Flyweight.h"
 
 /**
  * @brief Generic concrete aggregate for creating season-filtered plant iterators.
@@ -42,17 +44,26 @@ class AggSeason : public Aggregate
 
 	private:
 		/**
-		 * @brief The target season for filtering (e.g., "Spring", "Summer", "Autumn", "Winter").
+		 * @brief The target season for filtering as a Flyweight pointer.
+		 * Shared across all instances filtering the same season for memory efficiency.
 		 */
-		std::string targetSeason;
+		Flyweight<std::string*>* targetSeason;
 
 	public:
 		/**
-		 * @brief Constructor that initializes the aggregate with a plant collection and target season.
+		 * @brief Constructor that initializes the aggregate with a plant collection and target season string.
+		 * Converts the season string to a Flyweight internally.
 		 * @param plants Pointer to the list of PlantComponents to manage.
-		 * @param season The target season for filtering.
+		 * @param season The target season string for filtering (e.g., "Spring", "Summer", "Autumn", "Winter").
 		 */
 		AggSeason(std::list<PlantComponent*>* plants, const std::string& season);
+
+		/**
+		 * @brief Constructor that initializes the aggregate with a plant collection and Flyweight season.
+		 * @param plants Pointer to the list of PlantComponents to manage.
+		 * @param season Flyweight pointer to the target season for filtering.
+		 */
+		AggSeason(std::list<PlantComponent*>* plants, Flyweight<std::string*>* season);
 
 		/**
 		 * @brief Creates a season-filtered iterator for this aggregate's plant collection.
