@@ -136,6 +136,7 @@ class PlantAttributes : public PlantComponent
 		 * @brief Virtual destructor for proper cleanup of derived classes.
 		 */
 		virtual ~PlantAttributes() {
+			if (nextComponent)
 			delete nextComponent;
 		}
 

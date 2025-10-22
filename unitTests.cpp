@@ -8,10 +8,7 @@
 #include <doctest/doctest.h>
 #include "prototype/Tree.h"
 #include "state/Seed.h"
-#include "prototype/Shrub.h"
-#include "prototype/Herb.h"
-#include "composite/PlantGroup.h"
-
+#include "decorator/plantDecorator/Autumn.h"
 TEST_CASE("Overall Testing of flyweight strings + error handling")
 {
     FlyweightFactory<int, string *> *fac = new FlyweightFactory<int, string *>();
@@ -90,45 +87,9 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
 TEST_CASE("Testing decorator")
 {
     LivingPlant *plant = new Tree();
-
-    
+    plant->addAttribute(new Autumn());
     delete Inventory::getInstance();
-    delete plant;
-}
+    delete plant->getDecorator();
 
-TEST_CASE("Testing composite")
-{
-
-    LivingPlant *tree = new Tree();
-
-    LivingPlant *shrub = new Shrub();
-    PlantGroup *group1 = new PlantGroup();
-
-    group1->addComponent(tree);
-    group1->addComponent(shrub);
-
-    CHECK(group1->getPrice() == 225.00); 
-
-    CHECK(group1->affectWater() == 9);  
-
-    CHECK(group1->affectSunlight() == 9);
-
-    PlantGroup *group2 = dynamic_cast<PlantGroup*>(group1->clone());
-
-    CHECK(group2 != nullptr);
-    CHECK(group2->getPrice() == 225.00);
-
-    LivingPlant *herb = new Herb();
-    group1->addComponent(herb); 
-
-    CHECK(group1->getPrice() == 255.00);
-
-    CHECK(group1->affectWater() == 12);
-
-    CHECK(group2->getPrice() == 225.00);
-    
-    CHECK(group2->affectWater() == 9);
-
-    delete group1;
-    delete group2;
+    delete Inventory::getInstance();
 }

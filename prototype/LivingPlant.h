@@ -242,7 +242,7 @@ public:
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
 	virtual PlantComponent *getDecorator();
-	virtual ~LivingPlant() {}
+	virtual ~LivingPlant() {cout<<"I was deleted"<<endl;}
 };
 
 #endif

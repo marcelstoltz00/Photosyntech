@@ -192,7 +192,10 @@ void LivingPlant::addAttribute(PlantComponent *attribute)
         this->decorator->addAttribute(attribute);
     }
     else
+    {
         this->decorator = attribute;
+        attribute->addAttribute(this);
+    }
 }
 
 Herb::Herb()
