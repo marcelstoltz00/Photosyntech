@@ -80,4 +80,9 @@ void CactusBuilder::setUp()
 
 CactusBuilder::~CactusBuilder()
 {
+    if (plant)
+    {
+        delete plant;
+        plant = nullptr;
+    }
 }

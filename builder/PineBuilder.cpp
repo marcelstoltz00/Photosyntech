@@ -69,4 +69,9 @@ void PineBuilder::setUp()
 
 PineBuilder::~PineBuilder()
 {
+     if (plant)
+    {
+        delete plant;
+        plant = nullptr;
+    }
 }

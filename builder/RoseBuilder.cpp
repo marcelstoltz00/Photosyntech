@@ -60,4 +60,9 @@ void RoseBuilder::setUp() {
 }
 
 RoseBuilder::~RoseBuilder() {
+     if (plant)
+    {
+        delete plant;
+        plant = nullptr;
+    }
 }

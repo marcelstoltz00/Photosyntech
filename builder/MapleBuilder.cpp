@@ -56,4 +56,9 @@ void MapleBuilder::setUp() {
 }
 
 MapleBuilder::~MapleBuilder() {
+     if (plant)
+    {
+        delete plant;
+        plant = nullptr;
+    }
 }

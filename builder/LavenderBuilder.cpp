@@ -60,4 +60,9 @@ void LavenderBuilder::setUp() {
 }
 
 LavenderBuilder::~LavenderBuilder() {
+     if (plant)
+    {
+        delete plant;
+        plant = nullptr;
+    }
 }

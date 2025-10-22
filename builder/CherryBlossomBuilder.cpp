@@ -60,4 +60,9 @@ void CherryBlossomBuilder::setUp() {
 }
 
 CherryBlossomBuilder::~CherryBlossomBuilder() {
+     if (plant)
+    {
+        delete plant;
+        plant = nullptr;
+    }
 }

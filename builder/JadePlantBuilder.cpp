@@ -59,4 +59,9 @@ void JadePlantBuilder::setUp() {
 }
 
 JadePlantBuilder::~JadePlantBuilder() {
+     if (plant)
+    {
+        delete plant;
+        plant = nullptr;
+    }
 }
