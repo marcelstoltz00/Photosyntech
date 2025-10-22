@@ -62,11 +62,17 @@ void TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::setUp(
     }
 }
 
+// template<typename PlantType, typename SunStrategyType, typename WaterStrategyType>
+// PlantType* TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::getResult() {
+//     PlantType* result = plant;
+//     plant = nullptr;
+//     return result;
+// }
 template<typename PlantType, typename SunStrategyType, typename WaterStrategyType>
 PlantType* TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::getResult() {
-    return plant;
+    if (!plant) return nullptr;
+    return plant->clone();
 }
-
 template<typename PlantType, typename SunStrategyType, typename WaterStrategyType>
 TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::~TemplatePlantBuilder() {
     // Plant deletion handled by Director

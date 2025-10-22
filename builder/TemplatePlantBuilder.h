@@ -37,7 +37,7 @@ public:
     void assignSunStrategy() override;
     void assignMaturityState() override;
     void setUp();
-    LivingPlant* getResult() override;
+   PlantComponent* getResult() override;
     virtual ~TemplatePlantBuilder();
 };
 
