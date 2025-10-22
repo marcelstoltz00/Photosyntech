@@ -78,7 +78,8 @@ ShopThemedCharm::ShopThemedCharm(const ShopThemedCharm &other)
 PlantComponent *ShopThemedCharm::clone()
 {
     PlantComponent *clone = new ShopThemedCharm();
-    clone->addAttribute(this->nextComponent->clone());
+    clone->addAttribute(this->nextComponent->clone());  
+    
     return clone;
 }
 
