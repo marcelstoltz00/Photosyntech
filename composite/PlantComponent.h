@@ -5,6 +5,17 @@
 class PlantAttributes;
 
 /**
+ * @brief Enum identifying the type of PlantComponent.
+ *
+ * Used to avoid dynamic_cast by providing compile-time type information.
+ * Enables efficient type checking in iterators and other traversal operations.
+ */
+enum class ComponentType {
+    LIVING_PLANT,    ///< Individual plant instances (Succulent, Shrub, Tree, Herb)
+    PLANT_GROUP,     ///< Composite group containing multiple plants
+    PLANT_COMPONENT  ///< Generic component (typically decorators)
+};
+/**
  * @brief Abstract base class representing a plant component in the Composite pattern.
  *
  * Declares the common interface for both individual plants and plant groups.
