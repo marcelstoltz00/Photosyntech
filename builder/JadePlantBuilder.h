@@ -19,7 +19,7 @@ class JadePlantBuilder : public Builder
 {
 private:
 	LivingPlant *plant = nullptr;
-	PlantAttributes*season= nullptr;
+
 
 public:
     /**
