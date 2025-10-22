@@ -1,4 +1,6 @@
 #include "Customer.h"
+#include "Mediator.h"                
+#include "../composite/PlantGroup.h"
 #include <iostream>
 
 /**
@@ -13,15 +15,18 @@
 /**
  * @brief Constructs a new Customer object.
  */
-Customer::Customer() : basket(0) {
+Customer::Customer() : basket(nullptr)
+{
     name = "Customer";
 }
 
 /**
  * @brief Destroys the Customer object and cleans up resources.
  */
-Customer::~Customer() {
-    if (basket != 0) {
+Customer::~Customer()
+{
+    if (basket != nullptr)
+    {
         std::cout << "Customer: Deleting unused basket with plants" << std::endl;
         delete basket;
     }
@@ -30,11 +35,15 @@ Customer::~Customer() {
 /**
  * @brief Requests plant care suggestions from staff via the mediator.
  */
-void Customer::askForSuggestion() {
-    if (suggestionFloor != 0) {
+void Customer::askForSuggestion()
+{
+    if (suggestionFloor != nullptr)
+    {
         std::cout << "Customer: Requesting plant care suggestions" << std::endl;
         suggestionFloor->getAssistance(this);
-    } else {
+    }
+    else
+    {
         std::cout << "Customer: No suggestion floor available" << std::endl;
     }
 }
@@ -42,15 +51,22 @@ void Customer::askForSuggestion() {
 /**
  * @brief Initiates plant purchase transaction via the sales floor mediator.
  */
-void Customer::purchasePlants() {
-    if (salesFloor != 0) {
-        if (basket != 0) {
+void Customer::purchasePlants()
+{
+    if (salesFloor != nullptr)
+    {
+        if (basket != nullptr)
+        {
             std::cout << "Customer: Initiating plant purchase" << std::endl;
             salesFloor->getAssistance(this);
-        } else {
+        }
+        else
+        {
             std::cout << "Customer: Cannot purchase - basket is empty" << std::endl;
         }
-    } else {
+    }
+    else
+    {
         std::cout << "Customer: No sales floor available" << std::endl;
     }
 }
@@ -59,41 +75,50 @@ void Customer::purchasePlants() {
  * @brief Adds a plant to the customer's shopping basket.
  * @param plant Pointer to the PlantComponent to add.
  */
-void Customer::addPlant(PlantComponent* plant) {
-    if (plant == 0) {
+void Customer::addPlant(PlantComponent *plant)
+{
+    if (plant == nullptr)
+    {
         std::cout << "Customer: Cannot add null plant to basket" << std::endl;
         return;
     }
 
-    if (basket == 0) {
+    if (basket == nullptr)
+    {
         basket = new PlantGroup();
         std::cout << "Customer: Created new shopping basket" << std::endl;
     }
-    
-    //(assuming PlantGroup has add method)
-    // basket->add(plant);
+
+    basket->addComponent(plant);
     std::cout << "Customer: Added plant to basket" << std::endl;
 }
 
 /**
  * @brief Performs a customer operation.
  */
-void Customer::operation() {
+void Customer::operation()
+{
     std::cout << "Customer: Performing customer browsing operation" << std::endl;
 }
 
 /**
-* @brief Gets the customer's current shopping basket.
-* @return Pointer to the PlantGroup representing the basket
-*/
-PlantGroup* Customer::getBasket() const { 
-    return basket; 
+ * @brief Gets the customer's current shopping basket.
+ * @return Pointer to the PlantGroup representing the basket
+ */
+PlantGroup *Customer::getBasket() const
+{
+    return basket;
 }
 
 /**
  * @brief Clears the customer's basket after purchase.
  */
-void Customer::clearBasket() { 
+void Customer::clearBasket()
+{
     std::cout << "Customer: Clearing basket after successful purchase" << std::endl;
-     basket = 0;
+    if (basket != nullptr)
+    {
+        delete basket; // Added this line to prevent the memory leaks
+        basket = nullptr;
+    }
 }
