@@ -1,24 +1,11 @@
 #ifndef TEMPLATEPLANTBUILDER_HPP
 #define TEMPLATEPLANTBUILDER_HPP
 
-template<typename PlantType, typename SunStrategyType, typename WaterStrategyType>
-class TemplatePlantBuilder {
-public:
-    TemplatePlantBuilder(int health, int water, int sun);
-    void createObject();
-    void assignWaterStrategy();
-    void assignSunStrategy();
-    void assignMaturityState();
-    void setUp();
-    PlantType* getResult();
-    ~TemplatePlantBuilder();
+#include "TemplatePlantBuilder.h"
+#include "Builder.h"
+#include "../prototype/LivingPlant.h"
+#include "../state/Seed.h"
 
-private:
-    PlantType* plant;
-    int initialHealth;
-    int initialWater;
-    int initialSun;
-};
 
 template<typename PlantType, typename SunStrategyType, typename WaterStrategyType>
 TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::TemplatePlantBuilder(
@@ -57,25 +44,23 @@ template<typename PlantType, typename SunStrategyType, typename WaterStrategyTyp
 void TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::setUp() {
     if (plant) {
         plant->setHealth(initialHealth);
-        plant->setWater(initialWater);
-        plant->setSun(initialSun);
+        plant->setWaterLevel(initialWater);
+        plant->setSunExposure(initialSun);
     }
 }
 
-// template<typename PlantType, typename SunStrategyType, typename WaterStrategyType>
-// PlantType* TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::getResult() {
-//     PlantType* result = plant;
-//     plant = nullptr;
-//     return result;
-// }
 template<typename PlantType, typename SunStrategyType, typename WaterStrategyType>
-PlantType* TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::getResult() {
+PlantComponent* TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::getResult() {
     if (!plant) return nullptr;
     return plant->clone();
 }
+
 template<typename PlantType, typename SunStrategyType, typename WaterStrategyType>
 TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::~TemplatePlantBuilder() {
-    // Plant deletion handled by Director
+    if (plant) {
+        delete plant->getDecorator();
+        plant = nullptr;
+    }
 }
 
 #endif // TEMPLATEPLANTBUILDER_HPP

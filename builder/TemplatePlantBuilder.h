@@ -36,8 +36,8 @@ public:
     void assignWaterStrategy() override;
     void assignSunStrategy() override;
     void assignMaturityState() override;
-    void setUp();
-   PlantComponent* getResult() override;
+    void setUp() override;
+    PlantComponent* getResult() override;
     virtual ~TemplatePlantBuilder();
 };
 
