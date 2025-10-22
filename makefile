@@ -1,7 +1,22 @@
 CXX = g++
-CXXFLAGS = -std=c++11 -g --coverage -I. 
+CXXFLAGS = -std=c++11 -g --coverage -I. -Ithird_party/doctest
 
-# add the cpp files here that you want to compile.
+
+DOCTEST_DIR = third_party/doctest
+DOCTEST_HEADER = $(DOCTEST_DIR)/doctest.h
+
+.PHONY: fetch-doctest
+fetch-doctest:
+	@mkdir -p $(DOCTEST_DIR)
+	@if [ ! -f $(DOCTEST_HEADER) ]; then \
+		echo "Downloading doctest single header..."; \
+		curl -sSL -o $(DOCTEST_HEADER) https://raw.githubusercontent.com/onqtam/doctest/master/doctest/doctest.h; \
+		if [ $$? -ne 0 ]; then \
+			echo "Failed to download doctest.h; please download it manually to $(DOCTEST_HEADER)"; exit 1; \
+		fi; \
+	fi
+
+
 
 TEST_SRC = unitTests.cpp\
             strategy/LowWater.cpp\
@@ -30,7 +45,7 @@ BIN := app
 
 all: test
 
-test: 
+test: fetch-doctest
 	$(MAKE) SRC="$(TEST_SRC)" all-internal
 
 
