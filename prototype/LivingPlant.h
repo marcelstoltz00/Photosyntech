@@ -226,7 +226,7 @@ public:
 	 * @brief Clones the plant creating a deep copy (Prototype pattern).
 	 * @return Pointer to a new plant object that is a copy of this one.
 	 */
-	PlantComponent *clone();
+	virtual PlantComponent *clone();
 
 	/**
 	 * @brief Waters the plant component.
@@ -242,7 +242,7 @@ public:
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
 	virtual PlantComponent *getDecorator();
-	virtual ~LivingPlant() {cout<<"I was deleted"<<endl;}
+	virtual ~LivingPlant() {}
 };
 
 #endif

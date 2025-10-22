@@ -17,181 +17,255 @@
 
 LargePot::LargePot()
     : PlantAttributes("Large Pot", 25.00, 0, 0)
-{}
-
-LargePot::LargePot(const LargePot &other) 
-    : PlantAttributes(other)
-{}
-
-PlantComponent* LargePot::clone(){
-    return new LargePot(*this);
+{
 }
 
+LargePot::LargePot(const LargePot &other)
+    : PlantAttributes(other)
+{
+}
+
+PlantComponent *LargePot::clone()
+{
+    PlantComponent *clone = new LargePot();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
+}
 PlantCharm::PlantCharm()
     : PlantAttributes("Standard Plant Charm", 10.00, 0, 0)
-{}
+{
+}
 
-PlantCharm::PlantCharm(const PlantCharm &other) 
+PlantCharm::PlantCharm(const PlantCharm &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* PlantCharm::clone(){
-    return new PlantCharm(*this);
+PlantComponent *PlantCharm::clone()
+{
+    PlantComponent *clone = new PlantCharm();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 RedPot::RedPot()
     : PlantAttributes("Red Clay Pot", 15.00, 0, 0)
-{}
+{
+}
 
-RedPot::RedPot(const RedPot &other) 
+RedPot::RedPot(const RedPot &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* RedPot::clone(){
-    return new RedPot(*this);
+PlantComponent *RedPot::clone()
+{
+    PlantComponent *clone = new RedPot();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 ShopThemedCharm::ShopThemedCharm()
     : PlantAttributes("Cute Charm", 20.00, 0, 0)
-{}
+{
+}
 
-ShopThemedCharm::ShopThemedCharm(const ShopThemedCharm &other) 
+ShopThemedCharm::ShopThemedCharm(const ShopThemedCharm &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* ShopThemedCharm::clone(){
-    return new ShopThemedCharm(*this);
+PlantComponent *ShopThemedCharm::clone()
+{
+    PlantComponent *clone = new ShopThemedCharm();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 Autumn::Autumn()
     : PlantAttributes("Autumn Season", 0.00, 0, 0)
-{}
+{
+}
 
-Autumn::Autumn(const Autumn &other) 
+Autumn::Autumn(const Autumn &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* Autumn::clone(){
-    return new Autumn(*this);
+PlantComponent *Autumn::clone()
+{
+    PlantComponent *clone = new Autumn();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 LargeFlowers::LargeFlowers()
     : PlantAttributes("Large Flowers", 5.00, 1, 1)
-{}
+{
+}
 
-LargeFlowers::LargeFlowers(const LargeFlowers &other) 
+LargeFlowers::LargeFlowers(const LargeFlowers &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* LargeFlowers::clone(){
-    return new LargeFlowers(*this);
+PlantComponent *LargeFlowers::clone()
+{
+    PlantComponent *clone = new LargeFlowers();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 LargeLeaf::LargeLeaf()
     : PlantAttributes("Large Leaves", 3.00, 1, 0)
-{}
+{
+}
 
-LargeLeaf::LargeLeaf(const LargeLeaf &other) 
+LargeLeaf::LargeLeaf(const LargeLeaf &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* LargeLeaf::clone(){
-    return new LargeLeaf(*this);
+PlantComponent *LargeLeaf::clone()
+{
+    PlantComponent *clone = new LargeLeaf();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 LargeStem::LargeStem()
     : PlantAttributes("Large Stem", 2.00, 0, 0)
-{}
+{
+}
 
-LargeStem::LargeStem(const LargeStem &other) 
+LargeStem::LargeStem(const LargeStem &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* LargeStem::clone(){
-    return new LargeStem(*this);
+PlantComponent *LargeStem::clone()
+{
+    PlantComponent *clone = new LargeStem();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 SmallFlowers::SmallFlowers()
 
     : PlantAttributes("Small Flowers", 1.00, 0, 0)
-{}
+{
+}
 
-SmallFlowers::SmallFlowers(const SmallFlowers &other) 
+SmallFlowers::SmallFlowers(const SmallFlowers &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* SmallFlowers::clone(){
-    return new SmallFlowers(*this);
+PlantComponent *SmallFlowers::clone()
+{
+    PlantComponent *clone = new SmallFlowers();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 SmallLeaf::SmallLeaf()
     : PlantAttributes("Small Leaves", 1.00, -1, 0)
-{}
+{
+}
 
-SmallLeaf::SmallLeaf(const SmallLeaf &other) 
+SmallLeaf::SmallLeaf(const SmallLeaf &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* SmallLeaf::clone(){
-    return new SmallLeaf(*this);
+PlantComponent *SmallLeaf::clone()
+{
+    PlantComponent *clone = new SmallLeaf();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 SmallStem::SmallStem()
     : PlantAttributes("Small Stem", 0.00, 0, 0)
-{}
+{
+}
 
-SmallStem::SmallStem(const SmallStem &other) 
+SmallStem::SmallStem(const SmallStem &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* SmallStem::clone(){
-    return new SmallStem(*this);
+PlantComponent *SmallStem::clone()
+{
+    PlantComponent *clone = new SmallStem();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 Spring::Spring()
     : PlantAttributes("Spring Season", 0.00, 0, 0)
-{}
+{
+}
 
-Spring::Spring(const Spring &other) 
+Spring::Spring(const Spring &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* Spring::clone(){
-    return new Spring(*this);
+PlantComponent *Spring::clone()
+{
+    PlantComponent *clone = new Spring();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 Summer::Summer()
     : PlantAttributes("Summer Season", 0.00, 0, 0)
-{}
+{
+}
 
-Summer::Summer(const Summer &other) 
+Summer::Summer(const Summer &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* Summer::clone(){
-    return new Summer(*this);
+PlantComponent *Summer::clone()
+{
+    PlantComponent *clone = new Summer();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 Thorns::Thorns()
     : PlantAttributes("Thorns/Spikes", 5.00, 0, -1)
-{}
+{
+}
 
-Thorns::Thorns(const Thorns &other) 
+Thorns::Thorns(const Thorns &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* Thorns::clone(){
-    return new Thorns(*this);
+PlantComponent *Thorns::clone()
+{
+    PlantComponent *clone = new Thorns();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }
 
 Winter::Winter()
     : PlantAttributes("Winter Season", 0.00, 0, 0)
-{}
+{
+}
 
-Winter::Winter(const Winter &other) 
+Winter::Winter(const Winter &other)
     : PlantAttributes(other)
-{}
+{
+}
 
-PlantComponent* Winter::clone(){
-    return new Winter(*this);
+PlantComponent *Winter::clone()
+{
+    PlantComponent *clone = new Winter();
+    clone->addAttribute(this->nextComponent->clone());
+    return clone;
 }

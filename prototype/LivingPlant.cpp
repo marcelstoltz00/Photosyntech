@@ -19,7 +19,6 @@ LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int su
 {
     // remember to change to getString() after Wilmar fixes getSeason()
     this->name = Inventory::getInstance()->getString(name);
-
     this->season = nullptr;
 };
 
@@ -139,7 +138,7 @@ Flyweight<std::string *> *LivingPlant::getSeason()
 
 PlantComponent *LivingPlant::clone()
 {
-    return new LivingPlant(*this);
+
 };
 
 void LivingPlant::water()
