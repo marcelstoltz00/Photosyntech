@@ -105,7 +105,6 @@ public:
 	 */
 	virtual int affectWater() = 0;
 
-
 	/**
 	 * @brief Gets the price of this plant component.
 	 * @return Price in currency units.
@@ -122,7 +121,7 @@ public:
 	 * @brief Sets the decorator for builder purposes
 	 * @param other Pointer to the decorator.
 	 */
-	//virtual void setDecorator(PlantComponent* other) = 0;
+	virtual PlantComponent *getDecorator() { return this; };
 };
 
 #endif
