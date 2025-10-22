@@ -8,11 +8,12 @@ PlantGroup::PlantGroup()
 {};
 
 PlantGroup::~PlantGroup(){
-    for (PlantComponent* component : plants){
-        delete component; 
+    std::list<PlantComponent*>::iterator itr = plants.begin();
+    while(itr != plants.end()){
+    delete (*itr)->getDecorator();
+    itr++;
+    // should work.
     }
-
-    plants.clear();
 }
 
 PlantGroup::PlantGroup(const PlantGroup& other)
