@@ -49,7 +49,7 @@ double PlantAttributes::getPrice()
 
 std::string PlantAttributes::getName()
 {
-    return (nextComponent != nullptr) ? nextComponent->getName() : "Incomplete Plant";
+    return *name->getState();
 };
 
 int PlantAttributes::affectSunlight()

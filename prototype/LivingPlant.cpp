@@ -18,9 +18,9 @@ LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int su
       decorator(nullptr)
 {
     // remember to change to getString() after Wilmar fixes getSeason()
-    this->name = Inventory::getInstance()->getString("");
+    this->name = Inventory::getInstance()->getString(name);
 
-    this->season = (Inventory::getInstance()->getString(""));
+    this->season = nullptr;
 };
 
 LivingPlant::LivingPlant(const LivingPlant &other)
