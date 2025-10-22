@@ -153,6 +153,16 @@ public:
 	 * @return Season of the plant.
 	 */
 	Flyweight<std::string *> *getSeason();
+
+	/**
+	 * @brief Gets the component type (LIVING_PLANT).
+	 *
+	 * Enables efficient type identification without dynamic_cast.
+	 *
+	 * @return ComponentType::LIVING_PLANT
+	 */
+	ComponentType getType() const override;
+
 	/**
 	 * @brief Gets the age of the plant in months.
 	 * @return Age in months.

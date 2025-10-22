@@ -1,13 +1,13 @@
-#include "PlantIterator.h"
-#include "AggPlant.h"
+#include "SeasonIterator.h"
+#include "AggSeason.h"
 
-PlantIterator::PlantIterator(AggPlant* aggregate) : currentPlant(nullptr), inComposite(false)
+SeasonIterator::SeasonIterator(AggSeason* aggregate) : currentPlant(nullptr), inComposite(false)
 {
 	this->aggregate = aggregate;
 	first();
 }
 
-void PlantIterator::first()
+void SeasonIterator::first()
 {
 	// Clear stack and reset state
 	while (!traversalStack.empty()) {
@@ -22,11 +22,11 @@ void PlantIterator::first()
 	root.end = aggregate->plants->end();
 	traversalStack.push(root);
 
-	// Find first plant
+	// Find first matching plant
 	advanceToNextPlant();
 }
 
-void PlantIterator::next()
+void SeasonIterator::next()
 {
 	if (traversalStack.empty()) {
 		currentPlant = nullptr;
@@ -38,18 +38,21 @@ void PlantIterator::next()
 	advanceToNextPlant();
 }
 
-bool PlantIterator::isDone()
+bool SeasonIterator::isDone()
 {
 	return currentPlant == nullptr;
 }
 
-LivingPlant* PlantIterator::currentItem()
+LivingPlant* SeasonIterator::currentItem()
 {
 	return currentPlant;
 }
 
-void PlantIterator::advanceToNextPlant()
+void SeasonIterator::advanceToNextPlant()
 {
+	// Need to cast aggregate to access targetSeason
+	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
+
 	while (!traversalStack.empty()) {
 		StackFrame& frame = traversalStack.top();
 
@@ -63,10 +66,19 @@ void PlantIterator::advanceToNextPlant()
 		PlantComponent* component = *frame.current;
 		ComponentType type = component->getType();
 
-		// Found a living plant - return it
+		// Found a living plant - check if it matches season
 		if (type == ComponentType::LIVING_PLANT) {
-			currentPlant = static_cast<LivingPlant*>(component);
-			return;
+			LivingPlant* plant = static_cast<LivingPlant*>(component);
+
+			// Check season match using static_cast access
+			if (plant->getSeason() == seasonAgg->targetSeason) {
+				currentPlant = plant;
+				return;
+			}
+
+			// Doesn't match season - skip it
+			frame.current++;
+			continue;
 		}
 
 		// Found a plant group - descend into it
@@ -91,7 +103,7 @@ void PlantIterator::advanceToNextPlant()
 		frame.current++;
 	}
 
-	// Stack exhausted - no more plants
+	// Stack exhausted - no more matching plants
 	currentPlant = nullptr;
 	inComposite = false;
 }
