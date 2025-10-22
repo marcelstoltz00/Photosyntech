@@ -1,0 +1,81 @@
+#ifndef CACTUSBUILDER_H
+#define CACTUSBUILDER_H
+
+#include "Builder.h"
+
+/**
+ * @brief Concrete builder for Cactus plants.
+ *
+ * Implements the Builder interface to construct Cactus plants with specific attributes:
+ * - Base Type: Succulent
+ * - Sun Strategy: HighSun (80% initial exposure)
+ * - Water Strategy: LowWater (30% initial level)
+ * - Initial Health: 100%
+ * - Decorators: Summer, Small Flowers, Large Stem, Thorns
+ * - Initial State: Seed
+ *
+ * @see Builder The abstract builder interface
+ * @see Succulent The base plant type
+ * @see HighSun The sun exposure strategy
+ * @see LowWater The watering strategy
+ * @see Seed The initial maturity state
+ */
+class CactusBuilder : public Builder
+{
+private:
+    LivingPlant *plant = nullptr;
+ 
+
+public:
+    /**
+     * @brief Constructor for CactusBuilder.
+     */
+    CactusBuilder();
+
+    /**
+     * @brief Creates a new Succulent object as the base for the Cactus.
+     */
+    void createObject() override;
+
+    /**
+     * @brief Assigns LowWater strategy to the Cactus plant.
+     */
+    void assignWaterStrategy() override;
+
+    /**
+     * @brief Assigns HighSun strategy to the Cactus plant.
+     */
+    void assignSunStrategy() override;
+
+    /**
+     * @brief Assigns initial Seed state to the Cactus plant.
+     */
+    void assignMaturityState() override;
+
+    /**
+     * @brief Sets up the initial health, water, and sun levels for the Cactus plant.
+     */
+    void setUp() override;
+    /**
+     * @brief Adds decorators to the PlantComponent.
+     * 
+     * Applies the following decorators in sequence:
+     * - Summer season
+     * - Small Flowers
+     * - Large Stem
+     * - Thorns
+     */
+    void addDecorators() override;
+    /**
+     * @brief Returns the fully constructed Cactus plant.
+     * @return Pointer to the constructed Cactus plant.
+     */
+    PlantComponent *getResult() override;
+
+    /**
+     * @brief Destructor for CactusBuilder.
+     */
+    ~CactusBuilder();
+};
+
+#endif // CACTUSBUILDER_H

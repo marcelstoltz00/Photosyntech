@@ -25,7 +25,7 @@ public:
          * @brief Constructs a LargeLeaf decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        LargeLeaf(PlantComponent* component);
+        LargeLeaf();
 
         /**
          * @brief Copy constructor for cloning.

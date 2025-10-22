@@ -25,7 +25,7 @@ class PlantCharm : public PlantAttributes
          * @brief Constructs a PlantCharm decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        PlantCharm(PlantComponent* component);
+        PlantCharm();
 
         /**
          * @brief Copy constructor for cloning.

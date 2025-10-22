@@ -25,7 +25,7 @@ class RedPot : public PlantAttributes
          * @brief Constructs a RedPot decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        RedPot(PlantComponent* component);
+        RedPot();
 
         /**
          * @brief Copy constructor for cloning.

@@ -9,7 +9,7 @@ Separates the construction of complex plant objects from their representation, a
 |--------------|------------------------|----------------|
 | **Director** | `Director` | Orchestrates the plant construction process by calling builder methods in sequence |
 | **Builder** | `Builder` (abstract) | Defines the interface for creating plant components (water strategy, sun strategy, maturity state) |
-| **ConcreteBuilder** | `Plant3Builder`<br>`SunflowerBuilder`<br>`RoseBuilder` | Implements specific construction steps for creating different plant species with their unique configurations |
+| **ConcreteBuilder** | `CactusBuilder`<br>`CherryBlossomBuilder`<br>`JadePlantBuilder`<br>`LavenderBuilder`<br>`MapleBuilder`<br>`PineBuilder`<br>`RoseBuilder`<br>`SunflowerBuilder` | Implements specific construction steps for creating different plant species with their unique configurations |
 | **Product** | `LivingPlant` and subclasses<br>(Succulent, Shrub, Tree, Herb) | The complex plant object being constructed with all necessary strategies and states |
 
 ## Functional Requirements
@@ -26,12 +26,12 @@ Separates the construction of complex plant objects from their representation, a
 ### Pattern Integration
 The **Builder** pattern serves as the primary **plant creation engine** in Photosyntech, orchestrating construction through these key interactions:
 
-- **Strategy Pattern**: Builder assigns appropriate `WaterStrategy` and `SunStrategy` instances (obtained from flyweight factories) during construction phase
+- **Strategy Pattern**: Builder assigns appropriate `WaterStrategy` and `SunStrategy` instances based on plant requirements (e.g., HighSun/LowWater for Cactus, MidSun/MidWater for Rose)
 - **State Pattern**: Builder initializes the plant with its starting maturity state (Seed) before inventory adoption
-- **Decorator Pattern**: After construction, the base plant can be wrapped with visual/functional decorators in inventory
-- **Prototype Pattern**: Builder creates initial plant templates that are then cloned for mass production
-- **Singleton Pattern**: Director receives strategies from singleton-managed flyweight factories
-- **Composite Pattern**: Built plants are added to plant groups in the centralized inventory
+- **Decorator Pattern**: After construction, plants are decorated with specific attributes (e.g., flower size, leaf size, stem size, thorns)
+- **Prototype Pattern**: Builder creates base plant types (Tree, Herb, Shrub, Succulent) that serve as foundations
+- **Singleton Pattern**: Director manages the construction process ensuring consistent plant creation
+- **Composite Pattern**: Built plants can be organized into seasonal groups (Spring, Summer, Autumn, Winter)
 - **Facade Pattern**: NurseryFacade delegates plant creation requests to Director, abstracting complexity
 
 ### System Dependencies
@@ -46,11 +46,3 @@ The Builder pattern was chosen for plant creation because:
 2. **Flexibility**: Different plant species follow same construction sequence but with different strategy assignments
 3. **Separation of Concerns**: Construction logic isolated from plant classes, enabling independent evolution
 4. **Extensibility**: New plant species require only new builder classes, not modifications to existing plant code
-
-## Extension Points
-
-**Adding New Plant Species:**
-1. Create `NewPlantBuilder` class inheriting from `Builder`
-2. Implement construction steps specific to the new plant type
-3. Register builder in system factory/facade if needed
-4. Example path: `builder/NewPlantBuilder.h` (following pattern in `builder/` directory)

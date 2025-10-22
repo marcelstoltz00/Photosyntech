@@ -25,7 +25,7 @@ class SmallFlowers : public PlantAttributes
          * @brief Constructs a SmallFlowers decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        SmallFlowers(PlantComponent* component);
+        SmallFlowers();
 
         /**
          * @brief Copy constructor for cloning.
