@@ -43,7 +43,6 @@
  */
 class PlantAttributes : public PlantComponent
 {
-
 protected:
 	PlantComponent *nextComponent;
 
@@ -80,57 +79,69 @@ public:
 	 * @brief Gets plant information including decorator details.
 	 * @return String containing plant and decorator details.
 	 */
-	std::string getInfo();
+	std::string getInfo() override;
 
 	/**
 	 * @brief Gets the price including decorator modifications.
 	 * @return Total price in currency units.
 	 */
-	double getPrice();
+	double getPrice() override;
 
 	/**
 	 * @brief Gets the sunlight affection value for this component.
 	 * @return Integer representing sunlight impact.
 	 */
-	int affectSunlight();
+	int affectSunlight() override;
 
 	/**
 	 * @brief Gets the water affection value for this component.
 	 * @return Integer representing water impact.
 	 */
-	int affectWater();
+	int affectWater() override;
 
 	/**
 	 * @brief Gets component name as a formatted string.
 	 * @return String containing plant name.
 	 */
-	std::string getName();
+	std::string getName() override;
 
 	/**
 	 * @brief Waters the plant component.
 	 */
-	void water();
+	void water() override;
 
 	/**
 	 * @brief Sets the plant component to be outside.(Calls Sun Strategy)
 	 */
-	void setOutside();
+	void setOutside() override;
 
 	/**
 	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
 	 */
-	void update();
+	void update() override;
 
 	/**
 	 * @brief Adds another attribute decorator to this plant.
 	 * @param attribute Pointer to the PlantAttributes decorator to add.
 	 */
-	void addAttribute(PlantComponent *attribute);
+	void addAttribute(PlantComponent *attribute) override;
 
 	/**
 	 * @brief Clones the decorated plant including all decorators.
 	 * @return Pointer to a new PlantComponent that is a copy of this decorated plant.
 	 */
+	virtual PlantComponent* clone() override = 0;
+
+	/**
+	 * @brief Gets the component type (PLANT_COMPONENT for decorators).
+	 *
+	 * Enables efficient type identification without dynamic_cast.
+	 *
+	 * @return ComponentType::PLANT_COMPONENT
+	 */
+	ComponentType getType() const override {
+		return ComponentType::PLANT_COMPONENT;
+	}
 
 	/**
 	 * @brief Virtual destructor for proper cleanup of derived classes.

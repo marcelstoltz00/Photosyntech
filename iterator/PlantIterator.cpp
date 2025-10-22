@@ -9,7 +9,24 @@ PlantIterator::PlantIterator(AggPlant* aggregate) : currentPlant(nullptr)
 
 void PlantIterator::first()
 {
-	currentPlant = findNextMatch(aggregate->plants, true);
+	// Clear stack and reset state
+	while (!traversalStack.empty()) {
+		traversalStack.pop();
+	}
+	inComposite = false;
+
+	// Cast aggregate to access plants member
+	AggPlant* plantAgg = static_cast<AggPlant*>(aggregate);
+
+	// Push root level frame
+	StackFrame root;
+	root.plantList = plantAgg->plants;
+	root.current = plantAgg->plants->begin();
+	root.end = plantAgg->plants->end();
+	traversalStack.push(root);
+
+	// Find first plant
+	advanceToNextPlant();
 }
 
 void PlantIterator::next()
