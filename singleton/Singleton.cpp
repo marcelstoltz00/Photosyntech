@@ -89,7 +89,6 @@ Flyweight<std::string *> *Inventory::getString(std::string str)
     {
         delete flyweightData;
     }
-
     return fly;
 }
 Flyweight<WaterStrategy *> *Inventory::getWaterFly(int id)

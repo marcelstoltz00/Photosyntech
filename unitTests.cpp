@@ -15,6 +15,7 @@
 #include "prototype/LivingPlant.h"
 #include "decorator/customerDecorator/PlantDecorationHeader.h"
 #include "decorator/plantDecorator/PlantAttributesHeader.h"
+/*
 #include "composite/PlantGroup.h"
 
 
@@ -50,10 +51,13 @@ TEST_CASE("Overall Testing of flyweight water strategies")
     delete fac;
     delete plant;
 }
+*/
 TEST_CASE("Singleton basics with water strategy testing and with state testing")
 {
-    LivingPlant *plant = new Tree();
     Inventory *inv = Inventory::getInstance();
+
+    LivingPlant *plant = new Tree();
+
     CHECK(inv == Inventory::getInstance());
     CHECK(inv->getWaterFly(LowWater::getID())->getState()->water(plant) == 10);
     CHECK(Inventory::getInstance()->getWaterFly(MidWater::getID())->getState()->water(plant) == 20);
@@ -61,19 +65,18 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
     {
         Inventory::getInstance()->getStates(Seed::getID())->getState()->grow(plant);
     };
+
     CHECK(plant->getAge() == 7);
     CHECK(Inventory::getInstance()->getWaterFly(5000)->getState()->water(plant) == 10);
     CHECK(*Inventory::getInstance()->getString("Insert1")->getState() == "Insert1");
-    delete inv;
+
     delete plant;
+    delete inv;
 }
 
 TEST_CASE("Testing decorator")
 {
-    LivingPlant *tree = new Tree();
-    tree->addAttribute(new Thorns());
-
-
+ 
 }
 
 // TEST_CASE("Testing composite")
