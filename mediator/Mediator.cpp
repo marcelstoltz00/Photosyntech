@@ -10,16 +10,11 @@
  * lists directly from the Singleton instance.
  */
 
-/**
- * @brief Default constructor for Mediator base class.
- */
-Mediator::Mediator() {
-    // No need to initialize lists here - they're in Singleton
-}
+
 
 /**
  * @brief Virtual destructor for proper polymorphic cleanup.
  */
-Mediator::~Mediator() {
-    std::cout << "Mediator: Cleaning up mediator resources" << std::endl;
-}
+// Mediator::~Mediator() {
+//     std::cout << "Mediator: Cleaning up mediator resources" << std::endl;
+// }
