@@ -256,3 +256,8 @@ PlantComponent *LivingPlant::getDecorator()
 {
     return this->decorator;
 }
+PlantComponent *LivingPlant::correctShape(PlantComponent *mainDecorator)
+{
+    this->decorator = mainDecorator;
+    return this;
+}

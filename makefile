@@ -32,7 +32,6 @@ TEST_SRC = unitTests.cpp\
             state/Mature.cpp\
             state/Seed.cpp\
             state/Vegetative.cpp\
-            prototype/LivingPlant.cpp\
             decorator/PlantAttributes.cpp\
             decorator/ConcreteDecorators.cpp\
 			strategy/AlternatingSun.cpp\
@@ -51,7 +50,8 @@ TEST_SRC = unitTests.cpp\
 			   mediator/Staff.cpp \
 			   mediator/SuggestionFloor.cpp\
 			   observer/Observer.cpp \
-			   observer/Subject.cpp 
+			   observer/Subject.cpp \
+
 SRC = $(TEST_SRC)
 OBJ := $(SRC:.cpp=.o)
 BIN := app
