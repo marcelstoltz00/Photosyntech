@@ -37,12 +37,11 @@ PlantComponent* MapleBuilder::getResult() {
     return plant->clone();
 }
 void MapleBuilder::addDecorators() {
-    // if (plant) {
-    //     plant->addAttribute(new Autumn(plant));
-    //     plant->addAttribute(new LargeLeaf(plant));
-    //     plant->addAttribute(new LargeStem(plant));
-    // }
-
+    if (plant) {
+        plant->addAttribute(new Autumn());
+        plant->addAttribute(new LargeLeaf());
+        plant->addAttribute(new LargeStem());
+    }
 }
 
 void MapleBuilder::setUp() {

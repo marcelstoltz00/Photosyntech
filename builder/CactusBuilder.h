@@ -8,12 +8,17 @@
  *
  * Implements the Builder interface to construct Cactus plants with specific attributes:
  * - Base Type: Succulent
- * - Sun Strategy: HighSun
- * - Water Strategy: LowWater
- * - Decorators: Small Flowers, No Leaves, Large Stem, Thorns
+ * - Sun Strategy: HighSun (80% initial exposure)
+ * - Water Strategy: LowWater (30% initial level)
+ * - Initial Health: 100%
+ * - Decorators: Summer, Small Flowers, Large Stem, Thorns
+ * - Initial State: Seed
  *
- * @see Builder
- * @see Succulent
+ * @see Builder The abstract builder interface
+ * @see Succulent The base plant type
+ * @see HighSun The sun exposure strategy
+ * @see LowWater The watering strategy
+ * @see Seed The initial maturity state
  */
 class CactusBuilder : public Builder
 {
@@ -52,9 +57,15 @@ public:
      */
     void setUp() override;
     /**
-     * @brief Adds decorators to thePlantComponent.
+     * @brief Adds decorators to the PlantComponent.
+     * 
+     * Applies the following decorators in sequence:
+     * - Summer season
+     * - Small Flowers
+     * - Large Stem
+     * - Thorns
      */
-    virtual void addDecorators() = 0;
+    void addDecorators() override;
     /**
      * @brief Returns the fully constructed Cactus plant.
      * @return Pointer to the constructed Cactus plant.

@@ -39,13 +39,12 @@ PlantComponent* LavenderBuilder::getResult() {
 }
 
 void LavenderBuilder::addDecorators() {
-
-    // if (plant) {
-       //     plant->addAttribute(new Autumn(plant));
-    //     plant->addAttribute(new SmallFlowers(plant));
-    //     plant->addAttribute(new SmallLeaf(plant));
-    //     plant->addAttribute(new LargeStem(plant));
-    // }
+    if (plant) {
+        plant->addAttribute(new Autumn());
+        plant->addAttribute(new SmallFlowers());
+        plant->addAttribute(new SmallLeaf());
+        plant->addAttribute(new LargeStem());
+    }
 }
 
 void LavenderBuilder::setUp() {

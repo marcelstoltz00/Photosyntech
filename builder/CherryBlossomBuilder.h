@@ -8,12 +8,17 @@
  *
  * Implements the Builder interface to construct Cherry Blossom trees with specific attributes:
  * - Base Type: Tree
- * - Sun Strategy: MidSun
- * - Water Strategy: MidWater
- * - Decorators: Large Flowers, Small Leaves, Large Stem, No Thorns
+ * - Sun Strategy: MidSun (60% initial exposure)
+ * - Water Strategy: MidWater (60% initial level)
+ * - Initial Health: 100%
+ * - Decorators: Spring, Large Flowers, Small Leaves, Large Stem
+ * - Initial State: Seed
  *
- * @see Builder
- * @see Tree
+ * @see Builder The abstract builder interface
+ * @see Tree The base plant type
+ * @see MidSun The sun exposure strategy
+ * @see MidWater The watering strategy
+ * @see Seed The initial maturity state
  */
 class CherryBlossomBuilder : public Builder
 {
@@ -54,8 +59,14 @@ public:
 
     /**
      * @brief Adds decorators to the LivingPlant.
+     * 
+     * Applies the following decorators in sequence:
+     * - Spring season
+     * - Large Flowers
+     * - Small Leaves
+     * - Large Stem
      */
-    virtual void addDecorators() = 0;
+    void addDecorators() override;
     /**
      * @brief Returns the fully constructed Cherry Blossom tree.
      * @return Pointer to the constructed Cherry Blossom tree.

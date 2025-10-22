@@ -8,12 +8,17 @@
  *
  * Implements the Builder interface to construct Pine trees with specific attributes:
  * - Base Type: Tree
- * - Sun Strategy: HighSun
- * - Water Strategy: LowWater
- * - Decorators: No Flowers, Small Leaves, Large Stem, No Thorns
+ * - Sun Strategy: HighSun (80% initial exposure)
+ * - Water Strategy: LowWater (40% initial level)
+ * - Initial Health: 100%
+ * - Decorators: Winter, Small Leaves, Large Stem
+ * - Initial State: Seed
  *
- * @see Builder
- * @see Tree
+ * @see Builder The abstract builder interface
+ * @see Tree The base plant type
+ * @see HighSun The sun exposure strategy
+ * @see LowWater The watering strategy
+ * @see Seed The initial maturity state
  */
 class PineBuilder : public Builder
 {
@@ -53,8 +58,13 @@ public:
     void setUp() override;
     /**
      * @brief Adds decorators to the LivingPlant.
+     * 
+     * Applies the following decorators in sequence:
+     * - Winter season
+     * - Small Leaves
+     * - Large Stem
      */
-    virtual void addDecorators() = 0;
+    void addDecorators() override;
     /**
      * @brief Returns the fully constructed Pine tree.
      * @return Pointer to the constructed Pine tree.

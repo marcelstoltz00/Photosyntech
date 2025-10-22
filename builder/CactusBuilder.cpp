@@ -57,15 +57,15 @@ PlantComponent *CactusBuilder::getResult()
 void CactusBuilder::addDecorators()
 {
 
-    // if (plant)
-    // {
-    //       season = new Summer(plant);
-    //    plant->setDecorator(season);   
-    //       season->AddDecorator(new SmallFlowers(plant));
-    //    season->AddDecorator(new LargeStem(plant));
-    //    season->AddDecorator(new Thorns(plant));
- 
-    // }
+    if (plant)
+    {
+        
+       plant->addAttribute(new Summer());
+       plant->addAttribute(new SmallFlowers());
+       plant->addAttribute(new LargeStem());
+       plant->addAttribute(new Thorns());
+
+    }
 }
 
 void CactusBuilder::setUp()

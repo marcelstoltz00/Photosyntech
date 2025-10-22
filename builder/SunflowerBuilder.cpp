@@ -39,12 +39,12 @@ PlantComponent* SunflowerBuilder::getResult() {
 }
 
 void SunflowerBuilder::addDecorators() {
-    // if (plant) {
-    //     plant->addAttribute(new Summer(plant));
-    //     plant->addAttribute(new LargeFlowers(plant));
-    //     plant->addAttribute(new LargeLeaf(plant));
-    //     plant->addAttribute(new LargeStem(plant));
-    // }
+    if (plant) {
+        plant->addAttribute(new Summer());
+        plant->addAttribute(new LargeFlowers());
+        plant->addAttribute(new LargeLeaf());
+        plant->addAttribute(new LargeStem());
+    }
 }
 
 void SunflowerBuilder::setUp() {

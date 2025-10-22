@@ -8,12 +8,17 @@
  *
  * Implements the Builder interface to construct Sunflower plants with specific attributes:
  * - Base Type: Herb
- * - Sun Strategy: HighSun
- * - Water Strategy: MidWater
- * - Decorators: Large Flowers, Large Leaves, Large Stem, No Thorns
+ * - Sun Strategy: HighSun (80% initial exposure)
+ * - Water Strategy: MidWater (60% initial level)
+ * - Initial Health: 100%
+ * - Decorators: Summer, Large Flowers, Large Leaves, Large Stem
+ * - Initial State: Seed
  *
- * @see Builder
- * @see Herb
+ * @see Builder The abstract builder interface
+ * @see Herb The base plant type
+ * @see HighSun The sun exposure strategy
+ * @see MidWater The watering strategy
+ * @see Seed The initial maturity state
  */
 class SunflowerBuilder : public Builder
 {
@@ -53,8 +58,14 @@ public:
     void setUp() override;
     /**
      * @brief Adds decorators to the LivingPlant.
+     * 
+     * Applies the following decorators in sequence:
+     * - Summer season
+     * - Large Flowers
+     * - Large Leaves
+     * - Large Stem
      */
-    virtual void addDecorators() = 0;
+    void addDecorators() override;
     /**
      * @brief Returns the fully constructed Sunflower plant.
      * @return Pointer to the constructed Sunflower plant.

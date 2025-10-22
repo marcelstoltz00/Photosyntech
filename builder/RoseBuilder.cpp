@@ -40,15 +40,13 @@ PlantComponent* RoseBuilder::getResult() {
 }
 
 void RoseBuilder::addDecorators() {
-
-// if (plant) {
-    //     plant->addAttribute(new Spring(plant));
-//         plant->addAttribute(new LargeFlowers(plant));
-//         plant->addAttribute(new SmallLeaf(plant));
-//         plant->addAttribute(new LargeStem(plant));
-//         plant->addAttribute(new Thorns(plant));
-//     }
-
+    if (plant) {
+        plant->addAttribute(new Spring());
+        plant->addAttribute(new LargeFlowers());
+        plant->addAttribute(new SmallLeaf());
+        plant->addAttribute(new LargeStem());
+        plant->addAttribute(new Thorns());
+    }
 }
 void RoseBuilder::setUp() {
     if (plant) {

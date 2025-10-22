@@ -38,13 +38,13 @@ PlantComponent* CherryBlossomBuilder::getResult() {
     return plant->clone();
 }
 
-void CherryBlossomBuilder::addDecorators(){
-//  if (plant) {
-  //     plant->addAttribute(new Spring(plant));
-//         plant->addAttribute(new LargeFlowers(plant));
-//         plant->addAttribute(new SmallLeaf(plant));
-//         plant->addAttribute(new LargeStem(plant));
-//     }
+void CherryBlossomBuilder::addDecorators() {
+    if (plant) {
+        plant->addAttribute(new Spring());
+        plant->addAttribute(new LargeFlowers());
+        plant->addAttribute(new SmallLeaf());
+        plant->addAttribute(new LargeStem());
+    }
 }
 
 void CherryBlossomBuilder::setUp() {

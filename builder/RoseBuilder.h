@@ -8,12 +8,17 @@
  *
  * Implements the Builder interface to construct Rose plants with specific attributes:
  * - Base Type: Shrub
- * - Sun Strategy: MidSun
- * - Water Strategy: MidWater
- * - Decorators: Large Flowers, Small Leaves, Medium Stem, Thorns
+ * - Sun Strategy: MidSun (60% initial exposure)
+ * - Water Strategy: MidWater (60% initial level)
+ * - Initial Health: 100%
+ * - Decorators: Spring, Large Flowers, Small Leaves, Large Stem, Thorns
+ * - Initial State: Seed
  *
- * @see Builder
- * @see Shrub
+ * @see Builder The abstract builder interface
+ * @see Shrub The base plant type
+ * @see MidSun The sun exposure strategy
+ * @see MidWater The watering strategy
+ * @see Seed The initial maturity state
  */
 class RoseBuilder : public Builder
 {
@@ -54,8 +59,15 @@ public:
 
     /**
      * @brief Adds decorators to the LivingPlant.
+     * 
+     * Applies the following decorators in sequence:
+     * - Spring season
+     * - Large Flowers
+     * - Small Leaves
+     * - Large Stem
+     * - Thorns
      */
-    virtual void addDecorators() = 0;
+    void addDecorators() override;
     /**
      * @brief Returns the fully constructed Rose plant.
      * @return Pointer to the constructed Rose plant.

@@ -47,13 +47,12 @@ PlantComponent *PineBuilder::getResult()
     return plant->clone();
 }
 
-void PineBuilder::addDecorators()
-{
-    //  if (plant) {
-    //     plant->addAttribute(new  Winter(plant));
-    //         plant->addAttribute(new SmallLeaf(plant));
-    //         plant->addAttribute(new LargeStem(plant));
-    //     }
+void PineBuilder::addDecorators() {
+    if (plant) {
+        plant->addAttribute(new Winter());
+        plant->addAttribute(new SmallLeaf());
+        plant->addAttribute(new LargeStem());
+    }
 }
 void PineBuilder::setUp()
 {
