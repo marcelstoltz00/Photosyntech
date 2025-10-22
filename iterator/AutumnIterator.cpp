@@ -1,47 +1,49 @@
-#include "PlantIterator.h"
-#include "AggPlant.h"
+#include "AutumnIterator.h"
+#include "AggAutumn.h"
 
-PlantIterator::PlantIterator(AggPlant* aggregate) : currentPlant(nullptr)
+AutumnIterator::AutumnIterator(AggAutumn* aggregate) : currentPlant(nullptr)
 {
 	this->aggregate = aggregate;
 	first();
 }
 
-void PlantIterator::first()
+void AutumnIterator::first()
 {
 	currentPlant = findNextMatch(aggregate->plants, true);
 }
 
-void PlantIterator::next()
+void AutumnIterator::next()
 {
 	currentPlant = findNextMatch(aggregate->plants, false);
 }
 
-bool PlantIterator::isDone()
+bool AutumnIterator::isDone()
 {
 	return currentPlant == nullptr;
 }
 
-LivingPlant* PlantIterator::currentItem()
+LivingPlant* AutumnIterator::currentItem()
 {
 	return currentPlant;
 }
 
-LivingPlant* PlantIterator::findNextMatch(std::list<PlantComponent*>* plants, bool findFirst)
+LivingPlant* AutumnIterator::findNextMatch(std::list<PlantComponent*>* plants, bool findFirst)
 {
 	for (auto component : *plants) {
 		// Try to cast to LivingPlant
 		LivingPlant* plant = dynamic_cast<LivingPlant*>(component);
 
 		if (plant != nullptr) {
-			// It's a LivingPlant, return it if we're finding first or if it's the one after current
-			if (findFirst) {
-				return plant;
-			}
-			if (plant == currentPlant) {
-				// We found the current plant, switch to finding mode
-				findFirst = true;
-				continue;  // Skip current, look for next
+			// It's a LivingPlant, check if it matches season
+			if (plant->getSeason() == aggregate->targetSeason) {
+				if (findFirst) {
+					return plant;
+				}
+				if (plant == currentPlant) {
+					// We found the current plant, switch to finding mode
+					findFirst = true;
+					continue;  // Skip current, look for next
+				}
 			}
 		} else {
 			// Not a LivingPlant, try to cast to PlantGroup

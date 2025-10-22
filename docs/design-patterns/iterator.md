@@ -5,13 +5,13 @@ Provides sequential access to plant collections with filtering capabilities base
 
 ## Participant Mapping
 
-| Pattern Role          | Photosyntech Class(es)                                                                          | Responsibility                                                                                                                                    |
-| --------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Iterator**          | `Iterator` (abstract)                                                                           | Defines interface for traversing plant collections (`first()`, `next()`, `isDone()`, `currentItem()`); stores reference to aggregate              |
-| **ConcreteIterator**  | `PlantIterator`<br>`SpringIterator`<br>`SummerIterator`<br>`AutumnIterator`<br>`WinterIterator` | Implement traversal algorithms with recursive composite support; cache current plant position; apply filtering logic via `findNextMatch()` helper |
-| **Aggregate**         | `Aggregate` (abstract)                                                                          | Declares interface for creating iterator objects; stores plant collection pointer                                                                 |
-| **ConcreteAggregate** | `AggPlant`<br>`AggSpring`<br>`AggSummer`<br>`AggAutumn`<br>`AggWinter`                          | Create appropriate iterator instances; seasonal aggregates store `targetSeason` for filtering                                                     |
-| **Collection**        | `PlantGroup`<br>`list<PlantComponent*>`                                                         | The plant collections being traversed; composite structure handled recursively                                                                    |
+| Pattern Role | Photosyntech Class(es) | Responsibility |
+|--------------|------------------------|----------------|
+| **Iterator** | `Iterator` (abstract) | Defines interface for traversing plant collections (`first()`, `next()`, `isDone()`, `currentItem()`); stores reference to aggregate |
+| **ConcreteIterator** | `PlantIterator`<br>`SpringIterator`<br>`SummerIterator`<br>`AutumnIterator`<br>`WinterIterator` | Implement traversal algorithms with recursive composite support; cache current plant position; apply filtering logic via `findNextMatch()` helper |
+| **Aggregate** | `Aggregate` (abstract) | Declares interface for creating iterator objects; stores plant collection pointer |
+| **ConcreteAggregate** | `AggPlant`<br>`AggSpring`<br>`AggSummer`<br>`AggAutumn`<br>`AggWinter` | Create appropriate iterator instances; seasonal aggregates store `targetSeason` for filtering |
+| **Collection** | `PlantGroup`<br>`list<PlantComponent*>` | The plant collections being traversed; composite structure handled recursively |
 
 ## Functional Requirements
 
