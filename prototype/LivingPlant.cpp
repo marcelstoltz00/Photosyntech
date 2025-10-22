@@ -8,20 +8,19 @@
 #include "../singleton/Singleton.h"
 
 LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int sunAffect)
-    : PlantComponent(price, waterAffect, sunAffect),  age(0),
-        health(0),
-        waterLevel(0),
-        sunExposure(0),
-        maturityState(nullptr),
-        waterStrategy(nullptr),
-        sunStrategy(nullptr),
-        decorator(nullptr)
+    : PlantComponent(price, waterAffect, sunAffect), age(0),
+      health(0),
+      waterLevel(0),
+      sunExposure(0),
+      maturityState(nullptr),
+      waterStrategy(nullptr),
+      sunStrategy(nullptr),
+      decorator(nullptr)
 {
     // remember to change to getString() after Wilmar fixes getSeason()
     this->name = Inventory::getInstance()->getString("");
 
-    this->season= (Inventory::getInstance()->getString(""));
-      
+    this->season = (Inventory::getInstance()->getString(""));
 };
 
 LivingPlant::LivingPlant(const LivingPlant &other)
@@ -238,4 +237,8 @@ Tree::Tree(const Tree &other)
 PlantComponent *Tree::clone()
 {
     return new Tree(*this);
+}
+PlantComponent *LivingPlant::getDecorator()
+{
+    return this->decorator;
 }

@@ -87,6 +87,8 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
 TEST_CASE("Testing decorator")
 {
     LivingPlant *plant = new Tree();
+
+    
     delete Inventory::getInstance();
     delete plant;
 }

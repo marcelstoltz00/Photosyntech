@@ -144,6 +144,8 @@ class PlantAttributes : public PlantComponent
 		//  * @param other Pointer to the decorator.
 	 	// */
 		// void setDecorator(PlantComponent* other);
+
+		
 };
 
 #endif
