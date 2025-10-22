@@ -10,10 +10,11 @@ class PlantAttributes;
  * Used to avoid dynamic_cast by providing compile-time type information.
  * Enables efficient type checking in iterators and other traversal operations.
  */
-enum class ComponentType {
-    LIVING_PLANT,    ///< Individual plant instances (Succulent, Shrub, Tree, Herb)
-    PLANT_GROUP,     ///< Composite group containing multiple plants
-    PLANT_COMPONENT  ///< Generic component (typically decorators)
+enum class ComponentType
+{
+	LIVING_PLANT,	///< Individual plant instances (Succulent, Shrub, Tree, Herb)
+	PLANT_GROUP,	///< Composite group containing multiple plants
+	PLANT_COMPONENT ///< Generic component (typically decorators)
 };
 /**
  * @brief Abstract base class representing a plant component in the Composite pattern.
@@ -58,6 +59,7 @@ protected:
 	int affectSunValue;
 
 public:
+	virtual ComponentType getType() const = 0;
 	/**
 	 * @brief Constructs a PlantComponent with basic attributes.
 	 * @param name Name of the plant.
