@@ -2,7 +2,7 @@
 #define User_h
 
 #include <string>
-#include "Mediator.h"
+class Mediator;
 
 /**
  * @brief Abstract base class for users in the Mediator pattern.
@@ -42,9 +42,24 @@ class User
 
 	public:
 		/**
+		 * @brief Constructs a User with initialized mediator pointers.
+		 */
+		User() : salesFloor(nullptr), suggestionFloor(nullptr) {}
+		
+		/**
 		 * @brief Virtual destructor for proper cleanup of derived classes.
 		 */
 		virtual ~User() {}
+		
+		/**
+		 * @brief Sets the sales floor mediator.
+		 */
+		void setSalesFloor(Mediator* mediator) { salesFloor = mediator; }
+		
+		/**
+		 * @brief Sets the suggestion floor mediator.
+		 */
+		void setSuggestionFloor(Mediator* mediator) { suggestionFloor = mediator; }
 };
 
 #endif
