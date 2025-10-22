@@ -60,6 +60,13 @@ std::string PlantGroup::getInfo(){
     return ss.str();
 };
 
+std::list<PlantComponent*>* PlantGroup::getPlants(){
+    return &plants;
+}
+
+ComponentType PlantGroup::getType() const {
+    return ComponentType::PLANT_GROUP;
+}
 PlantComponent* PlantGroup::clone(){
     return new PlantGroup(*this);
 

@@ -136,8 +136,16 @@ Flyweight<std::string *> *LivingPlant::getSeason()
     return this->season;
 }
 
-PlantComponent *LivingPlant::clone()
-{
+ComponentType LivingPlant::getType() const {
+    return ComponentType::LIVING_PLANT;
+}
+
+PlantComponent* LivingPlant::clone(){
+    return new LivingPlant(*this);
+};
+
+void LivingPlant::water(){
+    if (this->waterStrategy != nullptr){
 
 };
 
