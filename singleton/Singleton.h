@@ -10,6 +10,7 @@ using namespace std;
 #include "../strategy/LowSun.h"
 #include "../strategy/MidSun.h"
 #include "../strategy/HighSun.h"
+#include "../strategy/AlternatingSun.h"
 
 
 // #include "../mediator/Staff.h"
@@ -74,7 +75,6 @@ private:
 	FlyweightFactory<int, WaterStrategy *> *waterStrategies;
 	FlyweightFactory<int, SunStrategy *> *sunStrategies;
 	FlyweightFactory<int, MaturityState *> *states;
-
 	vector<Staff *> *staffList;
 	vector<Customer *> *customerList;
 	/**
