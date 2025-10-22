@@ -25,7 +25,7 @@ class SmallStem : public PlantAttributes
          * @brief Constructs a SmallStem decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        SmallStem(PlantComponent* component);
+        SmallStem();
 
         /**
          * @brief Copy constructor for cloning.

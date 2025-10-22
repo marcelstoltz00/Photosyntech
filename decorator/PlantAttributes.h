@@ -44,7 +44,7 @@
 class PlantAttributes : public PlantComponent
 {
 	private:
-		PlantComponent* component;
+		PlantComponent* nextComponent;
 	protected:
 		//Name of the attribute
 		Flyweight<std::string *> *name;
@@ -56,7 +56,7 @@ class PlantAttributes : public PlantComponent
 		 * @param waterAffect Water affection modification.
 		 * @param sunAffect Sun affection modification.
 		 */
-		PlantAttributes(PlantComponent* component, std::string name, double price, int waterAffect, int sunAffect);
+		PlantAttributes(std::string name, double price, int waterAffect, int sunAffect);
 
 		/**
 		 * @brief Copies a plant attribute decorator.
@@ -125,18 +125,26 @@ class PlantAttributes : public PlantComponent
 		 * @brief Adds another attribute decorator to this plant.
 		 * @param attribute Pointer to the PlantAttributes decorator to add.
 		 */
-		void addAttribute(PlantAttributes* attribute);
+		void addAttribute(PlantComponent* attribute);
 
 		/**
 		 * @brief Clones the decorated plant including all decorators.
 		 * @return Pointer to a new PlantComponent that is a copy of this decorated plant.
 		 */
-		PlantComponent* clone();
+		virtual PlantComponent* clone() = 0;
 
 		/**
 		 * @brief Virtual destructor for proper cleanup of derived classes.
 		 */
-		virtual ~PlantAttributes() {delete component;}
+		virtual ~PlantAttributes() {
+			delete nextComponent;
+		}
+
+		// /**
+		//  * @brief Sets the decorator for builder purposes
+		//  * @param other Pointer to the decorator.
+	 	// */
+		// void setDecorator(PlantComponent* other);
 };
 
 #endif

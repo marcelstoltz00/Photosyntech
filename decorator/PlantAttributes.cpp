@@ -1,71 +1,76 @@
 #include "PlantAttributes.h"
 #include <sstream>
 
-PlantAttributes::PlantAttributes(PlantComponent* component, std::string name, double price, int waterAffect, int sunAffect)
+PlantAttributes::PlantAttributes(std::string name, double price, int waterAffect, int sunAffect)
     :  PlantComponent(price, waterAffect, sunAffect), 
 
-      component(component), 
+      nextComponent(nullptr), 
       name(Inventory::getInstance()->getString(name)){
 
 };
 
 PlantAttributes::PlantAttributes(const PlantAttributes &other)
     : PlantComponent(other), 
-      component(other.component->clone()), 
+      nextComponent(other.nextComponent->clone()), 
       name(other.name)
 {};
 
 void PlantAttributes::affectSunlight(){
-    component->affectSunlight();
+    if (nextComponent) 
+        nextComponent->affectSunlight();
 };
 
 void PlantAttributes::affectWater(){
-    component->affectWater();
+    if (nextComponent) 
+        nextComponent->affectWater();
 };
 
 void PlantAttributes::water(){
-    component->water();
+    if (nextComponent) 
+        nextComponent->water(); 
 };
 
 void PlantAttributes::setOutside(){
-    component->setOutside();
+    if (nextComponent) 
+        nextComponent->setOutside();
 };
 
 void PlantAttributes::update(){
-    component->update();
+    if (nextComponent) 
+        nextComponent->update();
 };
 
 std::string PlantAttributes::getInfo(){
-    std::stringstream ss;
-    ss << component->getInfo();
-    ss << " -> Decorated with: " << *name->getState() << " (Price Mod: R " << this->price << ")" << "\n";
-    return ss.str();
+        std::string baseInfo = (nextComponent != nullptr) ? nextComponent->getInfo() : "";
+        std::stringstream ss;
+        ss << baseInfo;
+        ss << " -> Decorated with: " << *name->getState() << " (+R" << this->price << ")\n";
+        return ss.str();
 };
 
 double PlantAttributes::getPrice(){
-    return component->getPrice() + this->price;
+    double nextPrice = (nextComponent != nullptr) ? nextComponent->getPrice() : 0.0;
+    return this->price + nextPrice;
 };
 
 std::string PlantAttributes::getName(){
-    return component->getName();
+    return (nextComponent != nullptr) ? nextComponent->getName() : "Incomplete Plant";
 };
 
 int PlantAttributes::getAffectSunlight(){
-    return component->getAffectSunlight();
+    int baseAffect = (nextComponent) ? nextComponent->getAffectSunlight() : 0;
+    return baseAffect + this->affectSunValue;
 };
 
 int PlantAttributes::getAffectWater(){
-    return component->getAffectWater();
+    int baseAffect = (nextComponent) ? nextComponent->getAffectWater() : 0;
+    return baseAffect + this->affectWaterValue;
 };
 
-void PlantAttributes::addAttribute(PlantAttributes* attribute){
-    //goes to stub
-    component->addAttribute(attribute);
-};
-
-PlantComponent* PlantAttributes::clone(){
-    //check that this is correct for decorator
-    PlantComponent* clonedComponent = this->component->clone();
-
-    return new PlantAttributes(*this);
+void PlantAttributes::addAttribute(PlantComponent* attribute){
+    if (nextComponent == nullptr){
+        nextComponent = attribute;
+    }else{
+        nextComponent->addAttribute(attribute);
+    }
 };

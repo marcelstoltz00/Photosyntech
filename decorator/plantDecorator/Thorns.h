@@ -24,7 +24,7 @@ class Thorns : public PlantAttributes
          * @brief Constructs a Thorns decorator, wrapping the given component.
          * @param component The PlantComponent to decorate.
          */
-        Thorns(PlantComponent* component);
+        Thorns();
 
         /**
          * @brief Copy constructor for cloning.
