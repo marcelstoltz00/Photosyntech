@@ -63,8 +63,6 @@
 //     };
 //     CHECK(plant->getAge() == 7);
 
-    
-
 //    CHECK(Inventory::getInstance()->getWaterFly(5000)->getState()->water(plant) == 10);
 
 //     CHECK(*Inventory::getInstance()->getString("Insert1")->getState() == "Insert1");
@@ -73,18 +71,19 @@
 //     delete plant;
 // }
 
-//testing decorator
+// testing decorator
 #include <iostream>
 #include "prototype/LivingPlant.h"
 #include "decorator/customerDecorator/LargePot.h"
 #include "decorator/customerDecorator/ShopThemedCharm.h"
 
-int main() {
-    PlantComponent* myPlant = new LargePot();
+int main()
+{
+    PlantComponent *myPlant = new LargePot();
 
     myPlant->addAttribute(new ShopThemedCharm());
 
-    LivingPlant* herb = new LivingPlant("Herb", 30.00, 3, 3);
+    LivingPlant *herb = new LivingPlant("Herb", 30.00, 3, 3);
 
     herb->setWaterStrategy(2);
     herb->setSunStrategy(2);
@@ -97,29 +96,35 @@ int main() {
     myPlant->affectWater();
     myPlant->affectSunlight();
 
-    std::cout << "Current Plant Info:\n" << myPlant->getInfo() << std::endl;
+    std::cout << "Current Plant Info:\n"
+              << myPlant->getInfo() << std::endl;
     std::cout << "Current Price: R" << myPlant->getPrice() << std::endl;
     std::cout << "----------------------------------" << std::endl;
     std::cout << "Drought incoming, pasop oaks" << std::endl;
 
-    for (int i = 0; i < 5; i++){
+    for (int i = 0; i < 5; i++)
+    {
         myPlant->affectWater();
     }
 
-    std::cout << "Plant Info After Drought:\n" << myPlant->getInfo() << std::endl;
+    std::cout << "Plant Info After Drought:\n"
+              << myPlant->getInfo() << std::endl;
     std::cout << "Price: R" << myPlant->getPrice() << std::endl;
     std::cout << "----------------------------------" << std::endl;
 
     std::cout << "Infinite darkness. bruh." << std::endl;
-        for (int i = 0; i < 5; i++){
+    for (int i = 0; i < 5; i++)
+    {
         myPlant->affectSunlight();
     }
 
-    std::cout << "Plant Info After Darkness:\n" << myPlant->getInfo() << std::endl;
+    std::cout << "Plant Info After Darkness:\n"
+              << myPlant->getInfo() << std::endl;
     std::cout << "Price: R" << myPlant->getPrice() << std::endl;
     std::cout << "----------------------------------" << std::endl;
-    
+
     delete myPlant;
-    
+    delete Inventory::getInstance();
+
     return 0;
 }
