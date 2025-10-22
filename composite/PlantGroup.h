@@ -81,25 +81,13 @@ class PlantGroup : public PlantComponent, public Subject
 		 * @brief Gets the total water affection value for all plants in the group.
 		 * @return Integer representing cumulative water impact.
 		 */
-		void affectWater();
+		int affectWater();
 
 		/**
 		 * @brief Gets the total sunlight affection value for all plants in the group.
 		 * @return Integer representing cumulative sunlight impact.
 		 */
-		void affectSunlight();
-
-		/**
-		 * @brief Gets the sunlight affection value for this group.
-		 * @return Integer representing sunlight impact.
-		 */
-		int getAffectSunlight();
-
-		/**
-		 * @brief Gets the water affection value for this group.
-		 * @return Integer representing water impact.
-		 */
-		int getAffectWater();
+		int affectSunlight();
 
 		/**
 	 	* @brief Gets group name as a formatted string.

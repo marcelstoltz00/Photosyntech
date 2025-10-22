@@ -70,32 +70,24 @@ void PlantGroup::update(){
     }
 };
 
-void PlantGroup::affectWater(){
+int PlantGroup::affectWater(){
+    int totalAffected = 0;
+    
     for (PlantComponent* component : plants){
-        component->affectWater();
+        totalAffected += component->affectWater(); 
     }
+    
+    return totalAffected;
 };
 
-void PlantGroup::affectSunlight(){
+int PlantGroup::affectSunlight(){
+    int totalAffected = 0;
+    
     for (PlantComponent* component : plants){
-        component->affectSunlight();
+        totalAffected += component->affectSunlight();
     }
-};
-
-int PlantGroup::getAffectWater(){
-    int totalAffect = this->affectWaterValue;
-    for (PlantComponent* component : plants){
-        totalAffect += component->getAffectWater();
-    }
-    return totalAffect;
-};
-
-int PlantGroup::getAffectSunlight(){
-    int totalAffect = this->affectSunValue;
-    for (PlantComponent* component : plants){
-        totalAffect += component->getAffectSunlight();
-    }
-    return totalAffect;
+    
+    return totalAffected;
 };
 
 double PlantGroup::getPrice(){
