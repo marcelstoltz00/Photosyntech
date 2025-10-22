@@ -18,7 +18,8 @@
 class CherryBlossomBuilder : public Builder
 {
 private:
-    LivingPlant *plant;
+	LivingPlant *plant = nullptr;
+	PlantAttributes*season= nullptr;
 
 public:
     /**
@@ -59,7 +60,7 @@ public:
      * @brief Returns the fully constructed Cherry Blossom tree.
      * @return Pointer to the constructed Cherry Blossom tree.
      */
-    LivingPlant *getResult() override;
+      PlantComponent *getResult() override;
 
     /**
      * @brief Destructor for CherryBlossomBuilder.

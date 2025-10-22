@@ -18,7 +18,8 @@
 class RoseBuilder : public Builder
 {
 private:
-    LivingPlant *plant;
+	LivingPlant *plant = nullptr;
+	PlantAttributes*season= nullptr;
 
 public:
     /**
@@ -59,7 +60,7 @@ public:
      * @brief Returns the fully constructed Rose plant.
      * @return Pointer to the constructed Rose plant.
      */
-    LivingPlant *getResult() override;
+   PlantComponent *getResult() override;
 
     /**
      * @brief Destructor for RoseBuilder.

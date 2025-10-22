@@ -18,7 +18,8 @@
 class LavenderBuilder : public Builder
 {
 private:
-    LivingPlant *plant;
+    LivingPlant *plant = nullptr;
+    PlantAttributes *season = nullptr;
 
 public:
     /**
@@ -58,7 +59,7 @@ public:
      * @brief Returns the fully constructed Lavender plant.
      * @return Pointer to the constructed Lavender plant.
      */
-    LivingPlant *getResult() override;
+    PlantComponent *getResult() override;
 
     /**
      * @brief Destructor for LavenderBuilder.

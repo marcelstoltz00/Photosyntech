@@ -34,8 +34,8 @@ void SunflowerBuilder::assignMaturityState() {
     }
 }
 
-LivingPlant* SunflowerBuilder::getResult() {
-    return plant;
+PlantComponent* SunflowerBuilder::getResult() {
+    return plant->clone();
 }
 
 void SunflowerBuilder::addDecorators() {

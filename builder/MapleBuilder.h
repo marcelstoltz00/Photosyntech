@@ -18,7 +18,8 @@
 class MapleBuilder : public Builder
 {
 private:
-    LivingPlant *plant;
+    LivingPlant *plant = nullptr;
+    PlantAttributes *season = nullptr;
 
 public:
     /**
@@ -58,7 +59,7 @@ public:
      * @brief Returns the fully constructed Maple tree.
      * @return Pointer to the constructed Maple tree.
      */
-    LivingPlant *getResult() override;
+   PlantComponent *getResult() override;
 
     /**
      * @brief Destructor for MapleBuilder.

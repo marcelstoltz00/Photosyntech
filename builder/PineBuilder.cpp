@@ -42,9 +42,9 @@ void PineBuilder::assignMaturityState()
     }
 }
 
-LivingPlant *PineBuilder::getResult()
+PlantComponent *PineBuilder::getResult()
 {
-    return plant;
+    return plant->clone();
 }
 
 void PineBuilder::addDecorators()

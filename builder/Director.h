@@ -34,7 +34,7 @@ class Director
 		 * @brief Retrieves the constructed plant from the builder.
 		 * @return Pointer to the fully constructed LivingPlant object.
 		 */
-		LivingPlant* getPlant();
+		PlantComponent* getPlant();
 };
 
 #endif

@@ -34,8 +34,8 @@ void LavenderBuilder::assignMaturityState() {
     }
 }
 
-LivingPlant* LavenderBuilder::getResult() {
-    return plant;
+PlantComponent* LavenderBuilder::getResult() {
+    return plant->clone();
 }
 
 void LavenderBuilder::addDecorators() {

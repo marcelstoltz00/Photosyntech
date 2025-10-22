@@ -18,7 +18,8 @@
 class PineBuilder : public Builder
 {
 private:
-    LivingPlant *plant;
+  	LivingPlant *plant = nullptr;
+	PlantAttributes *season = nullptr;
 
 public:
     /**
@@ -58,7 +59,7 @@ public:
      * @brief Returns the fully constructed Pine tree.
      * @return Pointer to the constructed Pine tree.
      */
-    LivingPlant *getResult() override;
+    PlantComponent *getResult() override;
 
     /**
      * @brief Destructor for PineBuilder.

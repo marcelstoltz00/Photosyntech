@@ -18,7 +18,8 @@
 class CactusBuilder : public Builder
 {
 private:
-    LivingPlant *plant;
+    LivingPlant *plant = nullptr;
+    PlantAttributes *season = nullptr;
 
 public:
     /**
@@ -51,14 +52,14 @@ public:
      */
     void setUp() override;
     /**
-     * @brief Adds decorators to the LivingPlant.
+     * @brief Adds decorators to thePlantComponent.
      */
     virtual void addDecorators() = 0;
     /**
      * @brief Returns the fully constructed Cactus plant.
      * @return Pointer to the constructed Cactus plant.
      */
-    LivingPlant *getResult() override;
+    PlantComponent *getResult() override;
 
     /**
      * @brief Destructor for CactusBuilder.

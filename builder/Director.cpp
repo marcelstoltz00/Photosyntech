@@ -12,7 +12,7 @@ void Director::construct() {
     builder->assignMaturityState();
     builder->addDecorators();
 }
-LivingPlant* Director::getPlant() {
+PlantComponent* Director::getPlant() {
     if (!builder) {
         return nullptr;
     }

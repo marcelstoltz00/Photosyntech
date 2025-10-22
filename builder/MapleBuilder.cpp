@@ -33,8 +33,8 @@ void MapleBuilder::assignMaturityState() {
     }
 }
 
-LivingPlant* MapleBuilder::getResult() {
-    return plant;
+PlantComponent* MapleBuilder::getResult() {
+    return plant->clone();
 }
 void MapleBuilder::addDecorators() {
     // if (plant) {

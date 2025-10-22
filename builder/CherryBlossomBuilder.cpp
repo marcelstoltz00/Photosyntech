@@ -34,8 +34,8 @@ void CherryBlossomBuilder::assignMaturityState() {
     }
 }
 
-LivingPlant* CherryBlossomBuilder::getResult() {
-    return plant;
+PlantComponent* CherryBlossomBuilder::getResult() {
+    return plant->clone();
 }
 
 void CherryBlossomBuilder::addDecorators(){

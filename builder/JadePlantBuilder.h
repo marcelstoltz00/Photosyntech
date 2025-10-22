@@ -18,7 +18,8 @@
 class JadePlantBuilder : public Builder
 {
 private:
-    LivingPlant *plant;
+	LivingPlant *plant = nullptr;
+	PlantAttributes*season= nullptr;
 
 public:
     /**
@@ -59,7 +60,7 @@ public:
      * @brief Returns the fully constructed Jade plant.
      * @return Pointer to the constructed Jade plant.
      */
-    LivingPlant *getResult() override;
+    PlantComponent *getResult() override;
 
     /**
      * @brief Destructor for JadePlantBuilder.
