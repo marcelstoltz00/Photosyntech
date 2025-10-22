@@ -1,7 +1,7 @@
 #ifndef ROSEBUILDER_H
 #define ROSEBUILDER_H
 
-#include "Builder.h"
+#include "../builder/Builder.h"
 
 /**
  * @brief Concrete builder for Rose plants.

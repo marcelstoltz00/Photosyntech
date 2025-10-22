@@ -1,8 +1,8 @@
 #ifndef Director_h
 #define Director_h
 
-#include "Builder.h"
-#include "prototype/LivingPlant.h"
+#include "../builder/Builder.h"
+#include "../prototype/LivingPlant.h"
 
 /**
  * @brief Orchestrates the PlantComponent construction process using a Builder.

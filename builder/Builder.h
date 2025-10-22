@@ -1,8 +1,8 @@
 #ifndef Builder_h
 #define Builder_h
 
-#include "composite/PlantComponent.h"
-#include "prototype/LivingPlant.h"
+#include "../composite/PlantComponent.h"
+#include "../prototype/LivingPlant.h"
 
 /**
  * @brief Abstract builder interface for constructing complex PlantComponent objects.
