@@ -8,7 +8,7 @@
 #include <doctest/doctest.h>
 #include "prototype/Tree.h"
 #include "state/Seed.h"
-
+#include "decorator/plantDecorator/Autumn.h"
 TEST_CASE("Overall Testing of flyweight strings + error handling")
 {
     FlyweightFactory<int, string *> *fac = new FlyweightFactory<int, string *>();
@@ -87,8 +87,9 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
 TEST_CASE("Testing decorator")
 {
     LivingPlant *plant = new Tree();
-
-    
+    plant->addAttribute(new Autumn());
     delete Inventory::getInstance();
-    delete plant;
+    delete plant->getDecorator();
+
+    delete Inventory::getInstance();
 }
