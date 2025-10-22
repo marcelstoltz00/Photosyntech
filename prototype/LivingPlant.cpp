@@ -141,7 +141,6 @@ PlantComponent *LivingPlant::clone()
     return new LivingPlant(*this);
 };
 
-
 void LivingPlant::water()
 {
     if (this->waterStrategy != nullptr)
@@ -247,6 +246,7 @@ PlantComponent *LivingPlant::getDecorator()
 }
 PlantComponent *LivingPlant::correctShape(PlantComponent *mainDecorator)
 {
+
     this->decorator = mainDecorator;
     return this;
 }

@@ -34,6 +34,7 @@ void PlantAttributes::update()
 
 std::string PlantAttributes::getInfo()
 {
+
     std::string baseInfo = (nextComponent != nullptr) ? nextComponent->getInfo() : "";
     std::stringstream ss;
     ss << baseInfo;

@@ -78,8 +78,8 @@ ShopThemedCharm::ShopThemedCharm(const ShopThemedCharm &other)
 PlantComponent *ShopThemedCharm::clone()
 {
     PlantComponent *clone = new ShopThemedCharm();
-    clone->addAttribute(this->nextComponent->clone());  
-    
+    clone->addAttribute(this->nextComponent->clone());
+
     return clone;
 }
 
@@ -129,6 +129,7 @@ LargeLeaf::LargeLeaf(const LargeLeaf &other)
 
 PlantComponent *LargeLeaf::clone()
 {
+    cout << " i was cloned large leaf" << endl;
     PlantComponent *clone = new LargeLeaf();
     clone->addAttribute(this->nextComponent->clone());
     return clone;
@@ -216,8 +217,8 @@ Spring::Spring(const Spring &other)
 PlantComponent *Spring::clone()
 {
     PlantComponent *clone = new Spring();
-    clone->addAttribute(this->nextComponent->clone());
-    return clone;
+    clone->addAttribute(nextComponent->clone());
+return clone->correctShape(clone);
 }
 
 Summer::Summer()
@@ -234,7 +235,7 @@ PlantComponent *Summer::clone()
 {
     PlantComponent *clone = new Summer();
     clone->addAttribute(this->nextComponent->clone());
-    return clone;
+ return clone->correctShape(clone);
 }
 
 Thorns::Thorns()
@@ -268,5 +269,5 @@ PlantComponent *Winter::clone()
 {
     PlantComponent *clone = new Winter();
     clone->addAttribute(this->nextComponent->clone());
-    return clone->correctShape(clone);
+ return clone->correctShape(clone);
 }

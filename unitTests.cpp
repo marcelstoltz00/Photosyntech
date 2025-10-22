@@ -33,7 +33,6 @@
 #include "decorator/customerDecorator/PlantDecorationHeader.h"
 #include "decorator/plantDecorator/PlantAttributesHeader.h"
 
-
 TEST_CASE("Overall Testing of flyweight strings + error handling")
 {
     FlyweightFactory<int, string *> *fac = new FlyweightFactory<int, string *>();
@@ -323,7 +322,7 @@ TEST_CASE("Testing Builder Pattern Implementation")
 
         CHECK(rosePlant != nullptr);
 
-        delete rosePlant;
+        delete rosePlant->getDecorator();
         delete roseBuilder;
     }
 
@@ -341,9 +340,10 @@ TEST_CASE("Testing Builder Pattern Implementation")
         CHECK(info.find("Base Price") != std::string::npos);
 
         rosePlant->water();
+        delete rosePlant->getDecorator();
 
-        delete rosePlant;
         delete roseBuilder;
+        delete Inventory::getInstance();
     }
 
     SUBCASE("Testing Cactus Builder")
@@ -362,7 +362,7 @@ TEST_CASE("Testing Builder Pattern Implementation")
 
         cactusPlant->setOutside();
 
-        delete cactusPlant;
+        delete cactusPlant->getDecorator();
         delete cactusBuilder;
     }
 
@@ -398,10 +398,12 @@ TEST_CASE("Testing Builder Pattern Implementation")
             CHECK(cactusLivingPlant->getSunExposure() > roseLivingPlant->getSunExposure());
         }
 
-        delete rosePlant;
-        delete cactusPlant;
+        delete rosePlant->getDecorator();
+        delete cactusPlant->getDecorator();
+        
         delete roseBuilder;
         delete cactusBuilder;
+        delete Inventory::getInstance();
     }
 
     SUBCASE("Testing Complete Builder Process")
@@ -426,8 +428,10 @@ TEST_CASE("Testing Builder Pattern Implementation")
             rosePlant->water();
             CHECK(roseLivingPlant->getWaterLevel() >= 20);
         }
-        
-        delete rosePlant->clone();
+        cout << rosePlant->getDecorator()->getInfo();
+        delete rosePlant->getDecorator();
         delete roseBuilder;
+
+        delete Inventory::getInstance();
     }
 }
