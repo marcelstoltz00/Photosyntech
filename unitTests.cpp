@@ -10,6 +10,12 @@
 #include "prototype/Tree.h"
 #include "state/Seed.h"
 
+#include "prototype/LivingPlant.h"
+#include "decorator/customerDecorator/PlantDecorationHeader.h"
+#include "decorator/plantDecorator/PlantAttributesHeader.h"
+
+
+
 TEST_CASE("Overall Testing of flyweight strings + error handling")
 {
     FlyweightFactory<int, string *> *fac = new FlyweightFactory<int, string *>();
@@ -59,12 +65,18 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
     delete plant;
 }
 
+TEST_CASE("Testing decorator")
+{
+    LivingPlant *tree = new Tree();
+    tree->addAttribute(new Thorns());
+
+
+}
+
 // testing decorator
 /*
 #include <iostream>
-#include "prototype/LivingPlant.h"
-#include "decorator/customerDecorator/LargePot.h"
-#include "decorator/customerDecorator/ShopThemedCharm.h"
+
 
 int main()
 {
