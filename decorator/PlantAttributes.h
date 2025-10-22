@@ -68,13 +68,12 @@ class PlantAttributes : public PlantComponent
 		 * @brief Gets the sunlight affection value including decorator modifications.
 		 * @return Integer representing total sunlight impact.
 		 */
-		void affectSunlight();
+
 
 		/**
 		 * @brief Gets the water affection value including decorator modifications.
 		 * @return Integer representing total water impact.
 		 */
-		void affectWater();
 
 		/**
 		 * @brief Gets plant information including decorator details.
@@ -92,13 +91,13 @@ class PlantAttributes : public PlantComponent
 		 * @brief Gets the sunlight affection value for this component.
 		 * @return Integer representing sunlight impact.
 		 */
-		int getAffectSunlight() ;
+		int affectSunlight() ;
 
 		/**
 		 * @brief Gets the water affection value for this component.
 		 * @return Integer representing water impact.
 		 */
-		int getAffectWater();
+		int affectWater();
 
 		/**
 		 * @brief Gets component name as a formatted string.
@@ -137,6 +136,7 @@ class PlantAttributes : public PlantComponent
 		 * @brief Virtual destructor for proper cleanup of derived classes.
 		 */
 		virtual ~PlantAttributes() {
+			if (nextComponent)
 			delete nextComponent;
 		}
 
@@ -145,6 +145,8 @@ class PlantAttributes : public PlantComponent
 		//  * @param other Pointer to the decorator.
 	 	// */
 		// void setDecorator(PlantComponent* other);
+
+		
 };
 
 #endif

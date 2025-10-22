@@ -46,7 +46,7 @@ template <class ID, class T>
 class FlyweightFactory
 {
 private:
-	unordered_map<ID, Flyweight<T> *> cache;
+	unordered_map<ID, Flyweight<T> *> * cache;
 
 public:
 	FlyweightFactory();

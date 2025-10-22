@@ -37,6 +37,7 @@ TEST_SRC = unitTests.cpp\
             decorator/PlantAttributes.cpp\
             decorator/ConcreteDecorators.cpp\
 			strategy/AlternatingSun.cpp\
+			composite/PlantGroup.cpp\
 			builder/Director.cpp\
 			builder/RoseBuilder.cpp\
 			builder/CactusBuilder.cpp\

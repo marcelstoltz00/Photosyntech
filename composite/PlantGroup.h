@@ -28,6 +28,12 @@ class PlantGroup : public PlantComponent, public Subject
 		PlantGroup();
 
 		/**
+         * @brief Copy constructor for deep copying the group hierarchy.
+         * @param other The PlantGroup object to copy.
+         */
+        PlantGroup(const PlantGroup& other);
+
+		/**
 		 * @brief Virtual destructor for proper cleanup.
 		*/
 		virtual ~PlantGroup();
@@ -84,6 +90,12 @@ class PlantGroup : public PlantComponent, public Subject
 		int affectSunlight();
 
 		/**
+	 	* @brief Gets group name as a formatted string.
+	 	* @return String containing group name.
+	 	*/
+		std::string getName();
+
+		/**
 		 * @brief Notifies observers that plants in this group need water.
 		 */
 		void waterNeeded();
@@ -106,9 +118,15 @@ class PlantGroup : public PlantComponent, public Subject
 
 		/**
 		 * @brief Adds an attribute decorator to all plants in this group.
-		 * @param attribute Pointer to the PlantAttributes decorator to add.
+		 * @param component Pointer to the PlantAttributes decorator to add.
 		 */
-		void addAttribute(PlantAttributes* attribute);
+		void addAttribute(PlantComponent* component);
+
+		/**
+		 * @brief Adds a component to the list of plants.
+		 * @param component Pointer to the component to add.
+		 */
+		void addComponent(PlantComponent* component);
 };
 
 #endif
