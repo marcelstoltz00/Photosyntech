@@ -145,6 +145,7 @@ public:
 	 * @param other Pointer to the decorator.
 	 */
 	virtual PlantComponent *getDecorator() { return this; };
+		virtual PlantComponent *correctShape(PlantComponent *) = 0;
 };
 
 #endif

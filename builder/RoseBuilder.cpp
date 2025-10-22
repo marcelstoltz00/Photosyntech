@@ -37,7 +37,7 @@ void RoseBuilder::assignMaturityState() {
 }
 
 PlantComponent* RoseBuilder::getResult() {
-    return plant->clone();
+    return plant->getDecorator()->clone();
 }
 
 void RoseBuilder::addDecorators() {
