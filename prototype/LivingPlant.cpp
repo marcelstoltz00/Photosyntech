@@ -10,15 +10,17 @@
 LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int sunAffect)
     : PlantComponent(price, waterAffect, sunAffect),
       // remember to change to getString() after Wilmar fixes getSeason()
-      name(Inventory::getInstance()->getString(name)),
-      season(nullptr),
+      name(Inventory::getInstance()->getString("")),
+      season(Inventory::getInstance()->getString("")),
       age(0),
       health(0),
       waterLevel(0),
       sunExposure(0),
       maturityState(nullptr),
       waterStrategy(nullptr),
-      sunStrategy(nullptr) {};
+      sunStrategy(nullptr),
+      decorator(nullptr) {};
+    
 
 LivingPlant::LivingPlant(const LivingPlant &other)
     : PlantComponent(other),
@@ -32,7 +34,8 @@ LivingPlant::LivingPlant(const LivingPlant &other)
 
       maturityState(other.maturityState),
       waterStrategy(other.waterStrategy),
-      sunStrategy(other.sunStrategy) {};
+      sunStrategy(other.sunStrategy),
+      decorator(nullptr) {};
 
 void LivingPlant::setAge(int age)
 {

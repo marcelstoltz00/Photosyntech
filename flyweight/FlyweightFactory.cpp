@@ -42,4 +42,5 @@ FlyweightFactory<ID, T>::~FlyweightFactory()
         }
         itr++;
     }
+    cache.clear();
 }
