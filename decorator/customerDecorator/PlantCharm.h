@@ -21,10 +21,27 @@
 class PlantCharm : public PlantAttributes
 {
 	public:
-		/**
-		 * @brief Constructs a PlantCharm decorator with predefined characteristics.
-		 */
-		PlantCharm();
+        /**
+         * @brief Constructs a PlantCharm decorator, wrapping the given component.
+         * @param component The PlantComponent to decorate.
+         */
+        PlantCharm();
+
+        /**
+         * @brief Copy constructor for cloning.
+         */
+        PlantCharm(const PlantCharm &other);
+
+        /**
+         * @brief Clones the decorated plant component (Prototype pattern).
+         * @return Pointer to a new PlantCharm decorator wrapping a clone of the underlying component.
+         */
+        PlantComponent* clone();
+
+        /**
+         * @brief Virtual destructor for proper cleanup.
+         */
+        virtual ~PlantCharm() {}
 };
 
 #endif

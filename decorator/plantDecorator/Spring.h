@@ -38,10 +38,27 @@
 class Spring : public PlantAttributes
 {
 	public:
-		/**
-		 * @brief Constructs a Spring decorator with spring-specific characteristics.
-		 */
-		Spring();
+        /**
+         * @brief Constructs a Spring decorator, wrapping the given component.
+         * @param component The PlantComponent to decorate.
+         */
+        Spring();
+
+        /**
+         * @brief Copy constructor for cloning.
+         */
+        Spring(const Spring &other);
+
+        /**
+         * @brief Clones the decorated plant component (Prototype pattern).
+         * @return Pointer to a new Spring decorator wrapping a clone of the underlying component.
+         */
+        PlantComponent* clone();
+
+        /**
+         * @brief Virtual destructor for proper cleanup.
+         */
+        virtual ~Spring() {}
 };
 
 #endif

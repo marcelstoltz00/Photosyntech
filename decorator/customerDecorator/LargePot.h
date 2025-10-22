@@ -36,10 +36,27 @@
 class LargePot : public PlantAttributes
 {
 	public:
-		/**
-		 * @brief Constructs a LargePot decorator with predefined characteristics.
-		 */
-		LargePot();
+        /**
+         * @brief Constructs a LargePot decorator, wrapping the given component.
+         * @param component The PlantComponent to decorate.
+         */
+        LargePot();
+
+        /**
+         * @brief Copy constructor for cloning.
+         */
+        LargePot(const LargePot &other);
+
+        /**
+         * @brief Clones the decorated plant component (Prototype pattern).
+         * @return Pointer to a new LargePot decorator wrapping a clone of the underlying component.
+         */
+        PlantComponent* clone();
+
+        /**
+         * @brief Virtual destructor for proper cleanup.
+         */
+        virtual ~LargePot() {}
 };
 
 #endif

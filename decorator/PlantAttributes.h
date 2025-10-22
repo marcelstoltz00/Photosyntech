@@ -3,6 +3,9 @@
 
 #include <string>
 #include "../composite/PlantComponent.h"
+//@Wilmar does this mess anything up in flyweight? It is what the diagram says ...
+#include "../flyweight/Flyweight.h"
+#include "../singleton/Singleton.h"
 
 /**
  * @brief Abstract decorator for adding attributes to plants.
@@ -40,27 +43,38 @@
  */
 class PlantAttributes : public PlantComponent
 {
+	private:
+		PlantComponent* nextComponent;
+	protected:
+		//Name of the attribute
+		Flyweight<std::string *> *name;
 	public:
 		/**
 		 * @brief Constructs a plant attribute decorator.
-		 * @param info Information string for this attribute.
+		 * @param name Information string for this attribute.
 		 * @param price Price modification for this attribute.
 		 * @param waterAffect Water affection modification.
 		 * @param sunAffect Sun affection modification.
 		 */
-		PlantAttributes(std::string info, double price, int waterAffect, int sunAffect);
+		PlantAttributes(std::string name, double price, int waterAffect, int sunAffect);
+
+		/**
+		 * @brief Copies a plant attribute decorator.
+
+		 */
+		PlantAttributes(const PlantAttributes &other);
 
 		/**
 		 * @brief Gets the sunlight affection value including decorator modifications.
 		 * @return Integer representing total sunlight impact.
 		 */
-		int affectSunlight();
+		void affectSunlight();
 
 		/**
 		 * @brief Gets the water affection value including decorator modifications.
 		 * @return Integer representing total water impact.
 		 */
-		int affectWater();
+		void affectWater();
 
 		/**
 		 * @brief Gets plant information including decorator details.
@@ -75,21 +89,62 @@ class PlantAttributes : public PlantComponent
 		double getPrice();
 
 		/**
+		 * @brief Gets the sunlight affection value for this component.
+		 * @return Integer representing sunlight impact.
+		 */
+		int getAffectSunlight() ;
+
+		/**
+		 * @brief Gets the water affection value for this component.
+		 * @return Integer representing water impact.
+		 */
+		int getAffectWater();
+
+		/**
+		 * @brief Gets component name as a formatted string.
+		 * @return String containing plant name.
+		 */
+		std::string getName();
+
+		/**
+		 * @brief Waters the plant component.
+		 */
+		void water();
+
+		/**
+		 * @brief Sets the plant component to be outside.(Calls Sun Strategy)
+		 */
+		void setOutside();
+
+		/**
+		 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
+		 */
+		void update();
+
+		/**
 		 * @brief Adds another attribute decorator to this plant.
 		 * @param attribute Pointer to the PlantAttributes decorator to add.
 		 */
-		void addAttribute(PlantAttributes* attribute);
+		void addAttribute(PlantComponent* attribute);
 
 		/**
 		 * @brief Clones the decorated plant including all decorators.
 		 * @return Pointer to a new PlantComponent that is a copy of this decorated plant.
 		 */
-		PlantComponent* clone();
+		virtual PlantComponent* clone() = 0;
 
 		/**
 		 * @brief Virtual destructor for proper cleanup of derived classes.
 		 */
-		virtual ~PlantAttributes() {}
+		virtual ~PlantAttributes() {
+			delete nextComponent;
+		}
+
+		// /**
+		//  * @brief Sets the decorator for builder purposes
+		//  * @param other Pointer to the decorator.
+	 	// */
+		// void setDecorator(PlantComponent* other);
 };
 
 #endif
