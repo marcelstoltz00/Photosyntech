@@ -2,8 +2,7 @@
 #define Customer_h
 
 #include "User.h"
-#include "../composite/PlantGroup.h"
-#include "../composite/PlantComponent.h"
+#include "../composite/PlantGroup.h"  // Include PlantGroup definition
 
 
 /**
@@ -36,12 +35,15 @@
  * @see Mediator (coordination infrastructure)
  * @see SalesFloor, SuggestionFloor (mediators)
  */
+class PlantComponent;  // Forward declaration to prevent circular dependency
 class Customer : public User
 {
 	private:
 		PlantGroup* basket;
 
 	public:
+		Customer();
+    	virtual ~Customer();
 		/**
 		 * @brief Requests plant care suggestions from staff via the mediator.
 		 */
