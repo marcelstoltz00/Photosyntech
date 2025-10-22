@@ -157,7 +157,7 @@ public:
 	//  * @param other Pointer to the decorator.
 	// */
 	// void setDecorator(PlantComponent* other);
-
+	PlantComponent *correctShape(PlantComponent *mainDecorator);
 };
 
 #endif

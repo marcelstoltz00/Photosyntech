@@ -4,156 +4,187 @@
 #include <sstream>
 
 PlantGroup::PlantGroup()
-    : PlantComponent(0.0, 0, 0) 
-{};
+    : PlantComponent(0.0, 0, 0) {};
 
-PlantGroup::~PlantGroup(){
-    std::list<PlantComponent*>::iterator itr = plants.begin();
-    while(itr != plants.end()){
-    delete (*itr)->getDecorator();
-    itr++;
-    // should work.
+PlantGroup::~PlantGroup()
+{
+    std::list<PlantComponent *>::iterator itr = plants.begin();
+    while (itr != plants.end())
+    {
+        delete (*itr)->getDecorator();
+        itr++;
+        // should work.
     }
 }
 
-PlantGroup::PlantGroup(const PlantGroup& other)
+PlantGroup::PlantGroup(const PlantGroup &other)
     : PlantComponent(other)
 {
 
-    for (PlantComponent* component : other.plants){
-        PlantComponent* clonedComponent = component->clone();
+    for (PlantComponent *component : other.plants)
+    {
+        PlantComponent *clonedComponent = component->clone();
         this->plants.push_back(clonedComponent);
     }
-
 }
 
-void PlantGroup::setOutside(){
-    if (!plants.empty()){
-        for (PlantComponent* component : plants){
+void PlantGroup::setOutside()
+{
+    if (!plants.empty())
+    {
+        for (PlantComponent *component : plants)
+        {
             component->setOutside();
         }
     }
 };
 
-void PlantGroup::water(){
-    if (!plants.empty()){
-        for (PlantComponent* component : plants){
+void PlantGroup::water()
+{
+    if (!plants.empty())
+    {
+        for (PlantComponent *component : plants)
+        {
             component->water();
         }
     }
 };
 
-std::string PlantGroup::getInfo(){
+std::string PlantGroup::getInfo()
+{
     std::stringstream ss;
 
     ss << "\n*** Plant Group ***" << std::endl;
     ss << "---------------------------------" << std::endl;
     int counter = 0;
-    for (PlantComponent* component : plants){
+    for (PlantComponent *component : plants)
+    {
         counter++;
         ss << component->getInfo();
 
-        ss << "\n--- End of Component" + std::to_string(counter) + " ---\n"; 
+        ss << "\n--- End of Component" + std::to_string(counter) + " ---\n";
     }
 
     ss << "---------------------------------" << std::endl;
     return ss.str();
 };
 
-std::list<PlantComponent*>* PlantGroup::getPlants(){
+std::list<PlantComponent *> *PlantGroup::getPlants()
+{
     return &plants;
 }
 
-ComponentType PlantGroup::getType() const {
+ComponentType PlantGroup::getType() const
+{
     return ComponentType::PLANT_GROUP;
 }
-PlantComponent* PlantGroup::clone(){
+PlantComponent *PlantGroup::clone()
+{
     return new PlantGroup(*this);
-
 };
 
-void PlantGroup::update(){
-    for (PlantComponent* component : plants){
+void PlantGroup::update()
+{
+    for (PlantComponent *component : plants)
+    {
         component->update();
     }
 };
 
-int PlantGroup::affectWater(){
+int PlantGroup::affectWater()
+{
     int totalAffected = 0;
-    
-    for (PlantComponent* component : plants){
-        totalAffected += component->affectWater(); 
+
+    for (PlantComponent *component : plants)
+    {
+        totalAffected += component->affectWater();
     }
-    
+
     return totalAffected;
 };
 
-int PlantGroup::affectSunlight(){
+int PlantGroup::affectSunlight()
+{
     int totalAffected = 0;
-    
-    for (PlantComponent* component : plants){
+
+    for (PlantComponent *component : plants)
+    {
         totalAffected += component->affectSunlight();
     }
-    
+
     return totalAffected;
 };
 
-double PlantGroup::getPrice(){
+double PlantGroup::getPrice()
+{
     double totalPrice = this->price;
-    for (PlantComponent* component : plants){
+    for (PlantComponent *component : plants)
+    {
         totalPrice += component->getPrice();
     }
     return totalPrice;
 };
 
-void PlantGroup::addAttribute(PlantComponent* attribute){
-    for (PlantComponent* component : plants){
-        PlantComponent* clonedAttribute = attribute->clone(); 
+void PlantGroup::addAttribute(PlantComponent *attribute)
+{
+    for (PlantComponent *component : plants)
+    {
+        PlantComponent *clonedAttribute = attribute->clone();
         component->addAttribute(clonedAttribute);
     }
 };
 
-
-void PlantGroup::addComponent(PlantComponent* component) {
+void PlantGroup::addComponent(PlantComponent *component)
+{
     plants.push_back(component);
 }
 
-std::string PlantGroup::getName(){
+std::string PlantGroup::getName()
+{
     std::stringstream ss;
     ss << "Plant Group: ";
 
     int count = 0;
-    for (PlantComponent* component : plants) {
-        if (count < 3){
+    for (PlantComponent *component : plants)
+    {
+        if (count < 3)
+        {
             ss << component->getName() << ", ";
         }
         count++;
     }
-    
+
     std::string name = ss.str();
-    if (name.length() > 2){
+    if (name.length() > 2)
+    {
         name.pop_back();
         name.pop_back();
     }
     return name;
 };
+PlantComponent *PlantGroup::correctShape(PlantComponent *component)
+{
+    throw "This should never be run";
+    delete component;
+    return nullptr;
+}
 
-//observer stuff
+// observer stuff
 
-void PlantGroup::attach(Observer* careTaker){
-
-};
-
-void PlantGroup::detach(Observer* careTaker){
-
-};
-
-void PlantGroup::waterNeeded(){
+void PlantGroup::attach(Observer *careTaker) {
 
 };
 
-void PlantGroup::sunlightNeeded(){
+void PlantGroup::detach(Observer *careTaker) {
+
 };
 
-void PlantGroup::stateUpdated(){
+void PlantGroup::waterNeeded() {
+
+};
+
+void PlantGroup::sunlightNeeded() {
+};
+
+void PlantGroup::stateUpdated() {
 };
