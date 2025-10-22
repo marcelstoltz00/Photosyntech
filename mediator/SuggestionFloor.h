@@ -38,6 +38,7 @@
 class SuggestionFloor : public Mediator
 {
 	public:
+	SuggestionFloor();
 		/**
 		 * @brief Routes customer assistance requests to available advisory staff.
 		 * @param customer Pointer to the User requesting plant care suggestions.

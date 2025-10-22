@@ -43,6 +43,7 @@ class Mediator
 		std::vector<Staff*> staffList;
 
 	public:
+	
 		/**
 		 * @brief Routes a customer's assistance request to available staff.
 		 * @param customer Pointer to the User requesting assistance.

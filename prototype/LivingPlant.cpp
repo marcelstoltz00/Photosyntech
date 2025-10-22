@@ -170,8 +170,14 @@ int LivingPlant::affectSunlight()
 
 void LivingPlant::update()
 {
-    this->waterLevel -= this->decorator->affectWater();
-    this->sunExposure -= this->decorator->affectSunlight();
+    //added null checks
+    if (this->decorator != nullptr) {
+        this->waterLevel -= this->decorator->affectWater();
+        this->sunExposure -= this->decorator->affectSunlight();
+    } else {
+        this->waterLevel -= this->affectWater();
+        this->sunExposure -= this->affectSunlight();
+    }
 };
 
 void LivingPlant::setOutside()
@@ -250,7 +256,6 @@ PlantComponent *LivingPlant::getDecorator()
 {
     return this->decorator;
 }
-
 PlantComponent *LivingPlant::correctShape(PlantComponent *mainDecorator)
 {
     this->decorator = mainDecorator;

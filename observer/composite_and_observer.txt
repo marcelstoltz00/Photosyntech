@@ -1,0 +1,73 @@
+*These are the Subject functions that will be used. i also added the list of observers std::list<Observer *> observers;
+in PlantGroup.h
+
+
+void PlantGroup::attach(Observer* watcher) {
+    if (!watcher) return;
+    bool exists = false;
+    for (std::list<Observer*>::iterator it = observers.begin(); it != observers.end(); ++it) {
+        if (*it == watcher) { exists = true; break; }
+    }
+    if (!exists) {
+        observers.push_back(watcher);
+    }
+}
+
+void PlantGroup::detach(Observer* watcher) {
+    if (!watcher) return;
+    observers.remove(watcher); // removes all entries equal to watcher
+}
+
+/**
+ * @brief Notifies observers that all plants need water.
+ */
+void PlantGroup::waterNeeded() {
+    for (Observer* obs : observers) {
+        for (PlantComponent* plant : plants) {
+            plant->water();
+            LivingPlant* lp = dynamic_cast<LivingPlant*>(plant);
+            if (lp) {
+                obs->getWaterUpdate(lp);
+            }
+        }
+    }
+}
+
+/**
+ * @brief Notifies observers that all plants need sunlight.
+ */
+void PlantGroup::sunlightNeeded() {
+    for (Observer* obs : observers) {
+        for (PlantComponent* plant : plants) {
+            plant->setOutside();
+            LivingPlant* lp = dynamic_cast<LivingPlant*>(plant);
+            if (lp) {
+                obs->getSunUpdate(lp);
+            }
+        }
+    }
+}
+
+/**
+ * @brief Notifies observers that all plants have updated states.
+ */
+void PlantGroup::stateUpdated() {
+    for (Observer* obs : observers) {
+        for (PlantComponent* plant : plants) {
+            plant->update();
+            LivingPlant* lp = dynamic_cast<LivingPlant*>(plant);
+            if (lp) {
+                obs->getStateUpdate(lp);
+            }
+        }
+    }
+}
+
+
+*I also added virtual void update() = 0; to PlantComponent.h 
+Updates the state of the plant component.
+This function should be implemented by both leaf (LivingPlant) and composite (PlantGroup)
+classes to handle any necessary state updates, including water, sunlight, and
+maturity progression. Observer notifications may also be triggered here.
+
+*The ConcreteObserver Staff.cpp has also been implemented. 
