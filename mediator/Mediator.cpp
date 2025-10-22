@@ -10,11 +10,3 @@
  * lists directly from the Singleton instance.
  */
 
-
-
-/**
- * @brief Virtual destructor for proper polymorphic cleanup.
- */
-// Mediator::~Mediator() {
-//     std::cout << "Mediator: Cleaning up mediator resources" << std::endl;
-// }
