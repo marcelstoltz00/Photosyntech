@@ -19,6 +19,8 @@ class PlantGroup : public PlantComponent, public Subject
 {
 	private:
 		std::list<PlantComponent*> plants;
+		// This is the list of observers
+		std::list<Observer *> observers;
 
 	public:
 
