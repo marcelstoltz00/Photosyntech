@@ -23,10 +23,27 @@
 class Winter : public PlantAttributes
 {
 	public:
-		/**
-		 * @brief Constructs a Winter decorator with winter-specific characteristics.
-		 */
-		Winter();
+        /**
+         * @brief Constructs a Winter decorator, wrapping the given component.
+         * @param component The PlantComponent to decorate.
+         */
+        Winter();
+
+        /**
+         * @brief Copy constructor for cloning.
+         */
+        Winter(const Winter &other);
+
+        /**
+         * @brief Clones the decorated plant component (Prototype pattern).
+         * @return Pointer to a new Winter decorator wrapping a clone of the underlying component.
+         */
+        PlantComponent* clone();
+
+        /**
+         * @brief Virtual destructor for proper cleanup.
+         */
+        virtual ~Winter() {}
 };
 
 #endif

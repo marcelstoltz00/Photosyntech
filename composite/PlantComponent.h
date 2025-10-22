@@ -100,6 +100,11 @@ public:
 	virtual void setOutside() = 0;
 
 	/**
+	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
+	 */
+	virtual void update() = 0;
+
+	/**
 	 * @brief Gets plant information as a string.
 	 * @return String containing plant details.
 	 */
@@ -124,6 +129,18 @@ public:
 	virtual int getAffectWater() = 0;
 
 	/**
+	 * @brief Gets the sunlight affection value including decorator modifications.
+	 * @return Integer representing total sunlight impact.
+	 */
+	virtual void affectSunlight() = 0;
+
+	/**
+	 * @brief Gets the water affection value including decorator modifications.
+	 * @return Integer representing total water impact.
+	 */
+	virtual void affectWater() = 0;
+
+	/**
 	 * @brief Gets the price of this plant component.
 	 * @return Price in currency units.
 	 */
@@ -133,9 +150,13 @@ public:
 	 * @brief Adds an attribute decorator to this plant component.
 	 * @param attribute Pointer to the PlantAttributes decorator to add.
 	 */
-	virtual void addAttribute(PlantAttributes *attribute) = 0;
+	virtual void addAttribute(PlantComponent *attribute) = 0;
 
-
+	/**
+	 * @brief Sets the decorator for builder purposes
+	 * @param other Pointer to the decorator.
+	 */
+	//virtual void setDecorator(PlantComponent* other) = 0;
 };
 
 #endif

@@ -23,10 +23,27 @@
 class Summer : public PlantAttributes
 {
 	public:
-		/**
-		 * @brief Constructs a Summer decorator with summer-specific characteristics.
-		 */
-		Summer();
+        /**
+         * @brief Constructs a Summer decorator, wrapping the given component.
+         * @param component The PlantComponent to decorate.
+         */
+        Summer();
+
+        /**
+         * @brief Copy constructor for cloning.
+         */
+        Summer(const Summer &other);
+
+        /**
+         * @brief Clones the decorated plant component (Prototype pattern).
+         * @return Pointer to a new Summer decorator wrapping a clone of the underlying component.
+         */
+        PlantComponent* clone();
+
+        /**
+         * @brief Virtual destructor for proper cleanup.
+         */
+        virtual ~Summer() {}
 };
 
 #endif

@@ -21,10 +21,27 @@
 class SmallStem : public PlantAttributes
 {
 	public:
-		/**
-		 * @brief Constructs a SmallStem decorator with predefined characteristics.
-		 */
-		SmallStem();
+        /**
+         * @brief Constructs a SmallStem decorator, wrapping the given component.
+         * @param component The PlantComponent to decorate.
+         */
+        SmallStem();
+
+        /**
+         * @brief Copy constructor for cloning.
+         */
+        SmallStem(const SmallStem &other);
+
+        /**
+         * @brief Clones the decorated plant component (Prototype pattern).
+         * @return Pointer to a new SmallStem decorator wrapping a clone of the underlying component.
+         */
+        PlantComponent* clone();
+
+        /**
+         * @brief Virtual destructor for proper cleanup.
+         */
+        virtual ~SmallStem() {}
 };
 
 #endif

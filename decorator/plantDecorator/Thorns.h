@@ -20,10 +20,27 @@
 class Thorns : public PlantAttributes
 {
 	public:
-		/**
-		 * @brief Constructs a Thorns decorator with predefined characteristics.
-		 */
-		Thorns();
+        /**
+         * @brief Constructs a Thorns decorator, wrapping the given component.
+         * @param component The PlantComponent to decorate.
+         */
+        Thorns();
+
+        /**
+         * @brief Copy constructor for cloning.
+         */
+        Thorns(const Thorns &other);
+
+        /**
+         * @brief Clones the decorated plant component (Prototype pattern).
+         * @return Pointer to a new Thorns decorator wrapping a clone of the underlying component.
+         */
+        PlantComponent* clone();
+
+        /**
+         * @brief Virtual destructor for proper cleanup.
+         */
+        virtual ~Thorns() {}
 };
 
 #endif

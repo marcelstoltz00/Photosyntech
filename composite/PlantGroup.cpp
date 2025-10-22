@@ -1,21 +1,34 @@
 #include "PlantGroup.h"
 #include <sstream>
 
-	void PlantGroup::setOutside(){
-        if (!plants.empty()){
-            for (PlantComponent* component : plants){
-                component->setOutside();
-            }
-        }
-    };
+PlantGroup::PlantGroup()
+    : PlantComponent(0.0, 0, 0) 
+{};
 
-	void PlantGroup::water(){
-        if (!plants.empty()){
-            for (PlantComponent* component : plants){
-                component->water();
-            }
+PlantGroup::~PlantGroup(){
+    for (PlantComponent* component : plants){
+
+        delete component; 
+    }
+
+    plants.clear();
+}
+
+void PlantGroup::setOutside(){
+    if (!plants.empty()){
+        for (PlantComponent* component : plants){
+            component->setOutside();
         }
-    };
+    }
+};
+
+void PlantGroup::water(){
+    if (!plants.empty()){
+        for (PlantComponent* component : plants){
+            component->water();
+        }
+    }
+};
 
 std::string PlantGroup::getInfo(){
     std::stringstream ss;

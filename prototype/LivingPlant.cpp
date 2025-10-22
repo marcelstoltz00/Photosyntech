@@ -10,7 +10,7 @@
 LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int sunAffect)
     : PlantComponent(price, waterAffect, sunAffect), 
     //remember to change to getString() after Wilmar fixes getSeason()
-      name(Inventory::getInstance()->getString("")),
+      name(Inventory::getInstance()->getString(name)),
       season(Inventory::getInstance()->getString("")),
       age(0), 
       health(0), 
@@ -53,23 +53,39 @@ void LivingPlant::setSunExposure(int sunExposure){
 };
 
 void LivingPlant::setWaterStrategy(int strategy){
-    //waiting on wilmar's final implementation for flyweight
+    Inventory* inv = Inventory::getInstance();
+
+    Flyweight<WaterStrategy *>* newStrategy = inv->getWaterFly(strategy);
+
+    this->waterStrategy = newStrategy;
 };
 
 void LivingPlant::setSunStrategy(int strategy){
-    //waiting on wilmar's final implementation for flyweight
+    Inventory* inv = Inventory::getInstance();
+
+    Flyweight<SunStrategy *>* newStrategy = inv->getSunFly(strategy);
+
+    this->sunStrategy = newStrategy;
 };
 
 void LivingPlant::setMaturity(int state){
-    //waiting on wilmar's final implementation for flyweight
+    Inventory* inv = Inventory::getInstance();
+
+    Flyweight<MaturityState *>* newState = inv->getStates(state);
+
+    this->maturityState = newState;
 };
 
 void LivingPlant::setSeason(Flyweight<std::string*>* season){
     this->season = season;
 }
 
-void LivingPlant::addAttribute(PlantAttributes* attribute){
-//stub since this is the ConcreteComponent
+void LivingPlant::setDecorator(PlantComponent* other){
+    decorator = other;
+};
+
+PlantComponent* LivingPlant::getDecorator(){
+    return decorator;
 };
 
 int LivingPlant::getAge(){
@@ -83,8 +99,6 @@ int LivingPlant::getHealth(){
 int LivingPlant::getSunExposure(){
     return this->sunExposure;
 };
-
-
 
 std::string LivingPlant::getName(){
     return *name->getState();
@@ -107,8 +121,6 @@ std::string LivingPlant::getInfo(){
     std::string baseInfo;
 
     baseInfo += "Name: " + plantName + "\n";
-    baseInfo += "Status: Basic Plant Component\n";
-    baseInfo += "--------------------------------------\n";
     baseInfo += "Health: " + std::to_string(health) + "\n";
     baseInfo += "Age: " + std::to_string(age) + " days\n";
     baseInfo += "Water Level: " + std::to_string(waterLevel) + "\n";
@@ -145,6 +157,26 @@ void LivingPlant::water(){
     }
 }
 
+void LivingPlant::affectWater(){
+    waterLevel -= affectWaterValue;
+    // cant really be done in here since you need the value from the decorator. 
+
+    //checked in unitTests and it worked
+};
+
+void LivingPlant::affectSunlight(){
+    sunExposure -= affectSunValue;
+        // cant really be done in here since you need the value from the decorator. 
+
+        //checked in unitTests and it worked
+};
+	
+void LivingPlant::update(){
+    affectWater();
+    affectSunlight();
+    
+};
+
 void LivingPlant::setOutside(){
         if (this->sunStrategy != nullptr){
 
@@ -162,9 +194,20 @@ int LivingPlant::getWaterLevel(){
     return this->waterLevel;
 };
 
+void LivingPlant::addAttribute(PlantComponent *attribute){
+    //stub 
+    decorator = attribute;
+    // what is the structure here for the decorator object
+    // in decorator elements are added to the end of the list until a null...
+    // please confirm.
+    
+
+    //this is specific to the builder. I am double checking if this simple solution works with Marcel, but this has nothing to do with the actual chain.
+};
+
 
 Herb::Herb()
-    : LivingPlant("", 0, 0, 0)
+    : LivingPlant("Herb", 30.00, 3, 3)
 {};
 
 Herb::Herb(const Herb& other) 
@@ -177,7 +220,7 @@ PlantComponent* Herb::clone(){
 
 
 Shrub::Shrub()
-    : LivingPlant("", 0, 0, 0)
+    : LivingPlant("Shrub", 75.00, 4, 4)
 {};
 
 Shrub::Shrub(const Shrub& other) 
@@ -190,7 +233,7 @@ PlantComponent* Shrub::clone(){
 
 
 Succulent::Succulent()
-    : LivingPlant("", 0, 0, 0)
+    : LivingPlant("Succulent", 45.00, 1, 5)
 {};
 
 Succulent::Succulent(const Succulent& other) 
@@ -203,7 +246,7 @@ PlantComponent* Succulent::clone(){
 
 
 Tree::Tree()
-    : LivingPlant("", 0, 0, 0)
+    : LivingPlant("Tree", 150.00, 5, 5)
 {};
 
 Tree::Tree(const Tree& other) 

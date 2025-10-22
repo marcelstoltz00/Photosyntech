@@ -58,9 +58,7 @@ protected:
 	 */
 	Flyweight<std::string *> *name;
 
-	/**
-	 * Age of the plant in months.
-	 */
+	PlantComponent* decorator;
 	int age;
 	int health;
 	int waterLevel;
@@ -148,7 +146,7 @@ public:
 	 * @brief Adds a decorator attribute to this plant.
 	 * @param attribute Pointer to the PlantAttributes decorator to add.
 	 */
-	void addAttribute(PlantAttributes *attribute);
+	void addAttribute(PlantComponent *attribute);
 
 	/**
 	 * @brief Gets the season of the plant.
@@ -208,6 +206,23 @@ public:
 	int getAffectWater();
 
 	/**
+	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
+	 */
+	void update();
+
+	/**
+	 * @brief Gets the sunlight affection value including decorator modifications.
+	* @return Integer representing total sunlight impact.
+	*/
+	void affectSunlight();
+
+	/**
+ 	* @brief Gets the water affection value including decorator modifications.
+	* @return Integer representing total water impact.
+	*/
+	void affectWater();
+
+	/**
 	 * @brief Gets the price of this plant.
 	 * @return Price in currency units.
 	 */
@@ -239,6 +254,17 @@ public:
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
 	virtual ~LivingPlant() {}
+
+	/**
+	 * @brief Gets the decorator for builder purposes
+	 */
+	PlantComponent* getDecorator();
+
+	/**
+	 * @brief Sets the decorator for builder purposes
+	 * @param other Pointer to the decorator.
+	 */
+	void setDecorator(PlantComponent* other);
 };
 
 #endif

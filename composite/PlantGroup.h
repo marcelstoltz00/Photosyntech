@@ -21,6 +21,17 @@ class PlantGroup : public PlantComponent, public Subject
 		std::list<PlantComponent*> plants;
 
 	public:
+
+		/**
+		 * @brief Constructs a PlantGroup with 0 as attributes.
+		 */
+		PlantGroup();
+
+		/**
+		 * @brief Virtual destructor for proper cleanup.
+		*/
+		virtual ~PlantGroup();
+
 		/**
 		 * @brief Sets all plants in this group to be outside.
 		 */
@@ -56,8 +67,8 @@ class PlantGroup : public PlantComponent, public Subject
 		void detach(Observer* watcher);
 
 		/**
-		 * @brief Updates the state of this plant group.
-		 */
+	 	* @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
+	 	*/
 		void update();
 
 		/**
