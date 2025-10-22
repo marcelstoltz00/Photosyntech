@@ -10,7 +10,7 @@
 LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int sunAffect)
     : PlantComponent(price, waterAffect, sunAffect), 
     //remember to change to getString() after Wilmar fixes getSeason()
-      name(Inventory::getInstance()->getString("")),
+      name(Inventory::getInstance()->getString(name)),
       season(Inventory::getInstance()->getString("")),
       age(0), 
       health(0), 
@@ -196,6 +196,7 @@ void LivingPlant::addAttribute(PlantComponent *attribute){
     // what is the structure here for the decorator object
     // in decorator elements are added to the end of the list until a null...
     // please confirm.
+    
 
     //this is specific to the builder. I am double checking if this simple solution works with Marcel, but this has nothing to do with the actual chain.
 };
