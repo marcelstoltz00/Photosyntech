@@ -58,7 +58,7 @@ void MapleBuilder::setUp() {
 MapleBuilder::~MapleBuilder() {
      if (plant)
     {
-        delete plant;
+        delete plant->getDecorator();
         plant = nullptr;
     }
 }

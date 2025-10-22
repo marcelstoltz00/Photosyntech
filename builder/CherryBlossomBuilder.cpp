@@ -62,7 +62,7 @@ void CherryBlossomBuilder::setUp() {
 CherryBlossomBuilder::~CherryBlossomBuilder() {
      if (plant)
     {
-        delete plant;
+        delete plant->getDecorator();
         plant = nullptr;
     }
 }

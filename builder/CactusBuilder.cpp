@@ -82,7 +82,7 @@ CactusBuilder::~CactusBuilder()
 {
     if (plant)
     {
-        delete plant;
+         delete plant->getDecorator();
         plant = nullptr;
     }
 }

@@ -62,7 +62,7 @@ void RoseBuilder::setUp() {
 RoseBuilder::~RoseBuilder() {
      if (plant)
     {
-        delete plant;
+         delete plant->getDecorator();
         plant = nullptr;
     }
 }

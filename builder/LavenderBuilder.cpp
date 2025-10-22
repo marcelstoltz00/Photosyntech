@@ -62,7 +62,7 @@ void LavenderBuilder::setUp() {
 LavenderBuilder::~LavenderBuilder() {
      if (plant)
     {
-        delete plant;
+      delete plant->getDecorator();
         plant = nullptr;
     }
 }
