@@ -1,67 +1,83 @@
-#ifndef RoseBuilder_h
-#define RoseBuilder_h
+#ifndef ROSEBUILDER_H
+#define ROSEBUILDER_H
 
-#include "Builder.h"
+#include "../builder/Builder.h"
 
 /**
- * @brief Concrete builder for constructing Rose plants.
+ * @brief Concrete builder for Rose plants.
  *
- * Implements the Builder interface to create Rose plants with specific
- * water strategies, sun strategies, and maturity states appropriate for roses.
+ * Implements the Builder interface to construct Rose plants with specific attributes:
+ * - Base Type: Shrub
+ * - Sun Strategy: MidSun (60% initial exposure)
+ * - Water Strategy: MidWater (60% initial level)
+ * - Initial Health: 100%
+ * - Decorators: Spring, Large Flowers, Small Leaves, Large Stem, Thorns
+ * - Initial State: Seed
  *
- * **System Role:**
- * Concrete implementation of Builder pattern for Rose plant species.
- * Encapsulates rose-specific construction including mid-range water needs,
- * mid-range sun requirements, and rose lifecycle characteristics.
- * Enables Director to create roses uniformly while isolating species-specific logic.
- *
- * **Pattern Role:** Concrete Builder (implements construction steps for Rose species)
- *
- * **Related Patterns:**
- * - Builder: Implements interface defined by abstract Builder
- * - Director: Orchestrates rose construction via builder methods
- * - Strategy: Assigns rose-appropriate water and sun strategies
- * - Prototype: Created roses become prototypes for inventory cloning
- * - Singleton: Obtains rose strategies from singleton's flyweight factories
- *
- * **System Interactions:**
- * - Director calls methods in sequence to build rose with characteristics
- * - Rose strategies obtained from singleton-managed strategy factories
- * - Rose initialized in Seed state with species-specific parameters
- * - getResult() returns fully constructed Rose instance ready for inventory
- *
- * @see Builder (abstract interface)
- * @see Director (orchestrates rose creation)
- * @see Strategy (rose-specific water/sun strategies)
+ * @see Builder The abstract builder interface
+ * @see Shrub The base plant type
+ * @see MidSun The sun exposure strategy
+ * @see MidWater The watering strategy
+ * @see Seed The initial maturity state
  */
 class RoseBuilder : public Builder
 {
-	public:
-		/**
-		 * @brief Creates a new Rose plant object.
-		 */
-		void createObject();
+private:
+	LivingPlant *plant = nullptr;
 
-		/**
-		 * @brief Assigns the water strategy suitable for roses.
-		 */
-		void assignWaterStrategy();
 
-		/**
-		 * @brief Assigns the sun strategy suitable for roses.
-		 */
-		void assignSunStrategy();
+public:
+    /**
+     * @brief Constructor for RoseBuilder.
+     */
+    RoseBuilder();
 
-		/**
-		 * @brief Assigns the initial maturity state for the rose.
-		 */
-		void assignMaturityState();
+    /**
+     * @brief Creates a new Shrub object as the base for the Rose.
+     */
+    void createObject() override;
 
-		/**
-		 * @brief Returns the fully constructed plant object.
-		 * @return Pointer to the constructed Plant object.
-		 */
-		Plant* getResult();
+    /**
+     * @brief Assigns MidWater strategy to the Rose plant.
+     */
+    void assignWaterStrategy() override;
+
+    /**
+     * @brief Assigns MidSun strategy to the Rose plant.
+     */
+    void assignSunStrategy() override;
+
+    /**
+     * @brief Assigns initial Seed state to the Rose plant.
+     */
+    void assignMaturityState() override;
+
+    /**
+     * @brief Sets up the initial health, water, and sun levels for the Rose plant.
+     */
+    void setUp()override;
+
+    /**
+     * @brief Adds decorators to the LivingPlant.
+     * 
+     * Applies the following decorators in sequence:
+     * - Spring season
+     * - Large Flowers
+     * - Small Leaves
+     * - Large Stem
+     * - Thorns
+     */
+    void addDecorators() override;
+    /**
+     * @brief Returns the fully constructed Rose plant.
+     * @return Pointer to the constructed Rose plant.
+     */
+   PlantComponent *getResult() override;
+
+    /**
+     * @brief Destructor for RoseBuilder.
+     */
+    ~RoseBuilder();
 };
 
-#endif
+#endif // ROSEBUILDER_H

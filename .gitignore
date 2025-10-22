@@ -1,4 +1,4 @@
-doctest/
+third_party/
 
 # Prerequisites
 *.d
