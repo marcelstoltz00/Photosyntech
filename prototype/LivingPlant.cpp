@@ -144,11 +144,6 @@ PlantComponent* LivingPlant::clone(){
     return new LivingPlant(*this);
 };
 
-void LivingPlant::water(){
-    if (this->waterStrategy != nullptr){
-
-};
-
 void LivingPlant::water()
 {
     if (this->waterStrategy != nullptr)

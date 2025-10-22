@@ -15,11 +15,14 @@ void SeasonIterator::first()
 	}
 	inComposite = false;
 
+	// Cast aggregate to access plants member
+	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
+
 	// Push root level frame
 	StackFrame root;
-	root.plantList = aggregate->plants;
-	root.current = aggregate->plants->begin();
-	root.end = aggregate->plants->end();
+	root.plantList = seasonAgg->plants;
+	root.current = seasonAgg->plants->begin();
+	root.end = seasonAgg->plants->end();
 	traversalStack.push(root);
 
 	// Find first matching plant
@@ -70,7 +73,8 @@ void SeasonIterator::advanceToNextPlant()
 		if (type == ComponentType::LIVING_PLANT) {
 			LivingPlant* plant = static_cast<LivingPlant*>(component);
 
-			// Check season match using static_cast access
+			// Check season match using direct Flyweight pointer comparison
+			// Flyweight pattern ensures same season strings share same pointer
 			if (plant->getSeason() == seasonAgg->targetSeason) {
 				currentPlant = plant;
 				return;

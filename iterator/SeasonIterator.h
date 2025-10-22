@@ -32,7 +32,8 @@
  * - next() advances to next matching plant
  * - isDone() checks iteration completion
  * - currentItem() returns current matching plant
- * - Filters by comparing plant->getSeason() to aggregate->targetSeason
+ * - Filters using direct Flyweight pointer comparison (plant->getSeason() == aggregate->targetSeason)
+ * - Leverages Flyweight pattern: same season strings share same pointer for O(1) comparison
  *
  * @see Iterator (abstract interface)
  * @see AggSeason (creates this iterator)
