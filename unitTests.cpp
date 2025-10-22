@@ -4,8 +4,7 @@
 #include "prototype/Tree.h"
 #include "state/Seed.h"
 #include "decorator/plantDecorator/Autumn.h"
-#include <doctest/doctest.h>
-
+#include "doctest.h"
 #include "flyweight/Flyweight.h"
 #include "flyweight/FlyweightFactory.h"
 #include "prototype/LivingPlant.h"
