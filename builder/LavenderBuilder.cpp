@@ -5,7 +5,9 @@
 #include "../decorator/plantDecorator/SmallFlowers.h"
 #include "../decorator/plantDecorator/SmallLeaf.h"
 #include "../decorator/plantDecorator/LargeStem.h"
+#include "../decorator/plantDecorator/Autumn.h"
 #include "../state/Seed.h"
+
 
 LavenderBuilder::LavenderBuilder() : plant(nullptr) {
 }

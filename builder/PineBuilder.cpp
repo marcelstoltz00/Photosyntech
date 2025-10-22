@@ -4,6 +4,7 @@
 #include "../prototype/Tree.h"
 #include "../decorator/plantDecorator/SmallLeaf.h"
 #include "../decorator/plantDecorator/LargeStem.h"
+#include "../decorator/plantDecorator/Winter.h"
 #include "../state/Seed.h"
 
 PineBuilder::PineBuilder() : plant(nullptr)

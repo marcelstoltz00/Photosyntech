@@ -6,6 +6,7 @@
 #include "../decorator/plantDecorator/SmallLeaf.h"
 #include "../decorator/plantDecorator/LargeStem.h"
 #include "../decorator/plantDecorator/Thorns.h"
+#include "../decorator/plantDecorator/Spring.h"
 #include "../state/Seed.h"
 
 RoseBuilder::RoseBuilder() : plant(nullptr) {

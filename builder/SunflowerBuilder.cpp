@@ -5,6 +5,7 @@
 #include "../decorator/plantDecorator/LargeFlowers.h"
 #include "../decorator/plantDecorator/LargeLeaf.h"
 #include "../decorator/plantDecorator/LargeStem.h"
+#include "../decorator/plantDecorator/Summer.h"
 #include "../state/Seed.h"
 
 SunflowerBuilder::SunflowerBuilder() : plant(nullptr) {

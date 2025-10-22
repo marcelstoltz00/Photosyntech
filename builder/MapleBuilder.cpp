@@ -4,6 +4,7 @@
 #include "../prototype/Tree.h"
 #include "../decorator/plantDecorator/LargeLeaf.h"
 #include "../decorator/plantDecorator/LargeStem.h"
+#include "../decorator/plantDecorator/Autumn.h"
 #include "../state/Seed.h"
 
 MapleBuilder::MapleBuilder() : plant(nullptr) {

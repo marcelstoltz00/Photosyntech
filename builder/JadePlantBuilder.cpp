@@ -2,6 +2,7 @@
 #include "../strategy/MidSun.h"
 #include "../strategy/LowWater.h"
 #include "../prototype/Succulent.h"
+#include "../decorator/plantDecorator/Winter.h"
 #include "../decorator/plantDecorator/SmallFlowers.h"
 #include "../decorator/plantDecorator/SmallLeaf.h"
 #include "../decorator/plantDecorator/LargeStem.h"
