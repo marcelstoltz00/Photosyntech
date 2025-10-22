@@ -42,7 +42,9 @@ PlantComponent* LavenderBuilder::getResult() {
 
 void LavenderBuilder::addDecorators() {
     if (plant) {
-        plant->addAttribute(new Autumn());
+           PlantComponent *season = new Autumn();
+        plant->setSeason(Inventory::getInstance()->getString(season->getName()));
+        plant->addAttribute(season);
         plant->addAttribute(new SmallFlowers());
         plant->addAttribute(new SmallLeaf());
         plant->addAttribute(new LargeStem());

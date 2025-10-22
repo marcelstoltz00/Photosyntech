@@ -59,12 +59,12 @@ void CactusBuilder::addDecorators()
 
     if (plant)
     {
-        
-       plant->addAttribute(new Summer());
-       plant->addAttribute(new SmallFlowers());
-       plant->addAttribute(new LargeStem());
-       plant->addAttribute(new Thorns());
-
+        PlantComponent *summer = new Summer();
+        plant->setSeason(Inventory::getInstance()->getString(summer->getName()));
+        plant->addAttribute(summer);
+        plant->addAttribute(new SmallFlowers());
+        plant->addAttribute(new LargeStem());
+        plant->addAttribute(new Thorns());
     }
 }
 

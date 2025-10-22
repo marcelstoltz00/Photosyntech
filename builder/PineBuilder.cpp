@@ -50,7 +50,9 @@ PlantComponent *PineBuilder::getResult()
 
 void PineBuilder::addDecorators() {
     if (plant) {
-        plant->addAttribute(new Winter());
+        PlantComponent *season = new Winter();
+        plant->setSeason(Inventory::getInstance()->getString(season->getName()));
+        plant->addAttribute(season);
         plant->addAttribute(new SmallLeaf());
         plant->addAttribute(new LargeStem());
     }

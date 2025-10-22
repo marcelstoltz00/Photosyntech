@@ -41,7 +41,9 @@ PlantComponent* SunflowerBuilder::getResult() {
 
 void SunflowerBuilder::addDecorators() {
     if (plant) {
-        plant->addAttribute(new Summer());
+           PlantComponent *season = new Summer();
+        plant->setSeason(Inventory::getInstance()->getString(season->getName()));
+        plant->addAttribute(season);
         plant->addAttribute(new LargeFlowers());
         plant->addAttribute(new LargeLeaf());
         plant->addAttribute(new LargeStem());
