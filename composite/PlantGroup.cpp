@@ -1,4 +1,6 @@
 #include "PlantGroup.h"
+#include "../observer/Observer.h"
+#include "../prototype/LivingPlant.h"
 #include <sstream>
 
 PlantGroup::PlantGroup()
@@ -7,11 +9,21 @@ PlantGroup::PlantGroup()
 
 PlantGroup::~PlantGroup(){
     for (PlantComponent* component : plants){
-
         delete component; 
     }
 
     plants.clear();
+}
+
+PlantGroup::PlantGroup(const PlantGroup& other)
+    : PlantComponent(other)
+{
+
+    for (PlantComponent* component : other.plants){
+        PlantComponent* clonedComponent = component->clone();
+        this->plants.push_back(clonedComponent);
+    }
+
 }
 
 void PlantGroup::setOutside(){
@@ -45,4 +57,103 @@ std::string PlantGroup::getInfo(){
 
     ss << "---------------------------------" << std::endl;
     return ss.str();
+};
+
+PlantComponent* PlantGroup::clone(){
+    return new PlantGroup(*this);
+
+};
+
+void PlantGroup::update(){
+    for (PlantComponent* component : plants){
+        component->update();
+    }
+};
+
+void PlantGroup::affectWater(){
+    for (PlantComponent* component : plants){
+        component->affectWater();
+    }
+};
+
+void PlantGroup::affectSunlight(){
+    for (PlantComponent* component : plants){
+        component->affectSunlight();
+    }
+};
+
+int PlantGroup::getAffectWater(){
+    int totalAffect = this->affectWaterValue;
+    for (PlantComponent* component : plants){
+        totalAffect += component->getAffectWater();
+    }
+    return totalAffect;
+};
+
+int PlantGroup::getAffectSunlight(){
+    int totalAffect = this->affectSunValue;
+    for (PlantComponent* component : plants){
+        totalAffect += component->getAffectSunlight();
+    }
+    return totalAffect;
+};
+
+double PlantGroup::getPrice(){
+    double totalPrice = this->price;
+    for (PlantComponent* component : plants){
+        totalPrice += component->getPrice();
+    }
+    return totalPrice;
+};
+
+void PlantGroup::addAttribute(PlantComponent* attribute){
+    for (PlantComponent* component : plants){
+        PlantComponent* clonedAttribute = attribute->clone(); 
+        component->addAttribute(clonedAttribute);
+    }
+};
+
+
+void PlantGroup::addComponent(PlantComponent* component) {
+    plants.push_back(component);
+}
+
+std::string PlantGroup::getName(){
+    std::stringstream ss;
+    ss << "Plant Group: ";
+
+    int count = 0;
+    for (PlantComponent* component : plants) {
+        if (count < 3){
+            ss << component->getName() << ", ";
+        }
+        count++;
+    }
+    
+    std::string name = ss.str();
+    if (name.length() > 2){
+        name.pop_back();
+        name.pop_back();
+    }
+    return name;
+};
+
+//observer stuff
+
+void PlantGroup::attach(Observer* careTaker){
+
+};
+
+void PlantGroup::detach(Observer* careTaker){
+
+};
+
+void PlantGroup::waterNeeded(){
+
+};
+
+void PlantGroup::sunlightNeeded(){
+};
+
+void PlantGroup::stateUpdated(){
 };
