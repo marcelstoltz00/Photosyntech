@@ -253,6 +253,7 @@ public:
 	 */
 	virtual PlantComponent *getDecorator() override;
 	virtual ~LivingPlant() {}
+	PlantComponent *correctShape(PlantComponent *mainDecorator);
 };
 
 #endif
