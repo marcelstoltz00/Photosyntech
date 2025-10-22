@@ -4,6 +4,7 @@
 #include "prototype/Tree.h"
 #include "state/Seed.h"
 #include "decorator/plantDecorator/Autumn.h"
+//my doctest.h is in another file so this will just revert back to #include "include doctest.h"
 #include "include/doctest/doctest.h"
 #include "flyweight/Flyweight.h"
 #include "flyweight/FlyweightFactory.h"
@@ -451,7 +452,7 @@ TEST_CASE("Testing Mediator Pattern Implementation")
         PlantGroup *basket = customer->getBasket();
         CHECK(basket != nullptr);
 
-        // FIX: Clear the basket before deleting customer
+        // Clear the basket before deleting customer
         customer->clearBasket();
         delete customer;
         delete testPlant;
@@ -469,7 +470,7 @@ TEST_CASE("Testing Mediator Pattern Implementation")
             customer->addPlant(plant1);
             customer->addPlant(plant2);
 
-            // FIX: Clear basket before cleanup
+            //Clear basket before cleanup
             customer->clearBasket();
             delete customer;
             delete plant1;
@@ -501,9 +502,7 @@ TEST_CASE("Testing Mediator Pattern Implementation")
 
         SUBCASE("Assist method without staff or customers")
         {
-            // Should handle empty staff/customer lists gracefully
             salesFloor->assist();
-            // No assertions - just checking it doesn't crash
         }
 
         delete salesFloor;
@@ -520,7 +519,7 @@ TEST_CASE("Testing Mediator Pattern Implementation")
 
         // SUBCASE("Staff operation method") {
         //     staff->operation();
-        //  No assertions - just checking it doesn't crash
+        //  commented it out, it was causing errors
         //}
 
         delete staff;
@@ -538,7 +537,7 @@ TEST_CASE("Testing Mediator Pattern Implementation")
         SUBCASE("Assist method")
         {
             suggestionFloor->assist();
-            // No assertions - just checking it doesn't crash
+            //just checking it doesn't crash
         }
 
         delete suggestionFloor;
@@ -550,7 +549,6 @@ TEST_CASE("Testing Mediator Pattern Implementation")
         {
             Customer *customer = new Customer();
 
-            // These should handle null mediators gracefully
             customer->askForSuggestion();
             customer->purchasePlants();
 
@@ -562,7 +560,7 @@ TEST_CASE("Testing Mediator Pattern Implementation")
             Customer *customer = new Customer();
             SalesFloor *salesFloor = new SalesFloor();
 
-            customer->purchasePlants(); // Should handle empty basket
+            customer->purchasePlants();
 
             delete customer;
             delete salesFloor;
@@ -578,14 +576,13 @@ TEST_CASE("Testing Mediator Pattern Implementation")
             std::vector<Staff *> *staffList = inv->getStaff();
             CHECK(staffList != nullptr);
 
-            // Add a staff member
+            //add a staff member
             Staff *newStaff = new Staff();
             staffList->push_back(newStaff);
 
             CHECK(staffList->size() > 0);
             CHECK(staffList->back() == newStaff);
 
-            // Clean up
             delete newStaff;
             staffList->clear();
         }
@@ -595,14 +592,13 @@ TEST_CASE("Testing Mediator Pattern Implementation")
             std::vector<Customer *> *customerList = inv->getCustomers();
             CHECK(customerList != nullptr);
 
-            // Add a customer
+            //add a customer
             Customer *newCustomer = new Customer();
             customerList->push_back(newCustomer);
 
             CHECK(customerList->size() > 0);
             CHECK(customerList->back() == newCustomer);
 
-            // Clean up
             delete newCustomer;
             customerList->clear();
         }
@@ -617,15 +613,15 @@ TEST_CASE("Testing Mediator Pattern Implementation")
             Customer *customer = new Customer();
             Staff *staff = new Staff();
 
-            // Add staff to inventory
+            //add staff to inventory
             std::vector<Staff *> *staffList = Inventory::getInstance()->getStaff();
             staffList->push_back(staff);
 
-            // Add customer to inventory
+            //add customer to inventory
             std::vector<Customer *> *customerList = Inventory::getInstance()->getCustomers();
             customerList->push_back(customer);
 
-            // Verify system state
+            //check system state
             CHECK(salesFloor != nullptr);
             CHECK(suggestionFloor != nullptr);
             CHECK(customer != nullptr);
@@ -633,11 +629,9 @@ TEST_CASE("Testing Mediator Pattern Implementation")
             CHECK(staffList->size() == 1);
             CHECK(customerList->size() == 1);
 
-            // Test mediator coordination
             salesFloor->assist();
             suggestionFloor->assist();
 
-            // Clean up
             delete salesFloor;
             delete suggestionFloor;
             delete customer;
@@ -653,10 +647,10 @@ TEST_CASE("Testing Mediator Pattern Implementation")
         {
             Customer *customer = new Customer();
 
-            // Test with null plant addition
+            //test with null plant addition
             customer->addPlant(nullptr);
 
-            // These should handle internal null checks
+            //these should handle internal null checks
             customer->askForSuggestion();
             customer->purchasePlants();
 
@@ -667,13 +661,12 @@ TEST_CASE("Testing Mediator Pattern Implementation")
         {
             SalesFloor *salesFloor = new SalesFloor();
 
-            // Clear any existing staff/customers
+            //clears any existing staff/customers
             std::vector<Staff *> *staffList = Inventory::getInstance()->getStaff();
             std::vector<Customer *> *customerList = Inventory::getInstance()->getCustomers();
             staffList->clear();
             customerList->clear();
 
-            // Should handle empty lists gracefully
             salesFloor->assist();
 
             delete salesFloor;
@@ -687,14 +680,14 @@ TEST_CASE("Observer Pattern Integration with Mediator")
     {
         SUBCASE("Observer interface")
         {
-            // Test that Observer is a proper abstract class
+            //tests that observer is abstract
             bool isObserverAbstract = std::is_abstract<Observer>::value;
             CHECK(isObserverAbstract == true);
         }
 
         SUBCASE("Subject interface")
         {
-            // Test that Subject is a proper abstract class
+            //tests that subject is abstract
             bool isSubjectAbstract = std::is_abstract<Subject>::value;
             CHECK(isSubjectAbstract == true);
         }
@@ -708,7 +701,7 @@ TEST_CASE("Observer Pattern Integration with Mediator")
         {
             LivingPlant *testPlant = new Tree();
 
-            // These should be callable without crashing
+            //should be callable without crashing
             staff->getWaterUpdate(testPlant);
             staff->getSunUpdate(testPlant);
             staff->getStateUpdate(testPlant);
@@ -727,7 +720,7 @@ TEST_CASE("Observer Pattern Integration with Mediator")
         {
             Staff *staff = new Staff();
 
-            // Test attachment/detachment
+            //test attachment/detachment
             plantGroup->attach(staff);
             plantGroup->detach(staff);
 
@@ -736,7 +729,7 @@ TEST_CASE("Observer Pattern Integration with Mediator")
 
         SUBCASE("PlantGroup notifications")
         {
-            // These should handle empty observer lists gracefully
+        
             plantGroup->waterNeeded();
             plantGroup->sunlightNeeded();
             plantGroup->stateUpdated();
@@ -750,15 +743,15 @@ TEST_CASE("Observer Pattern Implementation Tests") {
         PlantGroup* plantGroup = new PlantGroup();
         Staff* staff = new Staff();
         
-        // Test attachment
+        //test attachment
         plantGroup->attach(staff);
         
-        // Test notification mechanisms (should not crash with empty observers)
+        //tests notification functions(should not crash with empty observers)
         plantGroup->waterNeeded();
         plantGroup->sunlightNeeded();
         plantGroup->stateUpdated();
         
-        // Test detachment
+        //test detachment
         plantGroup->detach(staff);
         
         delete plantGroup;
@@ -770,19 +763,19 @@ TEST_CASE("Observer Pattern Implementation Tests") {
         Staff* staff1 = new Staff();
         Staff* staff2 = new Staff();
         
-        // Attach multiple observers
+        //attach multiple observers
         plantGroup->attach(staff1);
         plantGroup->attach(staff2);
         
-        // Notifications should work with multiple observers
+        //notifications should work with multiple observers
         plantGroup->waterNeeded();
         plantGroup->sunlightNeeded();
         plantGroup->stateUpdated();
         
-        // Detach one observer
+        //detach one observer
         plantGroup->detach(staff1);
         
-        // Notifications should still work with remaining observer
+        //notifications should still work with remaining observer
         plantGroup->waterNeeded();
         
         plantGroup->detach(staff2);
@@ -796,43 +789,43 @@ TEST_CASE("Observer Pattern Implementation Tests") {
         Staff* staff = new Staff();
         LivingPlant* testPlant = new Tree();
         
-        // Set up strategies for the plant to actually respond to water/sun
+        //set up strategies for the plant to actually respond to water/sun
         testPlant->setWaterStrategy(LowWater::getID());
         testPlant->setSunStrategy(LowSun::getID());
         
         SUBCASE("Water update notification") {
-            // Set initial state
+            //set initial state
             testPlant->setWaterLevel(5);
             testPlant->setHealth(50);
             
             int initialWater = testPlant->getWaterLevel();
             
-            // Staff should respond to water notification
+            //staff should respond to water notification
             staff->getWaterUpdate(testPlant);
             
-            // Plant should have been watered (water level increased)
+            //plant should have been watered, increase
             CHECK(testPlant->getWaterLevel() > initialWater);
         }
         
         SUBCASE("Sun update notification") {
-            // Set initial state
+            //set initial state
             testPlant->setSunExposure(10);
             testPlant->setHealth(50);
             
             int initialSun = testPlant->getSunExposure();
             
-            // Staff should respond to sun notification
+            //staff should respond to sun notification
             staff->getSunUpdate(testPlant);
             
-            // Plant should have received sun (sun exposure increased)
+            //plant should have received sun, increase
             CHECK(testPlant->getSunExposure() > initialSun);
         }
         
         SUBCASE("State update notification") {
-            // Staff should handle state update without crashing
+            //staff should handle state update without crashing
             staff->getStateUpdate(testPlant);
             
-            // Notification should be processed successfully
+            //notification should be processed successfully
             CHECK(true); // Just checking it doesn't crash
         }
         
@@ -844,7 +837,7 @@ TEST_CASE("Observer Pattern Implementation Tests") {
         PlantGroup* plantGroup = new PlantGroup();
         Staff* staff = new Staff();
         
-        // Add some plants to the group with proper strategies
+        //add some plants to the group with proper strategies
         LivingPlant* plant1 = new Tree();
         LivingPlant* plant2 = new Shrub();
         
@@ -856,44 +849,40 @@ TEST_CASE("Observer Pattern Implementation Tests") {
         plantGroup->addComponent(plant1);
         plantGroup->addComponent(plant2);
         
-        // Attach observer
+        //attach observer
         plantGroup->attach(staff);
         
         SUBCASE("Group watering triggers observer notifications") {
-            // Set initial water levels
+            //set initial water levels
             plant1->setWaterLevel(0);
             plant2->setWaterLevel(0);
             
-            // Watering the group should work
+            //watering the group should work
             plantGroup->water();
             
-            // Both plants should have been watered
+            //both plants should be watered
             CHECK(plant1->getWaterLevel() > 0);
             CHECK(plant2->getWaterLevel() > 0);
         }
         
         SUBCASE("Group sun exposure triggers observer notifications") {
-            // Set initial sun exposure
+            //set initial sun exposure
             plant1->setSunExposure(0);
             plant2->setSunExposure(0);
             
-            // Setting group outside should work
+            //setting group outside should work
             plantGroup->setOutside();
             
-            // Both plants should have received sun
+            //both plants should have received sun
             CHECK(plant1->getSunExposure() > 0);
             CHECK(plant2->getSunExposure() > 0);
         }
         
-        // REMOVED: Group update operation test since it's causing segfault
-        // We'll debug this separately
-        
-        // Clean up - detach before deletion
+    
         plantGroup->detach(staff);
         
         delete plantGroup;
         delete staff;
-        // Note: plant1 and plant2 are owned by plantGroup and will be deleted with it
     }
     
     SUBCASE("Observer Pattern Integration with Plant Lifecycle") {
@@ -901,42 +890,40 @@ TEST_CASE("Observer Pattern Implementation Tests") {
         PlantGroup* plantGroup = new PlantGroup();
         Staff* staff = new Staff();
         
-        // Create a plant and add to group
         LivingPlant* plant = new Tree();
         plant->setWaterStrategy(LowWater::getID());
         plant->setSunStrategy(LowSun::getID());
         plantGroup->addComponent(plant);
-        
-        // Set up observer
+    
         plantGroup->attach(staff);
         
         SUBCASE("Plant state changes trigger observer notifications") {
-            // Simulate plant growth and state changes
+            //simulate plant growth and state changes
             plant->setAge(10);
             plant->setHealth(75);
             plant->setWaterLevel(30);
             plant->setSunExposure(25);
             
-            // Set maturity state that might trigger notifications
+            //set maturity state that might trigger notifications
             plant->setMaturity(Seed::getID());
             
-            // Grow the plant (this might trigger state changes)
+            //grow the plant (this might trigger state changes)
             inv->getStates(Seed::getID())->getState()->grow(plant);
             
-            // Observer should handle any state update notifications
+            //observer should handle any state update notifications
             CHECK(true); // Success if no crashes
         }
         
         SUBCASE("Plant strategy changes") {
-            // Change water strategy
+            //change water strategy
             plant->setWaterStrategy(LowWater::getID());
             plant->water();
             
-            // Change sun strategy  
+            //change sun strategy  
             plant->setSunStrategy(LowSun::getID());
             plant->setOutside();
             
-            // Operations should complete with observer attached
+            //operations should complete with observer attached
             CHECK(plant->getWaterLevel() > 0);
             CHECK(plant->getSunExposure() > 0);
         }
@@ -951,35 +938,32 @@ TEST_CASE("Observer Pattern Implementation Tests") {
         Staff* staff = new Staff();
         
         SUBCASE("Null observer handling") {
-            // Should handle null observer gracefully
+
             plantGroup->attach(nullptr);
             plantGroup->detach(nullptr);
             
-            // Notifications with null observers should not crash
             plantGroup->waterNeeded();
             plantGroup->sunlightNeeded();
             plantGroup->stateUpdated();
         }
         
         SUBCASE("Duplicate observer attachment") {
-            // Attaching same observer multiple times
+            //attaching same observer multiple times
             plantGroup->attach(staff);
-            plantGroup->attach(staff); // Duplicate
+            plantGroup->attach(staff); //duplicate observer
             
-            // Should handle gracefully
             plantGroup->waterNeeded();
-            
-            // Single detach should remove it
+        
             plantGroup->detach(staff);
             
-            // Notifications should work with no observers
+            //notifications should work with no observers
             plantGroup->waterNeeded();
         }
         
         SUBCASE("Observer with empty plant group") {
             plantGroup->attach(staff);
             
-            // Notifications on empty group should not crash
+            //notifications on empty group should not crash
             plantGroup->waterNeeded();
             plantGroup->sunlightNeeded();
             plantGroup->stateUpdated();
@@ -993,7 +977,7 @@ TEST_CASE("Observer Pattern Implementation Tests") {
     
     SUBCASE("Observer Pattern with Composite Structure") {
         SUBCASE("Nested plant groups with observers") {
-            // Create hierarchy: rootGroup -> subgroup -> plant
+            //create hierarchy: rootGroup -> subgroup -> plant
             PlantGroup* rootGroup = new PlantGroup();
             PlantGroup* subGroup = new PlantGroup();
             Staff* staff = new Staff();
@@ -1005,14 +989,14 @@ TEST_CASE("Observer Pattern Implementation Tests") {
             subGroup->addComponent(plant);
             rootGroup->addComponent(subGroup);
             
-            // Attach observer to root group
+            //attach observer to root group
             rootGroup->attach(staff);
             
-            // Operations on nested structure should work
+            //operations on nested structure should work
             rootGroup->water();
             rootGroup->setOutside();
             
-            // Verify plant was affected
+            //verify plant was affected
             CHECK(plant->getWaterLevel() > 0);
             CHECK(plant->getSunExposure() > 0);
             
@@ -1029,7 +1013,7 @@ TEST_CASE("Observer Pattern Implementation Tests") {
             Staff* topObserver = new Staff();
             Staff* middleObserver = new Staff();
             
-            // Build hierarchy
+            //build hierarchy
             LivingPlant* plant = new Tree();
             plant->setWaterStrategy(LowWater::getID());
             plant->setSunStrategy(LowSun::getID());
@@ -1038,15 +1022,15 @@ TEST_CASE("Observer Pattern Implementation Tests") {
             middleGroup->addComponent(bottomGroup);
             topGroup->addComponent(middleGroup);
             
-            // Attach observers at different levels
+            //attach observers at different levels
             topGroup->attach(topObserver);
             middleGroup->attach(middleObserver);
             
-            // Operations should notify all relevant observers
+            //operations should notify all relevant observers
             topGroup->water();
             middleGroup->setOutside();
             
-            // Verify plant was affected
+            //verify that plant was affected
             CHECK(plant->getWaterLevel() > 0);
             CHECK(plant->getSunExposure() > 0);
             
@@ -1067,11 +1051,11 @@ TEST_CASE("Observer Pattern Implementation Tests") {
                 PlantGroup* temporaryGroup = new PlantGroup();
                 temporaryGroup->attach(staff);
                 
-                // Group deletion with attached observer should not cause issues
+                //group deletion with attached observer should not cause issues
                 delete temporaryGroup;
             }
             
-            // Observer should still be valid
+            //observer should still be valid
             CHECK(staff != nullptr);
             
             delete staff;
@@ -1087,10 +1071,10 @@ TEST_CASE("Observer Pattern Implementation Tests") {
             plantGroup->attach(staff2);
             plantGroup->attach(staff3);
             
-            // Group deletion should clean up observer relationships
+            //group deletion should clean up observer relationships
             delete plantGroup;
             
-            // Observers should still be valid
+            //observers should still be valid
             CHECK(staff1 != nullptr);
             CHECK(staff2 != nullptr);
             CHECK(staff3 != nullptr);
@@ -1108,7 +1092,7 @@ TEST_CASE("Observer Pattern Implementation Tests") {
             plant->setWaterLevel(0);
             
             plant->water();
-            CHECK(plant->getWaterLevel() == 10); // LowWater adds 10
+            CHECK(plant->getWaterLevel() == 10); //adds 10
             
             delete plant;
         }
@@ -1119,7 +1103,7 @@ TEST_CASE("Observer Pattern Implementation Tests") {
             plant->setSunExposure(0);
             
             plant->setOutside();
-            CHECK(plant->getSunExposure() == 6); // LowSun adds 6
+            CHECK(plant->getSunExposure() == 6); //adds 6
             
             delete plant;
         }
