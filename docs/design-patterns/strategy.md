@@ -9,7 +9,7 @@ Defines interchangeable algorithms for plant care operations (watering and sunli
 |--------------|------------------------|----------------|
 | **Context** | `LivingPlant` | Maintains references to WaterStrategy and SunStrategy and delegates care operations to them |
 | **Strategy** | `WaterStrategy` (abstract)<br>`SunStrategy` (abstract) | Define interfaces for care algorithm families |
-| **ConcreteStrategy** | **Water:** `LowWater`, `MidWater`, `HighWater`, `AlternatingWater`<br>**Sun:** `LowSun`, `MidSun`, `HighSun` | Implement specific care algorithms that directly modify plant's waterLevel and sunExposure attributes with varying amounts, frequencies, intensity, and duration |
+| **ConcreteStrategy** | **Water:** `LowWater`, `MidWater`, `HighWater`, `AlternatingWater`<br>**Sun:** `LowSun`, `MidSun`, `HighSun`, `AlternatingSun` | Implement specific care algorithms that directly modify plant's waterLevel and sunExposure attributes with varying amounts, frequencies, intensity, and duration |
 
 ## Functional Requirements
 
@@ -26,7 +26,7 @@ Defines interchangeable algorithms for plant care operations (watering and sunli
 ### Pattern Integration
 The **Strategy** pattern defines **interchangeable care algorithms** through these interactions:
 
-- **Direct Plant Modification**: Strategies directly modify plant's waterLevel and sunExposure attributes
+- **Direct Plant Modification**: Water strategies directly modify plant's water level attributes, while sun strategies handle sun exposure through the addSun() method
 - **Flyweight Pattern**: Strategy instances shared via singleton-managed flyweight factories
 - **Builder Pattern**: Builder selects and assigns appropriate strategies during plant construction
 - **State Pattern**: State may inform strategy selection or modification
