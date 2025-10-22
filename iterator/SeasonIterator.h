@@ -5,6 +5,7 @@
 #include "../prototype/LivingPlant.h"
 #include "../composite/PlantComponent.h"
 #include "../composite/PlantGroup.h"
+#include <stack>
 
 /**
  * @brief Generic concrete iterator for filtering plants by season.
@@ -82,12 +83,31 @@ class SeasonIterator : public Iterator
 		LivingPlant* currentPlant;
 
 		/**
-		 * @brief Recursively searches for the next matching plant in the hierarchy.
-		 * @param plants Pointer to the plant collection to search.
-		 * @param findFirst If true, returns the first matching plant; if false, returns the plant after currentPlant.
-		 * @return Pointer to matching LivingPlant, or nullptr if none found.
+		 * @brief Stack frame for iterative tree traversal.
+		 * Stores position in a single level of the plant hierarchy.
 		 */
-		LivingPlant* findNextMatch(std::list<PlantComponent*>* plants, bool findFirst);
+		struct StackFrame {
+			std::list<PlantComponent*>* plantList;
+			std::list<PlantComponent*>::iterator current;
+			std::list<PlantComponent*>::iterator end;
+		};
+
+		/**
+		 * @brief Stack tracking current position in nested plant groups.
+		 * Enables O(1) next() by avoiding re-traversal from root.
+		 */
+		std::stack<StackFrame> traversalStack;
+
+		/**
+		 * @brief Flag indicating if currently inside a PlantGroup composite.
+		 */
+		bool inComposite;
+
+		/**
+		 * @brief Advances to the next matching plant using iterative stack-based traversal.
+		 * Filters by season while traversing. Replaces recursive findNextMatch.
+		 */
+		void advanceToNextPlant();
 };
 
 #endif //PHOTOSYNTECH_SEASONITERATOR_H

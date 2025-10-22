@@ -78,7 +78,7 @@ public:
 	 * @brief Gets the component type for efficient type identification.
 	 *
 	 * Provides a lightweight alternative to dynamic_cast for type checking.
-	 * Enables ~50x faster type identification in iterators and traversal operations.
+	 * Significantly reduces computational overhead in iterators and traversal operations.
 	 *
 	 * @return ComponentType enum value identifying this component's type.
 	 */

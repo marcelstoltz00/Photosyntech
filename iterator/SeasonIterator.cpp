@@ -1,7 +1,7 @@
 #include "SeasonIterator.h"
 #include "AggSeason.h"
 
-SeasonIterator::SeasonIterator(AggSeason* aggregate) : currentPlant(nullptr)
+SeasonIterator::SeasonIterator(AggSeason* aggregate) : currentPlant(nullptr), inComposite(false)
 {
 	this->aggregate = aggregate;
 	first();
@@ -9,12 +9,33 @@ SeasonIterator::SeasonIterator(AggSeason* aggregate) : currentPlant(nullptr)
 
 void SeasonIterator::first()
 {
-	currentPlant = findNextMatch(aggregate->plants, true);
+	// Clear stack and reset state
+	while (!traversalStack.empty()) {
+		traversalStack.pop();
+	}
+	inComposite = false;
+
+	// Push root level frame
+	StackFrame root;
+	root.plantList = aggregate->plants;
+	root.current = aggregate->plants->begin();
+	root.end = aggregate->plants->end();
+	traversalStack.push(root);
+
+	// Find first matching plant
+	advanceToNextPlant();
 }
 
 void SeasonIterator::next()
 {
-	currentPlant = findNextMatch(aggregate->plants, false);
+	if (traversalStack.empty()) {
+		currentPlant = nullptr;
+		return;
+	}
+
+	// Advance current position
+	traversalStack.top().current++;
+	advanceToNextPlant();
 }
 
 bool SeasonIterator::isDone()
@@ -27,37 +48,62 @@ LivingPlant* SeasonIterator::currentItem()
 	return currentPlant;
 }
 
-LivingPlant* SeasonIterator::findNextMatch(std::list<PlantComponent*>* plants, bool findFirst)
+void SeasonIterator::advanceToNextPlant()
 {
-	for (auto component : *plants) {
-		// Try to cast to LivingPlant
-		LivingPlant* plant = dynamic_cast<LivingPlant*>(component);
+	// Need to cast aggregate to access targetSeason
+	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
 
-		if (plant != nullptr) {
-			// It's a LivingPlant, check if it matches season
-			if (plant->getSeason() == aggregate->targetSeason) {
-				if (findFirst) {
-					return plant;
-				}
-				if (plant == currentPlant) {
-					// We found the current plant, switch to finding mode
-					findFirst = true;
-					continue;  // Skip current, look for next
-				}
-			}
-		} else {
-			// Not a LivingPlant, try to cast to PlantGroup
-			PlantGroup* group = dynamic_cast<PlantGroup*>(component);
-			if (group != nullptr) {
-				// Recursively search the group's plants
-				LivingPlant* found = findNextMatch(group->getPlants(), findFirst);
-				if (found != nullptr) {
-					return found;
-				}
-				// If nothing found in this group, continue to next component
-			}
+	while (!traversalStack.empty()) {
+		StackFrame& frame = traversalStack.top();
+
+		// Check if we've exhausted this level
+		if (frame.current == frame.end) {
+			traversalStack.pop();
+			inComposite = !traversalStack.empty();
+			continue;
 		}
+
+		PlantComponent* component = *frame.current;
+		ComponentType type = component->getType();
+
+		// Found a living plant - check if it matches season
+		if (type == ComponentType::LIVING_PLANT) {
+			LivingPlant* plant = static_cast<LivingPlant*>(component);
+
+			// Check season match using static_cast access
+			if (plant->getSeason() == seasonAgg->targetSeason) {
+				currentPlant = plant;
+				return;
+			}
+
+			// Doesn't match season - skip it
+			frame.current++;
+			continue;
+		}
+
+		// Found a plant group - descend into it
+		if (type == ComponentType::PLANT_GROUP) {
+			PlantGroup* group = static_cast<PlantGroup*>(component);
+			std::list<PlantComponent*>* children = group->getPlants();
+
+			// Advance parent iterator before descending
+			frame.current++;
+
+			// Push child frame onto stack
+			StackFrame childFrame;
+			childFrame.plantList = children;
+			childFrame.current = children->begin();
+			childFrame.end = children->end();
+			traversalStack.push(childFrame);
+			inComposite = true;
+			continue;
+		}
+
+		// Unknown type - skip it
+		frame.current++;
 	}
 
-	return nullptr;
+	// Stack exhausted - no more matching plants
+	currentPlant = nullptr;
+	inComposite = false;
 }
