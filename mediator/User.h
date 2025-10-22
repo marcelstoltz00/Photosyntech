@@ -2,6 +2,7 @@
 #define User_h
 
 #include <string>
+//Added a forward declaration
 class Mediator;
 
 /**
