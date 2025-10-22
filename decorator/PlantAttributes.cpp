@@ -37,7 +37,7 @@ std::string PlantAttributes::getInfo()
     std::string baseInfo = (nextComponent != nullptr) ? nextComponent->getInfo() : "";
     std::stringstream ss;
     ss << baseInfo;
-    ss << " -> Decorated with: " << *name->getState() << " (+R" << this->price << ")\n";
+    ss << "Attributes:\t" << *name->getState() << "\t Price R" << this->price << "\t Affect on water\t[" + to_string(this->affectWaterValue) << "]" << "\t Affect on sunlight\t[" + to_string(this->affectSunValue) << "]" << "\n";
     return ss.str();
 };
 
@@ -72,5 +72,15 @@ void PlantAttributes::addAttribute(PlantComponent *attribute)
     {
         attribute->addAttribute(nextComponent);
         this->nextComponent = attribute;
+    }
+};
+PlantComponent *PlantAttributes::correctShape(PlantComponent *mainDecorator)
+{
+    if (this->nextComponent)
+        return nextComponent->correctShape(mainDecorator);
+    else
+    {
+        throw "There was not a base pointer ";
+        return nullptr;
     }
 };

@@ -50,11 +50,11 @@ public:
     /**
      * @brief Sets up the initial health, water, and sun levels for the Maple tree.
      */
-    void setUp()override;
+    void setUp() override;
     /**
      * @brief Adds decorators to the LivingPlant.
      */
-    virtual void addDecorators() = 0;
+    void addDecorators() override;
     /**
      * @brief Returns the fully constructed Maple tree.
      * @return Pointer to the constructed Maple tree.

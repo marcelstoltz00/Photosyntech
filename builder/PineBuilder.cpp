@@ -45,7 +45,7 @@ void PineBuilder::assignMaturityState()
 
 PlantComponent *PineBuilder::getResult()
 {
-    return plant->clone();
+    return plant->getDecorator()->clone();
 }
 
 void PineBuilder::addDecorators() {

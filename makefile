@@ -15,41 +15,47 @@ fetch-doctest:
 		fi; \
 	fi
 
-TEST_SRC = unitTests.cpp \
-	   strategy/LowWater.cpp \
-	   strategy/MidWater.cpp \
-	   strategy/HighWater.cpp \
-	   strategy/AlternatingWater.cpp \
-	   strategy/LowSun.cpp \
-	   strategy/MidSun.cpp \
-	   strategy/HighSun.cpp \
-	   singleton/Singleton.cpp \
-	   prototype/LivingPlant.cpp \
-	   composite/PlantComponent.cpp \
-	   state/Dead.cpp \
-	   state/Mature.cpp \
-	   state/Seed.cpp \
-	   state/Vegetative.cpp \
-	   decorator/PlantAttributes.cpp \
-	   decorator/ConcreteDecorators.cpp \
-	   strategy/AlternatingSun.cpp \
-	   composite/PlantGroup.cpp \
-	   builder/Director.cpp \
-	   builder/RoseBuilder.cpp \
-	   builder/CactusBuilder.cpp \
-	   mediator/Mediator.cpp \
-	   mediator/Customer.cpp \
-	   mediator/SalesFloor.cpp \
-	   mediator/Staff.cpp \
-	   mediator/SuggestionFloor.cpp\
-	   observer/Observer.cpp \
-	   observer/Subject.cpp 
 
-# Note: Observer.cpp and Subject.cpp are missing - only .h files exist
-# If you need implementation files, you'll need to create them
 
-OBJ = $(TEST_SRC:.cpp=.o)
-BIN = app
+TEST_SRC = unitTests.cpp\
+            strategy/LowWater.cpp\
+            strategy/MidWater.cpp\
+            strategy/HighWater.cpp\
+            strategy/AlternatingWater.cpp\
+            strategy/LowSun.cpp\
+            strategy/MidSun.cpp\
+            strategy/HighSun.cpp\
+            singleton/Singleton.cpp\
+            prototype/LivingPlant.cpp\
+            composite/PlantComponent.cpp\
+            state/Dead.cpp\
+            state/Mature.cpp\
+            state/Seed.cpp\
+            state/Vegetative.cpp\
+            prototype/LivingPlant.cpp\
+            decorator/PlantAttributes.cpp\
+            decorator/ConcreteDecorators.cpp\
+			strategy/AlternatingSun.cpp\
+			composite/PlantGroup.cpp\
+			builder/Director.cpp\
+			builder/RoseBuilder.cpp\
+			builder/CactusBuilder.cpp\
+			iterator/Aggregate.cpp\
+			iterator/AggPlant.cpp\
+			iterator/AggSeason.cpp\
+			iterator/PlantIterator.cpp\
+			iterator/SeasonIterator.cpp\
+			   mediator/Mediator.cpp \
+			   mediator/Customer.cpp \
+			   mediator/SalesFloor.cpp \
+			   mediator/Staff.cpp \
+			   mediator/SuggestionFloor.cpp\
+			   observer/Observer.cpp \
+			   observer/Subject.cpp 
+SRC = $(TEST_SRC)
+OBJ := $(SRC:.cpp=.o)
+BIN := app
+
 
 all: test
 
@@ -64,7 +70,7 @@ $(BIN): $(OBJ)
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-run: $(BIN)
+run r: $(BIN)
 	./$(BIN)
 
 test-run: test
@@ -75,7 +81,7 @@ cov: test
 	gcovr --root . --exclude '.*\.h' --print-summary > coverage.txt
 	@echo "Coverage report generated in coverage.txt"
 
-clean:
+clean c:
 	find . -name '*.o' -delete
 	rm -f $(BIN) vgcore.*
 	find . -name '*.gcno' -delete
@@ -83,7 +89,7 @@ clean:
 	find . -name '*.gcov' -delete
 	rm -f coverage.txt coverage.html coverage.css
 
-valgrind: $(BIN)
+valgrind v: $(BIN)
 	valgrind --leak-check=full --show-leak-kinds=all -s --track-origins=yes ./$(BIN)
 
 leaks: $(BIN)

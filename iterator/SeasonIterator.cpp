@@ -1,13 +1,13 @@
-#include "PlantIterator.h"
-#include "AggPlant.h"
+#include "SeasonIterator.h"
+#include "AggSeason.h"
 
-PlantIterator::PlantIterator(AggPlant* aggregate) : currentPlant(nullptr), inComposite(false)
+SeasonIterator::SeasonIterator(AggSeason* aggregate) : currentPlant(nullptr), inComposite(false)
 {
 	this->aggregate = aggregate;
 	first();
 }
 
-void PlantIterator::first()
+void SeasonIterator::first()
 {
 	// Clear stack and reset state
 	while (!traversalStack.empty()) {
@@ -16,20 +16,20 @@ void PlantIterator::first()
 	inComposite = false;
 
 	// Cast aggregate to access plants member
-	AggPlant* plantAgg = static_cast<AggPlant*>(aggregate);
+	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
 
 	// Push root level frame
 	StackFrame root;
-	root.plantList = plantAgg->plants;
-	root.current = plantAgg->plants->begin();
-	root.end = plantAgg->plants->end();
+	root.plantList = seasonAgg->plants;
+	root.current = seasonAgg->plants->begin();
+	root.end = seasonAgg->plants->end();
 	traversalStack.push(root);
 
-	// Find first plant
+	// Find first matching plant
 	advanceToNextPlant();
 }
 
-void PlantIterator::next()
+void SeasonIterator::next()
 {
 	if (traversalStack.empty()) {
 		currentPlant = nullptr;
@@ -41,18 +41,21 @@ void PlantIterator::next()
 	advanceToNextPlant();
 }
 
-bool PlantIterator::isDone()
+bool SeasonIterator::isDone()
 {
 	return currentPlant == nullptr;
 }
 
-LivingPlant* PlantIterator::currentItem()
+LivingPlant* SeasonIterator::currentItem()
 {
 	return currentPlant;
 }
 
-void PlantIterator::advanceToNextPlant()
+void SeasonIterator::advanceToNextPlant()
 {
+	// Need to cast aggregate to access targetSeason
+	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
+
 	while (!traversalStack.empty()) {
 		StackFrame& frame = traversalStack.top();
 
@@ -66,10 +69,20 @@ void PlantIterator::advanceToNextPlant()
 		PlantComponent* component = *frame.current;
 		ComponentType type = component->getType();
 
-		// Found a living plant - return it
+		// Found a living plant - check if it matches season
 		if (type == ComponentType::LIVING_PLANT) {
-			currentPlant = static_cast<LivingPlant*>(component);
-			return;
+			LivingPlant* plant = static_cast<LivingPlant*>(component);
+
+			// Check season match using direct Flyweight pointer comparison
+			// Flyweight pattern ensures same season strings share same pointer
+			if (plant->getSeason() == seasonAgg->targetSeason) {
+				currentPlant = plant;
+				return;
+			}
+
+			// Doesn't match season - skip it
+			frame.current++;
+			continue;
 		}
 
 		// Found a plant group - descend into it
@@ -94,7 +107,7 @@ void PlantIterator::advanceToNextPlant()
 		frame.current++;
 	}
 
-	// Stack exhausted - no more plants
+	// Stack exhausted - no more matching plants
 	currentPlant = nullptr;
 	inComposite = false;
 }

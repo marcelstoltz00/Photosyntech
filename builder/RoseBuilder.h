@@ -55,7 +55,7 @@ public:
     /**
      * @brief Sets up the initial health, water, and sun levels for the Rose plant.
      */
-    void setUp()override;
+    void setUp() override;
 
     /**
      * @brief Adds decorators to the LivingPlant.

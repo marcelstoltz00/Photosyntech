@@ -16,13 +16,6 @@ class LivingPlant; // Forward declaration
 class MaturityState
 {
 public:
-	enum class Season
-	{
-		SPRING,
-		SUMMER,
-		AUTUMN,
-		WINTER
-	};
 	/**
 	 * @brief Handles the daily growth of the plant
 	 *
@@ -43,6 +36,6 @@ public:
 	 *
 	 * @return Integer identifier for the state
 	 */
-	static const int getID() { return -1; }
+	static const int getID();
 };
 #endif /* MaturityState_h */

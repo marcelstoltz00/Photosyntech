@@ -50,12 +50,12 @@ public:
     /**
      * @brief Sets up the initial health, water, and sun levels for the Jade plant.
      */
-    void setUp()override;
+    void setUp() override;
 
     /**
      * @brief Adds decorators to the LivingPlant.
      */
-    virtual void addDecorators() = 0;
+    void addDecorators() override;
     /**
      * @brief Returns the fully constructed Jade plant.
      * @return Pointer to the constructed Jade plant.

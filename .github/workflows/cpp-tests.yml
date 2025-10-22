@@ -1,0 +1,42 @@
+name: C++ Tests
+
+on:
+  push:
+    branches: [ main, master, devBranch ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++ lcov gcovr curl valgrind
+    
+    - name: Fetch doctest
+      run: make fetch-doctest
+    
+    - name: Build project
+      run: make all
+    
+    - name: Run tests
+      run: make test-run
+    
+    - name: Generate coverage report
+      run: make cov
+    
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: coverage.txt
+        
+    # Optional: Run valgrind to check for memory leaks
+    - name: Run valgrind
+      run: |
+        valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 ./app

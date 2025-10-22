@@ -46,7 +46,7 @@ void SunflowerBuilder::assignMaturityState()
 
 PlantComponent *SunflowerBuilder::getResult()
 {
-    return plant->clone();
+    return plant->getDecorator()->clone();
 }
 
 void SunflowerBuilder::addDecorators()

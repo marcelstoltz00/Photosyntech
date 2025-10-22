@@ -51,7 +51,7 @@ PlantComponent *CactusBuilder::getResult()
         return NULL;
     }
 
-    return plant->clone();
+    return plant->getDecorator()->clone();
 }
 
 void CactusBuilder::addDecorators()
