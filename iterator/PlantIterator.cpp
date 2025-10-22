@@ -1,7 +1,7 @@
 #include "PlantIterator.h"
 #include "AggPlant.h"
 
-PlantIterator::PlantIterator(AggPlant* aggregate) : currentPlant(nullptr), inComposite(false)
+PlantIterator::PlantIterator(AggPlant* aggregate) : currentPlant(nullptr)
 {
 	this->aggregate = aggregate;
 	first();
@@ -31,14 +31,7 @@ void PlantIterator::first()
 
 void PlantIterator::next()
 {
-	if (traversalStack.empty()) {
-		currentPlant = nullptr;
-		return;
-	}
-
-	// Advance current position
-	traversalStack.top().current++;
-	advanceToNextPlant();
+	currentPlant = findNextMatch(aggregate->plants, false);
 }
 
 bool PlantIterator::isDone()
@@ -51,50 +44,35 @@ LivingPlant* PlantIterator::currentItem()
 	return currentPlant;
 }
 
-void PlantIterator::advanceToNextPlant()
+LivingPlant* PlantIterator::findNextMatch(std::list<PlantComponent*>* plants, bool findFirst)
 {
-	while (!traversalStack.empty()) {
-		StackFrame& frame = traversalStack.top();
+	for (auto component : *plants) {
+		// Try to cast to LivingPlant
+		LivingPlant* plant = dynamic_cast<LivingPlant*>(component);
 
-		// Check if we've exhausted this level
-		if (frame.current == frame.end) {
-			traversalStack.pop();
-			inComposite = !traversalStack.empty();
-			continue;
+		if (plant != nullptr) {
+			// It's a LivingPlant, return it if we're finding first or if it's the one after current
+			if (findFirst) {
+				return plant;
+			}
+			if (plant == currentPlant) {
+				// We found the current plant, switch to finding mode
+				findFirst = true;
+				continue;  // Skip current, look for next
+			}
+		} else {
+			// Not a LivingPlant, try to cast to PlantGroup
+			PlantGroup* group = dynamic_cast<PlantGroup*>(component);
+			if (group != nullptr) {
+				// Recursively search the group's plants
+				LivingPlant* found = findNextMatch(group->getPlants(), findFirst);
+				if (found != nullptr) {
+					return found;
+				}
+				// If nothing found in this group, continue to next component
+			}
 		}
-
-		PlantComponent* component = *frame.current;
-		ComponentType type = component->getType();
-
-		// Found a living plant - return it
-		if (type == ComponentType::LIVING_PLANT) {
-			currentPlant = static_cast<LivingPlant*>(component);
-			return;
-		}
-
-		// Found a plant group - descend into it
-		if (type == ComponentType::PLANT_GROUP) {
-			PlantGroup* group = static_cast<PlantGroup*>(component);
-			std::list<PlantComponent*>* children = group->getPlants();
-
-			// Advance parent iterator before descending
-			frame.current++;
-
-			// Push child frame onto stack
-			StackFrame childFrame;
-			childFrame.plantList = children;
-			childFrame.current = children->begin();
-			childFrame.end = children->end();
-			traversalStack.push(childFrame);
-			inComposite = true;
-			continue;
-		}
-
-		// Unknown type - skip it
-		frame.current++;
 	}
 
-	// Stack exhausted - no more plants
-	currentPlant = nullptr;
-	inComposite = false;
+	return nullptr;
 }

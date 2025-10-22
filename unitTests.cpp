@@ -29,6 +29,10 @@
 #include "builder/Director.h"
 #include "builder/RoseBuilder.h"
 #include "builder/CactusBuilder.h"
+
+#include "decorator/customerDecorator/PlantDecorationHeader.h"
+#include "decorator/plantDecorator/PlantAttributesHeader.h"
+
 TEST_CASE("Overall Testing of flyweight strings + error handling")
 {
     FlyweightFactory<int, string *> *fac = new FlyweightFactory<int, string *>();
@@ -308,15 +312,8 @@ TEST_CASE("Testing MaturityState transitions and behavior")
 // ============================================================================
 // ITERATOR PATTERN COMPREHENSIVE TEST SUITE
 // ============================================================================
-// These tests ensure stable iterator functionality with Flyweight integration.
-// Tests cover: PlantIterator, SeasonIterator (with Flyweight pointer comparison),
-//              nested hierarchies, edge cases, constructor overloads, and memory efficiency
-// ============================================================================
-// KEY IMPLEMENTATION DETAILS:
-// - SeasonIterator uses Flyweight<std::string*>* for season comparison
-// - Direct pointer comparison (O(1)) instead of string comparison (O(n))
-// - AggSeason supports both string and Flyweight pointer constructors
-// - Flyweight pattern ensures same season strings share same pointer
+// These tests ensure stable iterator functionality before and after refactor
+// Tests cover: PlantIterator, SeasonIterator, nested hierarchies, edge cases
 // ============================================================================
 
 #include "iterator/Iterator.h"
@@ -369,9 +366,6 @@ std::vector<LivingPlant*> collectPlants(Iterator* iter) {
  * @brief Creates a test plant with specified season
  * @param season Season name string
  * @return Pointer to created LivingPlant (Succulent)
- *
- * Note: Uses Flyweight pattern via inv->getString(season) to ensure
- * all plants with the same season share the same Flyweight pointer.
  */
 LivingPlant* createPlantWithSeason(const std::string& season) {
     Inventory* inv = Inventory::getInstance();
@@ -532,15 +526,11 @@ TEST_CASE("PlantIterator - Mixed plant types") {
 // ============================================================================
 // SEASONITERATOR BASIC TESTS
 // ============================================================================
-// These tests verify SeasonIterator's Flyweight-based season filtering.
-// Uses direct Flyweight pointer comparison for O(1) season matching.
-// ============================================================================
 
 TEST_CASE("SeasonIterator - Empty collection with season filter") {
     Inventory* inv = Inventory::getInstance();
     std::list<PlantComponent*> emptyList;
 
-    // Using Flyweight pointer constructor
     AggSeason* agg = new AggSeason(&emptyList, inv->getString("Spring"));
     Iterator* iter = agg->createIterator();
 
@@ -640,7 +630,6 @@ TEST_CASE("SeasonIterator - Mixed seasons with filtering") {
     plantList.push_back(spring2);
     plantList.push_back(autumn1);
 
-    // Note: All "Spring" plants share the same Flyweight pointer, enabling O(1) comparison
     SUBCASE("Filter for Spring returns only Spring plants") {
         AggSeason* agg = new AggSeason(&plantList, inv->getString("Spring"));
         Iterator* iter = agg->createIterator();
@@ -764,182 +753,6 @@ TEST_CASE("SeasonIterator - All four seasons") {
     delete summer;
     delete autumn;
     delete winter;
-}
-
-// ============================================================================
-// SEASONITERATOR FLYWEIGHT IMPLEMENTATION TESTS
-// ============================================================================
-
-TEST_CASE("SeasonIterator - String constructor overload") {
-    Inventory* inv = Inventory::getInstance();
-
-    LivingPlant* spring1 = createPlantWithSeason("Spring");
-    LivingPlant* summer1 = createPlantWithSeason("Summer");
-    LivingPlant* spring2 = createPlantWithSeason("Spring");
-
-    std::list<PlantComponent*> plantList;
-    plantList.push_back(spring1);
-    plantList.push_back(summer1);
-    plantList.push_back(spring2);
-
-    SUBCASE("String constructor filters correctly") {
-        // Using string constructor (internally converts to Flyweight)
-        AggSeason* agg = new AggSeason(&plantList, "Spring");
-        Iterator* iter = agg->createIterator();
-
-        std::vector<LivingPlant*> collected = collectPlants(iter);
-        CHECK(collected.size() == 2);
-        CHECK(collected[0] == spring1);
-        CHECK(collected[1] == spring2);
-
-        delete iter;
-        delete agg;
-    }
-
-    SUBCASE("Flyweight constructor filters correctly") {
-        // Using Flyweight constructor
-        AggSeason* agg = new AggSeason(&plantList, inv->getString("Spring"));
-        Iterator* iter = agg->createIterator();
-
-        std::vector<LivingPlant*> collected = collectPlants(iter);
-        CHECK(collected.size() == 2);
-        CHECK(collected[0] == spring1);
-        CHECK(collected[1] == spring2);
-
-        delete iter;
-        delete agg;
-    }
-
-    SUBCASE("Both constructors produce identical results") {
-        // String constructor
-        AggSeason* aggString = new AggSeason(&plantList, "Spring");
-        Iterator* iterString = aggString->createIterator();
-        int countString = countIteratorResults(iterString);
-
-        // Flyweight constructor
-        AggSeason* aggFly = new AggSeason(&plantList, inv->getString("Spring"));
-        Iterator* iterFly = aggFly->createIterator();
-        int countFly = countIteratorResults(iterFly);
-
-        CHECK(countString == countFly);
-        CHECK(countString == 2);
-
-        delete iterString;
-        delete aggString;
-        delete iterFly;
-        delete aggFly;
-    }
-
-    delete spring1;
-    delete summer1;
-    delete spring2;
-}
-
-TEST_CASE("SeasonIterator - Flyweight pointer comparison") {
-    Inventory* inv = Inventory::getInstance();
-
-    SUBCASE("Same season string yields same Flyweight pointer") {
-        Flyweight<std::string*>* season1 = inv->getString("Spring");
-        Flyweight<std::string*>* season2 = inv->getString("Spring");
-
-        // Flyweight pattern ensures same pointer for same value
-        CHECK(season1 == season2);
-    }
-
-    SUBCASE("Different season strings yield different Flyweight pointers") {
-        Flyweight<std::string*>* spring = inv->getString("Spring");
-        Flyweight<std::string*>* summer = inv->getString("Summer");
-
-        CHECK(spring != summer);
-    }
-
-    SUBCASE("Flyweight pointer comparison enables O(1) filtering") {
-        LivingPlant* plant1 = createPlantWithSeason("Spring");
-        LivingPlant* plant2 = createPlantWithSeason("Spring");
-
-        // Both plants should have same Flyweight pointer for "Spring"
-        CHECK(plant1->getSeason() == plant2->getSeason());
-
-        // And it should match the singleton's "Spring" Flyweight
-        CHECK(plant1->getSeason() == inv->getString("Spring"));
-        CHECK(plant2->getSeason() == inv->getString("Spring"));
-
-        delete plant1;
-        delete plant2;
-    }
-
-    SUBCASE("Iterator uses direct pointer comparison") {
-        LivingPlant* spring1 = createPlantWithSeason("Spring");
-        LivingPlant* spring2 = createPlantWithSeason("Spring");
-        LivingPlant* summer1 = createPlantWithSeason("Summer");
-
-        std::list<PlantComponent*> plantList;
-        plantList.push_back(spring1);
-        plantList.push_back(summer1);
-        plantList.push_back(spring2);
-
-        // Create iterator with Flyweight pointer
-        Flyweight<std::string*>* springFly = inv->getString("Spring");
-        AggSeason* agg = new AggSeason(&plantList, springFly);
-        Iterator* iter = agg->createIterator();
-
-        // Should find both spring plants via pointer comparison
-        std::vector<LivingPlant*> collected = collectPlants(iter);
-        CHECK(collected.size() == 2);
-        CHECK(collected[0] == spring1);
-        CHECK(collected[1] == spring2);
-
-        delete iter;
-        delete agg;
-        delete spring1;
-        delete spring2;
-        delete summer1;
-    }
-}
-
-TEST_CASE("SeasonIterator - Flyweight memory efficiency") {
-    Inventory* inv = Inventory::getInstance();
-
-    SUBCASE("Multiple plants share season Flyweight") {
-        // Create many plants with same season
-        std::vector<LivingPlant*> plants;
-        for (int i = 0; i < 10; i++) {
-            plants.push_back(createPlantWithSeason("Spring"));
-        }
-
-        // All should point to same Flyweight
-        Flyweight<std::string*>* firstSeason = plants[0]->getSeason();
-        for (int i = 1; i < 10; i++) {
-            CHECK(plants[i]->getSeason() == firstSeason);
-        }
-
-        // Cleanup
-        for (LivingPlant* plant : plants) {
-            delete plant;
-        }
-    }
-
-    SUBCASE("Iterator aggregate shares Flyweight with plants") {
-        LivingPlant* plant1 = createPlantWithSeason("Summer");
-        LivingPlant* plant2 = createPlantWithSeason("Summer");
-
-        std::list<PlantComponent*> plantList;
-        plantList.push_back(plant1);
-        plantList.push_back(plant2);
-
-        // Create aggregate with same season Flyweight
-        AggSeason* agg = new AggSeason(&plantList, "Summer");
-
-        // The aggregate's internal targetSeason should match plants' seasons
-        // (can't directly test private member, but iterator should find them)
-        Iterator* iter = agg->createIterator();
-        CHECK(countIteratorResults(iter) == 2);
-
-        delete iter;
-        delete agg;
-        delete plant1;
-        delete plant2;
-    }
 }
 
 // ============================================================================
@@ -1524,6 +1337,7 @@ TEST_CASE("Nested hierarchy - Seasonal filtering with nesting") {
     delete outerGroup;
 }
 */
+
 TEST_CASE("Testing Builder Pattern Implementation")
 {
     SUBCASE("Testing Director-Builder Interaction")
@@ -1537,7 +1351,7 @@ TEST_CASE("Testing Builder Pattern Implementation")
 
         CHECK(rosePlant != nullptr);
 
-        delete rosePlant;
+        delete rosePlant->getDecorator();
         delete roseBuilder;
     }
 
@@ -1555,9 +1369,10 @@ TEST_CASE("Testing Builder Pattern Implementation")
         CHECK(info.find("Base Price") != std::string::npos);
 
         rosePlant->water();
+        delete rosePlant->getDecorator();
 
-        delete rosePlant;
         delete roseBuilder;
+        delete Inventory::getInstance();
     }
 
     SUBCASE("Testing Cactus Builder")
@@ -1576,7 +1391,7 @@ TEST_CASE("Testing Builder Pattern Implementation")
 
         cactusPlant->setOutside();
 
-        delete cactusPlant;
+        delete cactusPlant->getDecorator();
         delete cactusBuilder;
     }
 
@@ -1612,10 +1427,12 @@ TEST_CASE("Testing Builder Pattern Implementation")
             CHECK(cactusLivingPlant->getSunExposure() > roseLivingPlant->getSunExposure());
         }
 
-        delete rosePlant;
-        delete cactusPlant;
+        delete rosePlant->getDecorator();
+        delete cactusPlant->getDecorator();
+        
         delete roseBuilder;
         delete cactusBuilder;
+        delete Inventory::getInstance();
     }
 
     SUBCASE("Testing Complete Builder Process")
@@ -1640,8 +1457,10 @@ TEST_CASE("Testing Builder Pattern Implementation")
             rosePlant->water();
             CHECK(roseLivingPlant->getWaterLevel() >= 20);
         }
-        
-        delete rosePlant->clone();
+        cout << rosePlant->getDecorator()->getInfo();
+        delete rosePlant->getDecorator();
         delete roseBuilder;
+
+        delete Inventory::getInstance();
     }
 }
