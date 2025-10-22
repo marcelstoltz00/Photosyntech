@@ -68,13 +68,12 @@ class PlantAttributes : public PlantComponent
 		 * @brief Gets the sunlight affection value including decorator modifications.
 		 * @return Integer representing total sunlight impact.
 		 */
-		void affectSunlight();
+
 
 		/**
 		 * @brief Gets the water affection value including decorator modifications.
 		 * @return Integer representing total water impact.
 		 */
-		void affectWater();
 
 		/**
 		 * @brief Gets plant information including decorator details.
@@ -92,13 +91,13 @@ class PlantAttributes : public PlantComponent
 		 * @brief Gets the sunlight affection value for this component.
 		 * @return Integer representing sunlight impact.
 		 */
-		int getAffectSunlight() ;
+		int affectSunlight() ;
 
 		/**
 		 * @brief Gets the water affection value for this component.
 		 * @return Integer representing water impact.
 		 */
-		int getAffectWater();
+		int affectWater();
 
 		/**
 		 * @brief Gets component name as a formatted string.
