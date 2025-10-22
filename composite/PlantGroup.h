@@ -126,26 +126,6 @@ class PlantGroup : public PlantComponent, public Subject
 		 * @brief Adds a component to the list of plants.
 		 * @param component Pointer to the component to add.
 		 */
-		void addAttribute(PlantAttributes* attribute);
-
-		/**
-		 * @brief Gets the component type (PLANT_GROUP).
-		 *
-		 * Enables efficient type identification without dynamic_cast.
-		 *
-		 * @return ComponentType::PLANT_GROUP
-		 */
-		ComponentType getType() const override;
-
-		/**
-		 * @brief Gets direct access to the internal plants list.
-		 *
-		 * Enables iterators to recursively traverse plant hierarchies without
-		 * needing friend access to private members.
-		 *
-		 * @return Pointer to the list of PlantComponent pointers.
-		 */
-		std::list<PlantComponent*>* getPlants();
 		void addComponent(PlantComponent* component);
 };
 

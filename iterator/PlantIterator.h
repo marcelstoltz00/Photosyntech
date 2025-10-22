@@ -5,7 +5,6 @@
 #include "../prototype/LivingPlant.h"
 #include "../composite/PlantComponent.h"
 #include "../composite/PlantGroup.h"
-#include <stack>
 
 /**
  * @brief Concrete iterator for unfiltered plant traversal.
@@ -83,31 +82,12 @@ class PlantIterator : public Iterator
 		LivingPlant* currentPlant;
 
 		/**
-		 * @brief Stack frame for iterative tree traversal.
-		 * Stores position in a single level of the plant hierarchy.
+		 * @brief Recursively searches for the next plant in the hierarchy.
+		 * @param plants Pointer to the plant collection to search.
+		 * @param findFirst If true, returns the first plant; if false, returns the plant after currentPlant.
+		 * @return Pointer to next LivingPlant, or nullptr if none found.
 		 */
-		struct StackFrame {
-			std::list<PlantComponent*>* plantList;
-			std::list<PlantComponent*>::iterator current;
-			std::list<PlantComponent*>::iterator end;
-		};
-
-		/**
-		 * @brief Stack tracking current position in nested plant groups.
-		 * Enables O(1) next() by avoiding re-traversal from root.
-		 */
-		std::stack<StackFrame> traversalStack;
-
-		/**
-		 * @brief Flag indicating if currently inside a PlantGroup composite.
-		 */
-		bool inComposite;
-
-		/**
-		 * @brief Advances to the next plant using iterative stack-based traversal.
-		 * Replaces recursive findNextMatch with O(1) amortized complexity.
-		 */
-		void advanceToNextPlant();
+		LivingPlant* findNextMatch(std::list<PlantComponent*>* plants, bool findFirst);
 };
 
 #endif
