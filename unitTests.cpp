@@ -29,6 +29,11 @@
 #include "builder/Director.h"
 #include "builder/RoseBuilder.h"
 #include "builder/CactusBuilder.h"
+
+#include "decorator/customerDecorator/PlantDecorationHeader.h"
+#include "decorator/plantDecorator/PlantAttributesHeader.h"
+
+
 TEST_CASE("Overall Testing of flyweight strings + error handling")
 {
     FlyweightFactory<int, string *> *fac = new FlyweightFactory<int, string *>();

@@ -268,5 +268,5 @@ PlantComponent *Winter::clone()
 {
     PlantComponent *clone = new Winter();
     clone->addAttribute(this->nextComponent->clone());
-    return clone;
+    return clone->correctShape(clone);
 }

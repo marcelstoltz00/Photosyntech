@@ -78,4 +78,9 @@ PlantComponent *PlantAttributes::correctShape(PlantComponent *mainDecorator)
 {
     if (this->nextComponent)
         return nextComponent->correctShape(mainDecorator);
+    else
+    {
+        throw "There was not a base pointer ";
+        return nullptr;
+    }
 };
