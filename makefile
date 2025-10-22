@@ -41,6 +41,7 @@ TEST_SRC = unitTests.cpp\
 			builder/Director.cpp\
 			builder/RoseBuilder.cpp\
 			builder/CactusBuilder.cpp\
+			iterator/Aggregate.cpp\
 			iterator/AggPlant.cpp\
 			iterator/AggSeason.cpp\
 			iterator/PlantIterator.cpp\

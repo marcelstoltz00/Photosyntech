@@ -4,7 +4,7 @@
 #include "prototype/Tree.h"
 #include "state/Seed.h"
 #include "decorator/plantDecorator/Autumn.h"
-#include <doctest/doctest.h>
+#include <doctest.h>
 
 #include "flyweight/Flyweight.h"
 #include "flyweight/FlyweightFactory.h"
@@ -1524,9 +1524,6 @@ TEST_CASE("Nested hierarchy - Seasonal filtering with nesting") {
     delete outerGroup;
 }
 */
-TEST_CASE("Testing Builder Pattern Implementation") {
-    SUBCASE("Testing Director-Builder Interaction") {
-        Builder* roseBuilder = new RoseBuilder();
 TEST_CASE("Testing Builder Pattern Implementation")
 {
     SUBCASE("Testing Director-Builder Interaction")

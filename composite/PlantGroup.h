@@ -41,86 +41,86 @@ class PlantGroup : public PlantComponent, public Subject
 		/**
 		 * @brief Sets all plants in this group to be outside.
 		 */
-		void setOutside();
+		void setOutside() override;
 
 		/**
 		 * @brief Waters all plants in this group.
 		 */
-		void water();
+		void water() override;
 
 		/**
 		 * @brief Gets information about all plants in this group.
 		 * @return String containing details of all plants in the group.
 		 */
-		std::string getInfo();
+		std::string getInfo() override;
 
 		/**
 		 * @brief Clones the plant group and all its contained plants.
 		 * @return Pointer to a new PlantGroup that is a copy of this one.
 		 */
-		PlantComponent* clone();
+		PlantComponent* clone() override;
 
 		/**
 		 * @brief Attaches an observer to receive notifications from this group.
 		 * @param watcher Pointer to the Observer to attach.
 		 */
-		void attach(Observer* watcher);
+		void attach(Observer* watcher) override;
 
 		/**
 		 * @brief Detaches an observer from this group.
 		 * @param watcher Pointer to the Observer to detach.
 		 */
-		void detach(Observer* watcher);
+		void detach(Observer* watcher) override;
 
 		/**
 	 	* @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
 	 	*/
-		void update();
+		void update() override;
 
 		/**
 		 * @brief Gets the total water affection value for all plants in the group.
 		 * @return Integer representing cumulative water impact.
 		 */
-		int affectWater();
+		int affectWater() override;
 
 		/**
 		 * @brief Gets the total sunlight affection value for all plants in the group.
 		 * @return Integer representing cumulative sunlight impact.
 		 */
-		int affectSunlight();
+		int affectSunlight() override;
 
 		/**
 	 	* @brief Gets group name as a formatted string.
 	 	* @return String containing group name.
 	 	*/
-		std::string getName();
+		std::string getName() override;
 
 		/**
 		 * @brief Notifies observers that plants in this group need water.
 		 */
-		void waterNeeded();
+		void waterNeeded() override;
 
 		/**
 		 * @brief Notifies observers that plants in this group need sunlight.
 		 */
-		void sunlightNeeded();
+		void sunlightNeeded() override;
 
 		/**
 		 * @brief Notifies observers that a plant's state has been updated.
 		 */
-		void stateUpdated();
+		void stateUpdated() override;
 
 		/**
 		 * @brief Gets the total price of all plants in this group.
 		 * @return Total price in currency units.
 		 */
-		double getPrice();
+		double getPrice() override;
 
 		/**
 		 * @brief Adds an attribute decorator to all plants in this group.
 		 * @param component Pointer to the PlantAttributes decorator to add.
 		 */
-		void addAttribute(PlantComponent* component);
+		void addAttribute(PlantComponent* component) override;
 
 		/**
 		 * @brief Adds a component to the list of plants.

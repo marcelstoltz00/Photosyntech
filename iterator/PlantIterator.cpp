@@ -15,11 +15,14 @@ void PlantIterator::first()
 	}
 	inComposite = false;
 
+	// Cast aggregate to access plants member
+	AggPlant* plantAgg = static_cast<AggPlant*>(aggregate);
+
 	// Push root level frame
 	StackFrame root;
-	root.plantList = aggregate->plants;
-	root.current = aggregate->plants->begin();
-	root.end = aggregate->plants->end();
+	root.plantList = plantAgg->plants;
+	root.current = plantAgg->plants->begin();
+	root.end = plantAgg->plants->end();
 	traversalStack.push(root);
 
 	// Find first plant
