@@ -1,9 +1,9 @@
 // please use testing like this.
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "singleton/Singleton.h"
-#include <doctest/doctest.h>
 #include "prototype/Tree.h"
 #include "state/Seed.h"
+#include "decorator/plantDecorator/Autumn.h"
 #include "doctest.h"
 #include "flyweight/Flyweight.h"
 #include "flyweight/FlyweightFactory.h"
@@ -13,6 +13,7 @@
 #include "prototype/Succulent.h"
 #include "strategy/LowWater.h"
 #include "strategy/MidWater.h"
+#include "strategy/AlternatingWater.h"
 #include "strategy/HighWater.h"
 #include "strategy/AlternatingWater.h"
 #include "strategy/LowSun.h"
@@ -190,34 +191,34 @@ TEST_CASE("Testing strategy switching in LivingPlant") {
         plant->setWaterStrategy(1);
         plant->water();
 
-        CHECK(plant->getWaterLevel() == 20);
+        CHECK(plant->getWaterLevel() == 10);
 
         plant->setWaterLevel(0);
         plant->setWaterStrategy(2); 
         plant->water();
-        CHECK(plant->getWaterLevel() == 40);
+        CHECK(plant->getWaterLevel() == 20);
 
         plant->setWaterLevel(0);
         plant->setWaterStrategy(3); 
         plant->water();
-        CHECK(plant->getWaterLevel() == 60);
+        CHECK(plant->getWaterLevel() == 30);
     }
     
     SUBCASE("Sun strategy switching") {
         plant->setSunExposure(0);
         plant->setSunStrategy(1); 
         plant->setOutside();
-        CHECK(plant->getSunExposure() == 12);
+        CHECK(plant->getSunExposure() == 6);
 
         plant->setSunExposure(0);
         plant->setSunStrategy(2); 
         plant->setOutside();
-        CHECK(plant->getSunExposure() == 50);
+        CHECK(plant->getSunExposure() == 25);
 
         plant->setSunExposure(0);
         plant->setSunStrategy(3); 
         plant->setOutside();
-        CHECK(plant->getSunExposure() == 144);
+        CHECK(plant->getSunExposure() == 72);
     }
     
     delete plant;
