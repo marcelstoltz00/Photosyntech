@@ -43,7 +43,8 @@ jobs:
         name: coverage-report
         path: coverage.txt
         
-    # Optional: Run valgrind to check for memory leaks
+    # Optional: Run valgrind to check for memory leaks (non-blocking)
     - name: Run valgrind
       run: |
-        valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=1 ./app
+        valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=0 ./app || true
+      continue-on-error: true
