@@ -88,6 +88,8 @@ clean c:
 	find . -name '*.gcda' -delete
 	find . -name '*.gcov' -delete
 	rm -f coverage.txt coverage.html coverage.css
+	rm -f $(BIN)
+	rm  -f $(DEMO_BIN)
 
 valgrind v: $(BIN)
 	valgrind --leak-check=full --show-leak-kinds=all -s --track-origins=yes ./$(BIN)
