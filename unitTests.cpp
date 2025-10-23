@@ -327,7 +327,7 @@ TEST_CASE("Testing Builder Pattern Implementation") {
         
         CHECK(rosePlant != nullptr);
         
-        delete rosePlant;
+        delete rosePlant->getDecorator();
         delete roseBuilder;
     }
     
@@ -345,7 +345,7 @@ TEST_CASE("Testing Builder Pattern Implementation") {
 
         rosePlant->water();
         
-        delete rosePlant;
+        delete rosePlant->getDecorator();
         delete roseBuilder;
         delete Inventory::getInstance();
     }
@@ -366,7 +366,7 @@ TEST_CASE("Testing Builder Pattern Implementation") {
 
         cactusPlant->setOutside();
         
-        delete cactusPlant;
+        delete cactusPlant->getDecorator();
         delete cactusBuilder;
     }
     
@@ -402,8 +402,8 @@ TEST_CASE("Testing Builder Pattern Implementation") {
             CHECK(cactusLivingPlant->getSunExposure() > roseLivingPlant->getSunExposure());
         }
         
-        delete rosePlant;
-        delete cactusPlant;
+        delete rosePlant->getDecorator();
+        delete cactusPlant->getDecorator();
         delete roseBuilder;
         delete cactusBuilder;
     }
@@ -429,7 +429,7 @@ TEST_CASE("Testing Builder Pattern Implementation") {
             CHECK(roseLivingPlant->getWaterLevel() >= 20);
         }
         
-        delete rosePlant;
+        delete rosePlant->getDecorator();
         delete roseBuilder;
 
         delete Inventory::getInstance();

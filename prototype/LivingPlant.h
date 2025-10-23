@@ -252,7 +252,7 @@ public:
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
 	virtual PlantComponent *getDecorator() override;
-	virtual ~LivingPlant() {}
+	virtual ~LivingPlant() {};
 	PlantComponent *correctShape(PlantComponent *mainDecorator);
 };
 

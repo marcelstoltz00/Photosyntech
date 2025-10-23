@@ -3,17 +3,15 @@
 #include "../state/Mature.h"
 #include "../state/Vegetative.h"
 #include "../state/Seed.h"
+#include "../composite/PlantGroup.h"
 
 Inventory *Inventory::instance = nullptr;
 
 Inventory::Inventory()
 {
-    // waiting for update of header file
-    // inventory = new PlantGroup();
 
-    // remove
-    inventory = nullptr;
-    // remove
+    inventory = new PlantGroup();
+  
 
     stringFactory = new FlyweightFactory<string, string *>();
     waterStrategies = new FlyweightFactory<int, WaterStrategy *>();
@@ -145,7 +143,7 @@ vector<Staff *> *Inventory::getStaff()
     return staffList;
 }
 
-void Inventory::addCustomer(Staff *staff)
+void Inventory::addStaff(Staff *staff)
 {
     staffList->push_back(staff);
 }

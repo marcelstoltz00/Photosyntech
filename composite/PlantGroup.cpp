@@ -11,7 +11,11 @@ PlantGroup::~PlantGroup()
     std::list<PlantComponent *>::iterator itr = plants.begin();
     while (itr != plants.end())
     {
-        delete (*itr)->getDecorator();
+        if ((*itr)->getDecorator() == nullptr)
+            delete (*itr)->getDecorator();
+        else
+            delete *itr;
+
         itr++;
         // should work.
     }
@@ -171,31 +175,45 @@ PlantComponent *PlantGroup::correctShape(PlantComponent *component)
 
 // observer stuff
 
-void PlantGroup::attach(Observer* careTaker) {
-    if (!careTaker) return;
+void PlantGroup::attach(Observer *careTaker)
+{
+    if (!careTaker)
+        return;
     bool exists = false;
-    for (std::list<Observer*>::iterator it = observers.begin(); it != observers.end(); ++it) {
-        if (*it == careTaker) { exists = true; break; }
+    for (std::list<Observer *>::iterator it = observers.begin(); it != observers.end(); ++it)
+    {
+        if (*it == careTaker)
+        {
+            exists = true;
+            break;
+        }
     }
-    if (!exists) {
+    if (!exists)
+    {
         observers.push_back(careTaker);
     }
 }
 
-void PlantGroup::detach(Observer* careTaker) {
-    if (!careTaker) return;
+void PlantGroup::detach(Observer *careTaker)
+{
+    if (!careTaker)
+        return;
     observers.remove(careTaker);
 }
 
 /**
  * @brief Notifies observers that all plants need water.
  */
-void PlantGroup::waterNeeded() {
-    for (Observer* obs : observers) {
-        for (PlantComponent* plant : plants) {
+void PlantGroup::waterNeeded()
+{
+    for (Observer *obs : observers)
+    {
+        for (PlantComponent *plant : plants)
+        {
             plant->water();
-            LivingPlant* lp = dynamic_cast<LivingPlant*>(plant);
-            if (lp) {
+            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
+            if (lp)
+            {
                 obs->getWaterUpdate(lp);
             }
         }
@@ -205,12 +223,16 @@ void PlantGroup::waterNeeded() {
 /**
  * @brief Notifies observers that all plants need sunlight.
  */
-void PlantGroup::sunlightNeeded() {
-    for (Observer* obs : observers) {
-        for (PlantComponent* plant : plants) {
+void PlantGroup::sunlightNeeded()
+{
+    for (Observer *obs : observers)
+    {
+        for (PlantComponent *plant : plants)
+        {
             plant->setOutside();
-            LivingPlant* lp = dynamic_cast<LivingPlant*>(plant);
-            if (lp) {
+            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
+            if (lp)
+            {
                 obs->getSunUpdate(lp);
             }
         }
@@ -220,12 +242,16 @@ void PlantGroup::sunlightNeeded() {
 /**
  * @brief Notifies observers that all plants have updated states.
  */
-void PlantGroup::stateUpdated() {
-    for (Observer* obs : observers) {
-        for (PlantComponent* plant : plants) {
+void PlantGroup::stateUpdated()
+{
+    for (Observer *obs : observers)
+    {
+        for (PlantComponent *plant : plants)
+        {
             plant->update();
-            LivingPlant* lp = dynamic_cast<LivingPlant*>(plant);
-            if (lp) {
+            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
+            if (lp)
+            {
                 obs->getStateUpdate(lp);
             }
         }
