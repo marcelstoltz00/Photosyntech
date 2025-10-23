@@ -11,10 +11,6 @@ using namespace std;
 #include "../strategy/MidSun.h"
 #include "../strategy/HighSun.h"
 #include "../strategy/AlternatingSun.h"
-
-
-// #include "../mediator/Staff.h"
-
 #include "../strategy/LowWater.h"
 #include "../strategy/MidWater.h"
 #include "../strategy/HighWater.h"
@@ -65,7 +61,6 @@ class PlantGroup;
 class Staff;
 class Customer;
 class Inventory
-
 
 {
 private:
@@ -126,14 +121,35 @@ public:
 	 */
 	Inventory &operator=(const Inventory &) = delete;
 
+	/**
+	 * @brief to get a flyweight based on a specific id.
+	 * @throws exception if there is an id given but no data aswell as no item in the factory to give.
+	 */
 	Flyweight<MaturityState *> *getStates(int id);
 
+	/**
+	 * @brief a getter for the customer list used in the system
+	 */
 	vector<Customer *> *getCustomers();
+	/**
+	 * @brief a getter for the Staff list used in the system
+	 */
 	vector<Staff *> *getStaff();
 
-	void addCustomer(Staff *staff);
+
+	/**
+	 * @brief adds a staff member to the system
+	 */
+	void addStaff(Staff *staff);
+
+	/**
+	 * @brief adds a customer to the system
+	 */
 	void addCustomer(Customer *Customer);
 
+	/**
+	 * @brief the destructor for the inventory Last thing to be deleted in the main system.
+	 */
 	~Inventory();
 };
 
