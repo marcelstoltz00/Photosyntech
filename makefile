@@ -152,3 +152,12 @@ $(DEMO_BIN): $(DEMO_OBJ)
 
 demo-run: demo
 	./$(DEMO_BIN)
+
+# Documentation generation targets
+.PHONY: docs doxygen
+
+docs: doxygen
+
+doxygen:
+	doxygen Doxyfile
+	@echo "Documentation generated in docs/doxygen/html"
