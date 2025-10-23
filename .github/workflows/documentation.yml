@@ -2,7 +2,7 @@ name: Generate Documentation
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, devBranch ]
   workflow_dispatch:
 
 jobs:
