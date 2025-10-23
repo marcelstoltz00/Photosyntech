@@ -2,54 +2,36 @@
 #define Dead_h
 
 #include "MaturityState.h"
+#include "../prototype/LivingPlant.h"
+
+class LivingPlant; // Forward declaration
 
 /**
- * @brief Concrete state representing the Dead stage of plant maturity.
- *
- * The final state in a plant's lifecycle. Plants in this state no longer
- * grow and cannot transition to any other state. This represents the end
- * of the plant's productive life.
- *
- * **System Role:**
- * Terminal lifecycle state. grow() is no-op. Signals need for inventory replacement.
- * Dead plants retained in inventory temporarily until manual removal/restocking.
- * Triggers staff notifications for inventory replenishment.
- *
- * **Pattern Role:** Concrete State (implements dead/terminal behavior)
- *
- * **Related Patterns:**
- * - MaturityState: Implements abstract state interface
- * - LivingPlant: Final state for lifecycle context
- * - Observer: Dead state triggers urgent replacement notifications
- * - Command: Staff initiates removal via command
- *
- * **System Interactions:**
- * - Plants transition to Dead from Mature beyond maxAge
- * - grow() is no-op (no further growth or transitions)
- * - Observer notifications alert staff of dead plants
- * - Staff removes dead plants via command operations
- * - Inventory cleared of dead plants for restocking
- *
- * @see MaturityState (base class)
- * @see Mature (previous state)
+ * @brief Represents the Dead state of a plant (terminal state)
+ * 
+ * Age range: ≥ 120 days or when health reaches 0
+ * Health: 0
+ * Water: 0
+ * Sun exposure: 0
+ * Baseline water usage: 0
  */
-class Dead : public MaturityState
-{
-	public:
-		/**
-		 * @brief No-op growth for dead plants.
-		 *
-		 * Dead plants do not grow or transition to other states.
-		 *
-		 * @param plant Pointer to the LivingPlant (unused in this state).
-		 */
-		void grow(LivingPlant* plant);
-
-		/**
-		 * @brief Gets the unique identifier for the Dead state.
-		 * @return Integer ID representing the Dead state.
-		 */
-		int getID();
+class Dead : public MaturityState {
+public:
+    /**
+     * @brief Handles daily growth in Dead state
+     * 
+     * No changes occur in this terminal state.
+     * All plant attributes remain at 0.
+     * 
+     * @param plant The plant instance
+     */
+    void grow(LivingPlant* plant);
+    
+    /**
+     * @brief Returns the identifier for the Dead state
+     * 
+     * @return Integer identifier for the state
+     */
+    static const int getID() { return 3; }
 };
-
-#endif
+#endif /* Dead_h */

@@ -4,7 +4,7 @@
 #include <string>
 #include "../composite/PlantComponent.h"
 #include "../flyweight/Flyweight.h"
-#include "../state/MaturityState.h"
+
 #include "../strategy/WaterStrategy.h"
 #include "../strategy/SunStrategy.h"
 #include "../decorator/PlantAttributes.h"
@@ -49,105 +49,211 @@
  * @see Flyweight pattern (shared strategy/state references)
  * @see Decorator pattern (attributes wrap LivingPlant)
  */
+class MaturityState;
 class LivingPlant : public PlantComponent
 {
-	protected:
-		/**
-		 * Name of the plant.
-		 */
-		Flyweight<std::string> name;
+protected:
+	/**
+	 * Name of the plant.
+	 */
+	Flyweight<std::string *> *name;
 
-		/**
-		 * Age of the plant in months.
-		 */
-		int age;
-		int health;
-		int waterLevel;
-		int sunExposure;
+	PlantComponent *decorator;
+	int age;
+	int health;
+	int waterLevel;
+	int sunExposure;
 
-		/**
-		 * Growing season for the plant.
-		 */
-		Flyweight<std::string> season;
+	/**
+	 * Growing season for the plant.
+	 */
+	Flyweight<std::string *> *season;
 
-		Flyweight<MaturityState>* maturityState;
-		Flyweight<WaterStrategy>* waterStrategy;
-		Flyweight<SunStrategy>* sunStrategy;
+	Flyweight<MaturityState *> *maturityState;
+	Flyweight<WaterStrategy *> *waterStrategy;
+	Flyweight<SunStrategy *> *sunStrategy;
 
-	public:
-		/**
-		 * @brief Constructs a living plant with basic attributes.
-		 * @param info Information string describing the plant.
-		 * @param price Base price of the plant.
-		 * @param waterAffect Water affection value.
-		 * @param sunAffect Sun affection value.
-		 */
-		LivingPlant(std::string info, double price, int waterAffect, int sunAffect);
+public:
+	/**
+	 * @brief Constructs a living plant with basic attributes.
+	 * @param name Name of the plant.
+	 * @param price Base price of the plant.
+	 * @param waterAffect Water affection value.
+	 * @param sunAffect Sun affection value.
+	 */
+	LivingPlant(std::string name, double price, int waterAffect, int sunAffect);
 
-		/**
-		 * @brief Sets the water strategy for this plant.
-		 * @param strategy Integer ID of the water strategy to use.
-		 */
-		void setWaterStrategy(int strategy);
+	/**
+	 * @brief Constructs a copy of an existing living plant.
+	 *
+	 * Performs a member-wise shallow copy for flyweights.
+	 * and a deep copy for the decorator chain.
+	 *
+	 * @param other The living plant object to copy.
+	 */
+	LivingPlant(const LivingPlant &other);
 
-		/**
-		 * @brief Sets the sun strategy for this plant.
-		 * @param strategy Integer ID of the sun strategy to use.
-		 */
-		void setSunStrategy(int strategy);
+	/**
+	 * @brief Sets the age for this plant.
+	 * @param age Integer age for the new age of the plant.
+	 */
+	void setAge(int age);
 
-		/**
-		 * @brief Sets the maturity state for this plant.
-		 * @param state Integer ID of the maturity state.
-		 */
-		void setMaturity(int state);
+	/**
+	 * @brief Sets the health for this plant.
+	 * @param health Integer health for the new health of the plant.
+	 */
+	void setHealth(int health);
 
-		/**
-		 * @brief Adds a decorator attribute to this plant.
-		 * @param attribute Pointer to the PlantAttributes decorator to add.
-		 */
-		void addAttribute(PlantAttributes* attribute);
+	/**
+	 * @brief Sets the waterLevel for this plant.
+	 * @param waterLevel Integer waterLevel for the new waterLevel of the plant.
+	 */
+	void setSeason(Flyweight<std::string *> *season);
 
-		/**
-		 * @brief Gets the age of the plant in months.
-		 * @return Age in months.
-		 */
-		int getAge();
+	/**
+	 * @brief Sets the season for this plant.
+	 * @param waterLevel Integer waterLevel for the new waterLevel of the plant.
+	 */
+	void setWaterLevel(int waterLevel);
 
-		/**
-		 * @brief Gets plant information as a formatted string.
-		 * @return String containing plant details.
-		 */
-		std::string getInfo();
+	/**
+	 * @brief Sets the sunExposure for this plant.
+	 * @param sunExposure Integer sunExposure for the new sunExposure of the plant.
+	 */
+	void setSunExposure(int sunExposure);
 
-		/**
-		 * @brief Gets the sunlight affection value.
-		 * @return Integer representing sunlight impact.
-		 */
-		int affectSunlight();
+	/**
 
-		/**
-		 * @brief Gets the water affection value.
-		 * @return Integer representing water impact.
-		 */
-		int affectWater();
+	 * @brief Sets the water strategy for this plant.
+	 * @param strategy Integer ID of the water strategy to use.
+	 */
+	void setWaterStrategy(int strategy);
 
-		/**
-		 * @brief Gets the price of this plant.
-		 * @return Price in currency units.
-		 */
-		double getPrice();
+	/**
+	 * @brief Sets the sun strategy for this plant.
+	 * @param strategy Integer ID of the sun strategy to use.
+	 */
+	void setSunStrategy(int strategy);
 
-		/**
-		 * @brief Clones the plant creating a deep copy (Prototype pattern).
-		 * @return Pointer to a new plant object that is a copy of this one.
-		 */
-		PlantComponent* clone();
+	/**
+	 * @brief Sets the maturity state for this plant.
+	 * @param state Integer ID of the maturity state.
+	 */
+	void setMaturity(int state);
 
-		/**
-		 * @brief Virtual destructor for proper cleanup of derived classes.
-		 */
-		virtual ~LivingPlant() {}
+	/**
+	 * @brief Adds a decorator attribute to this plant.
+	 * @param attribute Pointer to the PlantAttributes decorator to add.
+	 */
+	void addAttribute(PlantComponent *attribute) override;
+
+	/**
+	 * @brief Gets the season of the plant.
+	 * @return Season of the plant.
+	 */
+	Flyweight<std::string *> *getSeason();
+
+	/**
+	 * @brief Gets the component type (LIVING_PLANT).
+	 *
+	 * Enables efficient type identification without dynamic_cast.
+	 *
+	 * @return ComponentType::LIVING_PLANT
+	 */
+	ComponentType getType() const override;
+
+	/**
+	 * @brief Gets the age of the plant in months.
+	 * @return Age in months.
+	 */
+	int getAge();
+
+	/**
+	 * @brief Gets plant name as a formatted string.
+	 * @return String containing plant name.
+	 */
+	std::string getName() override;
+
+	/**
+	 * @brief Gets plant health as an Integer.
+	 * @return Integer containing plant health.
+	 */
+	int getHealth();
+
+	/**
+	 * @brief Gets plant sunExposure as an Integer.
+	 * @return Integer containing plant sunExposure.
+	 */
+	int getSunExposure();
+
+	/**
+	 * @brief Gets plant waterLevel as an Integer.
+	 * @return Integer containing plant waterLevel.
+	 */
+	int getWaterLevel();
+
+	/**
+	 * @brief Gets the sunlight affection value.
+	 * @return Integer representing sunlight impact.
+	 */
+
+	/**
+	 * @brief Gets the water affection value.
+	 * @return Integer representing water impact.
+	 */
+
+	/**
+	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
+	 */
+	void update() override;
+
+	/**
+	 * @brief Gets the sunlight affection value including decorator modifications.
+	 * @return Integer representing total sunlight impact.
+	 */
+	int affectSunlight() override;
+
+	/**
+	 * @brief Gets the water affection value including decorator modifications.
+	 * @return Integer representing total water impact.
+	 */
+	int affectWater() override;
+
+	/**
+	 * @brief Gets the price of this plant.
+	 * @return Price in currency units.
+	 */
+	double getPrice() override;
+
+	/**
+	 * @brief Gets plant information as a string.
+	 * @return String containing plant details.
+	 */
+	std::string getInfo() override;
+
+	/**
+	 * @brief Clones the plant creating a deep copy (Prototype pattern).
+	 * @return Pointer to a new plant object that is a copy of this one.
+	 */
+	virtual PlantComponent *clone() override;
+
+	/**
+	 * @brief Waters the plant component.
+	 */
+	void water() override;
+
+	/**
+	 * @brief Sets the plant component to be outside. (Calls Sun Strategy)
+	 */
+	void setOutside() override;
+
+	/**
+	 * @brief Virtual destructor for proper cleanup of derived classes.
+	 */
+	virtual PlantComponent *getDecorator() override;
+	virtual ~LivingPlant() {};
+	PlantComponent *correctShape(PlantComponent *mainDecorator);
 };
 
 #endif

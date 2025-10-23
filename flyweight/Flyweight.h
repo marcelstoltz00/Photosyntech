@@ -40,29 +40,26 @@ template <class T>
 class Flyweight
 {
 	private:
-		T* data;
+		T data;
 
 	public:
 		/**
 		 * @brief Constructs a Flyweight with the given data.
 		 * @param data Pointer to the shared data object.
 		 */
-		Flyweight(T* data) : data(data) {}
+		Flyweight(T data);
 
 		/**
 		 * @brief Gets the shared state data.
 		 * @return Pointer to the shared data object.
 		 */
-		T* getState() {
-			return data;
-		}
+		T getState();
 
 		/**
 		 * @brief Destructor for cleanup.
 		 */
-		~Flyweight() {
-			// Note: Consider whether data ownership should be here or in factory
-		}
+		~Flyweight();
 };
+#include "Flyweight.cpp"
 
 #endif

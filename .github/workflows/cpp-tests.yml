@@ -1,0 +1,50 @@
+name: UNIT TESTS
+
+on:
+  push:
+    branches: [ main, master, devBranch ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++ lcov gcovr curl valgrind
+    
+    - name: Fetch doctest
+      run: make fetch-doctest
+      
+    - name: Static code analysis
+      run: |
+        sudo apt-get install -y cppcheck
+        # Run with --error-exitcode=0 so style warnings don't fail the build
+        # But we still want to see the warnings in the log
+        cppcheck --enable=all --suppress=missingIncludeSystem --error-exitcode=0 . || true
+    
+    - name: Build project
+      run: make all
+    
+    - name: Run tests
+      run: make test-run
+    
+    - name: Generate coverage report
+      run: make cov
+    
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage.txt
+        
+    # Optional: Run valgrind to check for memory leaks (non-blocking)
+    - name: Run valgrind
+      run: |
+        valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --error-exitcode=0 ./app || true
+      continue-on-error: true

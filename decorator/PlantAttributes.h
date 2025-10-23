@@ -3,6 +3,9 @@
 
 #include <string>
 #include "../composite/PlantComponent.h"
+//@Wilmar does this mess anything up in flyweight? It is what the diagram says ...
+#include "../flyweight/Flyweight.h"
+#include "../singleton/Singleton.h"
 
 /**
  * @brief Abstract decorator for adding attributes to plants.
@@ -32,6 +35,7 @@
  * - getPrice() modifies base price with decorator cost
  * - affectWater/Sunlight() modify care requirements
  * - addAttribute() chains decorators together
+ *
  * - clone() creates deep copy including all decorators
  *
  * @see PlantComponent (wrapped component)
@@ -39,56 +43,121 @@
  */
 class PlantAttributes : public PlantComponent
 {
-	public:
-		/**
-		 * @brief Constructs a plant attribute decorator.
-		 * @param info Information string for this attribute.
-		 * @param price Price modification for this attribute.
-		 * @param waterAffect Water affection modification.
-		 * @param sunAffect Sun affection modification.
-		 */
-		PlantAttributes(std::string info, double price, int waterAffect, int sunAffect);
+protected:
+	PlantComponent *nextComponent;
 
-		/**
-		 * @brief Gets the sunlight affection value including decorator modifications.
-		 * @return Integer representing total sunlight impact.
-		 */
-		int affectSunlight();
+	// Name of the attribute
+	Flyweight<std::string *> *name;
 
-		/**
-		 * @brief Gets the water affection value including decorator modifications.
-		 * @return Integer representing total water impact.
-		 */
-		int affectWater();
+public:
+	/**
+	 * @brief Constructs a plant attribute decorator.
+	 * @param name Information string for this attribute.
+	 * @param price Price modification for this attribute.
+	 * @param waterAffect Water affection modification.
+	 * @param sunAffect Sun affection modification.
+	 */
+	PlantAttributes(std::string name, double price, int waterAffect, int sunAffect);
 
-		/**
-		 * @brief Gets plant information including decorator details.
-		 * @return String containing plant and decorator details.
-		 */
-		std::string getInfo();
+	/**
+	 * @brief Copies a plant attribute decorator.
 
-		/**
-		 * @brief Gets the price including decorator modifications.
-		 * @return Total price in currency units.
-		 */
-		double getPrice();
+	 */
+	PlantAttributes(const PlantAttributes &other);
 
-		/**
-		 * @brief Adds another attribute decorator to this plant.
-		 * @param attribute Pointer to the PlantAttributes decorator to add.
-		 */
-		void addAttribute(PlantAttributes* attribute);
+	/**
+	 * @brief Gets the sunlight affection value including decorator modifications.
+	 * @return Integer representing total sunlight impact.
+	 */
 
-		/**
-		 * @brief Clones the decorated plant including all decorators.
-		 * @return Pointer to a new PlantComponent that is a copy of this decorated plant.
-		 */
-		PlantComponent* clone();
+	/**
+	 * @brief Gets the water affection value including decorator modifications.
+	 * @return Integer representing total water impact.
+	 */
 
-		/**
-		 * @brief Virtual destructor for proper cleanup of derived classes.
-		 */
-		virtual ~PlantAttributes() {}
+	/**
+	 * @brief Gets plant information including decorator details.
+	 * @return String containing plant and decorator details.
+	 */
+	std::string getInfo() override;
+
+	/**
+	 * @brief Gets the price including decorator modifications.
+	 * @return Total price in currency units.
+	 */
+	double getPrice() override;
+
+	/**
+	 * @brief Gets the sunlight affection value for this component.
+	 * @return Integer representing sunlight impact.
+	 */
+	int affectSunlight() override;
+
+	/**
+	 * @brief Gets the water affection value for this component.
+	 * @return Integer representing water impact.
+	 */
+	int affectWater() override;
+
+	/**
+	 * @brief Gets component name as a formatted string.
+	 * @return String containing plant name.
+	 */
+	std::string getName() override;
+
+	/**
+	 * @brief Waters the plant component.
+	 */
+	void water() override;
+
+	/**
+	 * @brief Sets the plant component to be outside.(Calls Sun Strategy)
+	 */
+	void setOutside() override;
+
+	/**
+	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
+	 */
+	void update() override;
+
+	/**
+	 * @brief Adds another attribute decorator to this plant.
+	 * @param attribute Pointer to the PlantAttributes decorator to add.
+	 */
+	void addAttribute(PlantComponent *attribute) override;
+
+	/**
+	 * @brief Clones the decorated plant including all decorators.
+	 * @return Pointer to a new PlantComponent that is a copy of this decorated plant.
+	 */
+	virtual PlantComponent* clone() override = 0;
+
+	/**
+	 * @brief Gets the component type (PLANT_COMPONENT for decorators).
+	 *
+	 * Enables efficient type identification without dynamic_cast.
+	 *
+	 * @return ComponentType::PLANT_COMPONENT
+	 */
+	ComponentType getType() const override {
+		return ComponentType::PLANT_COMPONENT;
+	}
+
+	/**
+	 * @brief Virtual destructor for proper cleanup of derived classes.
+	 */
+	virtual ~PlantAttributes()
+	{
+		if (nextComponent)
+			delete nextComponent;
+	}
+
+	// /**
+	//  * @brief Sets the decorator for builder purposes
+	//  * @param other Pointer to the decorator.
+	// */
+	// void setDecorator(PlantComponent* other);
+	PlantComponent *correctShape(PlantComponent *mainDecorator);
 };
 
 #endif

@@ -1,3 +1,5 @@
+third_party/
+
 # Prerequisites
 *.d
 
@@ -98,3 +100,8 @@ DerivedData/
 *.obsidian
 
 docs/doxygen
+
+app 
+*.gcda
+*.gcno
+vgcore.*

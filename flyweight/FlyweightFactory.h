@@ -1,8 +1,10 @@
 #ifndef FlyweightFactory_h
 #define FlyweightFactory_h
 
-#include <map>
+#include <unordered_map>
 #include "Flyweight.h"
+#include <iostream>
+using namespace std;
 
 /**
  * @brief Template factory for creating and caching flyweight objects.
@@ -40,28 +42,27 @@
  * @tparam T The type of data being shared (e.g., string, WaterStrategy, SunStrategy).
  * @tparam ID The type of identifier used to key the cache (e.g., string, int).
  */
-template <class T, class ID>
+template <class ID, class T>
 class FlyweightFactory
 {
-	private:
-		std::map<ID, Flyweight<T>*> cache;
+private:
+	unordered_map<ID, Flyweight<T> *> * cache;
 
-	public:
-		/**
-		 * @brief Gets or creates a flyweight for the given identifier.
-		 * @param id The identifier for the requested flyweight.
-		 * @return Pointer to the Flyweight instance (either cached or newly created).
-		 */
-		Flyweight<T>* getFlyweight(ID id);
+public:
+	FlyweightFactory();
+	/**
+	 * @brief Gets or creates a flyweight for the given identifier.
+	 * @param id The identifier for the requested flyweight.
+	 * @return Pointer to the Flyweight instance (either cached or newly created).
+	 */
+	Flyweight<T> *getFlyweight(ID id, T data = NULL);
 
-		/**
-		 * @brief Destructor that cleans up cached flyweights.
-		 */
-		~FlyweightFactory() {
-			for (auto& pair : cache) {
-				delete pair.second;
-			}
-		}
+	/**
+	 * @brief Destructor that cleans up cached flyweights.
+	 */
+	~FlyweightFactory();
 };
+
+#include "FlyweightFactory.cpp"
 
 #endif

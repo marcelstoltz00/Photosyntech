@@ -36,15 +36,23 @@ class HighSun : public SunStrategy
 	public:
 		/**
 		 * @brief Applies high-level sunlight exposure to the plant.
+		 * @param plant Pointer to the LivingPlant receiving sunlight.
 		 * @return Integer representing the abundant sun exposure applied.
 		 */
-		int addSun();
+		int addSun(LivingPlant* plant);
 
 		/**
 		 * @brief Gets the unique identifier for the HighSun strategy.
 		 * @return Integer ID representing the HighSun strategy.
 		 */
-		int getID();
+		static int getID();
+
+		/**
+		 * @brief Constructs a HighSun strategy with sensible defaults.
+		 *
+		 * Default sets intensity to 9 (high) and hoursNeeded to 8 (long exposure).
+		 */
+		HighSun();
 };
 
 #endif
