@@ -1,0 +1,39 @@
+name: Enforce PR Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main, master, devBranch]
+
+jobs:
+  enforce-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Required Status
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, number } = context.issue;
+            const { data: pr } = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number: number
+            });
+            
+            const { data: checks } = await github.rest.checks.listForRef({
+              owner,
+              repo,
+              ref: pr.head.sha
+            });
+            
+            const unitTestCheck = checks.check_runs.find(check => check.name.includes('build_and_test'));
+            
+            if (!unitTestCheck) {
+              core.warning('Unit tests check not found. Waiting for it to run.');
+              return;
+            }
+            
+            if (unitTestCheck.conclusion !== 'success') {
+              core.setFailed('Unit tests must pass before merging this PR');
+            }
