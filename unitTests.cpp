@@ -2327,6 +2327,7 @@ TEST_CASE("Checking clone")
 
     PlantComponent *plant = dirRose->getPlant();
     cout << plant->getDecorator()->getInfo() << endl;
+    delete plant;
     delete roseB;
     delete dirRose;
     delete Inventory::getInstance();
