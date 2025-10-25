@@ -161,3 +161,45 @@ docs: doxygen
 doxygen:
 	doxygen Doxyfile
 	@echo "Documentation generated in docs/doxygen/html"
+
+# -----------------------------------------------------------------------------
+# TUI (TUIKit) helper targets
+# -----------------------------------------------------------------------------
+# Downloads the single-header nlohmann/json and places it where the TUIKit CMake
+# expects it (supports both "json.hpp" and <nlohmann/json.hpp> include styles).
+CPU_CORES := $(shell sysctl -n hw.ncpu)
+TUI_SRC := TUI/TUIKit
+TUI_BUILD := $(TUI_SRC)/build
+JSON_DIR := $(TUI_SRC)/external/json
+JSON_NLO_DIR := $(JSON_DIR)/nlohmann
+JSON_URL := https://raw.githubusercontent.com/nlohmann/json/develop/single_include/nlohmann/json.hpp
+
+.PHONY: fetch-json cmake-config cmake-build tui tui-clean
+
+fetch-json:
+	@mkdir -p $(JSON_NLO_DIR)
+	@if [ ! -f $(JSON_NLO_DIR)/json.hpp ]; then \
+		echo "Downloading nlohmann/json single header..."; \
+		curl -sSL -o $(JSON_NLO_DIR)/json.hpp $(JSON_URL); \
+		if [ $$? -ne 0 ]; then \
+			echo "Failed to download json.hpp; please download manually to $(JSON_NLO_DIR)/json.hpp"; exit 1; \
+		fi; \
+	fi
+	@# Provide the header at both locations used by the project source
+	@mkdir -p $(JSON_DIR)
+	@cp -f $(JSON_NLO_DIR)/json.hpp $(JSON_DIR)/json.hpp || true
+
+# Configure the TUIKit CMake project into the build directory
+cmake-config:
+	cmake -S $(TUI_SRC) -B $(TUI_BUILD)
+
+# Build the TUIKit project (uses all CPU cores by default)
+cmake-build:
+	cmake --build $(TUI_BUILD) --parallel $(CPU_CORES)
+
+# Convenience target to fetch externals, configure and build TUIKit
+tui: fetch-json cmake-config cmake-build
+
+# Clean the TUIKit build directory
+tui-clean:
+	rm -rf $(TUI_BUILD)
