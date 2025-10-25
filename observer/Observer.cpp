@@ -1,4 +1,4 @@
 #include "Observer.h"
-#include "../prototype/LivingPlant.h" // Include here instead of header
+#include "../composite/PlantComponent.h"
 
 //Observer::~Observer() = default;
