@@ -125,9 +125,16 @@ std::string LivingPlant::getInfo()
     baseInfo += "Water Level: " + std::to_string(waterLevel) + "\n";
     baseInfo += "Sun Exposure: " + std::to_string(sunExposure) + "\n";
     baseInfo += "Base Price: R" + std::to_string(price) + "\n";
-    baseInfo += "Total Price: R" + std::to_string(decorator->getPrice()) + "\n";
-    baseInfo += "Water Affection: " + std::to_string(decorator->affectWater()) + "\n";
-    baseInfo += "Sun Affection: " + std::to_string(decorator->affectSunlight()) + "\n";
+
+    if (decorator != nullptr) {
+        baseInfo += "Total Price: R" + std::to_string(decorator->getPrice()) + "\n";
+        baseInfo += "Water Affection: " + std::to_string(decorator->affectWater()) + "\n";
+        baseInfo += "Sun Affection: " + std::to_string(decorator->affectSunlight()) + "\n";
+    } else {
+        baseInfo += "Total Price: R" + std::to_string(price) + "\n";
+        baseInfo += "Water Affection: " + std::to_string(affectWaterValue) + "\n";
+        baseInfo += "Sun Affection: " + std::to_string(affectSunValue) + "\n";
+    }
 
     return baseInfo;
 };

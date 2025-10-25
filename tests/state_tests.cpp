@@ -558,11 +558,15 @@ TEST_CASE("Testing State Transitions - Continuous Aging")
             else plant->setMaturity(Dead::getID());
 
             // Simulate grow at each age
-            if (age == 6 || age == 29 || age == 120) {
-                MaturityState *state = inv->getStates(plant->getMaturity());
-                if (state) {
-                    state->getState()->grow(plant);
-                }
+            if (age == 6) {
+                Seed seed;
+                seed.grow(plant);
+            } else if (age == 29) {
+                Vegetative veg;
+                veg.grow(plant);
+            } else if (age == 120) {
+                Mature mature;
+                mature.grow(plant);
             }
         }
 

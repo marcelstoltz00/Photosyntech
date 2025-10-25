@@ -34,8 +34,7 @@ TEST_CASE("Testing Composite Pattern - Single Plant Component")
 
         group->addComponent(plant);
 
-        delete group;
-        delete plant;
+        delete group;  // This will delete plant as well
     }
 
     SUBCASE("Plant operations work on single component")
@@ -51,8 +50,7 @@ TEST_CASE("Testing Composite Pattern - Single Plant Component")
         // Plant should have been watered
         CHECK(plant->getWaterLevel() > 0);
 
-        delete group;
-        delete plant;
+        delete group;  // This will delete plant as well
     }
 }
 
@@ -69,10 +67,7 @@ TEST_CASE("Testing Composite Pattern - Multiple Plants in Group")
         group->addComponent(plant2);
         group->addComponent(plant3);
 
-        delete group;
-        delete plant1;
-        delete plant2;
-        delete plant3;
+        delete group;  // This will delete all plants as well
     }
 
     SUBCASE("Water operation applies to all plants in group")
@@ -95,9 +90,7 @@ TEST_CASE("Testing Composite Pattern - Multiple Plants in Group")
         CHECK(plant1->getWaterLevel() > 0);
         CHECK(plant2->getWaterLevel() > 0);
 
-        delete group;
-        delete plant1;
-        delete plant2;
+        delete group;  // This will delete all plants as well
     }
 
     SUBCASE("Sun operation applies to all plants in group")
@@ -120,9 +113,7 @@ TEST_CASE("Testing Composite Pattern - Multiple Plants in Group")
         CHECK(plant1->getSunExposure() > 0);
         CHECK(plant2->getSunExposure() > 0);
 
-        delete group;
-        delete plant1;
-        delete plant2;
+        delete group;  // This will delete all plants as well
     }
 }
 
@@ -145,9 +136,7 @@ TEST_CASE("Testing Composite Pattern - Nested Plant Groups")
         // Plant in subgroup should be watered
         CHECK(plant->getWaterLevel() > 0);
 
-        delete rootGroup;
-        delete subGroup;
-        delete plant;
+        delete rootGroup;  // This will delete subGroup and plant as well
     }
 
     SUBCASE("Deep nesting with multiple levels")
@@ -176,11 +165,7 @@ TEST_CASE("Testing Composite Pattern - Nested Plant Groups")
         CHECK(plant1->getWaterLevel() > 0);
         CHECK(plant2->getWaterLevel() > 0);
 
-        delete level1;
-        delete level2;
-        delete level3;
-        delete plant1;
-        delete plant2;
+        delete level1;  // This will delete all children recursively
     }
 }
 
@@ -197,8 +182,7 @@ TEST_CASE("Testing Composite Pattern - Plant Information Retrieval")
         std::string info = group->getInfo();
         CHECK(!info.empty());
 
-        delete group;
-        delete plant;
+        delete group;  // This will delete plant as well
     }
 
     SUBCASE("Nested group information includes child information")
@@ -213,9 +197,7 @@ TEST_CASE("Testing Composite Pattern - Plant Information Retrieval")
         std::string groupInfo = group->getInfo();
         CHECK(!groupInfo.empty());
 
-        delete group;
-        delete subGroup;
-        delete plant;
+        delete group;  // This will delete subGroup and plant as well
     }
 }
 
@@ -272,10 +254,7 @@ TEST_CASE("Testing Composite Pattern - Composite with All Plant Types")
         CHECK(shrub->getWaterLevel() > 0);
         CHECK(succulent->getWaterLevel() > 0);
 
-        delete group;
-        delete tree;
-        delete shrub;
-        delete succulent;
+        delete group;  // This will delete all plants as well
     }
 }
 
@@ -293,8 +272,7 @@ TEST_CASE("Testing Composite Pattern - Update Operations")
         // Update should work without crashing
         group->update();
 
-        delete group;
-        delete plant;
+        delete group;  // This will delete plant as well
     }
 }
 
@@ -323,10 +301,7 @@ TEST_CASE("Testing Composite Pattern - Large Group Operations")
         }
 
         // Cleanup
-        delete group;
-        for (LivingPlant *plant : plants) {
-            delete plant;
-        }
+        delete group;  // This will delete all plants as well
     }
 }
 
@@ -355,9 +330,6 @@ TEST_CASE("Testing Composite Pattern - Mixed Composition")
         CHECK(directPlant->getWaterLevel() > 0);
         CHECK(nestedPlant->getWaterLevel() > 0);
 
-        delete mainGroup;
-        delete subGroup;
-        delete directPlant;
-        delete nestedPlant;
+        delete mainGroup;  // This will delete subGroup, directPlant, and nestedPlant as well
     }
 }
