@@ -499,21 +499,22 @@ TEST_CASE("Testing Decorator Pattern - Chained/Nested Decorators")
 
     SUBCASE("Decorator removal and replacement")
     {
-        // Test replacing decorators by creating a new plant instance
-        // Note: The current architecture doesn't support removing decorators
-        // without deleting the wrapped plant, so we test the concept by
-        // creating separate plant instances
+        // Note: The current architecture creates a circular reference where
+        // the decorator's nextComponent points to the plant, and the plant's
+        // decorator points to the decorator. Deleting the decorator directly
+        // causes the plant to be deleted as well (via the decorator's destructor).
+        // Therefore, we test decorator replacement by using separate plant instances.
 
         LivingPlant *plant1 = new Tree();
         plant1->addAttribute(new Spring());
         CHECK(plant1->getDecorator() != nullptr);
-        delete plant1;  // Delete the plant with Spring decorator
+        delete plant1;  // This properly cleans up both plant and decorator
 
-        // Create a new plant and add a different decorator
+        // Create new plant with different decorator
         LivingPlant *plant2 = new Tree();
         plant2->addAttribute(new Summer());
         CHECK(plant2->getDecorator() != nullptr);
-        delete plant2;  // Delete the plant with Summer decorator
+        delete plant2;  // This properly cleans up both plant and decorator
     }
 }
 
