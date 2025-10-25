@@ -26,17 +26,18 @@
  * any object or interact with customer baskets. Can be extended post-MVP
  * to integrate with Flyweight and plant builders.
  */
-void Staff::assistSuggestion() {
-    Inventory* inventory = Inventory::getInstance();
-    if (!inventory) return;
+void Staff::assistSuggestion()
+{
+    Inventory *inventory = Inventory::getInstance();
+    if (!inventory)
+        return;
 
     // Temporary plant list for all seasons, can be expanded as needed with flyweights
     std::vector<std::string> plantKeys = {
         "Rose", "Tulip", "Peony", "Bougainvillea",
         "Sunflower", "Hibiscus", "Century Plant", "Agave", "Zinnia",
         "Japanese Barberry", "Chrysanthemum", "Hawthorn", "Sedum",
-        "Cactus", "Opuntia", "Juniper", "Yucca", "Winter Jasmine"
-    };
+        "Cactus", "Opuntia", "Juniper", "Yucca", "Winter Jasmine"};
 
     // Randomly select a plant
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -46,7 +47,6 @@ void Staff::assistSuggestion() {
     std::cout << recommendation << std::endl;
 }
 
-
 /**
  * @brief Assists customers with purchases of a PlantGroup.
  *
@@ -55,8 +55,10 @@ void Staff::assistSuggestion() {
  *
  * @param plants Pointer to the PlantGroup being purchased.
  */
-void Staff::assistPurchases(PlantGroup* basket) {
-    if (!basket) return;
+void Staff::assistPurchases(PlantGroup *basket)
+{
+    if (!basket)
+        return;
 
     std::ostringstream receipt;
     receipt << "Purchase Receipt:\n";
@@ -77,12 +79,10 @@ void Staff::assistPurchases(PlantGroup* basket) {
  *
  * @param plant Pointer to the LivingPlant requiring water.
  */
-void Staff::getWaterUpdate(LivingPlant* plant) {
-    if (!plant) return;
-    std::cout << "Staff received water update for plant: " << plant->getName() 
-              << " (Water level: " << plant->getWaterLevel() << ")" << std::endl;
+void Staff::getWaterUpdate(PlantComponent *plant)
+{
     plant->water();
-    std::cout << "Staff watered plant: " << plant->getName() << std::endl;
+    cout << "Plant [" << plant->getName() << "] has had its water updated by" << this->name << endl;
 }
 
 /**
@@ -92,12 +92,10 @@ void Staff::getWaterUpdate(LivingPlant* plant) {
  *
  * @param plant Pointer to the LivingPlant requiring sun exposure.
  */
-void Staff::getSunUpdate(LivingPlant* plant) {
-    if (!plant) return;
-    std::cout << "Staff received sunlight update for plant: " << plant->getName()
-              << " (Sun exposure: " << plant->getSunExposure() << ")" << std::endl;
+void Staff::getSunUpdate(PlantComponent *plant)
+{
     plant->setOutside();
-    std::cout << "Staff placed plant outside: " << plant->getName() << std::endl;
+    cout << "Plant [" << plant->getName() << "] has had its sunlight updated by" << this->name << endl;
 }
 
 /**
@@ -108,10 +106,8 @@ void Staff::getSunUpdate(LivingPlant* plant) {
  *
  * @param plant Pointer to the LivingPlant with updated state.
  */
-void Staff::getStateUpdate(LivingPlant* plant) {
-    if (!plant) return;
-    std::cout << "Staff received state update for plant: " << plant->getName()
-              << " (Health: " << plant->getHealth() << ", Age: " << plant->getAge() << ")" << std::endl;
-    // Optional: React to state, e.g., water or move outside depending on strategy
-    
+void Staff::getStateUpdate(PlantComponent *plant)
+{
+    cout << "Checking State of " << plant->getName() << endl;
+    cout << plant->getDecorator()->getInfo() << endl;
 }

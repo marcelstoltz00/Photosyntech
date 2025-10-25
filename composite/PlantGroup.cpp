@@ -64,7 +64,7 @@ std::string PlantGroup::getInfo()
     for (PlantComponent *component : plants)
     {
         counter++;
-        ss << component->getInfo();
+        ss << component->getDecorator()->getInfo();
 
         ss << "\n--- End of Component" + std::to_string(counter) + " ---\n";
     }
@@ -204,7 +204,7 @@ void PlantGroup::detach(Observer *careTaker)
 /**
  * @brief Notifies observers that all plants need water.
  */
-void PlantGroup::waterNeeded()
+void PlantGroup::waterNeeded(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
@@ -223,7 +223,7 @@ void PlantGroup::waterNeeded()
 /**
  * @brief Notifies observers that all plants need sunlight.
  */
-void PlantGroup::sunlightNeeded()
+void PlantGroup::sunlightNeeded(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
@@ -242,7 +242,7 @@ void PlantGroup::sunlightNeeded()
 /**
  * @brief Notifies observers that all plants have updated states.
  */
-void PlantGroup::stateUpdated()
+void PlantGroup::stateUpdated(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
@@ -256,4 +256,50 @@ void PlantGroup::stateUpdated()
             }
         }
     }
+}
+
+void PlantGroup::checkWater()
+{
+}
+void PlantGroup::checkSunlight()
+{
+    for (PlantComponent *plant : plants)
+    {
+
+        for (Observer *obs : observers)
+        {
+            obs->getStateUpdate(plant);
+        }
+    }
+}
+void PlantGroup::checkState()
+{
+    for (PlantComponent *plant : plants)
+    {
+        for (Observer *obs : observers)
+        {
+            obs->getStateUpdate(plant);
+        }
+    }
+}
+
+int PlantGroup::getWaterValue()
+{
+    int sum = 0;
+
+    for (PlantComponent *plant : plants)
+    {
+        sum += plant->getWaterValue();
+    }
+    return sum;
+};
+int PlantGroup::getSunlightValue()
+{
+    int sum = 0;
+
+    for (PlantComponent *plant : plants)
+    {
+        sum += plant->getSunlightValue();
+    }
+    return sum;
 }

@@ -57,19 +57,19 @@ class Staff : public User, public Observer
 		 * @brief Receives notification that a plant needs water.
 		 * @param plant Pointer to the LivingPlant requiring water.
 		 */
-		void getWaterUpdate(LivingPlant* plant);
+		void getWaterUpdate(PlantComponent* plant);
 
 		/**
 		 * @brief Receives notification that a plant needs sunlight.
 		 * @param plant Pointer to the LivingPlant requiring sun exposure.
 		 */
-		void getSunUpdate(LivingPlant* plant);
+		void getSunUpdate(PlantComponent* plant);
 
 		/**
 		 * @brief Receives notification that a plant's state has been updated.
 		 * @param plant Pointer to the LivingPlant with updated state.
 		 */
-		void getStateUpdate(LivingPlant* plant);
+		void getStateUpdate(PlantComponent* plant);
 };
 
 #endif

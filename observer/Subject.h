@@ -32,17 +32,17 @@ public:
 	/**
 	 * @brief Notifies all observers that plants need sunlight.
 	 */
-	virtual void sunlightNeeded() = 0;
+	virtual void sunlightNeeded(PlantComponent* updatedPlant) = 0;
 
 	/**
 	 * @brief Notifies all observers that a plant's state has been updated.
 	 */
-	virtual void stateUpdated() = 0;
+	virtual void stateUpdated(PlantComponent* updatedPlant) = 0;
 
 	/**
 	 * @brief Notifies all observers that plants need water.
 	 */
-	virtual void waterNeeded() = 0;
+	virtual void waterNeeded(PlantComponent* updatedPlant) = 0;
 
 	/**
 	 * @brief Virtual destructor for proper cleanup of derived classes.
