@@ -1,8 +1,6 @@
 #include "doctest.h"
 #include "command/Command.h"
-#include "command/WaterPlantCommand.h"
-#include "command/AddToInventoryCommand.h"
-#include "command/PurchasePlantCommand.h"
+#include "command/GrowPlantCommand.h"
 #include "singleton/Singleton.h"
 #include "prototype/LivingPlant.h"
 #include "prototype/Tree.h"
@@ -10,7 +8,6 @@
 #include "composite/PlantGroup.h"
 #include "strategy/LowWater.h"
 #include "strategy/MidWater.h"
-#include "command/GrowPlantCommand.h"
 
 // ============================================================================
 // MEMENTO PATTERN TESTS FOR COMMAND UNDO/REDO

@@ -4,7 +4,7 @@ CXXFLAGS = -std=c++11 -g --coverage -I. -Ithird_party/doctest
 DOCTEST_DIR = third_party/doctest
 DOCTEST_HEADER = $(DOCTEST_DIR)/doctest.h
 
-.PHONY: fetch-doctest
+.PHONY: fetch-doctest test test-core test-core-run test-cov
 fetch-doctest:
 	@mkdir -p $(DOCTEST_DIR)
 	@if [ ! -f $(DOCTEST_HEADER) ]; then \
@@ -67,15 +67,82 @@ TEST_SRC = unitTests.cpp\
 			   observer/Observer.cpp \
 			   observer/Subject.cpp \
 
+# New modular test structure (tests_core.cpp)
+TEST_CORE_SRC = tests/tests_core.cpp\
+            strategy/LowWater.cpp\
+            strategy/MidWater.cpp\
+            strategy/HighWater.cpp\
+            strategy/AlternatingWater.cpp\
+            strategy/LowSun.cpp\
+            strategy/MidSun.cpp\
+            strategy/HighSun.cpp\
+            strategy/AlternatingSun.cpp\
+            singleton/Singleton.cpp\
+            prototype/LivingPlant.cpp\
+            composite/PlantComponent.cpp\
+            composite/PlantGroup.cpp\
+            state/Dead.cpp\
+            state/Mature.cpp\
+            state/Seed.cpp\
+            state/Vegetative.cpp\
+            state/PlantMemento.cpp\
+            decorator/PlantAttributes.cpp\
+            decorator/ConcreteDecorators.cpp\
+            builder/Director.cpp\
+            builder/Builder.cpp\
+            builder/RoseBuilder.cpp\
+            builder/CactusBuilder.cpp\
+            builder/SunflowerBuilder.cpp\
+            builder/PineBuilder.cpp\
+            builder/MapleBuilder.cpp\
+            builder/JadePlantBuilder.cpp\
+            builder/LavenderBuilder.cpp\
+            builder/CherryBlossomBuilder.cpp\
+            command/GrowPlantCommand.cpp\
+            command/AddPlantToBasketCommand.cpp\
+            command/CreatePlantCommand.cpp\
+            command/PurchasePlantsCommand.cpp\
+            command/GetSuggestionCommand.cpp\
+            facade/NurseryFacade.cpp\
+            iterator/Aggregate.cpp\
+            iterator/AggPlant.cpp\
+            iterator/AggSeason.cpp\
+            iterator/PlantIterator.cpp\
+            iterator/SeasonIterator.cpp\
+            mediator/Mediator.cpp\
+            mediator/Customer.cpp\
+            mediator/SalesFloor.cpp\
+            mediator/Staff.cpp\
+            mediator/SuggestionFloor.cpp\
+            mediator/BasketMemento.cpp\
+            observer/Observer.cpp\
+            observer/Subject.cpp
+
 SRC = $(TEST_SRC)
 OBJ := $(SRC:.cpp=.o)
 BIN := app
 
+TEST_CORE_OBJ := $(TEST_CORE_SRC:.cpp=.o)
+TEST_CORE_BIN := build/tests/test_core
 
 all: test
 
 test: fetch-doctest
 	$(MAKE) SRC="$(TEST_SRC)" all-internal
+
+# New modular test targets
+test-core: fetch-doctest
+	@mkdir -p build/tests
+	$(MAKE) SRC="$(TEST_CORE_SRC)" BIN="$(TEST_CORE_BIN)" all-internal
+
+test-core-run: test-core
+	./$(TEST_CORE_BIN)
+
+test-cov: test-core
+	./$(TEST_CORE_BIN)
+	@mkdir -p build/tests
+	gcovr --root . --exclude '.*\.h' --exclude 'tests/.*' --exclude 'third_party/.*' --print-summary > coverage.txt
+	@echo "Coverage report generated in coverage.txt"
 
 all-internal: $(BIN)
 
@@ -104,7 +171,9 @@ clean c:
 	find . -name '*.gcov' -delete
 	rm -f coverage.txt coverage.html coverage.css
 	rm -f $(BIN)
-	rm  -f $(DEMO_BIN)
+	rm -f $(DEMO_BIN)
+	rm -f $(TEST_CORE_BIN)
+	rm -rf build/tests/*.o build/tests/*.gcda build/tests/*.gcno
 
 valgrind v: $(BIN)
 	valgrind --leak-check=full --show-leak-kinds=all -s --track-origins=yes ./$(BIN)
