@@ -92,6 +92,10 @@ void PlantGroup::update()
     for (PlantComponent *component : plants)
     {
         component->update();
+        if (component->getSunlightValue() <= 20)
+            waterNeeded(component);
+        if (component->getSunlightValue() <= 20)
+            waterNeeded(component);
     }
 };
 

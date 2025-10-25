@@ -26,6 +26,16 @@
  * any object or interact with customer baskets. Can be extended post-MVP
  * to integrate with Flyweight and plant builders.
  */
+Staff::Staff() : User()
+{
+    this->name = "Staff member";
+}
+
+Staff::Staff(std::string name) : User(name)
+{
+    this->name = name;
+}
+
 void Staff::assistSuggestion()
 {
     Inventory *inventory = Inventory::getInstance();
@@ -81,8 +91,13 @@ void Staff::assistPurchases(PlantGroup *basket)
  */
 void Staff::getWaterUpdate(PlantComponent *plant)
 {
-    plant->water();
-    cout << "Plant [" << plant->getName() << "] has had its water updated by" << this->name << endl;
+    if (plant)
+    {
+        int oldWater = plant->getWaterValue();
+        plant->water();
+        cout << "Plant [" << plant->getName() << "] has had its water updated by " << this->name << endl;
+        cout << "The water level was " << oldWater << " and is now " << plant->getWaterValue() << endl;
+    }
 }
 
 /**
@@ -94,8 +109,13 @@ void Staff::getWaterUpdate(PlantComponent *plant)
  */
 void Staff::getSunUpdate(PlantComponent *plant)
 {
-    plant->setOutside();
-    cout << "Plant [" << plant->getName() << "] has had its sunlight updated by" << this->name << endl;
+    if (plant)
+    {
+        int oldSun = plant->getSunlightValue();
+        plant->setOutside();
+        cout << "Plant [" << plant->getName() << "] has had its sunlight updated by" << this->name << endl;
+        cout << "The sun level was " << oldSun << " and is now " << plant->getSunlightValue() << endl;
+    }
 }
 
 /**
@@ -108,6 +128,13 @@ void Staff::getSunUpdate(PlantComponent *plant)
  */
 void Staff::getStateUpdate(PlantComponent *plant)
 {
-    cout << "Checking State of " << plant->getName() << endl;
-    cout << plant->getDecorator()->getInfo() << endl;
+    if (plant)
+    {
+        cout << "Checking State of [" << plant->getName() << "]" << endl;
+        
+        if (plant->getDecorator())
+            cout << plant->getDecorator()->getInfo() << endl;
+        else
+            cout << plant->getInfo() << endl;
+    }
 }

@@ -731,9 +731,9 @@ TEST_CASE("Observer Pattern Integration with Mediator")
         SUBCASE("PlantGroup notifications")
         {
 
-            plantGroup->waterNeeded();
-            plantGroup->sunlightNeeded();
-            plantGroup->stateUpdated();
+            plantGroup->checkWater();
+            plantGroup->checkSunlight();
+            plantGroup->checkState();
         }
 
         delete plantGroup;
@@ -751,9 +751,9 @@ TEST_CASE("Observer Pattern Implementation Tests")
         plantGroup->attach(staff);
 
         // tests notification functions(should not crash with empty observers)
-        plantGroup->waterNeeded();
-        plantGroup->sunlightNeeded();
-        plantGroup->stateUpdated();
+        plantGroup->checkWater();
+        plantGroup->checkSunlight();
+        plantGroup->checkState();
 
         // test detachment
         plantGroup->detach(staff);
@@ -773,15 +773,15 @@ TEST_CASE("Observer Pattern Implementation Tests")
         plantGroup->attach(staff2);
 
         // notifications should work with multiple observers
-        plantGroup->waterNeeded();
-        plantGroup->sunlightNeeded();
-        plantGroup->stateUpdated();
+        plantGroup->checkWater();
+        plantGroup->checkSunlight();
+        plantGroup->checkState();
 
         // detach one observer
         plantGroup->detach(staff1);
 
         // notifications should still work with remaining observer
-        plantGroup->waterNeeded();
+        plantGroup->checkWater();
 
         plantGroup->detach(staff2);
 
@@ -958,9 +958,9 @@ TEST_CASE("Observer Pattern Implementation Tests")
             plantGroup->attach(nullptr);
             plantGroup->detach(nullptr);
 
-            plantGroup->waterNeeded();
-            plantGroup->sunlightNeeded();
-            plantGroup->stateUpdated();
+            plantGroup->checkWater();
+            plantGroup->checkSunlight();
+            plantGroup->checkSunlight();
         }
 
         SUBCASE("Duplicate observer attachment")
@@ -969,12 +969,12 @@ TEST_CASE("Observer Pattern Implementation Tests")
             plantGroup->attach(staff);
             plantGroup->attach(staff); // duplicate observer
 
-            plantGroup->waterNeeded();
+            plantGroup->checkWater();
 
             plantGroup->detach(staff);
 
             // notifications should work with no observers
-            plantGroup->waterNeeded();
+            plantGroup->checkWater();
         }
 
         SUBCASE("Observer with empty plant group")
@@ -982,9 +982,9 @@ TEST_CASE("Observer Pattern Implementation Tests")
             plantGroup->attach(staff);
 
             // notifications on empty group should not crash
-            plantGroup->waterNeeded();
-            plantGroup->sunlightNeeded();
-            plantGroup->stateUpdated();
+            plantGroup->checkWater();
+            plantGroup->checkSunlight();
+            plantGroup->checkState();
 
             plantGroup->detach(staff);
         }
@@ -2281,20 +2281,53 @@ TEST_CASE("Edge case - Each plant different season")
 }
 TEST_CASE("Both deletions work")
 {
-RoseBuilder *roseB = new RoseBuilder();
-Director *dirRose = new Director(roseB);
-dirRose->construct();
+    RoseBuilder *roseB = new RoseBuilder();
+    Director *dirRose = new Director(roseB);
+    dirRose->construct();
 
-	SUBCASE("Testing old deletion")
-	{
-	delete roseB->getResult()->getDecorator();
-	} 
-	SUBCASE("Testing new deletion")
-	{
-	delete roseB->getResult();
-	}
-	
-delete roseB;
-delete dirRose;
-delete Inventory::getInstance();
+    SUBCASE("Testing old deletion")
+    {
+        delete roseB->getResult()->getDecorator();
+    }
+    SUBCASE("Testing new deletion")
+    {
+        delete roseB->getResult();
+    }
+
+    delete roseB;
+    delete dirRose;
+    delete Inventory::getInstance();
+}
+TEST_CASE("Auto update of plants")
+{
+    RoseBuilder *roseB = new RoseBuilder();
+    Director *dirRose = new Director(roseB);
+    dirRose->construct();
+
+    Staff *watcher = new Staff("Woody");
+
+    for (int i = 0; i < 5; i++)
+        Inventory::getInstance()->getInventory()->addComponent(dirRose->getPlant());
+
+    Inventory::getInstance()->getInventory()->attach(watcher);
+
+    for (int i = 0; i < 3; i++)
+        Inventory::getInstance()->getInventory()->update();
+
+    delete roseB;
+    delete dirRose;
+    delete Inventory::getInstance();
+    delete watcher;
+}
+TEST_CASE("Checking clone")
+{
+    RoseBuilder *roseB = new RoseBuilder();
+    Director *dirRose = new Director(roseB);
+    dirRose->construct();
+
+    PlantComponent *plant = dirRose->getPlant();
+    cout << plant->getDecorator()->getInfo() << endl;
+    delete roseB;
+    delete dirRose;
+    delete Inventory::getInstance();
 }

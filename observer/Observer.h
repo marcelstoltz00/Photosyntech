@@ -5,6 +5,7 @@
 // Remove: #include "../prototype/PlantComponent.h" - only forward declared it below
 
 // Forward declarations instead
+
 class PlantComponent;
 
 /**

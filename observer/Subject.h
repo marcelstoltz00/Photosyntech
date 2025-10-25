@@ -6,6 +6,7 @@
 // Forward declared instead
 class Observer;
 class PlantGroup;
+class PlantComponent;
 
 /**
  * @brief Abstract subject interface in the Observer pattern.
