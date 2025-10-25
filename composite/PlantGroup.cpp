@@ -143,6 +143,11 @@ void PlantGroup::addComponent(PlantComponent *component)
     plants.push_back(component);
 }
 
+void PlantGroup::removeComponent(PlantComponent *component)
+{
+    plants.remove(component);
+}
+
 std::string PlantGroup::getName()
 {
     std::stringstream ss;

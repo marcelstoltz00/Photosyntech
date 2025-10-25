@@ -50,8 +50,14 @@
  * @see Decorator pattern (attributes wrap LivingPlant)
  */
 class MaturityState;
+class PlantMemento;
+class GrowPlantCommand;
+
 class LivingPlant : public PlantComponent
 {
+	friend class PlantMemento;
+	friend class GrowPlantCommand;
+
 protected:
 	/**
 	 * Name of the plant.

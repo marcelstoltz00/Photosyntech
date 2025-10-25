@@ -19,17 +19,25 @@ class Dead : public MaturityState {
 public:
     /**
      * @brief Handles daily growth in Dead state
-     * 
+     *
      * No changes occur in this terminal state.
      * All plant attributes remain at 0.
-     * 
+     *
      * @param plant The plant instance
      */
     void grow(LivingPlant* plant);
-    
+
+    /**
+     * @brief Returns the type of this maturity state.
+     * @return MaturityStateType::DEAD
+     */
+    MaturityStateType getStateType() const override {
+        return MaturityStateType::DEAD;
+    }
+
     /**
      * @brief Returns the identifier for the Dead state
-     * 
+     *
      * @return Integer identifier for the state
      */
     static const int getID() { return 3; }

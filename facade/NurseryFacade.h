@@ -1,13 +1,23 @@
 #ifndef NurseryFacade_h
 #define NurseryFacade_h
 
-#include "../builder/Director.h"
 #include "../singleton/Singleton.h"
 #include "../mediator/Mediator.h"
 #include "../command/Command.h"
 #include "../iterator/Aggregate.h"
 #include "../composite/PlantComponent.h"
+#include "../mediator/Customer.h"
+#include "../state/PlantMemento.h"
+#include <stack>
+#include <vector>
+#include <string>
 
+class Staff;
+class LivingPlant;
+class PlantAttributes;
+class PlantGroup;
+class Iterator;
+class Inventory;
 
 /**
  * @brief Unified facade interface for the nursery management system.
@@ -59,47 +69,134 @@
 class NurseryFacade
 {
 	private:
-		Director* director;
-		Singleton* inventory;
+		static const int MAX_HISTORY_SIZE = 100;
+
+		Inventory* inventory;
 		Mediator* salesFloor;
 		Mediator* suggestionFloor;
+		std::stack<Command*> commandHistory;
+		std::stack<Command*> redoStack;
 
 	public:
 		/**
-		 * @brief Creates a new plant using the builder pattern.
+		 * @brief Constructs the NurseryFacade.
+		 * Initializes all subsystem references and mediators.
+		 */
+		NurseryFacade();
+
+		/**
+		 * @brief Destructs the NurseryFacade.
+		 * Cleans up all commands in history and redo stacks.
+		 */
+		virtual ~NurseryFacade();
+
+		// ===========================================
+		// COMMAND OPERATIONS (with history management)
+		// ===========================================
+
+		/**
+		 * @brief Creates a new plant using the builder pattern (with undo support).
 		 * @param species String identifying the plant species to create.
-		 * @return Pointer to the newly created PlantComponent.
+		 * @return Pointer to the newly created PlantComponent, or nullptr on failure.
 		 */
 		PlantComponent* createPlant(const char* species);
 
 		/**
-		 * @brief Adds a plant to the global inventory.
+		 * @brief Adds a plant to a customer's shopping basket (with undo support).
+		 * @param customer Pointer to the Customer to add plant to.
 		 * @param plant Pointer to the PlantComponent to add.
 		 */
-		void addToInventory(PlantComponent* plant);
+		void addToBasket(Customer* customer, PlantComponent* plant);
 
 		/**
-		 * @brief Browses available plants, optionally filtered by criteria.
-		 * @param filter Optional filter string (e.g., season name).
+		 * @brief Grows a plant through its lifecycle state (with undo support).
+		 * @param plant Pointer to the LivingPlant to grow.
 		 */
-		void browsePlants(const char* filter);
+		void growPlant(LivingPlant* plant);
 
 		/**
-		 * @brief Initiates a plant purchase transaction.
-		 * @param plant Pointer to the PlantComponent being purchased.
+		 * @brief Purchases plants from a customer's basket (with undo support).
+		 * @param customer Pointer to the Customer making the purchase.
 		 */
-		void purchasePlant(PlantComponent* plant);
+		void purchasePlants(Customer* customer);
 
 		/**
-		 * @brief Waters a specific plant.
-		 * @param plant Pointer to the PlantComponent to water.
+		 * @brief Gets plant suggestions for a customer (with undo support).
+		 * @param customer Pointer to the Customer requesting suggestions.
 		 */
+		void getSuggestions(Customer* customer);
+
+		// ===========================================
+		// UNDO/REDO OPERATIONS
+		// ===========================================
+
+		/**
+		 * @brief Undoes the most recent command.
+		 * @return True if undo succeeded, false if history is empty.
+		 */
+		bool undo();
+
+		/**
+		 * @brief Redoes the most recently undone command.
+		 * @return True if redo succeeded, false if redo stack is empty.
+		 */
+		bool redo();
+
+		/**
+		 * @brief Clears all command history and redo stacks.
+		 * Used when resetting session or closing application.
+		 */
+		void clearHistory();
+
+		// ===========================================
+		// BASIC OPERATIONS (Direct Delegations)
+		// ===========================================
+
+		// Plant Information
+		std::string getPlantInfo(PlantComponent* plant);
+		double getPlantPrice(PlantComponent* plant);
+
+		// Plant Care
 		void waterPlant(PlantComponent* plant);
+		void setPlantOutside(PlantComponent* plant);
+		void updatePlant(PlantComponent* plant);
 
-		/**
-		 * @brief Requests plant care suggestions from staff.
-		 */
-		void getSuggestions();
+		// Plant Attributes
+		void setWaterLevel(LivingPlant* plant, int level);
+		void setSunExposure(LivingPlant* plant, int level);
+		void setWaterStrategy(LivingPlant* plant, int strategyID);
+		void setSunStrategy(LivingPlant* plant, int strategyID);
+		void setMaturity(LivingPlant* plant, int stateID);
+		void setSeason(LivingPlant* plant, const std::string& season);
+
+		// Plant Decoration
+		void addAttribute(PlantComponent* plant, PlantAttributes* attr);
+
+		// Plant Cloning
+		PlantComponent* clonePlant(PlantComponent* plant);
+
+		// Inventory Operations
+		void addToInventory(PlantComponent* plant);
+		void removeFromInventory(PlantComponent* plant);
+
+		// Iterator Creation
+		Iterator* createAllPlantsIterator();
+		Iterator* createSeasonIterator(const char* season);
+
+		// Observer Management
+		void attachStaffToGroup(PlantGroup* group, Staff* staff);
+		void detachStaffFromGroup(PlantGroup* group, Staff* staff);
+
+		// Staff/Customer Management
+		void addStaff(Staff* staff);
+		void addCustomer(Customer* customer);
+		std::vector<Staff*>* getStaff();
+		std::vector<Customer*>* getCustomers();
+
+		// Group Notifications
+		void notifyWaterNeeded(PlantGroup* group);
+		void notifySunlightNeeded(PlantGroup* group);
+		void notifyStateUpdated(PlantGroup* group);
 };
 
 #endif
