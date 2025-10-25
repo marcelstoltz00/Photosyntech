@@ -208,15 +208,7 @@ void PlantGroup::waterNeeded(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
-        for (PlantComponent *plant : plants)
-        {
-            plant->water();
-            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
-            if (lp)
-            {
-                obs->getWaterUpdate(lp);
-            }
-        }
+        obs->getWaterUpdate(updatedPlant);
     }
 }
 
@@ -227,15 +219,7 @@ void PlantGroup::sunlightNeeded(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
-        for (PlantComponent *plant : plants)
-        {
-            plant->setOutside();
-            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
-            if (lp)
-            {
-                obs->getSunUpdate(lp);
-            }
-        }
+        obs->getSunUpdate(updatedPlant);
     }
 }
 
@@ -246,40 +230,32 @@ void PlantGroup::stateUpdated(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
-        for (PlantComponent *plant : plants)
-        {
-            plant->update();
-            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
-            if (lp)
-            {
-                obs->getStateUpdate(lp);
-            }
-        }
+        obs->getStateUpdate(updatedPlant);
     }
 }
 
 void PlantGroup::checkWater()
 {
+    for (PlantComponent *plant : plants)
+    {
+        if (plant->getWaterValue() <= 20)
+            waterNeeded(plant);
+    }
 }
 void PlantGroup::checkSunlight()
 {
     for (PlantComponent *plant : plants)
     {
 
-        for (Observer *obs : observers)
-        {
-            obs->getStateUpdate(plant);
-        }
+        if (plant->getSunlightValue() <= 20)
+            waterNeeded(plant);
     }
 }
 void PlantGroup::checkState()
 {
     for (PlantComponent *plant : plants)
     {
-        for (Observer *obs : observers)
-        {
-            obs->getStateUpdate(plant);
-        }
+        stateUpdated(plant);
     }
 }
 
