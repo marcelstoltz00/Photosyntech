@@ -498,8 +498,14 @@ Iterator* NurseryFacade::createAllPlantsIterator()
 		return nullptr;
 	}
 
+	std::list<PlantComponent*>* plants = inv->getPlants();
+	if (plants == nullptr)
+	{
+		return nullptr;
+	}
+
 	// Create AggPlant aggregate with plant list and return iterator
-	AggPlant* aggregate = new AggPlant(inv->getPlants());
+	AggPlant* aggregate = new AggPlant(plants);
 	return aggregate->createIterator();
 }
 
@@ -516,9 +522,15 @@ Iterator* NurseryFacade::createSeasonIterator(const char* season)
 		return nullptr;
 	}
 
+	std::list<PlantComponent*>* plants = inv->getPlants();
+	if (plants == nullptr)
+	{
+		return nullptr;
+	}
+
 	// Create AggSeason aggregate with season filter
 	std::string seasonStr(season);
-	AggSeason* aggregate = new AggSeason(inv->getPlants(), seasonStr);
+	AggSeason* aggregate = new AggSeason(plants, seasonStr);
 	return aggregate->createIterator();
 }
 

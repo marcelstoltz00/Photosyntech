@@ -4,7 +4,9 @@
 SeasonIterator::SeasonIterator(AggSeason* aggregate) : currentPlant(nullptr), inComposite(false)
 {
 	this->aggregate = aggregate;
-	first();
+	if (aggregate != nullptr) {
+		first();
+	}
 }
 
 void SeasonIterator::first()
@@ -17,6 +19,12 @@ void SeasonIterator::first()
 
 	// Cast aggregate to access plants member
 	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
+
+	// Check for null plants list
+	if (seasonAgg == nullptr || seasonAgg->plants == nullptr) {
+		currentPlant = nullptr;
+		return;
+	}
 
 	// Push root level frame
 	StackFrame root;

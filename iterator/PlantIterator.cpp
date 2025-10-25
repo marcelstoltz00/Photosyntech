@@ -4,7 +4,9 @@
 PlantIterator::PlantIterator(AggPlant* aggregate) : currentPlant(nullptr), inComposite(false)
 {
 	this->aggregate = aggregate;
-	first();
+	if (aggregate != nullptr) {
+		first();
+	}
 }
 
 void PlantIterator::first()
@@ -17,6 +19,12 @@ void PlantIterator::first()
 
 	// Cast aggregate to access plants member
 	AggPlant* plantAgg = static_cast<AggPlant*>(aggregate);
+
+	// Check for null plants list
+	if (plantAgg == nullptr || plantAgg->plants == nullptr) {
+		currentPlant = nullptr;
+		return;
+	}
 
 	// Push root level frame
 	StackFrame root;

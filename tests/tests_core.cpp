@@ -9,7 +9,7 @@
 //#include "command_memento_tests.cpp" //Passing
 //#include "composite_tests.cpp" //Passing
 //#include "decorator_tests.cpp" //Passing
-//#include "facade_tests.cpp"
+#include "facade_tests.cpp"
 //#include "flyweight_tests.cpp" //Passing
 //#include "iterator_tests.cpp" //Passing
 //#include "mediator_tests.cpp" //Passing

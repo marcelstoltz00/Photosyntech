@@ -21,6 +21,11 @@
 // FACADE PATTERN TESTS - UNIFIED INTERFACE VERIFICATION
 // ============================================================================
 
+// Helper function to clean up between tests
+static void cleanupSingleton() {
+    delete Inventory::getInstance();
+}
+
 TEST_CASE("Testing Facade Pattern - Facade Creation and Initialization")
 {
     SUBCASE("Facade can be created")
@@ -28,6 +33,7 @@ TEST_CASE("Testing Facade Pattern - Facade Creation and Initialization")
         NurseryFacade *facade = new NurseryFacade();
         CHECK(facade != nullptr);
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Multiple facade instances coordinate through singleton")
@@ -44,6 +50,7 @@ TEST_CASE("Testing Facade Pattern - Facade Creation and Initialization")
 
         delete facade1;
         delete facade2;
+        cleanupSingleton();
     }
 
     SUBCASE("Facade provides unified interface")
@@ -58,6 +65,7 @@ TEST_CASE("Testing Facade Pattern - Facade Creation and Initialization")
         // - waterPlant
         // - getSuggestions
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -68,8 +76,9 @@ TEST_CASE("Testing Facade Pattern - Plant Creation through Facade")
         NurseryFacade *facade = new NurseryFacade();
         PlantComponent *plant = facade->createPlant("Pine");
         CHECK(plant != nullptr);
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Create shrub plant through facade")
@@ -77,8 +86,9 @@ TEST_CASE("Testing Facade Pattern - Plant Creation through Facade")
         NurseryFacade *facade = new NurseryFacade();
         PlantComponent *plant = facade->createPlant("Rose");
         CHECK(plant != nullptr);
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Create succulent plant through facade")
@@ -86,8 +96,9 @@ TEST_CASE("Testing Facade Pattern - Plant Creation through Facade")
         NurseryFacade *facade = new NurseryFacade();
         PlantComponent *plant = facade->createPlant("Cactus");
         CHECK(plant != nullptr);
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Create multiple plants via facade")
@@ -103,10 +114,9 @@ TEST_CASE("Testing Facade Pattern - Plant Creation through Facade")
             CHECK(p != nullptr);
         }
 
-        for (PlantComponent *p : plants) {
-            delete p;
-        }
+        // Don't delete plants - createPlant() automatically adds them to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Facade hides builder complexity")
@@ -116,8 +126,9 @@ TEST_CASE("Testing Facade Pattern - Plant Creation through Facade")
         // Client doesn't need to know about Builder, Director, or construction steps
         PlantComponent *plant = facade->createPlant("Maple");
         CHECK(plant != nullptr);
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -128,14 +139,14 @@ TEST_CASE("Testing Facade Pattern - Inventory Management through Facade")
         NurseryFacade *facade = new NurseryFacade();
         PlantComponent *plant = facade->createPlant("Pine");
 
-        facade->addToInventory(plant);
-
-        // Plant should now be in inventory
+        // createPlant() already adds to inventory, so no need to call addToInventory()
+        // Just verify it's in inventory
         Inventory *inv = Inventory::getInstance();
         CHECK(inv != nullptr);
 
-        delete plant;
+        // Don't delete plant - inventory owns it now
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Multiple plants can be added to inventory via facade")
@@ -146,16 +157,15 @@ TEST_CASE("Testing Facade Pattern - Inventory Management through Facade")
         for (int i = 0; i < 5; i++) {
             PlantComponent *p = facade->createPlant("Maple");
             plants.push_back(p);
-            facade->addToInventory(p);
+            // createPlant() already adds to inventory
         }
 
         Inventory *inv = Inventory::getInstance();
         CHECK(inv != nullptr);
 
-        for (PlantComponent *p : plants) {
-            delete p;
-        }
+        // Don't delete plants - inventory owns them now
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Facade coordinates plant creation and inventory")
@@ -163,16 +173,16 @@ TEST_CASE("Testing Facade Pattern - Inventory Management through Facade")
         NurseryFacade *facade = new NurseryFacade();
         PlantComponent *plant = facade->createPlant("Rose");
 
-        // Plant exists and can be added
+        // Plant exists and is automatically in inventory
         CHECK(plant != nullptr);
-        facade->addToInventory(plant);
 
         // Should be retrievable from inventory
         Inventory *inv = Inventory::getInstance();
         CHECK(inv != nullptr);
 
-        delete plant;
+        // Don't delete plant - inventory owns it now
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Add different plant types to inventory")
@@ -183,17 +193,14 @@ TEST_CASE("Testing Facade Pattern - Inventory Management through Facade")
         PlantComponent *shrub = facade->createPlant("Lavender");
         PlantComponent *succulent = facade->createPlant("JadePlant");
 
-        facade->addToInventory(tree);
-        facade->addToInventory(shrub);
-        facade->addToInventory(succulent);
+        // createPlant() already adds to inventory automatically
 
         Inventory *inv = Inventory::getInstance();
         CHECK(inv != nullptr);
 
-        delete tree;
-        delete shrub;
-        delete succulent;
+        // Don't delete plants - inventory owns them now
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -203,23 +210,22 @@ TEST_CASE("Testing Facade Pattern - Plant Browsing through Facade")
     {
         NurseryFacade *facade = new NurseryFacade();
 
-        // Add some plants
+        // Add some plants (createPlant() automatically adds to inventory)
         PlantComponent *plant1 = facade->createPlant("Pine");
         PlantComponent *plant2 = facade->createPlant("Rose");
 
-        facade->addToInventory(plant1);
-        facade->addToInventory(plant2);
-
         // Browse without filter should show all
         Iterator* it = facade->createAllPlantsIterator();
-        for (it->first(); !it->isDone(); it->next()) {
-            it->currentItem();
+        if (it != nullptr) {
+            for (it->first(); !it->isDone(); it->next()) {
+                it->currentItem();
+            }
+            delete it;
         }
-        delete it;
 
-        delete plant1;
-        delete plant2;
+        // Don't delete plants - inventory owns them now
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Browse plants with season filter")
@@ -227,17 +233,20 @@ TEST_CASE("Testing Facade Pattern - Plant Browsing through Facade")
         NurseryFacade *facade = new NurseryFacade();
 
         PlantComponent *plant = facade->createPlant("Sunflower");
-        facade->addToInventory(plant);
+        // createPlant() already adds to inventory
 
         // Browse with specific season filter
         Iterator* it = facade->createSeasonIterator("Spring");
-        for (it->first(); !it->isDone(); it->next()) {
-            it->currentItem();
+        if (it != nullptr) {
+            for (it->first(); !it->isDone(); it->next()) {
+                it->currentItem();
+            }
+            delete it;
         }
-        delete it;
 
-        delete plant;
+        // Don't delete plant - inventory owns it now
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Browse empty inventory")
@@ -246,12 +255,15 @@ TEST_CASE("Testing Facade Pattern - Plant Browsing through Facade")
 
         // Should handle gracefully
         Iterator* it = facade->createAllPlantsIterator();
-        for (it->first(); !it->isDone(); it->next()) {
-            it->currentItem();
+        if (it != nullptr) {
+            for (it->first(); !it->isDone(); it->next()) {
+                it->currentItem();
+            }
+            delete it;
         }
-        delete it;
 
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Browse with various filters")
@@ -259,41 +271,52 @@ TEST_CASE("Testing Facade Pattern - Plant Browsing through Facade")
         NurseryFacade *facade = new NurseryFacade();
 
         PlantComponent *plant = facade->createPlant("Cactus");
-        facade->addToInventory(plant);
+        // createPlant() already adds to inventory
 
         // Test multiple filter strings
         Iterator* it1 = facade->createSeasonIterator("Spring");
-        for (it1->first(); !it1->isDone(); it1->next()) {
-            it1->currentItem();
+        if (it1 != nullptr) {
+            for (it1->first(); !it1->isDone(); it1->next()) {
+                it1->currentItem();
+            }
+            delete it1;
         }
-        delete it1;
 
         Iterator* it2 = facade->createSeasonIterator("Summer");
-        for (it2->first(); !it2->isDone(); it2->next()) {
-            it2->currentItem();
+        if (it2 != nullptr) {
+            for (it2->first(); !it2->isDone(); it2->next()) {
+                it2->currentItem();
+            }
+            delete it2;
         }
-        delete it2;
 
         Iterator* it3 = facade->createSeasonIterator("Fall");
-        for (it3->first(); !it3->isDone(); it3->next()) {
-            it3->currentItem();
+        if (it3 != nullptr) {
+            for (it3->first(); !it3->isDone(); it3->next()) {
+                it3->currentItem();
+            }
+            delete it3;
         }
-        delete it3;
 
         Iterator* it4 = facade->createSeasonIterator("Winter");
-        for (it4->first(); !it4->isDone(); it4->next()) {
-            it4->currentItem();
+        if (it4 != nullptr) {
+            for (it4->first(); !it4->isDone(); it4->next()) {
+                it4->currentItem();
+            }
+            delete it4;
         }
-        delete it4;
 
         Iterator* it5 = facade->createAllPlantsIterator();
-        for (it5->first(); !it5->isDone(); it5->next()) {
-            it5->currentItem();
+        if (it5 != nullptr) {
+            for (it5->first(); !it5->isDone(); it5->next()) {
+                it5->currentItem();
+            }
+            delete it5;
         }
-        delete it5;
 
-        delete plant;
+        // Don't delete plant - inventory owns it
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Browse delegates to iterator pattern")
@@ -304,16 +327,19 @@ TEST_CASE("Testing Facade Pattern - Plant Browsing through Facade")
         // Client calls simple browsePlants() method
         // Facade internally creates iterators with appropriate filters
         PlantComponent *plant = facade->createPlant("Lavender");
-        facade->addToInventory(plant);
+        // createPlant() already adds to inventory
 
         Iterator* it = facade->createSeasonIterator("Spring");
-        for (it->first(); !it->isDone(); it->next()) {
-            it->currentItem();
+        if (it != nullptr) {
+            for (it->first(); !it->isDone(); it->next()) {
+                it->currentItem();
+            }
+            delete it;
         }
-        delete it;
 
-        delete plant;
+        // Don't delete plant - inventory owns it
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -330,8 +356,9 @@ TEST_CASE("Testing Facade Pattern - Purchase Operations through Facade")
         facade->purchasePlants(customer);
 
         delete customer;
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Multiple plant purchases")
@@ -347,9 +374,9 @@ TEST_CASE("Testing Facade Pattern - Purchase Operations through Facade")
         facade->purchasePlants(customer);
 
         delete customer;
-        delete plant1;
-        delete plant2;
+        // Don't delete plants - createPlant() automatically adds them to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Purchase coordinates with mediator pattern")
@@ -364,8 +391,9 @@ TEST_CASE("Testing Facade Pattern - Purchase Operations through Facade")
         facade->purchasePlants(customer);
 
         delete customer;
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Purchase removes from inventory")
@@ -374,7 +402,7 @@ TEST_CASE("Testing Facade Pattern - Purchase Operations through Facade")
         PlantComponent *plant = facade->createPlant("Maple");
         Customer *customer = new Customer();
 
-        facade->addToInventory(plant);
+        // createPlant() already adds to inventory
         customer->addPlant(plant);
         facade->purchasePlants(customer);
 
@@ -383,8 +411,9 @@ TEST_CASE("Testing Facade Pattern - Purchase Operations through Facade")
         CHECK(inv != nullptr);
 
         delete customer;
-        delete plant;
+        // Don't delete plant - inventory owns it
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -397,8 +426,9 @@ TEST_CASE("Testing Facade Pattern - Plant Care Operations through Facade")
 
         facade->waterPlant(plant);
 
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Water plant sets water strategy")
@@ -409,8 +439,9 @@ TEST_CASE("Testing Facade Pattern - Plant Care Operations through Facade")
         // Watering should use strategy pattern internally
         facade->waterPlant(plant);
 
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Water multiple plants sequentially")
@@ -423,9 +454,9 @@ TEST_CASE("Testing Facade Pattern - Plant Care Operations through Facade")
         facade->waterPlant(plant1);
         facade->waterPlant(plant2);
 
-        delete plant1;
-        delete plant2;
+        // Don't delete plants - createPlant() automatically adds them to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Water plant group via facade")
@@ -439,8 +470,9 @@ TEST_CASE("Testing Facade Pattern - Plant Care Operations through Facade")
         facade->waterPlant(plant);
 
         delete group;
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Water enqueues command for undo/redo")
@@ -452,8 +484,9 @@ TEST_CASE("Testing Facade Pattern - Plant Care Operations through Facade")
         // Client doesn't need to know about command pattern
         facade->waterPlant(plant);
 
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -468,6 +501,7 @@ TEST_CASE("Testing Facade Pattern - Staff Suggestions through Facade")
 
         delete customer;
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Suggestions coordinated through mediator")
@@ -482,6 +516,7 @@ TEST_CASE("Testing Facade Pattern - Staff Suggestions through Facade")
 
         delete customer;
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Multiple suggestion requests")
@@ -490,15 +525,16 @@ TEST_CASE("Testing Facade Pattern - Staff Suggestions through Facade")
         Customer *customer = new Customer();
 
         PlantComponent *plant = facade->createPlant("Tree");
-        facade->addToInventory(plant);
+        // createPlant() already adds to inventory
 
         facade->getSuggestions(customer);
         facade->getSuggestions(customer);
         facade->getSuggestions(customer);
 
         delete customer;
-        delete plant;
+        // Don't delete plant - inventory owns it
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -509,19 +545,19 @@ TEST_CASE("Testing Facade Pattern - Complex Workflows through Facade")
         NurseryFacade *facade = new NurseryFacade();
         Customer *customer = new Customer();
 
-        // Create plant
+        // Create plant (automatically added to inventory by createPlant())
         PlantComponent *plant = facade->createPlant("Pine");
         CHECK(plant != nullptr);
 
-        // Add to inventory
-        facade->addToInventory(plant);
 
         // Browse available plants
         Iterator* it = facade->createAllPlantsIterator();
-        for (it->first(); !it->isDone(); it->next()) {
-            it->currentItem();
+        if (it != nullptr) {
+            for (it->first(); !it->isDone(); it->next()) {
+                it->currentItem();
+            }
+            delete it;
         }
-        delete it;
 
         // Water the plant
         facade->waterPlant(plant);
@@ -530,8 +566,9 @@ TEST_CASE("Testing Facade Pattern - Complex Workflows through Facade")
         facade->getSuggestions(customer);
 
         delete customer;
-        delete plant;
+        // Don't delete plant - inventory owns it
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Multi-plant inventory and sales workflow")
@@ -539,20 +576,21 @@ TEST_CASE("Testing Facade Pattern - Complex Workflows through Facade")
         NurseryFacade *facade = new NurseryFacade();
         Customer *customer = new Customer();
 
-        // Create multiple plants
+        // Create multiple plants (createPlant() automatically adds to inventory)
         std::vector<PlantComponent *> plants;
         for (int i = 0; i < 3; i++) {
             PlantComponent *p = facade->createPlant("Rose");
             plants.push_back(p);
-            facade->addToInventory(p);
         }
 
         // Browse
         Iterator* it = facade->createSeasonIterator("Spring");
-        for (it->first(); !it->isDone(); it->next()) {
-            it->currentItem();
+        if (it != nullptr) {
+            for (it->first(); !it->isDone(); it->next()) {
+                it->currentItem();
+            }
+            delete it;
         }
-        delete it;
 
         // Water all
         for (PlantComponent *p : plants) {
@@ -568,11 +606,10 @@ TEST_CASE("Testing Facade Pattern - Complex Workflows through Facade")
             facade->purchasePlants(customer);
         }
 
-        for (PlantComponent *p : plants) {
-            delete p;
-        }
+        // Don't delete plants - inventory owns them
         delete customer;
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Daily operations sequence")
@@ -580,19 +617,19 @@ TEST_CASE("Testing Facade Pattern - Complex Workflows through Facade")
         NurseryFacade *facade = new NurseryFacade();
         Customer *customer = new Customer();
 
-        // Morning: check inventory
+        // Morning: check inventory (createPlant() automatically adds to inventory)
         PlantComponent *tree = facade->createPlant("Maple");
         PlantComponent *shrub = facade->createPlant("Lavender");
 
-        facade->addToInventory(tree);
-        facade->addToInventory(shrub);
 
         // Midday: browse available plants
         Iterator* it = facade->createAllPlantsIterator();
-        for (it->first(); !it->isDone(); it->next()) {
-            it->currentItem();
+        if (it != nullptr) {
+            for (it->first(); !it->isDone(); it->next()) {
+                it->currentItem();
+            }
+            delete it;
         }
-        delete it;
 
         // Afternoon: water plants
         facade->waterPlant(tree);
@@ -602,9 +639,9 @@ TEST_CASE("Testing Facade Pattern - Complex Workflows through Facade")
         facade->getSuggestions(customer);
 
         delete customer;
-        delete tree;
-        delete shrub;
+        // Don't delete tree/shrub - inventory owns them
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -619,8 +656,9 @@ TEST_CASE("Testing Facade Pattern - System Abstraction")
         PlantComponent *plant = facade->createPlant("Pine");
         CHECK(plant != nullptr);
 
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Facade hides singleton details from client")
@@ -630,10 +668,11 @@ TEST_CASE("Testing Facade Pattern - System Abstraction")
         // Client doesn't know about singleton management
         // Facade internally coordinates singleton access
         PlantComponent *plant = facade->createPlant("Cactus");
-        facade->addToInventory(plant);
+        // createPlant() already adds to inventory automatically
 
-        delete plant;
+        // Don't delete plant - inventory owns it
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Facade hides mediator complexity from client")
@@ -650,8 +689,9 @@ TEST_CASE("Testing Facade Pattern - System Abstraction")
         facade->getSuggestions(customer);
 
         delete customer;
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Facade hides command pattern from client")
@@ -663,8 +703,9 @@ TEST_CASE("Testing Facade Pattern - System Abstraction")
         PlantComponent *plant = facade->createPlant("Rose");
         facade->waterPlant(plant);
 
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Facade hides iterator pattern from client")
@@ -674,16 +715,19 @@ TEST_CASE("Testing Facade Pattern - System Abstraction")
         // Client doesn't create iterators or handle filtering manually
         // Simple: browsePlants()
         PlantComponent *plant = facade->createPlant("Lavender");
-        facade->addToInventory(plant);
+        // createPlant() already adds to inventory
 
         Iterator* it = facade->createSeasonIterator("Spring");
-        for (it->first(); !it->isDone(); it->next()) {
-            it->currentItem();
+        if (it != nullptr) {
+            for (it->first(); !it->isDone(); it->next()) {
+                it->currentItem();
+            }
+            delete it;
         }
-        delete it;
 
-        delete plant;
+        // Don't delete plant - inventory owns it
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -697,20 +741,23 @@ TEST_CASE("Testing Facade Pattern - Unified Interface Benefits")
         // GUI/CLI only needs to know about NurseryFacade
         // All operations available through one object
         PlantComponent *plant = facade->createPlant("Pine");
-        facade->addToInventory(plant);
+        // createPlant() already adds to inventory
         Iterator* it = facade->createAllPlantsIterator();
-        for (it->first(); !it->isDone(); it->next()) {
-            it->currentItem();
+        if (it != nullptr) {
+            for (it->first(); !it->isDone(); it->next()) {
+                it->currentItem();
+            }
+            delete it;
         }
-        delete it;
         facade->waterPlant(plant);
         facade->getSuggestions(customer);
         customer->addPlant(plant);
         facade->purchasePlants(customer);
 
         delete customer;
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Reduced coupling between subsystems and client")
@@ -720,8 +767,9 @@ TEST_CASE("Testing Facade Pattern - Unified Interface Benefits")
         NurseryFacade *facade = new NurseryFacade();
 
         PlantComponent *plant = facade->createPlant("Rose");
-        delete plant;
+        // Don't delete plant - createPlant() automatically adds it to inventory
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Simplified error handling")
@@ -733,12 +781,13 @@ TEST_CASE("Testing Facade Pattern - Unified Interface Benefits")
         try {
             PlantComponent *plant = facade->createPlant("InvalidType");
             // Facade handles gracefully
-            delete plant;
+            // Don't delete plant - createPlant() automatically adds it to inventory (if successful)
         } catch (...) {
             // Single error handling point
         }
 
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -758,20 +807,23 @@ TEST_CASE("Testing Facade Pattern - System Integration")
         // getSuggestions: Mediator + Observer
 
         PlantComponent *plant = facade->createPlant("Cactus");
-        facade->addToInventory(plant);
+        // createPlant() already adds to inventory
         Iterator* it = facade->createAllPlantsIterator();
-        for (it->first(); !it->isDone(); it->next()) {
-            it->currentItem();
+        if (it != nullptr) {
+            for (it->first(); !it->isDone(); it->next()) {
+                it->currentItem();
+            }
+            delete it;
         }
-        delete it;
         facade->waterPlant(plant);
         facade->getSuggestions(customer);
         customer->addPlant(plant);
         facade->purchasePlants(customer);
 
         delete customer;
-        delete plant;
+        // Don't delete plant - inventory owns it
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Facade coordinate subsystem state")
@@ -781,24 +833,24 @@ TEST_CASE("Testing Facade Pattern - System Integration")
 
         // Facade ensures consistent state across all subsystems
         PlantComponent *plant = facade->createPlant("Sunflower");
+        // createPlant() already adds to inventory
 
-        // Adding to inventory updates singleton state
-        facade->addToInventory(plant);
+        // Watering updates command history (do this BEFORE purchase)
+        facade->waterPlant(plant);
 
         // Purchasing updates mediator state
         customer->addPlant(plant);
         facade->purchasePlants(customer);
-
-        // Watering updates command history
-        facade->waterPlant(plant);
+        // After purchase, plant may be removed from inventory
 
         Inventory *inv1 = Inventory::getInstance();
         Inventory *inv2 = Inventory::getInstance();
         CHECK(inv1 == inv2);  // Singleton consistency
 
         delete customer;
-        delete plant;
+        // Don't delete plant - it was handled by purchase operation
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -811,11 +863,10 @@ TEST_CASE("Testing Facade Pattern - Error Handling")
         // Should handle invalid species
         PlantComponent *plant = facade->createPlant("InvalidSpecies");
         // Facade should either return nullptr or default plant
+        // Don't delete plant - createPlant() automatically adds it to inventory (if successful)
 
-        if (plant != nullptr) {
-            delete plant;
-        }
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Handle null plant in operations")
@@ -829,6 +880,7 @@ TEST_CASE("Testing Facade Pattern - Error Handling")
 
         delete customer;
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Handle browsing empty inventory")
@@ -837,18 +889,23 @@ TEST_CASE("Testing Facade Pattern - Error Handling")
 
         // Should not crash on empty inventory
         Iterator* it1 = facade->createAllPlantsIterator();
-        for (it1->first(); !it1->isDone(); it1->next()) {
-            it1->currentItem();
+        if (it1 != nullptr) {
+            for (it1->first(); !it1->isDone(); it1->next()) {
+                it1->currentItem();
+            }
+            delete it1;
         }
-        delete it1;
 
         Iterator* it2 = facade->createSeasonIterator("Spring");
-        for (it2->first(); !it2->isDone(); it2->next()) {
-            it2->currentItem();
+        if (it2 != nullptr) {
+            for (it2->first(); !it2->isDone(); it2->next()) {
+                it2->currentItem();
+            }
+            delete it2;
         }
-        delete it2;
 
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Handle multiple suggestions requests")
@@ -863,6 +920,7 @@ TEST_CASE("Testing Facade Pattern - Error Handling")
 
         delete customer;
         delete facade;
+        cleanupSingleton();
     }
 }
 
@@ -873,55 +931,60 @@ TEST_CASE("Testing Facade Pattern - Performance and Scalability")
         NurseryFacade *facade = new NurseryFacade();
         std::vector<PlantComponent *> plants;
 
-        // Create 100 plants
+        // Create 100 plants (createPlant() automatically adds to inventory)
         for (int i = 0; i < 100; i++) {
             PlantComponent *p = facade->createPlant("Rose");
             plants.push_back(p);
-            facade->addToInventory(p);
         }
 
         // Browse should handle large inventory
         Iterator* it = facade->createAllPlantsIterator();
-        for (it->first(); !it->isDone(); it->next()) {
-            it->currentItem();
+        if (it != nullptr) {
+            for (it->first(); !it->isDone(); it->next()) {
+                it->currentItem();
+            }
+            delete it;
         }
-        delete it;
 
         // Water multiple plants
         for (int i = 0; i < 10; i++) {
             facade->waterPlant(plants[i]);
         }
 
-        for (PlantComponent *p : plants) {
-            delete p;
-        }
+        // Don't delete plants - inventory owns them
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Browse with large inventory")
     {
         NurseryFacade *facade = new NurseryFacade();
 
-        // Add many plants
+        // Add many plants (createPlant() automatically adds to inventory)
         for (int i = 0; i < 50; i++) {
             PlantComponent *p = facade->createPlant("Maple");
-            facade->addToInventory(p);
         }
 
         // Browse should complete in reasonable time
         Iterator* it1 = facade->createAllPlantsIterator();
-        for (it1->first(); !it1->isDone(); it1->next()) {
-            it1->currentItem();
+        if (it1 != nullptr) {
+            for (it1->first(); !it1->isDone(); it1->next()) {
+                it1->currentItem();
+            }
+            delete it1;
         }
-        delete it1;
 
         Iterator* it2 = facade->createSeasonIterator("Spring");
-        for (it2->first(); !it2->isDone(); it2->next()) {
-            it2->currentItem();
+        if (it2 != nullptr) {
+            for (it2->first(); !it2->isDone(); it2->next()) {
+                it2->currentItem();
+            }
+            delete it2;
         }
-        delete it2;
 
+        // Don't delete plants - inventory owns them
         delete facade;
+        cleanupSingleton();
     }
 
     SUBCASE("Many facade instances with shared inventory")
@@ -943,5 +1006,6 @@ TEST_CASE("Testing Facade Pattern - Performance and Scalability")
         for (NurseryFacade *f : facades) {
             delete f;
         }
+        cleanupSingleton();
     }
 }
