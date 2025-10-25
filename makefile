@@ -203,3 +203,57 @@ tui: fetch-json cmake-config cmake-build
 # Clean the TUIKit build directory
 tui-clean:
 	rm -rf $(TUI_BUILD)
+
+# -----------------------------------------------------------------------------
+# Optional convenience targets to reproduce upstream build steps (requested)
+# These run the explicit commands you listed: clone TUIKit, clone FTXUI into
+# external/ftxui, download specific nlohmann/json release, create build dir,
+# configure with cmake .. and build with cmake --build .
+# -----------------------------------------------------------------------------
+
+.PHONY: tui-clone tui-deps tui-configure-raw tui-build-raw tui-full
+
+# Clone the TUIKit repository into TUI/TUIKit (if it's not already present)
+tui-clone:
+	@if [ -d "TUI/TUIKit/.git" ]; then \
+		echo "TUI/TUIKit already exists, skipping clone"; \
+	else \
+		git clone https://github.com/skhelladi/TUIKit.git TUI/TUIKit; \
+	fi
+
+# Install dependencies: clone FTXUI into external/ftxui and download nlohmann/json
+tui-deps:
+	@mkdir -p TUI/TUIKit/external
+	@if [ -d "TUI/TUIKit/external/ftxui/.git" ]; then \
+		echo "external/ftxui already present, skipping clone"; \
+	else \
+		git clone https://github.com/ArthurSonzogni/FTXUI.git TUI/TUIKit/external/ftxui; \
+	fi
+	@mkdir -p TUI/TUIKit/external/json
+	@echo "Downloading nlohmann/json (v3.12.0) into external/json..."
+	@mkdir -p TUI/TUIKit/external/json/nlohmann
+	@if command -v wget >/dev/null 2>&1; then \
+		wget -q -O TUI/TUIKit/external/json/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.12.0/json.hpp; \
+		RET=$$?; \
+	else \
+		curl -sSL -o TUI/TUIKit/external/json/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.12.0/json.hpp; \
+		RET=$$?; \
+	fi;
+	if [ $$RET -ne 0 ]; then \
+		echo "Failed to download nlohmann/json.hpp"; exit 1; \
+	fi;
+	# Also put a copy at external/json/json.hpp for sources that include "json.hpp"
+	@cp -f TUI/TUIKit/external/json/nlohmann/json.hpp TUI/TUIKit/external/json/json.hpp || true
+
+# Create build directory and run 'cmake ..' from inside it (raw command form)
+tui-configure-raw:
+	@mkdir -p TUI/TUIKit/build
+	@cd TUI/TUIKit/build && cmake ..
+
+# Build the project from the build directory using cmake --build .
+tui-build-raw:
+	@cd TUI/TUIKit/build && cmake --build .
+
+# Full sequence: clone repo (if needed), fetch deps, configure and build
+tui-full: tui-clone tui-deps tui-configure-raw tui-build-raw
+	@echo "TUIKit build complete (tui-full)"
