@@ -107,6 +107,12 @@ public:
 	void undo() override;
 
 	/**
+	 * @brief Gets the created plant reference.
+	 * @return Pointer to the created PlantComponent, or nullptr if creation failed.
+	 */
+	PlantComponent* getCreatedPlant() const;
+
+	/**
 	 * @brief Virtual destructor for proper cleanup.
 	 * No dynamic allocation in this command.
 	 */

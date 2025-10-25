@@ -52,6 +52,7 @@ TEST_SRC = unitTests.cpp\
 			command/CreatePlantCommand.cpp\
 			command/PurchasePlantsCommand.cpp\
 			command/GetSuggestionCommand.cpp\
+			facade/NurseryFacade.cpp\
 			iterator/Aggregate.cpp\
 			iterator/AggPlant.cpp\
 			iterator/AggSeason.cpp\
@@ -147,6 +148,7 @@ DEMO_SRC = PhotosyntechDemoMain.cpp\
             command/CreatePlantCommand.cpp\
             command/PurchasePlantsCommand.cpp\
             command/GetSuggestionCommand.cpp\
+            facade/NurseryFacade.cpp\
             iterator/Aggregate.cpp\
             iterator/AggPlant.cpp\
             iterator/AggSeason.cpp\

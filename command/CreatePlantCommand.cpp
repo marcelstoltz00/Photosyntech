@@ -128,3 +128,8 @@ void CreatePlantCommand::undo()
 	delete createdPlant;
 	createdPlant = nullptr;
 }
+
+PlantComponent* CreatePlantCommand::getCreatedPlant() const
+{
+	return createdPlant;
+}
