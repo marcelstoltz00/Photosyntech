@@ -311,8 +311,7 @@ TEST_CASE("Testing Observer Pattern - Nested PlantGroup with Observers")
 
         rootGroup->detach(staff);
 
-        delete rootGroup;
-        delete subGroup;
+        delete rootGroup; // This also deletes subGroup and plant
         delete staff;
     }
 
@@ -345,8 +344,7 @@ TEST_CASE("Testing Observer Pattern - Nested PlantGroup with Observers")
         topGroup->detach(topObserver);
         middleGroup->detach(middleObserver);
 
-        delete topGroup;
-        delete middleGroup;
+        delete topGroup; // This also deletes middleGroup and plant
         delete topObserver;
         delete middleObserver;
     }
