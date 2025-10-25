@@ -148,6 +148,7 @@ public:
 	 */
 	std::list<PlantComponent *> *getPlants();
 	void addComponent(PlantComponent *component);
+	void removeComponent(PlantComponent *component);
 	virtual PlantComponent *correctShape(PlantComponent *);
 };
 

@@ -38,9 +38,18 @@ TEST_SRC = unitTests.cpp\
 			strategy/AlternatingSun.cpp\
 			composite/PlantGroup.cpp\
 			builder/Director.cpp\
+			builder/Builder.cpp\
 			builder/RoseBuilder.cpp\
 			builder/CactusBuilder.cpp\
+			builder/SunflowerBuilder.cpp\
+			builder/PineBuilder.cpp\
+			builder/MapleBuilder.cpp\
+			builder/JadePlantBuilder.cpp\
+			builder/LavenderBuilder.cpp\
+			builder/CherryBlossomBuilder.cpp\
 			command/GrowPlantCommand.cpp\
+			command/AddPlantToBasketCommand.cpp\
+			command/CreatePlantCommand.cpp\
 			iterator/Aggregate.cpp\
 			iterator/AggPlant.cpp\
 			iterator/AggSeason.cpp\
@@ -132,6 +141,8 @@ DEMO_SRC = PhotosyntechDemoMain.cpp\
             builder/LavenderBuilder.cpp\
             builder/CherryBlossomBuilder.cpp\
             command/GrowPlantCommand.cpp\
+            command/AddPlantToBasketCommand.cpp\
+            command/CreatePlantCommand.cpp\
             iterator/Aggregate.cpp\
             iterator/AggPlant.cpp\
             iterator/AggSeason.cpp\
