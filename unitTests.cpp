@@ -1,4 +1,5 @@
 // please use testing like this.
+
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "singleton/Singleton.h"
 #include "prototype/Tree.h"
@@ -1184,11 +1185,6 @@ TEST_CASE("Observer Pattern Implementation Tests")
 // TEST HELPER FUNCTIONS
 // ============================================================================
 
-/**
- * @brief Counts the total number of plants returned by an iterator
- * @param iter Iterator to count (will be reset with first())
- * @return Number of plants iterated
- */
 int countIteratorResults(Iterator *iter)
 {
     int count = 0;
@@ -1201,11 +1197,6 @@ int countIteratorResults(Iterator *iter)
     return count;
 }
 
-/**
- * @brief Collects all plants from an iterator into a vector
- * @param iter Iterator to collect from (will be reset with first())
- * @return Vector of pointers to LivingPlants
- */
 std::vector<LivingPlant *> collectPlants(Iterator *iter)
 {
     std::vector<LivingPlant *> plants;
@@ -1218,14 +1209,6 @@ std::vector<LivingPlant *> collectPlants(Iterator *iter)
     return plants;
 }
 
-/**
- * @brief Creates a test plant with specified season
- * @param season Season name string
- * @return Pointer to created LivingPlant (Succulent)
- *
- * Note: Uses Flyweight pattern via inv->getString(season) to ensure
- * all plants with the same season share the same Flyweight pointer.
- */
 LivingPlant *createPlantWithSeason(const std::string &season)
 {
     Inventory *inv = Inventory::getInstance();

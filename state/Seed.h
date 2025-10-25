@@ -20,7 +20,7 @@ class Seed : public MaturityState {
 public:
     /**
      * @brief Handles daily growth in Seed state
-     * 
+     *
      * Process:
      * 1. Increment age by 1 day
      * 2. Apply water usage (6 units * season multiplier)
@@ -28,14 +28,22 @@ public:
      * 4. Check transition to Vegetative if:
      *    - age ≥ 7 AND health ≥ 50 AND water ≥ 50 AND sun ≥ 30
      *    - On transition: water = 25, health = max(health,50), sun = 50
-     * 
+     *
      * @param plant The plant to update
      */
     void grow(LivingPlant* plant);
-    
+
+    /**
+     * @brief Returns the type of this maturity state.
+     * @return MaturityStateType::SEED
+     */
+    MaturityStateType getStateType() const override {
+        return MaturityStateType::SEED;
+    }
+
     /**
      * @brief Returns the identifier for the Seed state
-     * 
+     *
      * @return Integer identifier for the state
      */
     static const int getID() { return 0; }

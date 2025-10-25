@@ -20,7 +20,7 @@ class Mature : public MaturityState {
 public:
     /**
      * @brief Handles daily growth in Mature state
-     * 
+     *
      * Process:
      * 1. Increment age by 1 day
      * 2. Apply water usage (8 units * season multiplier)
@@ -28,14 +28,22 @@ public:
      * 4. Check transition to Dead if:
      *    - age ≥ 120 OR health ≤ 0
      *    - On transition: health = 0, water = 0, sun = 0
-     * 
+     *
      * @param plant The plant to update
      */
     void grow(LivingPlant* plant) ;
-    
+
+    /**
+     * @brief Returns the type of this maturity state.
+     * @return MaturityStateType::MATURE
+     */
+    MaturityStateType getStateType() const override {
+        return MaturityStateType::MATURE;
+    }
+
     /**
      * @brief Returns the identifier for the Mature state
-     * 
+     *
      * @return Integer identifier for the state
      */
     static const int getID() { return 2; }

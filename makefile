@@ -32,6 +32,7 @@ TEST_SRC = unitTests.cpp\
             state/Mature.cpp\
             state/Seed.cpp\
             state/Vegetative.cpp\
+            state/PlantMemento.cpp\
             decorator/PlantAttributes.cpp\
             decorator/ConcreteDecorators.cpp\
 			strategy/AlternatingSun.cpp\
@@ -39,6 +40,7 @@ TEST_SRC = unitTests.cpp\
 			builder/Director.cpp\
 			builder/RoseBuilder.cpp\
 			builder/CactusBuilder.cpp\
+			command/GrowPlantCommand.cpp\
 			iterator/Aggregate.cpp\
 			iterator/AggPlant.cpp\
 			iterator/AggSeason.cpp\
@@ -49,6 +51,7 @@ TEST_SRC = unitTests.cpp\
 			   mediator/SalesFloor.cpp \
 			   mediator/Staff.cpp \
 			   mediator/SuggestionFloor.cpp\
+			   mediator/BasketMemento.cpp\
 			   observer/Observer.cpp \
 			   observer/Subject.cpp \
 
@@ -115,6 +118,7 @@ DEMO_SRC = PhotosyntechDemoMain.cpp\
             state/Mature.cpp\
             state/Seed.cpp\
             state/Vegetative.cpp\
+            state/PlantMemento.cpp\
             decorator/PlantAttributes.cpp\
             decorator/ConcreteDecorators.cpp\
             builder/Builder.cpp\
@@ -127,6 +131,7 @@ DEMO_SRC = PhotosyntechDemoMain.cpp\
             builder/JadePlantBuilder.cpp\
             builder/LavenderBuilder.cpp\
             builder/CherryBlossomBuilder.cpp\
+            command/GrowPlantCommand.cpp\
             iterator/Aggregate.cpp\
             iterator/AggPlant.cpp\
             iterator/AggSeason.cpp\
@@ -137,6 +142,7 @@ DEMO_SRC = PhotosyntechDemoMain.cpp\
             mediator/SalesFloor.cpp\
             mediator/Staff.cpp\
             mediator/SuggestionFloor.cpp\
+            mediator/BasketMemento.cpp\
             observer/Observer.cpp\
             observer/Subject.cpp
 

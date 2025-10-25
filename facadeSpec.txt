@@ -1,0 +1,1087 @@
+Photosyntech Facade & Command Pattern Implementation Specification
+
+  Version 1.0Patterns: Facade, Command, Memento
+
+  ---
+  1. SYSTEM ARCHITECTURE OVERVIEW
+
+  1.1 Purpose
+
+  Provide a unified interface (Facade) for GUI/CLI interaction with the nursery system while enabling undo/redo functionality through Command and Memento patterns.
+
+  1.2 Pattern Roles
+
+  Facade (NurseryFacade):
+  - Single entry point for all GUI operations
+  - Coordinates 13 existing design patterns
+  - Manages command history for undo/redo
+  - Provides simple methods for complex workflows
+
+  Command:
+  - Encapsulates multi-step operations as objects
+  - Stores execution parameters and state
+  - Implements execute() and undo() operations
+  - Enables operation queuing and history
+
+  Memento:
+  - Captures plant/system state snapshots
+  - Enables restoration to previous states
+  - Maintains encapsulation (no direct state access)
+  - Supports Command undo operations
+
+  ---
+  2. COMMAND PATTERN SPECIFICATION
+
+  2.1 Abstract Command Interface
+
+  Class: CommandLocation: command/Command.h
+
+  Responsibilities:
+  - Define execution contract
+  - Define undo contract
+  - Provide virtual destructor
+
+  Methods:
+  virtual void execute() = 0
+  virtual void undo() = 0
+  virtual ~Command()
+
+  ---
+  2.2 Concrete Commands
+
+  2.2.1 CreatePlantCommand
+
+  Class: CreatePlantCommandLocation: command/CreatePlantCommand.h/cpp
+
+  Responsibilities:
+  - Create plant using Builder pattern via Director
+  - Add created plant to global inventory
+  - Store plant reference for undo
+  - Manage builder lifecycle
+
+  State to Store:
+  - Builder pointer (for plant species)
+  - Created PlantComponent pointer
+  - Inventory reference
+  - Builder type identifier (string)
+
+  Methods:
+  CreatePlantCommand(const char* species)
+  void execute() override
+  void undo() override
+  ~CreatePlantCommand() override
+
+  Execute Workflow:
+  1. Determine builder type from species string (Rose, Cactus, etc.)
+  2. Instantiate appropriate builder
+  3. Create Director with builder
+  4. Call director.construct()
+  5. Retrieve plant via director.getPlant()
+  6. Add plant to Inventory::getInstance()->getInventory()
+  7. Store plant pointer for undo
+
+  Undo Workflow:
+  1. Remove plant from inventory using removeComponent()
+  2. Delete plant decorators
+  3. Delete plant object
+  4. Set plant pointer to nullptr
+
+  Error Conditions:
+  - Unknown species name → throw exception
+  - Builder construction failure → cleanup and throw
+  - Inventory add failure → delete plant and throw
+
+  ---
+  2.2.2 PurchasePlantsCommand
+
+  Class: PurchasePlantsCommandLocation: command/PurchasePlantsCommand.h/cpp
+
+  Responsibilities:
+  - Validate customer has non-empty basket
+  - Coordinate sale through SalesFloor mediator
+  - Transfer plants from inventory to customer
+  - Clear customer basket after purchase
+  - Maintain purchase record for undo
+
+  State to Store:
+  - Customer pointer
+  - SalesFloor pointer
+  - PlantGroup memento (snapshot of basket contents)
+  - List of purchased plant pointers
+  - Original inventory locations (for restoration)
+
+  Methods:
+  PurchasePlantsCommand(Customer* customer, SalesFloor* salesFloor)
+  void execute() override
+  void undo() override
+  ~PurchasePlantsCommand() override
+
+  Execute Workflow:
+  1. Validate customer != nullptr
+  2. Get customer basket via customer->getBasket()
+  3. Validate basket != nullptr and not empty
+  4. Create memento of basket contents
+  5. Route purchase through salesFloor->assist()
+  6. For each plant in basket:
+    - Remove from global inventory
+    - Mark as purchased
+  7. Clear customer basket
+  8. Mark transaction complete
+
+  Undo Workflow:
+  1. Restore basket from memento
+  2. For each purchased plant:
+    - Remove from customer's purchased list
+    - Re-add to global inventory
+  3. Restore customer basket state
+  4. Mark transaction reversed
+
+  Error Conditions:
+  - Null customer → no-op or throw
+  - Empty basket → no-op with warning
+  - Inventory removal failure → rollback partial changes
+  - Mediator coordination failure → rollback and throw
+
+  ---
+  2.2.3 GetSuggestionCommand
+
+  Class: GetSuggestionCommandLocation: command/GetSuggestionCommand.h/cpp
+
+  Responsibilities:
+  - Route customer request through SuggestionFloor mediator
+  - Coordinate staff-customer interaction
+  - Generate plant recommendations
+  - Display suggestions to customer
+
+  State to Store:
+  - Customer pointer
+  - SuggestionFloor pointer
+  - Generated suggestions (for display history)
+
+  Methods:
+  GetSuggestionCommand(Customer* customer, SuggestionFloor* suggestionFloor)
+  void execute() override
+  void undo() override
+  ~GetSuggestionCommand() override
+
+  Execute Workflow:
+  1. Validate customer != nullptr
+  2. Route request through suggestionFloor->assist()
+  3. Mediator coordinates with available staff
+  4. Generate recommendations based on customer needs
+  5. Store suggestions for display
+
+  Undo Workflow:
+  - No-op (read-only operation, no state changes)
+
+  Error Conditions:
+  - Null customer → throw exception
+  - No staff available → log warning, return empty suggestions
+  - Mediator failure → throw exception
+
+  ---
+  2.2.4 AddPlantToBasketCommand
+
+  Class: AddPlantToBasketCommandLocation: command/AddPlantToBasketCommand.h/cpp
+
+  Responsibilities:
+  - Add plant to customer shopping basket
+  - Create basket if it doesn't exist
+  - Validate plant is available in inventory
+  - Track addition for undo
+
+  State to Store:
+  - Customer pointer
+  - PlantComponent pointer being added
+  - Boolean flag: basketWasNull (true if basket created)
+
+  Methods:
+  AddPlantToBasketCommand(Customer* customer, PlantComponent* plant)
+  void execute() override
+  void undo() override
+  ~AddPlantToBasketCommand() override
+
+  Execute Workflow:
+  1. Validate customer != nullptr and plant != nullptr
+  2. Check if customer->getBasket() is null
+  3. If null, basket is created internally by customer->addPlant()
+  4. Call customer->addPlant(plant)
+  5. Store basketWasNull flag
+
+  Undo Workflow:
+  1. Remove plant from basket
+  2. If basketWasNull == true, delete basket and set to nullptr
+  3. Otherwise, keep basket with remaining plants
+
+  Error Conditions:
+  - Null plant → throw exception
+  - Null customer → throw exception
+  - Plant already in basket → no-op or add duplicate
+
+  ---
+  2.2.5 GrowPlantCommand
+
+  Class: GrowPlantCommandLocation: command/GrowPlantCommand.h/cpp
+
+  Responsibilities:
+  - Execute plant growth via State pattern
+  - Consume water and sunlight resources
+  - Update plant age, health, maturity state
+  - Notify observers of state changes
+  - Capture pre-growth state for undo
+
+  State to Store:
+  - LivingPlant pointer
+  - PlantMemento (captures: age, health, waterLevel, sunExposure, maturityState)
+
+  Methods:
+  GrowPlantCommand(LivingPlant* plant)
+  void execute() override
+  void undo() override
+  ~GrowPlantCommand() override
+
+  Execute Workflow:
+  1. Validate plant != nullptr
+  2. Create PlantMemento capturing current state
+  3. Get current MaturityState from Inventory singleton
+  4. Call state->grow(plant)
+  5. State transition may occur (Seed→Vegetative→Mature→Dead)
+  6. Notify observers via plant group's stateUpdated()
+
+  Undo Workflow:
+  1. Restore plant state from memento:
+    - age
+    - health
+    - waterLevel
+    - sunExposure
+    - maturityState ID
+  2. Notify observers of state restoration
+
+  Error Conditions:
+  - Null plant → throw exception
+  - Invalid state ID → throw exception
+  - Memento restoration failure → throw exception
+
+  ---
+  3. MEMENTO PATTERN SPECIFICATION
+
+  3.1 PlantMemento Class
+
+  Class: PlantMementoLocation: state/PlantMemento.h/cpp
+
+  Responsibilities:
+  - Store immutable snapshot of LivingPlant state
+  - Provide restoration interface
+  - Maintain encapsulation (friend of LivingPlant)
+  - Support copy construction and assignment
+
+  State Captured:
+  - int age
+  - double health
+  - int waterLevel
+  - int sunExposure
+  - int maturityStateID
+  - string name
+  - double basePrice
+
+  Methods:
+  PlantMemento(LivingPlant* plant)  // Captures state
+  void restoreState(LivingPlant* plant)  // Restores state
+  ~PlantMemento()
+
+  // Accessors (for debugging only)
+  int getAge() const
+  double getHealth() const
+  int getWaterLevel() const
+  int getSunExposure() const
+  int getMaturityStateID() const
+
+  Design Decisions:
+  - Memento is immutable after creation
+  - Only LivingPlant can create and restore from memento (friend access)
+  - Lightweight - only stores primitive types and strings
+  - No pointers to decorators (decorators maintained by plant)
+  - State strategies stored as IDs (reference flyweight objects)
+
+  ---
+  3.2 BasketMemento Class
+
+  Class: BasketMementoLocation: mediator/BasketMemento.h/cpp
+
+  Responsibilities:
+  - Capture customer basket contents
+  - Store list of PlantComponent pointers
+  - Support basket restoration after purchase undo
+  - Maintain plant references (not ownership)
+
+  State Captured:
+  - list<PlantComponent*> plantPointers
+  - bool basketExisted (was basket null before?)
+
+  Methods:
+  BasketMemento(Customer* customer)  // Captures basket
+  void restoreBasket(Customer* customer)  // Restores basket
+  list<PlantComponent*> getPlants() const
+  ~BasketMemento()
+
+  Design Decisions:
+  - Stores pointers only, not plant copies
+  - Assumes plants still exist in system (not deleted)
+  - Used only for purchase transaction undo
+  - Lightweight - just pointer list
+  - Does not own plants (avoids double-delete)
+
+  ---
+  4. FACADE PATTERN SPECIFICATION
+
+  4.1 NurseryFacade Class
+
+  Class: NurseryFacadeLocation: facade/NurseryFacade.h/cpp
+
+  Responsibilities:
+  - Unified interface for all GUI/CLI operations
+  - Command history management (undo/redo stacks)
+  - Subsystem coordination (Builder, Singleton, Mediator, etc.)
+  - Error handling and validation
+  - Resource lifecycle management
+
+  Private Members:
+  // Subsystem references
+  Inventory* inventory
+  SalesFloor* salesFloor
+  SuggestionFloor* suggestionFloor
+
+  // Command history
+  stack<Command*> commandHistory
+  stack<Command*> redoStack
+
+  // Constants
+  const int MAX_HISTORY_SIZE = 100
+
+  ---
+  4.2 Command Operations (Execute with History)
+
+  4.2.1 Create Plant
+
+  PlantComponent* createPlant(const char* species)
+  Workflow:
+  1. Create CreatePlantCommand(species)
+  2. Execute command
+  3. Push to commandHistory
+  4. Clear redoStack
+  5. Return created plant pointer
+
+  ---
+  4.2.2 Purchase Plants
+
+  void purchasePlants(Customer* customer)
+  Workflow:
+  1. Create PurchasePlantsCommand(customer, salesFloor)
+  2. Execute command
+  3. Push to commandHistory
+  4. Clear redoStack
+
+  ---
+  4.2.3 Get Suggestions
+
+  void getSuggestions(Customer* customer)
+  Workflow:
+  1. Create GetSuggestionCommand(customer, suggestionFloor)
+  2. Execute command
+  3. Push to commandHistory
+  4. Clear redoStack
+
+  ---
+  4.2.4 Add to Basket
+
+  void addToBasket(Customer* customer, PlantComponent* plant)
+  Workflow:
+  1. Create AddPlantToBasketCommand(customer, plant)
+  2. Execute command
+  3. Push to commandHistory
+  4. Clear redoStack
+
+  ---
+  4.2.5 Grow Plant
+
+  void growPlant(LivingPlant* plant)
+  Workflow:
+  1. Create GrowPlantCommand(plant)
+  2. Execute command
+  3. Push to commandHistory
+  4. Clear redoStack
+
+  ---
+  4.3 Undo/Redo Operations
+
+  4.3.1 Undo
+
+  bool undo()
+  Workflow:
+  1. Check if commandHistory is empty
+  2. If empty, return false
+  3. Pop command from commandHistory
+  4. Call command->undo()
+  5. Push command to redoStack
+  6. Return true
+
+  Error Handling:
+  - Catch exceptions from command->undo()
+  - Log error and return false
+  - Do not push to redo if undo failed
+
+  ---
+  4.3.2 Redo
+
+  bool redo()
+  Workflow:
+  1. Check if redoStack is empty
+  2. If empty, return false
+  3. Pop command from redoStack
+  4. Call command->execute()
+  5. Push command to commandHistory
+  6. Return true
+
+  Error Handling:
+  - Catch exceptions from command->execute()
+  - Log error and return false
+  - Do not push to history if redo failed
+
+  ---
+  4.3.3 Clear History
+
+  void clearHistory()
+  Workflow:
+  1. Delete all commands in commandHistory
+  2. Delete all commands in redoStack
+  3. Clear both stacks
+
+  When to Call:
+  - User explicitly requests history clear
+  - Session ends
+  - Major state reset
+
+  ---
+  4.4 Basic Operations (Direct Delegations)
+
+  4.4.1 Plant Information
+
+  string getPlantInfo(PlantComponent* plant)
+  - Delegates to: plant->getInfo()
+  - Returns: Formatted string with plant details
+
+  double getPlantPrice(PlantComponent* plant)
+  - Delegates to: plant->getPrice()
+  - Returns: Total price including decorators
+
+  ---
+  4.4.2 Plant Care
+
+  void waterPlant(PlantComponent* plant)
+  - Delegates to: plant->water()
+  - Uses plant's assigned WaterStrategy
+
+  void setPlantOutside(PlantComponent* plant)
+  - Delegates to: plant->setOutside()
+  - Uses plant's assigned SunStrategy
+
+  void updatePlant(PlantComponent* plant)
+  - Delegates to: plant->update()
+  - Applies water/sun consumption
+
+  ---
+  4.4.3 Plant Attributes
+
+  void setWaterLevel(LivingPlant* plant, int level)
+  void setSunExposure(LivingPlant* plant, int level)
+  void setWaterStrategy(LivingPlant* plant, int strategyID)
+  void setSunStrategy(LivingPlant* plant, int strategyID)
+  void setMaturity(LivingPlant* plant, int stateID)
+  void setSeason(LivingPlant* plant, const string& season)
+  - All directly delegate to corresponding plant methods
+  - No command wrapping (simple attribute setters)
+
+  ---
+  4.4.4 Plant Decoration
+
+  void addAttribute(PlantComponent* plant, PlantAttributes* attr)
+  - Delegates to: plant->addAttribute(attr)
+  - Adds decorator to plant
+
+  ---
+  4.4.5 Plant Cloning
+
+  PlantComponent* clonePlant(PlantComponent* plant)
+  - Delegates to: plant->clone()
+  - Returns: Deep copy of plant with decorators
+
+  ---
+  4.4.6 Inventory Operations
+
+  void addToInventory(PlantComponent* plant)
+  - Delegates to: inventory->getInventory()->addComponent(plant)
+
+  void removeFromInventory(PlantComponent* plant)
+  - Delegates to: inventory->getInventory()->removeComponent(plant)
+  - Note: removeComponent() must be added to PlantGroup if missing
+
+  ---
+  4.4.7 Iterator Creation
+
+  Iterator* createAllPlantsIterator()
+  - Creates: AggPlant iterator over inventory
+  - Returns: PlantIterator traversing all plants
+
+  Iterator* createSeasonIterator(const char* season)
+  - Creates: AggSeason iterator with season filter
+  - Returns: SeasonIterator filtering by season flyweight
+
+  ---
+  4.4.8 Observer Management
+
+  void attachStaffToGroup(PlantGroup* group, Staff* staff)
+  - Delegates to: group->attach(staff)
+
+  void detachStaffFromGroup(PlantGroup* group, Staff* staff)
+  - Delegates to: group->detach(staff)
+
+  ---
+  4.4.9 Staff/Customer Management
+
+  void addStaff(Staff* staff)
+  void addCustomer(Customer* customer)
+  vector<Staff*>* getStaff()
+  vector<Customer*>* getCustomers()
+  - All delegate to Inventory singleton methods
+
+  ---
+  4.4.10 Group Notifications
+
+  void notifyWaterNeeded(PlantGroup* group)
+  void notifySunlightNeeded(PlantGroup* group)
+  void notifyStateUpdated(PlantGroup* group)
+  - Delegate to group Subject methods
+  - Trigger observer notifications
+
+  ---
+  5. INTEGRATION POINTS
+
+  5.1 Builder Pattern Integration
+
+  Facade Responsibility:
+  - Map species string to appropriate builder
+  - Manage builder instantiation and cleanup
+  - Coordinate Director construction process
+
+  Builder Mapping:
+  "Rose" → RoseBuilder
+  "Cactus" → CactusBuilder
+  "CherryBlossom" → CherryBlossomBuilder
+  "Pine" → PineBuilder
+  "Sunflower" → SunflowerBuilder
+  "JadePlant" → JadePlantBuilder
+  "Lavender" → LavenderBuilder
+  "Maple" → MapleBuilder
+
+  Error Handling:
+  - Unknown species → throw exception with available species list
+  - Builder construction failure → cleanup and propagate exception
+
+  ---
+  5.2 Singleton Pattern Integration
+
+  Facade Responsibility:
+  - Access global inventory via Inventory::getInstance()
+  - Retrieve flyweight factories for strategies and seasons
+  - Manage staff and customer lists
+
+  Singleton Methods Used:
+  getInstance()
+  getInventory()
+  getWaterFly(int id)
+  getSunFly(int id)
+  getStates(int id)
+  getString(string season)
+  getStaff()
+  getCustomers()
+
+  ---
+  5.3 Mediator Pattern Integration
+
+  Facade Responsibility:
+  - Maintain references to SalesFloor and SuggestionFloor
+  - Route customer requests through appropriate mediator
+  - Coordinate multi-party interactions
+
+  Mediator Coordination:
+  - PurchasePlantsCommand → SalesFloor::assist()
+  - GetSuggestionCommand → SuggestionFloor::assist()
+
+  ---
+  5.4 Composite Pattern Integration
+
+  Facade Responsibility:
+  - Operate on both individual plants and PlantGroups uniformly
+  - Manage inventory hierarchy
+  - Support bulk operations via composite structure
+
+  Composite Operations:
+  - addToInventory() works with PlantComponent interface
+  - Iterators traverse composite hierarchies
+  - Observer attachments apply to groups
+
+  ---
+  5.5 Iterator Pattern Integration
+
+  Facade Responsibility:
+  - Create appropriate iterator types
+  - Provide filtering capabilities (by season)
+  - Simplify collection traversal for GUI
+
+  Iterator Factory Methods:
+  - createAllPlantsIterator() → PlantIterator
+  - createSeasonIterator(season) → SeasonIterator with flyweight filter
+
+  ---
+  5.6 State Pattern Integration
+
+  Facade Responsibility:
+  - Delegate growth operations to MaturityState
+  - Support state transitions via GrowPlantCommand
+  - Maintain state consistency through memento
+
+  State Coordination:
+  - GrowPlantCommand accesses Inventory::getStates(id)
+  - State transitions trigger observer notifications
+  - Memento captures maturity state ID for restoration
+
+  ---
+  6. ERROR HANDLING STRATEGY
+
+  6.1 Command Execution Errors
+
+  Strategy:
+  - All commands throw exceptions on failure
+  - Facade catches exceptions, logs, and returns error status
+  - GUI displays user-friendly error messages
+
+  Exception Types:
+  InvalidSpeciesException - Unknown plant species
+  NullPointerException - Null parameter passed
+  InventoryException - Inventory operation failed
+  MediatorException - Mediator coordination failed
+  StateException - Invalid state transition
+
+  ---
+  6.2 Undo/Redo Errors
+
+  Strategy:
+  - If undo fails, log error and keep command in history
+  - Do not push to redo stack on failed undo
+  - Notify user of undo failure
+
+  Potential Failures:
+  - Plant already deleted (pointer invalid)
+  - Inventory corruption
+  - Memento restoration failure
+
+  ---
+  6.3 Memory Management Errors
+
+  Strategy:
+  - Commands responsible for cleaning up their mementos
+  - Facade responsible for deleting commands in history
+  - Use smart pointers where appropriate
+
+  Ownership Rules:
+  - Commands own their mementos
+  - Facade owns command history
+  - Inventory owns plants after addition
+  - Customer owns basket, not plants inside
+
+  ---
+  7. MEMORY MANAGEMENT SPECIFICATION
+
+  7.1 Command Lifecycle
+
+  Creation:
+  - Commands created on heap by Facade
+  - Pushed to commandHistory stack
+
+  Ownership:
+  - Facade owns all commands in history and redo stacks
+  - Destructor must delete all commands
+
+  Cleanup:
+  ~NurseryFacade():
+    - While commandHistory not empty:
+      - Pop command
+      - Delete command
+    - While redoStack not empty:
+      - Pop command
+      - Delete command
+
+  ---
+  7.2 Memento Lifecycle
+
+  Creation:
+  - Mementos created by commands during execute()
+  - Stored as command member variables
+
+  Ownership:
+  - Commands own their mementos
+  - Memento deleted in command destructor
+
+  Lifetime:
+  - Exists as long as command exists in history
+  - Deleted when command removed from history or on undo
+
+  ---
+  7.3 Plant Lifecycle
+
+  Creation:
+  - Plants created by CreatePlantCommand
+  - Ownership transferred to inventory on execute()
+
+  Deletion:
+  - Plants deleted when removed from inventory
+  - CreatePlantCommand::undo() must delete plant
+  - PurchasePlantsCommand::undo() must restore ownership
+
+  Decorator Cleanup:
+  - Plant destructor responsible for decorator chain
+  - getDecorator() returns root of chain for deletion
+
+  ---
+  8. DESIGN DECISIONS & RATIONALE
+
+  8.1 Why Memento for Undo?
+
+  Decision: Use Memento pattern instead of reverse operations
+
+  Rationale:
+  - State transitions are complex (multiple attributes change)
+  - Some operations are irreversible without state capture
+  - Memento provides clean encapsulation
+  - Simplifies undo implementation (just restore state)
+
+  Tradeoff:
+  - More memory usage (store snapshots)
+  - Simpler code (no reverse logic)
+
+  ---
+  8.2 Command vs Direct Method
+
+  Decision: Only multi-step operations become commands
+
+  Rationale:
+  - Simple setters don't need undo (can be manually reversed)
+  - Commands add overhead (memory, complexity)
+  - Focus undo on meaningful business operations
+
+  Examples:
+  - setWaterLevel(10) → Direct (user can set back to 5)
+  - growPlant() → Command (complex state changes, needs memento)
+  - purchasePlants() → Command (multi-step transaction)
+
+  ---
+  8.3 Redo Stack Clearing
+
+  Decision: Clear redo stack on new command execution
+
+  Rationale:
+  - Standard undo/redo behavior (matches text editors, etc.)
+  - Prevents confusing state after new operations
+  - Linear history model
+
+  Alternative Considered:
+  - Branching history (tree structure)
+  - Rejected: Too complex for GUI interaction
+
+  ---
+  8.4 History Size Limit
+
+  Decision: Limit command history to 100 operations
+
+  Rationale:
+  - Prevents unbounded memory growth
+  - 100 operations sufficient for typical session
+  - Oldest commands dropped first (FIFO)
+
+  Implementation:
+  - Before pushing new command, check history size
+  - If size >= MAX_HISTORY_SIZE, delete oldest command
+
+  ---
+  8.5 Memento Scope
+
+  Decision: Only capture essential state, not entire object graph
+
+  Rationale:
+  - Decorators maintained by plant (not in memento)
+  - Strategies referenced by ID (flyweight)
+  - Minimizes memory footprint
+  - Restoration simpler
+
+  Captured State:
+  - Primitive values (age, health, levels)
+  - IDs for flyweight references (state, strategies)
+  - Name and price (for validation)
+
+  Not Captured:
+  - Decorator chain (assumed stable)
+  - Strategy objects (referenced from singleton)
+  - Observer lists (managed separately)
+
+  ---
+  9. GUI INTEGRATION GUIDELINES
+
+  9.1 Initialization
+
+  On Application Start:
+  1. Create NurseryFacade instance
+  2. Facade internally creates:
+    - SalesFloor mediator
+    - SuggestionFloor mediator
+    - References Inventory singleton
+  3. GUI stores facade reference
+
+  ---
+  9.2 User Action Mapping
+
+  Plant Creation:
+  User selects species → GUI calls facade->createPlant(species)
+
+  Purchase:
+  User clicks "Purchase" → GUI calls facade->purchasePlants(currentCustomer)
+
+  Add to Basket:
+  User clicks "Add to Basket" → GUI calls facade->addToBasket(customer, selectedPlant)
+
+  Growth Simulation:
+  User clicks "Grow" → GUI calls facade->growPlant(selectedPlant)
+
+  Undo:
+  User presses Ctrl+Z → GUI calls facade->undo()
+
+  Redo:
+  User presses Ctrl+Y → GUI calls facade->redo()
+
+  ---
+  9.3 Display Updates
+
+  After Command Execution:
+  1. GUI refreshes inventory display
+  2. Update plant info panel
+  3. Update customer basket view
+  4. Enable/disable undo/redo buttons
+
+  Undo/Redo Button States:
+  - Undo enabled if commandHistory not empty
+  - Redo enabled if redoStack not empty
+
+  ---
+  9.4 Error Display
+
+  On Exception:
+  1. Facade catches exception
+  2. Logs error details
+  3. Returns error status to GUI
+  4. GUI displays user-friendly message dialog
+
+  Error Messages:
+  Invalid species → "Unknown plant type. Available: Rose, Cactus, ..."
+  Empty basket → "Cannot purchase: basket is empty"
+  Undo failure → "Cannot undo: operation no longer valid"
+
+  ---
+  10. TESTING STRATEGY
+
+  10.1 Command Testing
+
+  Unit Tests:
+  - Execute command, verify state changes
+  - Undo command, verify state restoration
+  - Test with null parameters (exception handling)
+  - Test memento capture and restoration
+
+  Integration Tests:
+  - Execute command through facade
+  - Verify command added to history
+  - Undo and verify state
+  - Redo and verify state
+
+  ---
+  10.2 Memento Testing
+
+  State Capture:
+  - Create plant, modify state
+  - Create memento
+  - Verify all attributes captured correctly
+
+  State Restoration:
+  - Modify plant after memento creation
+  - Restore from memento
+  - Verify all attributes match original
+
+  Edge Cases:
+  - Memento of dead plant
+  - Memento of plant with many decorators
+  - Memento after state transition
+
+  ---
+  10.3 Facade Testing
+
+  Command Execution:
+  - Create plant via facade
+  - Verify plant exists in inventory
+  - Verify command in history
+
+  Undo/Redo:
+  - Execute 5 commands
+  - Undo 3 times, verify states
+  - Redo 2 times, verify states
+  - Execute new command, verify redo cleared
+
+  History Limit:
+  - Execute 105 commands
+  - Verify history contains only 100
+  - Verify oldest commands deleted
+
+  ---
+  10.4 Integration Testing
+
+  Full Workflow:
+  1. Create plant → Verify in inventory
+  2. Add to customer basket → Verify in basket
+  3. Purchase → Verify removed from inventory
+  4. Undo purchase → Verify restored to inventory
+  5. Undo add to basket → Verify basket empty
+  6. Undo creation → Verify plant deleted
+
+  ---
+  11. EXTENSION POINTS
+
+  11.1 Adding New Commands
+
+  Steps:
+  1. Create new command class inheriting from Command
+  2. Implement execute() and undo()
+  3. Add memento class if state capture needed
+  4. Add facade method to create and execute command
+  5. Update GUI to trigger new command
+
+  ---
+  11.2 Custom Memento Types
+
+  When to Add:
+  - New complex state requiring undo
+  - Multi-object state coordination
+  - Transaction-like operations
+
+  Guidelines:
+  - Keep mementos lightweight (primitives + IDs)
+  - Use const accessors
+  - Make friend of originator class
+
+  ---
+  11.3 Command Composition
+
+  Future Enhancement:
+  - Macro commands (execute multiple commands as one)
+  - Conditional commands (execute based on state)
+  - Transactional commands (all-or-nothing)
+
+  Implementation:
+  CompositeCommand:
+    - Contains list of commands
+    - execute() calls execute() on all
+    - undo() calls undo() in reverse order
+
+  ---
+  12. PERFORMANCE CONSIDERATIONS
+
+  12.1 Memory Usage
+
+  Command History:
+  - Each command: ~100 bytes (pointers + primitive state)
+  - Memento: ~50 bytes (primitive state snapshot)
+  - 100 commands: ~15KB total
+  - Acceptable for desktop application
+
+  ---
+  12.2 Execution Speed
+
+  Command Overhead:
+  - Command creation: negligible (~microseconds)
+  - Memento creation: ~1 microsecond (primitive copy)
+  - Stack operations: O(1)
+  - Total overhead: <1% of operation time
+
+  ---
+  12.3 Optimization Opportunities
+
+  Lazy Memento Creation:
+  - Only create memento if history tracking enabled
+  - Skip for read-only commands
+
+  Memento Pooling:
+  - Reuse memento objects (object pool pattern)
+  - Reduces allocation overhead
+
+  History Compression:
+  - Merge consecutive similar operations
+  - Example: 10 growth commands → single growth command with age delta
+
+  ---
+  13. SUMMARY
+
+  13.1 Key Components
+
+  5 Command Classes:
+  1. CreatePlantCommand - Multi-step plant creation
+  2. PurchasePlantsCommand - Transaction with mediator
+  3. GetSuggestionCommand - Mediator-routed query
+  4. AddPlantToBasketCommand - Basket management
+  5. GrowPlantCommand - State transition with memento
+
+  2 Memento Classes:
+  1. PlantMemento - Plant state snapshot
+  2. BasketMemento - Basket contents snapshot
+
+  1 Facade Class:
+  1. NurseryFacade - Unified interface with 30+ methods
+
+  ---
+  13.2 Responsibilities Distribution
+
+  Commands:
+  - Encapsulate multi-step workflows
+  - Create mementos before execution
+  - Implement undo via memento restoration
+
+  Mementos:
+  - Capture immutable state snapshots
+  - Provide restoration interface
+  - Maintain encapsulation
+
+  Facade:
+  - Coordinate all patterns
+  - Manage command history
+  - Provide simple interface to GUI
+  - Handle error propagation
+
+  ---
+  13.3 Implementation Order
+
+  1. Memento classes (PlantMemento, BasketMemento)
+  2. Command base class (already exists)
+  3. Concrete commands (CreatePlant, GrowPlant, AddToBasket, Purchase, GetSuggestion)
+  4. Facade command execution methods
+  5. Facade undo/redo infrastructure
+  6. Facade basic delegation methods
+  7. GUI integration
+  8. Comprehensive testing
+
+  ---
+  END OF SPECIFICATION
