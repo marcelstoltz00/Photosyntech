@@ -50,6 +50,8 @@ TEST_SRC = unitTests.cpp\
 			command/GrowPlantCommand.cpp\
 			command/AddPlantToBasketCommand.cpp\
 			command/CreatePlantCommand.cpp\
+			command/PurchasePlantsCommand.cpp\
+			command/GetSuggestionCommand.cpp\
 			iterator/Aggregate.cpp\
 			iterator/AggPlant.cpp\
 			iterator/AggSeason.cpp\
@@ -143,6 +145,8 @@ DEMO_SRC = PhotosyntechDemoMain.cpp\
             command/GrowPlantCommand.cpp\
             command/AddPlantToBasketCommand.cpp\
             command/CreatePlantCommand.cpp\
+            command/PurchasePlantsCommand.cpp\
+            command/GetSuggestionCommand.cpp\
             iterator/Aggregate.cpp\
             iterator/AggPlant.cpp\
             iterator/AggSeason.cpp\

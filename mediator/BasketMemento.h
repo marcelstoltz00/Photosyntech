@@ -5,6 +5,7 @@
 
 class Customer;
 class PlantComponent;
+class PurchasePlantsCommand;
 
 /**
  * @brief Memento class capturing immutable snapshot of customer basket contents.
