@@ -9,7 +9,7 @@
 #include "../state/Seed.h"
 
 
-LavenderBuilder::LavenderBuilder() : plant(nullptr) {
+LavenderBuilder::LavenderBuilder()  : Builder() {
 }
 
 void LavenderBuilder::createObject() {
@@ -36,9 +36,7 @@ void LavenderBuilder::assignMaturityState() {
     }
 }
 
-PlantComponent* LavenderBuilder::getResult() {
-    return plant->getDecorator()->clone();
-}
+
 
 void LavenderBuilder::addDecorators() {
     if (plant) {
@@ -59,10 +57,3 @@ void LavenderBuilder::setUp() {
     }
 }
 
-LavenderBuilder::~LavenderBuilder() {
-     if (plant)
-    {
-      delete plant->getDecorator();
-        plant = nullptr;
-    }
-}

@@ -9,7 +9,7 @@
 #include "../decorator/plantDecorator/Spring.h"
 #include "../state/Seed.h"
 
-RoseBuilder::RoseBuilder() : plant(nullptr) {
+RoseBuilder::RoseBuilder() : Builder() {
 }
 
 void RoseBuilder::createObject() {
@@ -36,9 +36,7 @@ void RoseBuilder::assignMaturityState() {
     }
 }
 
-PlantComponent* RoseBuilder::getResult() {
-    return plant->getDecorator()->clone();
-}
+
 
 void RoseBuilder::addDecorators() {
     if (plant) {
@@ -59,10 +57,3 @@ void RoseBuilder::setUp() {
     }
 }
 
-RoseBuilder::~RoseBuilder() {
-     if (plant)
-    {
-         delete plant->getDecorator();
-        plant = nullptr;
-    }
-}

@@ -7,7 +7,7 @@
 #include "../decorator/plantDecorator/Winter.h"
 #include "../state/Seed.h"
 
-PineBuilder::PineBuilder() : plant(nullptr)
+PineBuilder::PineBuilder() : Builder()
 {
 }
 
@@ -43,11 +43,6 @@ void PineBuilder::assignMaturityState()
     }
 }
 
-PlantComponent *PineBuilder::getResult()
-{
-    return plant->getDecorator()->clone();
-}
-
 void PineBuilder::addDecorators() {
     if (plant) {
         PlantComponent *season = new Winter();
@@ -67,11 +62,3 @@ void PineBuilder::setUp()
     }
 }
 
-PineBuilder::~PineBuilder()
-{
-     if (plant)
-    {
-          delete plant->getDecorator();
-        plant = nullptr;
-    }
-}

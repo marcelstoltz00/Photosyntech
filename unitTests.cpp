@@ -329,7 +329,8 @@ TEST_CASE("Testing Builder Pattern Implementation")
 
         CHECK(rosePlant != nullptr);
 
-        delete rosePlant->getDecorator();
+        
+        delete rosePlant;
         delete roseBuilder;
     }
 

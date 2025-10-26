@@ -8,7 +8,7 @@
 #include "../decorator/plantDecorator/Summer.h"
 #include "../state/Seed.h"
 
-SunflowerBuilder::SunflowerBuilder() : plant(nullptr)
+SunflowerBuilder::SunflowerBuilder() : Builder()
 {
 }
 
@@ -44,10 +44,6 @@ void SunflowerBuilder::assignMaturityState()
     }
 }
 
-PlantComponent *SunflowerBuilder::getResult()
-{
-    return plant->getDecorator()->clone();
-}
 
 void SunflowerBuilder::addDecorators()
 {
@@ -72,11 +68,3 @@ void SunflowerBuilder::setUp()
     }
 }
 
-SunflowerBuilder::~SunflowerBuilder()
-{
-    if (plant)
-    {
-    delete plant->getDecorator();
-        plant = nullptr;
-    }
-}
