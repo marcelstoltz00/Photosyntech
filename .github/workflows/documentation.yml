@@ -1,8 +1,11 @@
 name: Generate Documentation
 
+permissions:
+  contents: write
+
 on:
   push:
-    branches: [ main, master, devBranch ]
+    branches: [ main, master, devBranch, TUI ]
   workflow_dispatch:
 
 jobs:
@@ -13,25 +16,41 @@ jobs:
     - uses: actions/checkout@v4
       
     - name: Install Doxygen
-      run: sudo apt-get install -y doxygen graphviz
+      run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
       
     - name: Generate Documentation
       run: doxygen Doxyfile
 
-    - name: Show generated documentation files (diagnostic)
+    - name: Debug Information
       run: |
-        echo "Doxygen output directory contents:"
-        ls -la docs/doxygen || true
-        echo "Doxygen HTML output contents:"
-        ls -la docs/doxygen/html || true
-        echo "Listing top files under docs/doxygen/html (first 200):"
-        find docs/doxygen/html -maxdepth 3 -type f | sed -n '1,200p' || true
+        echo "Current directory: $(pwd)"
+        git --version || true
+        echo "--- git status ---"
+        git status --porcelain || true
+        echo "--- branches ---"
+        git branch -a || true
+        echo "--- remotes ---"
+        git remote -v || true
+        echo "--- ls docs output ---"
+        ls -la ./docs/doxygen/html || true
+
+    - name: Prepare HTML publish folder for ghaction-doxygen-ghpages
+      run: |
+        echo "Ensuring expected publish_dir exists for the action"
+        if [ -d "./docs/doxygen/html" ]; then
+          mkdir -p doc
+          rm -rf doc/html
+          cp -a ./docs/doxygen/html doc/html
+          echo "Copied ./docs/doxygen/html -> ./doc/html"
+        else
+          echo "Warning: ./docs/doxygen/html not found; action may fail"
+        fi
       
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Doxygen and Github Pages
+      uses: AgarwalSaurav/ghaction-doxygen-ghpages@v2.3.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        doxygen_config: Doxyfile
         publish_dir: ./docs/doxygen/html
         publish_branch: gh-pages
-        # Fail if there's nothing to publish so the logs make the problem obvious
-        allow_empty_commit: false
+        allow_empty_commit: true
