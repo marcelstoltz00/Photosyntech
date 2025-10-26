@@ -147,7 +147,7 @@ public:
 	 * @brief Adds a decorator attribute to this plant.
 	 * @param attribute Pointer to the PlantAttributes decorator to add.
 	 */
-	void addAttribute(PlantComponent *attribute) override;
+	void addAttribute(PlantComponent *attribute) ;
 
 	/**
 	 * @brief Gets the season of the plant.
@@ -162,7 +162,7 @@ public:
 	 *
 	 * @return ComponentType::LIVING_PLANT
 	 */
-	ComponentType getType() const override;
+	ComponentType getType() const ;
 
 	/**
 	 * @brief Gets the age of the plant in months.
@@ -174,7 +174,7 @@ public:
 	 * @brief Gets plant name as a formatted string.
 	 * @return String containing plant name.
 	 */
-	std::string getName() override;
+	std::string getName() ;
 
 	/**
 	 * @brief Gets plant health as an Integer.
@@ -207,52 +207,52 @@ public:
 	/**
 	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
 	 */
-	void update() override;
+	void update() ;
 
 	/**
 	 * @brief Gets the sunlight affection value including decorator modifications.
 	 * @return Integer representing total sunlight impact.
 	 */
-	int affectSunlight() override;
+	int affectSunlight() ;
 
 	/**
 	 * @brief Gets the water affection value including decorator modifications.
 	 * @return Integer representing total water impact.
 	 */
-	int affectWater() override;
+	int affectWater() ;
 
 	/**
 	 * @brief Gets the price of this plant.
 	 * @return Price in currency units.
 	 */
-	double getPrice() override;
+	double getPrice() ;
 
 	/**
 	 * @brief Gets plant information as a string.
 	 * @return String containing plant details.
 	 */
-	std::string getInfo() override;
+	std::string getInfo() ;
 
 	/**
 	 * @brief Clones the plant creating a deep copy (Prototype pattern).
 	 * @return Pointer to a new plant object that is a copy of this one.
 	 */
-	virtual PlantComponent *clone() override;
+	virtual PlantComponent *clone() ;
 
 	/**
 	 * @brief Waters the plant component.
 	 */
-	void water() override;
+	void water() ;
 
 	/**
 	 * @brief Sets the plant component to be outside. (Calls Sun Strategy)
 	 */
-	void setOutside() override;
+	void setOutside() ;
 
 	/**
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
-	virtual PlantComponent *getDecorator() override;
+	virtual PlantComponent *getDecorator() ;
 	virtual ~LivingPlant();
 	PlantComponent *correctShape(PlantComponent *mainDecorator);
 	virtual int getWaterValue();

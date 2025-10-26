@@ -32,12 +32,12 @@ private:
 
 public:
     TemplatePlantBuilder(int health = 100, int water = 50, int sun = 50);
-    void createObject() override;
-    void assignWaterStrategy() override;
-    void assignSunStrategy() override;
-    void assignMaturityState() override;
-    void setUp() override;
-    PlantComponent* getResult() override;
+    void createObject() ;
+    void assignWaterStrategy() ;
+    void assignSunStrategy() ;
+    void assignMaturityState() ;
+    void setUp() ;
+    PlantComponent* getResult() ;
     virtual ~TemplatePlantBuilder();
 };
 

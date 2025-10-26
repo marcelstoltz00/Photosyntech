@@ -10,7 +10,7 @@
 template<typename PlantType, typename SunStrategyType, typename WaterStrategyType>
 TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::TemplatePlantBuilder(
     int health, int water, int sun)
-    : plant(nullptr), initialHealth(health), initialWater(water), initialSun(sun) {}
+    : plant(NULL), initialHealth(health), initialWater(water), initialSun(sun) {}
 
 template<typename PlantType, typename SunStrategyType, typename WaterStrategyType>
 void TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::createObject() {
@@ -51,7 +51,7 @@ void TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::setUp(
 
 template<typename PlantType, typename SunStrategyType, typename WaterStrategyType>
 PlantComponent* TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::getResult() {
-    if (!plant) return nullptr;
+    if (!plant) return NULL;
     return plant->clone();
 }
 
@@ -59,7 +59,7 @@ template<typename PlantType, typename SunStrategyType, typename WaterStrategyTyp
 TemplatePlantBuilder<PlantType, SunStrategyType, WaterStrategyType>::~TemplatePlantBuilder() {
     if (plant) {
         delete plant->getDecorator();
-        plant = nullptr;
+        plant = NULL;
     }
 }
 

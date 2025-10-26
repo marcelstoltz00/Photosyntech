@@ -28,31 +28,31 @@ public:
     /**
      * @brief Creates a new Tree object as the base for the Maple.
      */
-    void createObject() override;
+    void createObject() ;
 
     /**
      * @brief Assigns MidWater strategy to the Maple tree.
      */
-    void assignWaterStrategy() override;
+    void assignWaterStrategy() ;
 
     /**
      * @brief Assigns MidSun strategy to the Maple tree.
      */
-    void assignSunStrategy() override;
+    void assignSunStrategy() ;
 
     /**
      * @brief Assigns initial Seed state to the Maple tree.
      */
-    void assignMaturityState() override;
+    void assignMaturityState() ;
 
     /**
      * @brief Sets up the initial health, water, and sun levels for the Maple tree.
      */
-    void setUp() override;
+    void setUp() ;
     /**
      * @brief Adds decorators to the LivingPlant.
      */
-    void addDecorators() override;
+    void addDecorators() ;
 
 };
 

@@ -79,58 +79,58 @@ public:
 	 * @brief Gets plant information including decorator details.
 	 * @return String containing plant and decorator details.
 	 */
-	std::string getInfo() override;
+	std::string getInfo() ;
 
 	/**
 	 * @brief Gets the price including decorator modifications.
 	 * @return Total price in currency units.
 	 */
-	double getPrice() override;
+	double getPrice() ;
 
 	/**
 	 * @brief Gets the sunlight affection value for this component.
 	 * @return Integer representing sunlight impact.
 	 */
-	int affectSunlight() override;
+	int affectSunlight() ;
 
 	/**
 	 * @brief Gets the water affection value for this component.
 	 * @return Integer representing water impact.
 	 */
-	int affectWater() override;
+	int affectWater() ;
 
 	/**
 	 * @brief Gets component name as a formatted string.
 	 * @return String containing plant name.
 	 */
-	std::string getName() override;
+	std::string getName() ;
 
 	/**
 	 * @brief Waters the plant component.
 	 */
-	void water() override;
+	void water() ;
 
 	/**
 	 * @brief Sets the plant component to be outside.(Calls Sun Strategy)
 	 */
-	void setOutside() override;
+	void setOutside() ;
 
 	/**
 	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
 	 */
-	void update() override;
+	void update() ;
 
 	/**
 	 * @brief Adds another attribute decorator to this plant.
 	 * @param attribute Pointer to the PlantAttributes decorator to add.
 	 */
-	void addAttribute(PlantComponent *attribute) override;
+	void addAttribute(PlantComponent *attribute) ;
 
 	/**
 	 * @brief Clones the decorated plant including all decorators.
 	 * @return Pointer to a new PlantComponent that is a copy of this decorated plant.
 	 */
-	virtual PlantComponent *clone() override = 0;
+	virtual PlantComponent *clone()  = 0;
 
 	/**
 	 * @brief Gets the component type (PLANT_COMPONENT for decorators).
@@ -139,7 +139,7 @@ public:
 	 *
 	 * @return ComponentType::PLANT_COMPONENT
 	 */
-	ComponentType getType() const override
+	ComponentType getType() const 
 	{
 		return ComponentType::PLANT_COMPONENT;
 	}
