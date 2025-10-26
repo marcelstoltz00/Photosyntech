@@ -153,6 +153,8 @@ public:
 
 	virtual int getWaterValue() = 0;
 	virtual int getSunlightValue() = 0;
+
+	virtual void tick() = 0;
 };
 
 #endif

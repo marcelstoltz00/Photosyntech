@@ -157,6 +157,7 @@ public:
 	PlantComponent *correctShape(PlantComponent *mainDecorator);
 	virtual int getWaterValue();
 	virtual int getSunlightValue();
+	virtual void tick();
 };
 
 #endif

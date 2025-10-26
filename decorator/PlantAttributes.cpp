@@ -106,3 +106,9 @@ int PlantAttributes::getSunlightValue()
     else
         throw "Incomplete plant";
 }
+
+void PlantAttributes::tick()
+{
+    if (nextComponent)
+        nextComponent->tick();
+}

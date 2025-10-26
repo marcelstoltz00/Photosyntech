@@ -149,6 +149,8 @@ public:
 	void checkState();
 	virtual int getWaterValue();
 	virtual int getSunlightValue();
+
+	virtual void tick();
 };
 
 #endif
