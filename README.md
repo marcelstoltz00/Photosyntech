@@ -31,16 +31,7 @@ PhotoSyntech is a C++ plant management system demonstrating multiple design patt
 
 - 🌱 **Plant Management:** Track and manage a virtual collection of plants.
 - ☀️ **Growth Simulation:** Watch your plants grow, change, and react based on care routines.
-- 🎨 **Design Pattern Showcase:** A practical C++ demonstration of multiple GoF design patterns:
-  -   Builder & Prototype
-  -   Iterator & Composite
-  -   Observer & Mediator
-  -   Strategy
-  -   Decorator
-  -   State
-  -   Command
-  -   Singleton
-  -   ...and more!
+- 🎨 **Design Pattern Showcase:** A practical C++ demonstration of multiple GoF design patterns.
 
 <h1 align="center">🏛️ Design Patterns Used 🏛️</h1>
 
