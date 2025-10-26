@@ -32,21 +32,21 @@ private:
 
 public:
     TemplatePlantBuilder(int health = 100, int water = 50, int sun = 50);
-    void createObject() override;
-    void assignWaterStrategy() override;
-    void assignSunStrategy() override;
-    void assignMaturityState() override;
-    void setUp() override;
-    PlantComponent* getResult() override;
+    void createObject() ;
+    void assignWaterStrategy() ;
+    void assignSunStrategy() ;
+    void assignMaturityState() ;
+    void setUp() ;
+    PlantComponent* getResult() ;
     virtual ~TemplatePlantBuilder();
 };
 
 
-using CherryBlossomBuilder = TemplatePlantBuilder<Tree, MidSun, MidWater>;
-using CactusBuilder = TemplatePlantBuilder<Succulent, HighSun, LowWater>;
-using RoseBuilder = TemplatePlantBuilder<Shrub, MidSun, MidWater>;
-using SunflowerBuilder = TemplatePlantBuilder<Herb, HighSun, MidWater>;
+typedef TemplatePlantBuilder<Tree, MidSun, MidWater> CherryBlossomBuilder;
+typedef TemplatePlantBuilder<Succulent, HighSun, LowWater> CactusBuilder;
+typedef TemplatePlantBuilder<Shrub, MidSun, MidWater> RoseBuilder;
+typedef TemplatePlantBuilder<Herb, HighSun, MidWater> SunflowerBuilder;
 
-#include "TemplatePlantBuilder.hpp"
+
 
 #endif // TEMPLATEPLANTBUILDER_H

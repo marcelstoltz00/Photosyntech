@@ -33,27 +33,27 @@ public:
     /**
      * @brief Creates a new Tree object as the base for the Cherry Blossom.
      */
-    void createObject() override;
+    void createObject() ;
 
     /**
      * @brief Assigns MidWater strategy to the Cherry Blossom tree.
      */
-    void assignWaterStrategy() override;
+    void assignWaterStrategy() ;
 
     /**
      * @brief Assigns MidSun strategy to the Cherry Blossom tree.
      */
-    void assignSunStrategy() override;
+    void assignSunStrategy() ;
 
     /**
      * @brief Assigns initial Seed state to the Cherry Blossom tree.
      */
-    void assignMaturityState() override;
+    void assignMaturityState() ;
 
     /**
      * @brief Sets up the initial health, water, and sun levels for the Cherry Blossom tree.
      */
-    void setUp() override;
+    void setUp() ;
 
     /**
      * @brief Adds decorators to the LivingPlant.
@@ -64,7 +64,7 @@ public:
      * - Small Leaves
      * - Large Stem
      */
-    void addDecorators() override;
+    void addDecorators() ;
 
 
 

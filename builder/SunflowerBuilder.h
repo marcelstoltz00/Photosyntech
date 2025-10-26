@@ -33,27 +33,27 @@ public:
     /**
      * @brief Creates a new Herb object as the base for the Sunflower.
      */
-    void createObject() override;
+    void createObject() ;
 
     /**
      * @brief Assigns MidWater strategy to the Sunflower plant.
      */
-    void assignWaterStrategy() override;
+    void assignWaterStrategy() ;
 
     /**
      * @brief Assigns HighSun strategy to the Sunflower plant.
      */
-    void assignSunStrategy() override;
+    void assignSunStrategy() ;
 
     /**
      * @brief Assigns initial Seed state to the Sunflower plant.
      */
-    void assignMaturityState() override;
+    void assignMaturityState() ;
 
     /**
      * @brief Sets up the initial health, water, and sun levels for the Sunflower plant.
      */
-    void setUp() override;
+    void setUp() ;
     /**
      * @brief Adds decorators to the LivingPlant.
      * 
@@ -63,7 +63,7 @@ public:
      * - Large Leaves
      * - Large Stem
      */
-    void addDecorators() override;
+    void addDecorators() ;
 
 };
 

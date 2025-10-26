@@ -8,7 +8,7 @@ PlantComponent *Builder::getResult()
     else
     {
         throw "Plant has not been constructed";
-        return nullptr;
+        return NULL;
     }
 }
 Builder::~Builder()
@@ -16,6 +16,6 @@ Builder::~Builder()
     if (plant)
     {
         delete plant->getDecorator();
-        plant = nullptr;
+        plant = NULL;
     }
 }

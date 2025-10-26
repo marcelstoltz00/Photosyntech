@@ -34,27 +34,27 @@ public:
     /**
      * @brief Creates a new Tree object as the base for the Pine.
      */
-    void createObject() override;
+    void createObject() ;
 
     /**
      * @brief Assigns LowWater strategy to the Pine tree.
      */
-    void assignWaterStrategy() override;
+    void assignWaterStrategy() ;
 
     /**
      * @brief Assigns HighSun strategy to the Pine tree.
      */
-    void assignSunStrategy() override;
+    void assignSunStrategy() ;
 
     /**
      * @brief Assigns initial Seed state to the Pine tree.
      */
-    void assignMaturityState() override;
+    void assignMaturityState() ;
 
     /**
      * @brief Sets up the initial health, water, and sun levels for the Pine tree.
      */
-    void setUp() override;
+    void setUp() ;
     /**
      * @brief Adds decorators to the LivingPlant.
      * 
@@ -63,7 +63,7 @@ public:
      * - Small Leaves
      * - Large Stem
      */
-    void addDecorators() override;
+    void addDecorators() ;
 
 };
 

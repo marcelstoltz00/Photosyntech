@@ -1,7 +1,9 @@
-name: Generate Documentation
+name: Generate and Deploy Documentation
 
 permissions:
-  contents: write
+  contents: read      # Read permission for checkout
+  pages: write       # Permission to write to GitHub Pages
+  id-token: write    # Permission to use OIDC token for deployment
 
 on:
   push:
@@ -9,48 +11,50 @@ on:
   workflow_dispatch:
 
 jobs:
+  # ----------------------------------------------------
+  # 1. BUILD JOB: Generate the Doxygen HTML files
+  # ----------------------------------------------------
   build-documentation:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v4
-      
-    - name: Install Doxygen
-      run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
-      
-    - name: Generate Documentation
-      run: doxygen Doxyfile
-
-    - name: Debug Information
-      run: |
-        echo "Current directory: $(pwd)"
-        git --version || true
-        echo "--- git status ---"
-        git status --porcelain || true
-        echo "--- branches ---"
-        git branch -a || true
-        echo "--- remotes ---"
-        git remote -v || true
-        echo "--- ls docs output ---"
-        ls -la ./docs/doxygen/html || true
-
-    - name: Prepare HTML publish folder for ghaction-doxygen-ghpages
-      run: |
-        echo "Ensuring expected publish_dir exists for the action"
-        if [ -d "./docs/doxygen/html" ]; then
-          mkdir -p doc
-          rm -rf doc/html
-          cp -a ./docs/doxygen/html doc/html
-          echo "Copied ./docs/doxygen/html -> ./doc/html"
-        else
-          echo "Warning: ./docs/doxygen/html not found; action may fail"
-        fi
-      
-    - name: Doxygen and Github Pages
-      uses: AgarwalSaurav/ghaction-doxygen-ghpages@v2.3.0
+    - name: Checkout code
+      uses: actions/checkout@v4
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        doxygen_config: Doxyfile
-        publish_dir: ./docs/doxygen/html
-        publish_branch: gh-pages
-        allow_empty_commit: true
+        submodules: 'recursive'
+
+    - name: Install Doxygen
+      run: sudo apt-get update && sudo apt-get install -y doxygen
+
+    - name: Run Doxygen
+      run: doxygen Doxyfile # This runs Doxygen and creates the HTML files
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        # This path MUST match the 'OUTPUT_DIRECTORY' + 'HTML_OUTPUT'
+        # from your Doxyfile.
+        #
+        # Example: if Doxyfile has:
+        # OUTPUT_DIRECTORY = docs
+        # HTML_OUTPUT      = doxygen/html
+        #
+        # Then the path here should be: "docs/doxygen/html"
+        path: 'docs/doxygen/html' # <--- DOUBLE-CHECK THIS PATH
+
+  # ----------------------------------------------------
+  # 2. DEPLOY JOB: Deploy the artifact to Pages
+  # ----------------------------------------------------
+  deploy:
+    # This job must wait for the build job to finish
+    needs: build-documentation 
+    
+    # Use the same environment as your first working log
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 # The action from your working log
