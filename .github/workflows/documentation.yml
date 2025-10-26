@@ -15,41 +15,10 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       
-    - name: Install Doxygen
-      run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
-      
-    - name: Generate Documentation
-      run: doxygen Doxyfile
-
-    - name: Debug Information
-      run: |
-        echo "Current directory: $(pwd)"
-        git --version || true
-        echo "--- git status ---"
-        git status --porcelain || true
-        echo "--- branches ---"
-        git branch -a || true
-        echo "--- remotes ---"
-        git remote -v || true
-        echo "--- ls docs output ---"
-        ls -la ./docs/doxygen/html || true
-
-
-    - name: Doxygen and Github Pages
-      uses: peaceiris/actions-gh-pages@v4
+    - name: Generate and Deploy Doxygen Docs
+      uses: AgarwalSaurav/ghaction-doxygen-ghpages@v2.3.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./docs/doxygen/html
-        # The following variables are used by the action for git config:
-        user_name: "github-actions[bot]"
-        user_email: "github-actions[bot]@users.noreply.github.com"
-        # The following option prevents the action from creating a CNAME file.
-        # cname: ""
-        # The following option allows the action to push to the gh-pages branch.
-        # This is useful if you want to keep the history of the gh-pages branch.
-        # keep_files: false
-        # The following option allows the action to commit an empty commit.
-        allow_empty_commit: true
-        # The following option allows the action to force push to the gh-pages branch.
-        # This is useful if you want to overwrite the history of the gh-pages branch.
-        force_orphan: true
+        doxyfile-path: "Doxyfile"
+        html-output-folder: "docs/doxygen/html"
+        branch: "gh-pages"
