@@ -218,6 +218,9 @@ void LivingPlant::addAttribute(PlantComponent *attribute)
 Herb::Herb()
     : LivingPlant("Herb", 30.00, 3, 3) {};
 
+Herb::Herb(std::string name)
+    : LivingPlant(name, 75.00, 4, 4) {};
+
 Herb::Herb(const Herb &other)
     : LivingPlant(other) {};
 
@@ -228,6 +231,9 @@ PlantComponent *Herb::clone()
 
 Shrub::Shrub()
     : LivingPlant("Shrub", 75.00, 4, 4) {};
+
+Shrub::Shrub(std::string name)
+    : LivingPlant(name, 75.00, 4, 4) {};
 
 Shrub::Shrub(const Shrub &other)
     : LivingPlant(other) {};
@@ -240,6 +246,9 @@ PlantComponent *Shrub::clone()
 Succulent::Succulent()
     : LivingPlant("Succulent", 45.00, 1, 5) {};
 
+Succulent::Succulent(std::string name)
+    : LivingPlant(name, 75.00, 4, 4) {};
+
 Succulent::Succulent(const Succulent &other)
     : LivingPlant(other) {};
 
@@ -250,6 +259,9 @@ PlantComponent *Succulent::clone()
 
 Tree::Tree()
     : LivingPlant("Tree", 150.00, 5, 5) {};
+
+Tree::Tree(std::string name)
+    : LivingPlant(name, 75.00, 4, 4) {};
 
 Tree::Tree(const Tree &other)
     : LivingPlant(other) {};

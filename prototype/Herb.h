@@ -36,27 +36,29 @@
  */
 class Herb : public LivingPlant
 {
-	public:
-		/**
-		 * @brief Constructs a new Herb with default characteristics.
-		 */
-		Herb();
+public:
+	/**
+	 * @brief Constructs a new Herb with default characteristics.
+	 */
+	Herb();
 
-		/**
-		 * @brief Constructs a copy of an existing herb.
-		 *
-		 * Performs a member-wise shallow copy for flyweights.
-		 * and a deep copy for the decorator chain.
-		 *
-		 * @param other The herb object to copy.
-		 */
-		Herb(const Herb& other);
+	/**
+	 * @brief Constructs a copy of an existing herb.
+	 *
+	 * Performs a member-wise shallow copy for flyweights.
+	 * and a deep copy for the decorator chain.
+	 *
+	 * @param other The herb object to copy.
+	 */
+	Herb(const Herb &other);
 
-		/**
-		 * @brief Clones this herb creating a deep copy.
-		 * @return Pointer to a new Herb object that is a copy of this one.
-		 */
-		PlantComponent* clone();
+	Herb(std::string);
+
+	/**
+	 * @brief Clones this herb creating a deep copy.
+	 * @return Pointer to a new Herb object that is a copy of this one.
+	 */
+	PlantComponent *clone();
 };
 
 #endif

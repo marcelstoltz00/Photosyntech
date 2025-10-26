@@ -13,7 +13,7 @@ CherryBlossomBuilder::CherryBlossomBuilder() : Builder() {
 
 void CherryBlossomBuilder::createObject() {
     if (!plant) {
-        plant = new Tree();
+        plant = new Tree("Cherry Blossem");
     }
 }
 

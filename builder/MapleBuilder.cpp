@@ -12,7 +12,7 @@ MapleBuilder::MapleBuilder() : Builder() {
 
 void MapleBuilder::createObject() {
     if (!plant) {
-        plant = new Tree();
+        plant = new Tree("Maple Tree");
     }
 }
 

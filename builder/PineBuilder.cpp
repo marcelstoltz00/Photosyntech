@@ -15,7 +15,7 @@ void PineBuilder::createObject()
 {
     if (!plant)
     {
-        plant = new Tree();
+        plant = new Tree("Pine Tree");
     }
 }
 

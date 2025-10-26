@@ -14,7 +14,7 @@ RoseBuilder::RoseBuilder() : Builder() {
 
 void RoseBuilder::createObject() {
     if (!plant) {
-        plant = new Shrub();
+        plant = new Shrub("Rose");
     }
 }
 

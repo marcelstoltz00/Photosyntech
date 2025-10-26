@@ -14,7 +14,7 @@ LavenderBuilder::LavenderBuilder()  : Builder() {
 
 void LavenderBuilder::createObject() {
     if (!plant) {
-        plant = new Herb();
+        plant = new Herb("Lavender");
     }
 }
 

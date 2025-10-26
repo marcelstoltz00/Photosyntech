@@ -13,7 +13,7 @@ JadePlantBuilder::JadePlantBuilder()  : Builder() {
 
 void JadePlantBuilder::createObject() {
     if (!plant) {
-        plant = new Succulent();
+        plant = new Succulent("Jade");
     }
 }
 

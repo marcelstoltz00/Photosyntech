@@ -16,7 +16,7 @@ void CactusBuilder::createObject()
 {
     if (!plant)
     {
-        plant = new Succulent();
+        plant = new Succulent("Cactus");
     }
 }
 
