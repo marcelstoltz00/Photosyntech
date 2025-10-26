@@ -2334,3 +2334,30 @@ TEST_CASE("Auto update of plants")
     delete Inventory::getInstance();
     delete watcher;
 }
+TEST_CASE("Testing concurrency")
+{
+    RoseBuilder *roseB = new RoseBuilder();
+    Director *dirRose = new Director(roseB);
+    dirRose->construct();
+    Staff *watcher = new Staff("Woody");
+
+    for (int i = 0; i < 1000; i++)
+        Inventory::getInstance()->getInventory()->addComponent(dirRose->getPlant());
+
+    for (int i = 0; i < 7; i++)
+    {
+        Inventory::getInstance()->getInventory()->update();
+    }
+    Inventory::getInstance()->getInventory()->attach(watcher);
+
+    Inventory::startTicker();
+    // uncomment to actually test
+    // cin.get();
+
+    Inventory::stopTicker();
+
+    delete roseB;
+    delete dirRose;
+    delete Inventory::getInstance();
+    delete watcher;
+}

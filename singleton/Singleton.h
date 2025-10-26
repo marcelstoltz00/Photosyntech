@@ -15,7 +15,8 @@ using namespace std;
 #include "../strategy/MidWater.h"
 #include "../strategy/HighWater.h"
 #include "../strategy/AlternatingWater.h"
-
+#include <thread>
+#include <atomic>
 /**
  * @brief Singleton class managing global inventory and flyweight factories.
  *
@@ -76,6 +77,11 @@ private:
 	 * @brief Private constructor to prevent direct instantiation.
 	 */
 	Inventory();
+	// Multithreading components
+	void TickInventory();
+	static thread *TickerThread;
+	static atomic<bool> on;
+	// Multithreading components
 
 public:
 	/**
@@ -136,7 +142,6 @@ public:
 	 */
 	vector<Staff *> *getStaff();
 
-
 	/**
 	 * @brief adds a staff member to the system
 	 */
@@ -151,6 +156,8 @@ public:
 	 * @brief the destructor for the inventory Last thing to be deleted in the main system.
 	 */
 	~Inventory();
+	static bool startTicker();
+	static bool stopTicker();
 };
 
 #endif

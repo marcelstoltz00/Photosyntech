@@ -6,6 +6,7 @@
 #include "Tree.h"
 #include "../composite/PlantComponent.h"
 #include "../singleton/Singleton.h"
+#include "../state/MaturityState.h"
 
 LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int sunAffect)
     : PlantComponent(price, waterAffect, sunAffect), age(0),
@@ -295,4 +296,8 @@ int LivingPlant::getWaterValue()
 int LivingPlant::getSunlightValue()
 {
     return this->sunExposure;
+}
+void LivingPlant::tick()
+{
+    this->maturityState->getState()->grow(this);
 }
