@@ -16,7 +16,7 @@ void SunflowerBuilder::createObject()
 {
     if (!plant)
     {
-        plant = new Herb("Sunflow");
+        plant = new Herb("Sunflower");
     }
 }
 
