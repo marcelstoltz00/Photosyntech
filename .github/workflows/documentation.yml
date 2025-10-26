@@ -14,6 +14,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
       
     - name: Generate and Deploy Doxygen Docs
       uses: AgarwalSaurav/ghaction-doxygen-ghpages@v2.3.0
