@@ -21,11 +21,11 @@
 PhotoSyntech is a C++ plant management system demonstrating multiple design patterns, including growth and care simulation for various plant types.
 </h3>
 
-<p align="center">
-[Project Website](https://github.com/marcelstoltz00/Photosyntech) |
-[Full Documentation](https://github.com/marcelstoltz00/Photosyntech) |
-[View Design Patterns](https://github.com/marcelstoltz00/Photosyntech/tree/main/docs/design-patterns)
-</p>
+<div align="center">
+
+[Project Website](https://github.com/marcelstoltz00/Photosyntech) | [Full Documentation](https://marcelstoltz00.github.io/Photosyntech/) | [View Design Patterns](https://github.com/marcelstoltz00/Photosyntech/tree/main/docs/design-patterns)
+
+</div>
 
 <h1 align="center">🪴 Features 🪴</h1>
 
@@ -81,7 +81,7 @@ To build the project, run:
 make all
 ````
 
-<h1 align="center">🤝 PhotosynTech 🤝</h1>
+<h1 align="center">🤝 PhotoSyntech 🤝</h1>
 
 
 | Name                 | Student ID | 
