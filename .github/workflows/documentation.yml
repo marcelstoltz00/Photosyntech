@@ -34,10 +34,11 @@ jobs:
         echo "--- ls docs output ---"
         ls -la ./docs/doxygen/html || true
       
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Doxygen and Github Pages
+      uses: AgarwalSaurav/ghaction-doxygen-ghpages@v2.3.0
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        doxygen_config: Doxyfile
         publish_dir: ./docs/doxygen/html
         publish_branch: gh-pages
         allow_empty_commit: true
