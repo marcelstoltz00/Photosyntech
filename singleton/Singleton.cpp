@@ -176,6 +176,7 @@ bool Inventory::stopTicker()
     if (on.load())
     {
         on.store(false);
+        
         if (TickerThread && TickerThread->joinable())
         {
             TickerThread->join();

@@ -2341,19 +2341,18 @@ TEST_CASE("Testing concurrency")
     dirRose->construct();
     Staff *watcher = new Staff("Woody");
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 1000; i++)
         Inventory::getInstance()->getInventory()->addComponent(dirRose->getPlant());
 
-
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 7; i++)
     {
         Inventory::getInstance()->getInventory()->update();
     }
     Inventory::getInstance()->getInventory()->attach(watcher);
 
     Inventory::startTicker();
-
-    cin.get();
+    // uncomment to actually test
+    // cin.get();
 
     Inventory::stopTicker();
 
