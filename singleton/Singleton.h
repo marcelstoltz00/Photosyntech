@@ -80,7 +80,7 @@ private:
 	// Multithreading components
 	void TickInventory();
 	static thread *TickerThread;
-	static atomic<bool> *on;
+	static atomic<bool> on;
 	// Multithreading components
 
 public:

@@ -7,11 +7,11 @@
 
 Inventory *Inventory::instance = nullptr;
 thread *Inventory::TickerThread = nullptr;
-atomic<bool> *Inventory::on = new atomic<bool>(false);
+std::atomic<bool> Inventory::on(false);
 
 Inventory::Inventory()
 {
-
+    on.store(false);
     inventory = new PlantGroup();
 
     stringFactory = new FlyweightFactory<string, string *>();
@@ -40,6 +40,9 @@ Inventory::Inventory()
 }
 Inventory::~Inventory()
 {
+
+    stopTicker();
+
     if (inventory)
         delete inventory;
 
@@ -156,13 +159,12 @@ bool Inventory::startTicker()
 {
     Inventory *inv = getInstance();
 
-    if (!TickerThread)
-        TickerThread = new thread(&Inventory::TickInventory, inv);
-
-    if (!on->load())
+    if (!on.load())
     {
-        on->store(true);
-       
+        on.store(true);
+        if (!TickerThread)
+            TickerThread = new thread(&Inventory::TickInventory, inv);
+
         return true;
     }
     else
@@ -171,9 +173,18 @@ bool Inventory::startTicker()
 bool Inventory::stopTicker()
 {
 
-    if (on->load())
+    if (on.load())
     {
-        on->store(false);
+        on.store(false);
+        if (TickerThread && TickerThread->joinable())
+        {
+            TickerThread->join();
+            delete TickerThread;
+            TickerThread = nullptr;
+        }
+        else if (TickerThread)
+            delete TickerThread;
+
         return true;
     }
     else
@@ -182,7 +193,7 @@ bool Inventory::stopTicker()
 
 void Inventory::TickInventory()
 {
-    while (on->load())
+    while (on.load())
     {
         cout << "A tick occured" << endl;
         this->inventory->tick();

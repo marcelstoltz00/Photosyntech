@@ -2339,23 +2339,26 @@ TEST_CASE("Testing concurrency")
     RoseBuilder *roseB = new RoseBuilder();
     Director *dirRose = new Director(roseB);
     dirRose->construct();
-
-    PlantComponent *plant = dirRose->getPlant();
     Staff *watcher = new Staff("Woody");
 
-    Inventory::getInstance()->getInventory()->addComponent(plant);
+    for (int i = 0; i < 5; i++)
+        Inventory::getInstance()->getInventory()->addComponent(dirRose->getPlant());
+
+
     for (int i = 0; i < 5; i++)
     {
         Inventory::getInstance()->getInventory()->update();
     }
     Inventory::getInstance()->getInventory()->attach(watcher);
+
     Inventory::startTicker();
 
-
-    
     cin.get();
+
+    Inventory::stopTicker();
+
     delete roseB;
     delete dirRose;
-    Inventory::stopTicker();
     delete Inventory::getInstance();
+    delete watcher;
 }
