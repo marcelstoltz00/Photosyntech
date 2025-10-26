@@ -1,8 +1,11 @@
 name: Generate Documentation
 
+permissions:
+  contents: write
+
 on:
   push:
-    branches: [ main, master, devBranch ]
+    branches: [ main, master, devBranch, TUI ]
   workflow_dispatch:
 
 jobs:
@@ -13,7 +16,7 @@ jobs:
     - uses: actions/checkout@v4
       
     - name: Install Doxygen
-      run: sudo apt-get install -y doxygen graphviz
+      run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
       
     - name: Generate Documentation
       run: doxygen Doxyfile
@@ -23,3 +26,5 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./docs/doxygen/html
+        publish_branch: gh-pages
+        allow_empty_commit: true
