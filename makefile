@@ -233,21 +233,19 @@ tui-deps:
 	@echo "Downloading nlohmann/json (v3.12.0) into external/json..."
 	@mkdir -p TUI/TUIKit/external/json/nlohmann
 	@if command -v wget >/dev/null 2>&1; then \
-		wget -q -O TUI/TUIKit/external/json/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.12.0/json.hpp; \
-		RET=$$?; \
+		wget -q -O TUI/TUIKit/external/json/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.12.0/json.hpp || { echo "Failed to download nlohmann/json.hpp via wget"; exit 1; }; \
 	else \
-		curl -sSL -o TUI/TUIKit/external/json/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.12.0/json.hpp; \
-		RET=$$?; \
-	fi;
-	if [ $$RET -ne 0 ]; then \
-		echo "Failed to download nlohmann/json.hpp"; exit 1; \
-	fi;
+		curl -sSL -o TUI/TUIKit/external/json/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.12.0/json.hpp || { echo "Failed to download nlohmann/json.hpp via curl"; exit 1; }; \
+	fi
 	# Also put a copy at external/json/json.hpp for sources that include "json.hpp"
 	@cp -f TUI/TUIKit/external/json/nlohmann/json.hpp TUI/TUIKit/external/json/json.hpp || true
 
 # Create build directory and run 'cmake ..' from inside it (raw command form)
 tui-configure-raw:
 	@mkdir -p TUI/TUIKit/build
+	@if ! command -v cmake >/dev/null 2>&1; then \
+		echo "cmake not found. Install it with 'brew install cmake' or from https://cmake.org/download/"; exit 127; \
+	fi
 	@cd TUI/TUIKit/build && cmake ..
 
 # Build the project from the build directory using cmake --build .
