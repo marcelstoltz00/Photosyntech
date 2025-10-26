@@ -8,12 +8,12 @@
 #include "../decorator/plantDecorator/LargeStem.h"
 #include "../state/Seed.h"
 
-JadePlantBuilder::JadePlantBuilder() : plant(nullptr) {
+JadePlantBuilder::JadePlantBuilder()  : Builder() {
 }
 
 void JadePlantBuilder::createObject() {
     if (!plant) {
-        plant = new Succulent();
+        plant = new Succulent("Jade");
     }
 }
 
@@ -35,9 +35,7 @@ void JadePlantBuilder::assignMaturityState() {
     }
 }
 
-PlantComponent* JadePlantBuilder::getResult() {
-    return plant->getDecorator()->clone();
-}
+
 void JadePlantBuilder::addDecorators() {
     if (plant) {
              PlantComponent *season = new Winter();
@@ -58,10 +56,3 @@ void JadePlantBuilder::setUp() {
     }
 }
 
-JadePlantBuilder::~JadePlantBuilder() {
-     if (plant)
-    {
-   delete plant->getDecorator();
-        plant = nullptr;
-    }
-}

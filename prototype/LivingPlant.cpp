@@ -6,6 +6,7 @@
 #include "Tree.h"
 #include "../composite/PlantComponent.h"
 #include "../singleton/Singleton.h"
+#include "../state/MaturityState.h"
 
 LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int sunAffect)
     : PlantComponent(price, waterAffect, sunAffect), age(0),
@@ -125,9 +126,12 @@ std::string LivingPlant::getInfo()
     baseInfo += "Water Level: " + std::to_string(waterLevel) + "\n";
     baseInfo += "Sun Exposure: " + std::to_string(sunExposure) + "\n";
     baseInfo += "Base Price: R" + std::to_string(price) + "\n";
-    baseInfo += "Total Price: R" + std::to_string(decorator->getPrice()) + "\n";
-    baseInfo += "Water Affection: " + std::to_string(decorator->affectWater()) + "\n";
-    baseInfo += "Sun Affection: " + std::to_string(decorator->affectSunlight()) + "\n";
+    if (decorator)
+    {
+        baseInfo += "Total Price: R" + std::to_string(decorator->getPrice()) + "\n";
+        baseInfo += "Water Affection: " + std::to_string(decorator->affectWater()) + "\n";
+        baseInfo += "Sun Affection: " + std::to_string(decorator->affectSunlight()) + "\n";
+    }
 
     return baseInfo;
 };
@@ -170,11 +174,14 @@ int LivingPlant::affectSunlight()
 
 void LivingPlant::update()
 {
-    //added null checks
-    if (this->decorator != nullptr) {
+    // added null checks
+    if (this->decorator != nullptr)
+    {
         this->waterLevel -= this->decorator->affectWater();
         this->sunExposure -= this->decorator->affectSunlight();
-    } else {
+    }
+    else
+    {
         this->waterLevel -= this->affectWater();
         this->sunExposure -= this->affectSunlight();
     }
@@ -212,6 +219,9 @@ void LivingPlant::addAttribute(PlantComponent *attribute)
 Herb::Herb()
     : LivingPlant("Herb", 30.00, 3, 3) {};
 
+Herb::Herb(std::string name)
+    : LivingPlant(name, 75.00, 4, 4) {};
+
 Herb::Herb(const Herb &other)
     : LivingPlant(other) {};
 
@@ -222,6 +232,9 @@ PlantComponent *Herb::clone()
 
 Shrub::Shrub()
     : LivingPlant("Shrub", 75.00, 4, 4) {};
+
+Shrub::Shrub(std::string name)
+    : LivingPlant(name, 75.00, 4, 4) {};
 
 Shrub::Shrub(const Shrub &other)
     : LivingPlant(other) {};
@@ -234,6 +247,9 @@ PlantComponent *Shrub::clone()
 Succulent::Succulent()
     : LivingPlant("Succulent", 45.00, 1, 5) {};
 
+Succulent::Succulent(std::string name)
+    : LivingPlant(name, 75.00, 4, 4) {};
+
 Succulent::Succulent(const Succulent &other)
     : LivingPlant(other) {};
 
@@ -244,6 +260,9 @@ PlantComponent *Succulent::clone()
 
 Tree::Tree()
     : LivingPlant("Tree", 150.00, 5, 5) {};
+
+Tree::Tree(std::string name)
+    : LivingPlant(name, 75.00, 4, 4) {};
 
 Tree::Tree(const Tree &other)
     : LivingPlant(other) {};
@@ -260,4 +279,25 @@ PlantComponent *LivingPlant::correctShape(PlantComponent *mainDecorator)
 {
     this->decorator = mainDecorator;
     return this;
+}
+LivingPlant::~LivingPlant()
+{
+    if (!deleted)
+    {
+        deleted = true;
+        if (decorator)
+            delete decorator;
+    }
+}
+int LivingPlant::getWaterValue()
+{
+    return this->waterLevel;
+}
+int LivingPlant::getSunlightValue()
+{
+    return this->sunExposure;
+}
+void LivingPlant::tick()
+{
+    this->maturityState->getState()->grow(this);
 }

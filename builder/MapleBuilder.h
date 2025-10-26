@@ -17,9 +17,7 @@
  */
 class MapleBuilder : public Builder
 {
-private:
-    LivingPlant *plant = nullptr;
-   
+
 
 public:
     /**
@@ -55,16 +53,7 @@ public:
      * @brief Adds decorators to the LivingPlant.
      */
     void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Maple tree.
-     * @return Pointer to the constructed Maple tree.
-     */
-   PlantComponent *getResult() override;
 
-    /**
-     * @brief Destructor for MapleBuilder.
-     */
-    ~MapleBuilder();
 };
 
 #endif // MAPLEBUILDER_H

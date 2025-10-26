@@ -51,6 +51,7 @@ TEST_SRC = unitTests.cpp\
 			   mediator/SuggestionFloor.cpp\
 			   observer/Observer.cpp \
 			   observer/Subject.cpp \
+               builder/Builder.cpp\
 
 SRC = $(TEST_SRC)
 OBJ := $(SRC:.cpp=.o)

@@ -7,12 +7,12 @@
 #include "../decorator/plantDecorator/Autumn.h"
 #include "../state/Seed.h"
 
-MapleBuilder::MapleBuilder() : plant(nullptr) {
+MapleBuilder::MapleBuilder() : Builder() {
 }
 
 void MapleBuilder::createObject() {
     if (!plant) {
-        plant = new Tree();
+        plant = new Tree("Maple Tree");
     }
 }
 
@@ -34,9 +34,6 @@ void MapleBuilder::assignMaturityState() {
     }
 }
 
-PlantComponent* MapleBuilder::getResult() {
-    return plant->getDecorator()->clone();
-}
 void MapleBuilder::addDecorators() {
     if (plant) {
         PlantComponent *season = new Autumn();
@@ -55,10 +52,3 @@ void MapleBuilder::setUp() {
     }
 }
 
-MapleBuilder::~MapleBuilder() {
-     if (plant)
-    {
-        delete plant->getDecorator();
-        plant = nullptr;
-    }
-}

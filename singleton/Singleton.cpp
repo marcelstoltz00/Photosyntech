@@ -6,12 +6,13 @@
 #include "../composite/PlantGroup.h"
 
 Inventory *Inventory::instance = nullptr;
+thread *Inventory::TickerThread = nullptr;
+std::atomic<bool> Inventory::on(false);
 
 Inventory::Inventory()
 {
-
+    on.store(false);
     inventory = new PlantGroup();
-  
 
     stringFactory = new FlyweightFactory<string, string *>();
     waterStrategies = new FlyweightFactory<int, WaterStrategy *>();
@@ -39,6 +40,9 @@ Inventory::Inventory()
 }
 Inventory::~Inventory()
 {
+
+    stopTicker();
+
     if (inventory)
         delete inventory;
 
@@ -150,4 +154,50 @@ void Inventory::addStaff(Staff *staff)
 void Inventory::addCustomer(Customer *customer)
 {
     customerList->push_back(customer);
+}
+bool Inventory::startTicker()
+{
+    Inventory *inv = getInstance();
+
+    if (!on.load())
+    {
+        on.store(true);
+        if (!TickerThread)
+            TickerThread = new thread(&Inventory::TickInventory, inv);
+
+        return true;
+    }
+    else
+        return false;
+}
+bool Inventory::stopTicker()
+{
+
+    if (on.load())
+    {
+        on.store(false);
+        
+        if (TickerThread && TickerThread->joinable())
+        {
+            TickerThread->join();
+            delete TickerThread;
+            TickerThread = nullptr;
+        }
+        else if (TickerThread)
+            delete TickerThread;
+
+        return true;
+    }
+    else
+        return false;
+}
+
+void Inventory::TickInventory()
+{
+    while (on.load())
+    {
+        cout << "A tick occured" << endl;
+        this->inventory->tick();
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+    }
 }

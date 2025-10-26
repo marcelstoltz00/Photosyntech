@@ -17,10 +17,25 @@
  */
 class PlantGroup : public PlantComponent, public Subject
 {
-	private:
-		std::list<PlantComponent*> plants;
-		// This is the list of observers
-		std::list<Observer *> observers;
+private:
+	std::list<PlantComponent *> plants;
+	// This is the list of observers
+	std::list<Observer *> observers;
+
+	/**
+	 * @brief Notifies observers that plants in this group need water.
+	 */
+	void waterNeeded(PlantComponent *updatedPlant) override;
+
+	/**
+	 * @brief Notifies observers that plants in this group need sunlight.
+	 */
+	void sunlightNeeded(PlantComponent *updatedPlant) override;
+
+	/**
+	 * @brief Notifies observers that a plant's state has been updated.
+	 */
+	void stateUpdated(PlantComponent *updatedPlant) override;
 
 public:
 	/**
@@ -97,21 +112,6 @@ public:
 	std::string getName() override;
 
 	/**
-	 * @brief Notifies observers that plants in this group need water.
-	 */
-	void waterNeeded() override;
-
-	/**
-	 * @brief Notifies observers that plants in this group need sunlight.
-	 */
-	void sunlightNeeded() override;
-
-	/**
-	 * @brief Notifies observers that a plant's state has been updated.
-	 */
-	void stateUpdated() override;
-
-	/**
 	 * @brief Gets the total price of all plants in this group.
 	 * @return Total price in currency units.
 	 */
@@ -122,12 +122,6 @@ public:
 	 * @param component Pointer to the PlantAttributes decorator to add.
 	 */
 	void addAttribute(PlantComponent *component) override;
-
-	/**
-	 * @brief Adds a component to the list of plants.
-	 * @param component Pointer to the component to add.
-	 */
-	void addAttribute(PlantAttributes *attribute);
 
 	/**
 	 * @brief Gets the component type (PLANT_GROUP).
@@ -149,6 +143,14 @@ public:
 	std::list<PlantComponent *> *getPlants();
 	void addComponent(PlantComponent *component);
 	virtual PlantComponent *correctShape(PlantComponent *);
+
+	void checkWater();
+	void checkSunlight();
+	void checkState();
+	virtual int getWaterValue();
+	virtual int getSunlightValue();
+
+	virtual void tick();
 };
 
 #endif

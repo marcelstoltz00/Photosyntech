@@ -8,7 +8,7 @@
 #include "../state/Seed.h"
 #include "../decorator/plantDecorator/Summer.h"
 
-CactusBuilder::CactusBuilder() : plant(nullptr)
+CactusBuilder::CactusBuilder() : Builder()
 {
 }
 
@@ -16,7 +16,7 @@ void CactusBuilder::createObject()
 {
     if (!plant)
     {
-        plant = new Succulent();
+        plant = new Succulent("Cactus");
     }
 }
 
@@ -44,15 +44,6 @@ void CactusBuilder::assignMaturityState()
     }
 }
 
-PlantComponent *CactusBuilder::getResult()
-{
-    if (!plant)
-    {
-        return NULL;
-    }
-
-    return plant->getDecorator()->clone();
-}
 
 void CactusBuilder::addDecorators()
 {
@@ -78,11 +69,3 @@ void CactusBuilder::setUp()
     }
 }
 
-CactusBuilder::~CactusBuilder()
-{
-    if (plant)
-    {
-         delete plant->getDecorator();
-        plant = nullptr;
-    }
-}

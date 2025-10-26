@@ -17,8 +17,6 @@
  */
 class JadePlantBuilder : public Builder
 {
-private:
-	LivingPlant *plant = nullptr;
 
 
 public:
@@ -56,16 +54,8 @@ public:
      * @brief Adds decorators to the LivingPlant.
      */
     void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Jade plant.
-     * @return Pointer to the constructed Jade plant.
-     */
-    PlantComponent *getResult() override;
 
-    /**
-     * @brief Destructor for JadePlantBuilder.
-     */
-    ~JadePlantBuilder();
+
 };
 
 #endif // JADEPLANTBUILDER_H

@@ -130,7 +130,7 @@ public:
 	 * @brief Clones the decorated plant including all decorators.
 	 * @return Pointer to a new PlantComponent that is a copy of this decorated plant.
 	 */
-	virtual PlantComponent* clone() override = 0;
+	virtual PlantComponent *clone() override = 0;
 
 	/**
 	 * @brief Gets the component type (PLANT_COMPONENT for decorators).
@@ -139,18 +139,15 @@ public:
 	 *
 	 * @return ComponentType::PLANT_COMPONENT
 	 */
-	ComponentType getType() const override {
+	ComponentType getType() const override
+	{
 		return ComponentType::PLANT_COMPONENT;
 	}
 
 	/**
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
-	virtual ~PlantAttributes()
-	{
-		if (nextComponent)
-			delete nextComponent;
-	}
+	virtual ~PlantAttributes();
 
 	// /**
 	//  * @brief Sets the decorator for builder purposes
@@ -158,6 +155,9 @@ public:
 	// */
 	// void setDecorator(PlantComponent* other);
 	PlantComponent *correctShape(PlantComponent *mainDecorator);
+	virtual int getWaterValue();
+	virtual int getSunlightValue();
+	virtual void tick();
 };
 
 #endif

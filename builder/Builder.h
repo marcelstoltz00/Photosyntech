@@ -40,7 +40,7 @@
  */
 class Builder
 {
-private:
+protected:
 	LivingPlant *plant = nullptr;
 	
 
@@ -79,12 +79,12 @@ public:
 	 * @brief Returns the fully constructed PlantComponent object.
 	 * @return Pointer to the constructed PlantComponent object.
 	 */
-	virtual PlantComponent *getResult() = 0;
+	virtual PlantComponent *getResult() ;
 
 	/**
 	 * @brief Virtual destructor for the Builder class.
 	 */
-	virtual ~Builder() = default;
+	virtual ~Builder();
 };
 
 #endif

@@ -49,7 +49,8 @@
  * @see Flyweight pattern (shared strategy/state references)
  * @see Decorator pattern (attributes wrap LivingPlant)
  */
-class MaturityState;
+
+
 class LivingPlant : public PlantComponent
 {
 protected:
@@ -252,8 +253,11 @@ public:
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
 	virtual PlantComponent *getDecorator() override;
-	virtual ~LivingPlant() {};
+	virtual ~LivingPlant();
 	PlantComponent *correctShape(PlantComponent *mainDecorator);
+	virtual int getWaterValue();
+	virtual int getSunlightValue();
+	virtual void tick();
 };
 
 #endif

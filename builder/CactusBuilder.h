@@ -22,8 +22,7 @@
  */
 class CactusBuilder : public Builder
 {
-private:
-    LivingPlant *plant = nullptr;
+
  
 
 public:
@@ -66,16 +65,7 @@ public:
      * - Thorns
      */
     void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Cactus plant.
-     * @return Pointer to the constructed Cactus plant.
-     */
-    PlantComponent *getResult() override;
 
-    /**
-     * @brief Destructor for CactusBuilder.
-     */
-    ~CactusBuilder();
 };
 
 #endif // CACTUSBUILDER_H

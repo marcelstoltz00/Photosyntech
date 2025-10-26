@@ -6,6 +6,7 @@ void Director::construct() {
     if (!builder) {
         return;
     }
+
     builder->createObject();
     builder->assignWaterStrategy();
     builder->assignSunStrategy();

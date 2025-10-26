@@ -22,8 +22,7 @@
  */
 class PineBuilder : public Builder
 {
-private:
-  	LivingPlant *plant = nullptr;
+
 
 
 public:
@@ -65,16 +64,7 @@ public:
      * - Large Stem
      */
     void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Pine tree.
-     * @return Pointer to the constructed Pine tree.
-     */
-    PlantComponent *getResult() override;
 
-    /**
-     * @brief Destructor for PineBuilder.
-     */
-    ~PineBuilder();
 };
 
 #endif // PINEBUILDER_H
