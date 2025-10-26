@@ -125,15 +125,11 @@ std::string LivingPlant::getInfo()
     baseInfo += "Water Level: " + std::to_string(waterLevel) + "\n";
     baseInfo += "Sun Exposure: " + std::to_string(sunExposure) + "\n";
     baseInfo += "Base Price: R" + std::to_string(price) + "\n";
-
-    if (decorator != nullptr) {
+    if (decorator)
+    {
         baseInfo += "Total Price: R" + std::to_string(decorator->getPrice()) + "\n";
         baseInfo += "Water Affection: " + std::to_string(decorator->affectWater()) + "\n";
         baseInfo += "Sun Affection: " + std::to_string(decorator->affectSunlight()) + "\n";
-    } else {
-        baseInfo += "Total Price: R" + std::to_string(price) + "\n";
-        baseInfo += "Water Affection: " + std::to_string(affectWaterValue) + "\n";
-        baseInfo += "Sun Affection: " + std::to_string(affectSunValue) + "\n";
     }
 
     return baseInfo;
@@ -177,11 +173,14 @@ int LivingPlant::affectSunlight()
 
 void LivingPlant::update()
 {
-    //added null checks
-    if (this->decorator != nullptr) {
+    // added null checks
+    if (this->decorator != nullptr)
+    {
         this->waterLevel -= this->decorator->affectWater();
         this->sunExposure -= this->decorator->affectSunlight();
-    } else {
+    }
+    else
+    {
         this->waterLevel -= this->affectWater();
         this->sunExposure -= this->affectSunlight();
     }
@@ -267,4 +266,21 @@ PlantComponent *LivingPlant::correctShape(PlantComponent *mainDecorator)
 {
     this->decorator = mainDecorator;
     return this;
+}
+LivingPlant::~LivingPlant()
+{
+    if (!deleted)
+    {
+        deleted = true;
+        if (decorator)
+            delete decorator;
+    }
+}
+int LivingPlant::getWaterValue()
+{
+    return this->waterLevel;
+}
+int LivingPlant::getSunlightValue()
+{
+    return this->sunExposure;
 }

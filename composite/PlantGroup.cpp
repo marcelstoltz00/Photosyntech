@@ -64,7 +64,7 @@ std::string PlantGroup::getInfo()
     for (PlantComponent *component : plants)
     {
         counter++;
-        ss << component->getInfo();
+        ss << component->getDecorator()->getInfo();
 
         ss << "\n--- End of Component" + std::to_string(counter) + " ---\n";
     }
@@ -92,6 +92,10 @@ void PlantGroup::update()
     for (PlantComponent *component : plants)
     {
         component->update();
+        if (component->getSunlightValue() <= 20)
+            waterNeeded(component);
+        if (component->getSunlightValue() <= 20)
+            waterNeeded(component);
     }
 };
 
@@ -209,56 +213,78 @@ void PlantGroup::detach(Observer *careTaker)
 /**
  * @brief Notifies observers that all plants need water.
  */
-void PlantGroup::waterNeeded()
+void PlantGroup::waterNeeded(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
-        for (PlantComponent *plant : plants)
-        {
-            plant->water();
-            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
-            if (lp)
-            {
-                obs->getWaterUpdate(lp);
-            }
-        }
+        obs->getWaterUpdate(updatedPlant);
     }
 }
 
 /**
  * @brief Notifies observers that all plants need sunlight.
  */
-void PlantGroup::sunlightNeeded()
+void PlantGroup::sunlightNeeded(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
-        for (PlantComponent *plant : plants)
-        {
-            plant->setOutside();
-            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
-            if (lp)
-            {
-                obs->getSunUpdate(lp);
-            }
-        }
+        obs->getSunUpdate(updatedPlant);
     }
 }
 
 /**
  * @brief Notifies observers that all plants have updated states.
  */
-void PlantGroup::stateUpdated()
+void PlantGroup::stateUpdated(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
-        for (PlantComponent *plant : plants)
-        {
-            plant->update();
-            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
-            if (lp)
-            {
-                obs->getStateUpdate(lp);
-            }
-        }
+        obs->getStateUpdate(updatedPlant);
     }
+}
+
+void PlantGroup::checkWater()
+{
+    for (PlantComponent *plant : plants)
+    {
+        if (plant->getWaterValue() <= 20)
+            waterNeeded(plant);
+    }
+}
+void PlantGroup::checkSunlight()
+{
+    for (PlantComponent *plant : plants)
+    {
+
+        if (plant->getSunlightValue() <= 20)
+            waterNeeded(plant);
+    }
+}
+void PlantGroup::checkState()
+{
+    for (PlantComponent *plant : plants)
+    {
+        stateUpdated(plant);
+    }
+}
+
+int PlantGroup::getWaterValue()
+{
+    int sum = 0;
+
+    for (PlantComponent *plant : plants)
+    {
+        sum += plant->getWaterValue();
+    }
+    return sum;
+};
+int PlantGroup::getSunlightValue()
+{
+    int sum = 0;
+
+    for (PlantComponent *plant : plants)
+    {
+        sum += plant->getSunlightValue();
+    }
+    return sum;
 }

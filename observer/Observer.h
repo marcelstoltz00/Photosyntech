@@ -2,10 +2,11 @@
 #define Observer_h
 
 // Remove: #include "Subject.h" - it also caused circular dependency
-// Remove: #include "../prototype/LivingPlant.h" - only forward declared it below
+// Remove: #include "../prototype/PlantComponent.h" - only forward declared it below
 
 // Forward declarations instead
-class LivingPlant;
+
+class PlantComponent;
 
 /**
  * @brief Abstract observer interface in the Observer pattern.
@@ -47,21 +48,21 @@ class Observer
 public:
 	/**
 	 * @brief Receives notification that a plant needs water.
-	 * @param plant Pointer to the LivingPlant that needs watering.
+	 * @param plant Pointer to the PlantComponent that needs watering.
 	 */
-	virtual void getWaterUpdate(LivingPlant *plant) = 0;
+	virtual void getWaterUpdate(PlantComponent *plant) = 0;
 
 	/**
 	 * @brief Receives notification that a plant needs sunlight.
-	 * @param plant Pointer to the LivingPlant that needs sun exposure.
+	 * @param plant Pointer to the PlantComponent that needs sun exposure.
 	 */
-	virtual void getSunUpdate(LivingPlant *plant) = 0;
+	virtual void getSunUpdate(PlantComponent *plant) = 0;
 
 	/**
 	 * @brief Receives notification that a plant's state has changed.
-	 * @param plant Pointer to the LivingPlant whose state was updated.
+	 * @param plant Pointer to the PlantComponent whose state was updated.
 	 */
-	virtual void getStateUpdate(LivingPlant *plant) = 0;
+	virtual void getStateUpdate(PlantComponent *plant) = 0;
 
 	/**
 	 * @brief Virtual destructor for proper cleanup of derived classes.

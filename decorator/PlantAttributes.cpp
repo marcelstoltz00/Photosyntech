@@ -84,3 +84,25 @@ PlantComponent *PlantAttributes::correctShape(PlantComponent *mainDecorator)
         return nullptr;
     }
 };
+PlantAttributes::~PlantAttributes()
+{
+    if (nextComponent && nextComponent->isDeleted() == false)
+    {
+        nextComponent->markDeletion();
+        delete nextComponent;
+    }
+}
+int PlantAttributes::getWaterValue()
+{
+    if (nextComponent)
+        return nextComponent->getWaterValue();
+    else
+        throw "Incomplete plant";
+}
+int PlantAttributes::getSunlightValue()
+{
+    if (nextComponent)
+        return nextComponent->getWaterValue();
+    else
+        throw "Incomplete plant";
+}
