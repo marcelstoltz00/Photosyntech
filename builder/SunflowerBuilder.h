@@ -22,9 +22,7 @@
  */
 class SunflowerBuilder : public Builder
 {
-private:
-    LivingPlant *plant = nullptr;
-  
+
 
 public:
     /**
@@ -66,16 +64,7 @@ public:
      * - Large Stem
      */
     void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Sunflower plant.
-     * @return Pointer to the constructed Sunflower plant.
-     */
-   PlantComponent *getResult() override;
 
-    /**
-     * @brief Destructor for SunflowerBuilder.
-     */
-    ~SunflowerBuilder();
 };
 
 #endif // SUNFLOWERBUILDER_H

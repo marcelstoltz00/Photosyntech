@@ -89,13 +89,19 @@ PlantComponent *PlantGroup::clone()
 
 void PlantGroup::update()
 {
+
     for (PlantComponent *component : plants)
     {
+
         component->update();
-        if (component->getSunlightValue() <= 20)
-            waterNeeded(component);
-        if (component->getSunlightValue() <= 20)
-            waterNeeded(component);
+
+        if (component->getType() != ComponentType::PLANT_GROUP)
+        {
+            if (component->getSunlightValue() <= 20)
+                waterNeeded(component);
+            if (component->getSunlightValue() <= 20)
+                sunlightNeeded(component);
+        }
     }
 };
 

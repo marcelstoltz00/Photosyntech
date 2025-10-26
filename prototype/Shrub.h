@@ -36,27 +36,29 @@
  */
 class Shrub : public LivingPlant
 {
-	public:
-		/**
-		 * @brief Constructs a new Shrub with default characteristics.
-		 */
-		Shrub();
+public:
+	/**
+	 * @brief Constructs a new Shrub with default characteristics.
+	 */
+	Shrub();
 
-		/**
-		 * @brief Constructs a copy of an existing shrub.
-		 *
-		 * Performs a member-wise shallow copy for flyweights.
-		 * and a deep copy for the decorator chain.
-		 *
-		 * @param other The shrub object to copy.
-		 */
-		Shrub(const Shrub& other);
+	/**
+	 * @brief Constructs a copy of an existing shrub.
+	 *
+	 * Performs a member-wise shallow copy for flyweights.
+	 * and a deep copy for the decorator chain.
+	 *
+	 * @param other The shrub object to copy.
+	 */
+	Shrub(const Shrub &other);
 
-		/**
-		 * @brief Clones this shrub creating a deep copy.
-		 * @return Pointer to a new Shrub object that is a copy of this one.
-		 */
-		PlantComponent* clone();
+	Shrub(std::string);
+
+	/**
+	 * @brief Clones this shrub creating a deep copy.
+	 * @return Pointer to a new Shrub object that is a copy of this one.
+	 */
+	PlantComponent *clone();
 };
 
 #endif

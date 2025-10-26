@@ -22,8 +22,6 @@
  */
 class CherryBlossomBuilder : public Builder
 {
-private:
-	LivingPlant *plant = nullptr;
 
 
 public:
@@ -67,16 +65,9 @@ public:
      * - Large Stem
      */
     void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Cherry Blossom tree.
-     * @return Pointer to the constructed Cherry Blossom tree.
-     */
-      PlantComponent *getResult() override;
 
-    /**
-     * @brief Destructor for CherryBlossomBuilder.
-     */
-    ~CherryBlossomBuilder();
+
+
 };
 
 #endif // CHERRYBLOSSOMBUILDER_H

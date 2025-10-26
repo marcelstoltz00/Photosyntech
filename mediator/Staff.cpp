@@ -113,7 +113,7 @@ void Staff::getSunUpdate(PlantComponent *plant)
     {
         int oldSun = plant->getSunlightValue();
         plant->setOutside();
-        cout << "Plant [" << plant->getName() << "] has had its sunlight updated by" << this->name << endl;
+        cout << "Plant [" << plant->getName() << "] has had its sunlight updated by " << this->name << endl;
         cout << "The sun level was " << oldSun << " and is now " << plant->getSunlightValue() << endl;
     }
 }
@@ -131,10 +131,15 @@ void Staff::getStateUpdate(PlantComponent *plant)
     if (plant)
     {
         cout << "Checking State of [" << plant->getName() << "]" << endl;
-        
+
         if (plant->getDecorator())
+        {
             cout << plant->getDecorator()->getInfo() << endl;
+        }
         else
+        {
+            cout << "decroator is null" << endl;
             cout << plant->getInfo() << endl;
+        }
     }
 }

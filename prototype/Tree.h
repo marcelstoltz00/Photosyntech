@@ -52,6 +52,8 @@ class Tree : public LivingPlant
 		 */
 		Tree(const Tree& other);
 
+
+				Tree(std::string);
 		/**
 		 * @brief Clones this tree creating a deep copy.
 		 * @return Pointer to a new Tree object that is a copy of this one.

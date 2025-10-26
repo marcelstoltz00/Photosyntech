@@ -329,7 +329,7 @@ TEST_CASE("Testing Builder Pattern Implementation")
 
         CHECK(rosePlant != nullptr);
 
-        delete rosePlant->getDecorator();
+        delete rosePlant;
         delete roseBuilder;
     }
 
@@ -2298,27 +2298,6 @@ TEST_CASE("Both deletions work")
     delete dirRose;
     delete Inventory::getInstance();
 }
-TEST_CASE("Auto update of plants")
-{
-    RoseBuilder *roseB = new RoseBuilder();
-    Director *dirRose = new Director(roseB);
-    dirRose->construct();
-
-    Staff *watcher = new Staff("Woody");
-
-    for (int i = 0; i < 5; i++)
-        Inventory::getInstance()->getInventory()->addComponent(dirRose->getPlant());
-
-    Inventory::getInstance()->getInventory()->attach(watcher);
-
-    for (int i = 0; i < 3; i++)
-        Inventory::getInstance()->getInventory()->update();
-
-    delete roseB;
-    delete dirRose;
-    delete Inventory::getInstance();
-    delete watcher;
-}
 TEST_CASE("Checking clone")
 {
     RoseBuilder *roseB = new RoseBuilder();
@@ -2331,4 +2310,27 @@ TEST_CASE("Checking clone")
     delete roseB;
     delete dirRose;
     delete Inventory::getInstance();
+}
+TEST_CASE("Auto update of plants")
+{
+    RoseBuilder *roseB = new RoseBuilder();
+    Director *dirRose = new Director(roseB);
+    dirRose->construct();
+    Staff *watcher = new Staff("Woody");
+
+    for (int i = 0; i < 2; i++)
+        Inventory::getInstance()->getInventory()->addComponent(dirRose->getPlant());
+
+    Inventory::getInstance()->getInventory()->attach(watcher);
+
+    for (int i = 0; i < 10; i++)
+        Inventory::getInstance()->getInventory()->update();
+
+    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getWaterValue() == 40);
+    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getSunlightValue() == 45);
+    Inventory::getInstance()->getInventory()->checkState();
+    delete roseB;
+    delete dirRose;
+    delete Inventory::getInstance();
+    delete watcher;
 }

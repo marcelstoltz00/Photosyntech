@@ -17,8 +17,7 @@
  */
 class LavenderBuilder : public Builder
 {
-private:
-    LivingPlant *plant = nullptr;
+
  
 
 public:
@@ -55,16 +54,7 @@ public:
      * @brief Adds decorators to the LivingPlant.
      */
     void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Lavender plant.
-     * @return Pointer to the constructed Lavender plant.
-     */
-    PlantComponent *getResult() override;
 
-    /**
-     * @brief Destructor for LavenderBuilder.
-     */
-    ~LavenderBuilder();
 };
 
 #endif // LAVENDERBUILDER_H

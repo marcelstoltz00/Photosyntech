@@ -28,6 +28,8 @@ class Succulent : public LivingPlant
 		 */
 		Succulent(const Succulent& other);
 
+
+			Succulent(std::string);
 		/**
 		 * @brief Clones this succulent creating a deep copy.
 		 * @return Pointer to a new Succulent object that is a copy of this one.
