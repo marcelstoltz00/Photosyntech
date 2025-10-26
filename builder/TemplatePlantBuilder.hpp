@@ -1,8 +1,11 @@
 #ifndef TEMPLATEPLANTBUILDER_HPP
 #define TEMPLATEPLANTBUILDER_HPP
 
+// Implementation file for TemplatePlantBuilder; the corresponding header
+// TemplatePlantBuilder.h should include this .hpp instead of including the
+// header here to avoid recursive inclusion during preamble compilation.
+
 #include "TemplatePlantBuilder.h"
-#include "Builder.h"
 #include "../prototype/LivingPlant.h"
 #include "../state/Seed.h"
 

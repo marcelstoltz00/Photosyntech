@@ -42,11 +42,11 @@ public:
 };
 
 
-using CherryBlossomBuilder = TemplatePlantBuilder<Tree, MidSun, MidWater>;
-using CactusBuilder = TemplatePlantBuilder<Succulent, HighSun, LowWater>;
-using RoseBuilder = TemplatePlantBuilder<Shrub, MidSun, MidWater>;
-using SunflowerBuilder = TemplatePlantBuilder<Herb, HighSun, MidWater>;
+typedef TemplatePlantBuilder<Tree, MidSun, MidWater> CherryBlossomBuilder;
+typedef TemplatePlantBuilder<Succulent, HighSun, LowWater> CactusBuilder;
+typedef TemplatePlantBuilder<Shrub, MidSun, MidWater> RoseBuilder;
+typedef TemplatePlantBuilder<Herb, HighSun, MidWater> SunflowerBuilder;
 
-#include "TemplatePlantBuilder.hpp"
+
 
 #endif // TEMPLATEPLANTBUILDER_H

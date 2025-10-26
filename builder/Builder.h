@@ -41,7 +41,7 @@
 class Builder
 {
 protected:
-	LivingPlant *plant = nullptr;
+	LivingPlant *plant = NULL;
 	
 
 public:
