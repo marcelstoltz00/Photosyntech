@@ -33,6 +33,18 @@ jobs:
         git remote -v || true
         echo "--- ls docs output ---"
         ls -la ./docs/doxygen/html || true
+
+    - name: Prepare HTML publish folder for ghaction-doxygen-ghpages
+      run: |
+        echo "Ensuring expected publish_dir exists for the action"
+        if [ -d "./docs/doxygen/html" ]; then
+          mkdir -p doc
+          rm -rf doc/html
+          cp -a ./docs/doxygen/html doc/html
+          echo "Copied ./docs/doxygen/html -> ./doc/html"
+        else
+          echo "Warning: ./docs/doxygen/html not found; action may fail"
+        fi
       
     - name: Doxygen and Github Pages
       uses: AgarwalSaurav/ghaction-doxygen-ghpages@v2.3.0
