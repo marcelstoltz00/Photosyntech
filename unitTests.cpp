@@ -329,7 +329,6 @@ TEST_CASE("Testing Builder Pattern Implementation")
 
         CHECK(rosePlant != nullptr);
 
-        
         delete rosePlant;
         delete roseBuilder;
     }
@@ -2317,7 +2316,6 @@ TEST_CASE("Auto update of plants")
     RoseBuilder *roseB = new RoseBuilder();
     Director *dirRose = new Director(roseB);
     dirRose->construct();
-
     Staff *watcher = new Staff("Woody");
 
     for (int i = 0; i < 2; i++)
@@ -2325,13 +2323,12 @@ TEST_CASE("Auto update of plants")
 
     Inventory::getInstance()->getInventory()->attach(watcher);
 
-    cout << "From the update function ##########" << endl;
     for (int i = 0; i < 10; i++)
         Inventory::getInstance()->getInventory()->update();
-    cout << "From the update function ##########" << endl;
 
+    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getWaterValue() == 40);
+    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getSunlightValue() == 45);
     Inventory::getInstance()->getInventory()->checkState();
-
     delete roseB;
     delete dirRose;
     delete Inventory::getInstance();
