@@ -295,12 +295,10 @@ void PlantGroup::tick()
 
     for (PlantComponent *component : plants)
     {
-
-        component->update();
         component->tick();
 
         if (component->getType() != ComponentType::PLANT_GROUP)
-        {
+        {   component->update();
             if (component->getWaterValue() <= 20)
                 waterNeeded(component);
             if (component->getSunlightValue() <= 20)
