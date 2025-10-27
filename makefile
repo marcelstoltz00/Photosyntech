@@ -256,3 +256,6 @@ tui-build-raw:
 # Full sequence: clone repo (if needed), fetch deps, configure and build
 tui-full: tui-clone tui-deps tui-configure-raw tui-build-raw
 	@echo "TUIKit build complete (tui-full)"
+
+tui-manager: tui
+	cd TUI/TUIKit/build && ./TUI

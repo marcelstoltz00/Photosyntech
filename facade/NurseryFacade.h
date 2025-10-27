@@ -7,6 +7,35 @@
 #include "../command/Command.h"
 #include "../iterator/Aggregate.h"
 #include "../composite/PlantComponent.h"
+#include <string>
+#include <vector>
+#include "../builder/Director.h"
+#include "../builder/SunflowerBuilder.h"
+#include "../builder/RoseBuilder.h"
+#include "../builder/JadePlantBuilder.h"
+#include "../builder/MapleBuilder.h"
+#include "../builder/CactusBuilder.h"
+#include "../builder/CherryBlossomBuilder.h"
+#include "../builder/LavenderBuilder.h"
+#include "../builder/PineBuilder.h"
+#include "../composite/PlantGroup.h"
+#include "../decorator/plantDecorator/PlantAttributesHeader.h"
+#include "../decorator/plantDecorator/LargeStem.h"
+#include "../decorator/plantDecorator/LargeLeaf.h"
+#include "../decorator/plantDecorator/LargeFlowers.h"
+#include "../decorator/plantDecorator/SmallStem.h"
+#include "../decorator/plantDecorator/SmallLeaf.h"
+#include "../decorator/plantDecorator/SmallFlowers.h"
+#include "../decorator/plantDecorator/Thorns.h"
+#include "../decorator/plantDecorator/Spring.h"
+#include "../decorator/plantDecorator/Summer.h"
+#include "../decorator/plantDecorator/Autumn.h"
+#include "../decorator/plantDecorator/Winter.h"
+#include "../../../prototype/LivingPlant.h"
+#include "../../../prototype/Herb.h"
+#include "../../../prototype/Shrub.h"
+#include "../../../prototype/Succulent.h"
+#include "../../../prototype/Tree.h"
 
 
 /**
@@ -56,50 +85,43 @@
  * @see Command (operation encapsulation)
  * @see Iterator (plant filtering and browsing)
  */
-class NurseryFacade
-{
-	private:
-		Director* director;
-		Singleton* inventory;
-		Mediator* salesFloor;
-		Mediator* suggestionFloor;
 
-	public:
-		/**
-		 * @brief Creates a new plant using the builder pattern.
-		 * @param species String identifying the plant species to create.
-		 * @return Pointer to the newly created PlantComponent.
-		 */
-		PlantComponent* createPlant(const char* species);
 
-		/**
-		 * @brief Adds a plant to the global inventory.
-		 * @param plant Pointer to the PlantComponent to add.
-		 */
-		void addToInventory(PlantComponent* plant);
+class NurseryFacade {
+private:
+    Director* director;
+    Builder* sunflowerBuilder;
+    Builder* roseBuilder;
+    Builder* jadePlantBuilder;
+    Builder* mapleBuilder;
+	Builder* cactusBuilder;
+	Builder* cherryBlossomBuilder;
+	Builder* lavenderBuilder;
+	Builder* pineBuilder;
+    std::vector<PlantComponent*> plants;
 
-		/**
-		 * @brief Browses available plants, optionally filtered by criteria.
-		 * @param filter Optional filter string (e.g., season name).
-		 */
-		void browsePlants(const char* filter);
+public:
+    NurseryFacade();
+    ~NurseryFacade();
 
-		/**
-		 * @brief Initiates a plant purchase transaction.
-		 * @param plant Pointer to the PlantComponent being purchased.
-		 */
-		void purchasePlant(PlantComponent* plant);
+    PlantComponent* createPlant(const std::string& type);
+    void waterPlant(PlantComponent* plant);
+    void addSunlight(PlantComponent* plant);
+    std::string getPlantInfo(PlantComponent* plant);
 
-		/**
-		 * @brief Waters a specific plant.
-		 * @param plant Pointer to the PlantComponent to water.
-		 */
-		void waterPlant(PlantComponent* plant);
+    std::vector<std::string> getAvailablePlantTypes();
 
-		/**
-		 * @brief Requests plant care suggestions from staff.
-		 */
-		void getSuggestions();
+	PlantComponent* getInventoryRoot();
+
+    std::list<PlantComponent*> getGroupContents(PlantComponent* group);
+
+    PlantGroup* createPlantGroup(const std::string& name);
+
+    void addComponentToGroup(PlantComponent* parent, PlantComponent* child);
+
+    bool startNurseryTick();
+
+    bool stopNurseryTick();
 };
 
 #endif
