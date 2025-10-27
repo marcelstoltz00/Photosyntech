@@ -50,9 +50,6 @@ jobs:
     # This job must wait for the build job to finish
     needs: build-documentation
 
-    # Only deploy from non-development branches
-    if: github.ref_name != 'devBranch'
-
     # Use the same environment as your first working log
     environment:
       name: github-pages
