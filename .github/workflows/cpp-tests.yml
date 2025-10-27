@@ -37,10 +37,13 @@ jobs:
     - name: Generate coverage report
       run: make cov
 
+    - name: Display coverage file
+      run: cat coverage.txt
+
     - name: Get coverage percentage
       id: coverage
       run: |
-        PERCENTAGE=$(grep -o '[0-9.]*' coverage.txt | head -n 1)
+        PERCENTAGE=$(awk -F '[ %]' '/^lines:/ {print $2}' coverage.txt)
         echo "percent=${PERCENTAGE}" >> $GITHUB_OUTPUT
 
     - name: Create coverage badge
