@@ -8,7 +8,7 @@
 <div align="center">
 
 ![Unit Tests](https://github.com/marcelstoltz00/Photosyntech/actions/workflows/cpp-tests.yml/badge.svg)
-![Code Coverage](https://img.shields.io/badge/coverage-dynamic-brightgreen)
+![Code Coverage](https://img.shields.io/badge/dynamic/json?url=https://gist.githubusercontent.com/marcelstoltz00/0498d898440eb443f768fdfd73d46c47/raw/coverage.json&query=message&label=coverage&color=brightgreen)
 
 ![GitHub issues](https://img.shields.io/github/issues/marcelstoltz00/Photosyntech)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/marcelstoltz00/Photosyntech)
@@ -75,10 +75,10 @@ make all
 <h1 align="center">🤝 PhotoSyntech 🤝</h1>
 
 
-| Name                 | Student ID | 
-| -------------------- | ---------- |
-| Wilmar Smit          | u24584216  |
-| Johan Coetzer        | u24564584  |
-| Marcel Stoltz        | u24566552  |
-| Michael Tomlinson    | u24569705  |
-| Zamokuhle Zwane      | u23533413  |
+|Photo | Name                 | Student ID | Role      | 
+|-----------| -------------------- | ---------- |---------|
+|| Wilmar Smit          | u24584216  |TaskMaster|
+|| Johan Coetzer        | u24564584  |Thing One|
+|| Marcel Stoltz        | u24566552  |Thing Two|
+|| Michael Tomlinson    | u24569705  |The Brains And The Brawn|
+|| Zamokuhle Zwane      | u23533413  |The Architect|

@@ -36,7 +36,17 @@ jobs:
     
     - name: Generate coverage report
       run: make cov
-    
+
+    - name: Create coverage badge
+      uses: schneegans/dynamic-badges-action@v1.7.0
+      with:
+        auth: ${{ secrets.GIST_SECRET }}
+        gistID: 0498d898440eb443f768fdfd73d46c47
+        filename: coverage.json
+        label: Coverage
+        message: $(grep -o '[0-9.]*%' coverage.txt)
+        color: green
+        
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       with:
