@@ -295,7 +295,6 @@ void PlantGroup::tick()
 
     for (PlantComponent *component : plants)
     {
-        component->tick();
 
 
         if (component->getType() != ComponentType::PLANT_GROUP)
@@ -306,5 +305,8 @@ void PlantGroup::tick()
             if (component->getSunlightValue() <= 10)
                 sunlightNeeded(component);
         }
+
+                component->tick();
+
     }
 }
