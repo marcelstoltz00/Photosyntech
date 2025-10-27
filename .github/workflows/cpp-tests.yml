@@ -39,7 +39,9 @@ jobs:
 
     - name: Get coverage percentage
       id: coverage
-      run: echo "percent=$(grep -o '[0-9.]*%' coverage.txt | sed 's/%//')" >> $GITHUB_OUTPUT
+      run: |
+        PERCENTAGE=$(grep -o '[0-9.]*' coverage.txt | head -n 1)
+        echo "percent=${PERCENTAGE}" >> $GITHUB_OUTPUT
 
     - name: Create coverage badge
       uses: schneegans/dynamic-badges-action@v1.7.0
