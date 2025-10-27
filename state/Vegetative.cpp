@@ -10,10 +10,11 @@ void Vegetative::grow(LivingPlant *plant)
 
 
     plant->setWaterLevel(plant->getWaterLevel() - waterusage);
+  plant->setHealth(plant->getHealth() - 4);
 
     if (plant->getAge() >= 30 && plant->getSunExposure() >= 40)
     {
-        plant->setHealth(plant->getHealth() + 3);
+        plant->setHealth(plant->getHealth() + 5);
     }
 
     if (plant->getAge() >= 30 &&

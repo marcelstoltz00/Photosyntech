@@ -10,9 +10,10 @@ void Mature::grow(LivingPlant* plant) {
 
     
     plant->setWaterLevel(plant->getWaterLevel() - waterusage);
+  plant->setHealth(plant->getHealth() - 2);
 
     if (plant->getWaterLevel() >= 30 && plant->getSunExposure() >= 40) {
-        plant->setHealth(plant->getHealth() + 1);
+        plant->setHealth(plant->getHealth() + 3);
     }
     
     if (plant->getAge() >= 120 || plant->getHealth() <= 0) {
