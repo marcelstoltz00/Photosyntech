@@ -9,6 +9,10 @@ PROJECT_LOGO           = docs/images/photosyntech_logo.JPG
 OUTPUT_DIRECTORY       = docs
 HTML_OUTPUT            = doxygen/html
 
+# Logo size settings (width in pixels)
+HTML_LOGO_WIDTH        = 80
+HTML_LOGO_HEIGHT       = 80
+
 # ==============================================================================
 # INPUT SOURCES
 # ==============================================================================
@@ -27,7 +31,7 @@ INPUT                  = README.md \
                          singleton \
                          state \
                          strategy \
-                         docs/design-patterns
+                    
 
 # Recursive parsing
 RECURSIVE              = YES
@@ -88,8 +92,9 @@ EXPAND_ONLY_PREDEF     = NO
 # DIAGRAMS AND GRAPHS
 # ==============================================================================
 # Enable diagrams if Graphviz is installed (set to YES if you have it)
-HAVE_DOT               = NO
+HAVE_DOT               = YES
 DOT_NUM_THREADS        = 4
+DOT_PATH               = 
 
 # Diagram types
 CLASS_DIAGRAMS         = YES
@@ -102,6 +107,11 @@ GRAPHICAL_HIERARCHY    = YES
 DIRECTORY_GRAPH        = YES
 DOT_IMAGE_FORMAT       = svg
 INTERACTIVE_SVG        = YES
+
+# Control diagram complexity (prevent overwhelming diagrams)
+MAX_DOT_GRAPH_DEPTH    = 5
+DOT_TRANSPARENT        = YES
+DOT_MULTI_TARGETS      = YES
 
 # ==============================================================================
 # LAYOUT AND ORGANIZATION
