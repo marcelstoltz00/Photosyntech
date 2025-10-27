@@ -255,11 +255,54 @@ public:
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
 	virtual PlantComponent *getDecorator() ;
-	virtual ~LivingPlant();
-	PlantComponent *correctShape(PlantComponent *mainDecorator);
-	virtual int getWaterValue();
-	virtual int getSunlightValue();
-	virtual void tick();
+
+/**
+ * @brief Virtual destructor for LivingPlant.
+ *
+ * Ensures proper cleanup of derived plant components and decorators.
+ * Enables polymorphic deletion when using base class pointers.
+ */
+virtual ~LivingPlant();
+
+/**
+ * @brief Validates or adjusts the decorator chain for a plant component.
+ *
+ * Stub of the decorator, brought to the head of the clone
+ *
+ * @param mainDecorator Expected to be a season attribute 
+ * @return Pointer to the corrected or validated PlantComponent.
+ */
+PlantComponent *correctShape(PlantComponent *mainDecorator);
+
+/**
+ * @brief Retrieves the water requirement value of the plant.
+ *
+ * Returns the hydration level needed by this plant component, which may be
+ * influenced by strategy, maturity, or decoration layers.
+ *
+ * @return Integer representing water value.
+ */
+virtual int getWaterValue();
+
+/**
+ * @brief Retrieves the sunlight requirement value of the plant.
+ *
+ * Returns the sunlight exposure level required by this plant component,
+ * potentially influenced by strategy, maturity, or decoration layers.
+ *
+ * @return Integer representing sunlight value.
+ */
+virtual int getSunlightValue();
+
+/**
+ * @brief Advances the internal state of the plant component by one tick.
+ *
+ * This method simulates time progression, allowing the plant to update
+ * its maturity
+ * 
+ */
+virtual void tick();
+
 };
 
 #endif

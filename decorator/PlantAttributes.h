@@ -149,15 +149,46 @@ public:
 	 */
 	virtual ~PlantAttributes();
 
-	// /**
-	//  * @brief Sets the decorator for builder purposes
-	//  * @param other Pointer to the decorator.
-	// */
-	// void setDecorator(PlantComponent* other);
-	PlantComponent *correctShape(PlantComponent *mainDecorator);
-	virtual int getWaterValue();
-	virtual int getSunlightValue();
-	virtual void tick();
+	
+/**
+ * @brief Ensures the correct shape hierarchy for a plant component.
+ * Will send down the decorator chain until a living plant is found to ensure the efficient structure in PlantGroup
+ *
+ * @param mainDecorator Pointer to the top-level PlantComponent decorator expected to be a season attribute.
+ * @return Pointer to the living plant.
+ */
+PlantComponent *correctShape(PlantComponent *mainDecorator);
+
+/**
+ * @brief Retrieves the water requirement value for this plant component.
+ *
+ * This method returns the water consumption or hydration level associated
+ * with the current plant component. It may be influenced by strategy, maturity,
+ * or decoration layers.
+ *
+ * @return Integer representing water value.
+ */
+virtual int getWaterValue();
+
+/**
+ * @brief Retrieves the sunlight requirement value for this plant component.
+ *
+ * This method returns the sunlight exposure level required by the plant,
+ * potentially influenced by strategy, maturity, or decoration layers.
+ *
+ * @return Integer representing sunlight value.
+ */
+virtual int getSunlightValue();
+
+/**
+ * @brief Advances the internal state of the plant component by one tick.
+ *
+ * This method simulates time progression, allowing the plant to update
+ * its maturity, water level and sunlight, used by the thread inside the singleton
+ * 
+ */
+virtual void tick();
+
 };
 
 #endif
