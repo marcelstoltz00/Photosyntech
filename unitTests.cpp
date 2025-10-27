@@ -121,6 +121,7 @@ TEST_CASE("Testing decorator")
     plant->addAttribute(new Autumn());
     delete Inventory::getInstance();
     delete plant->getDecorator();
+    delete plant;
 
     delete Inventory::getInstance();
 }
@@ -440,6 +441,9 @@ TEST_CASE("Testing Builder Pattern Implementation")
         delete Inventory::getInstance();
     }
 }
+
+
+
 TEST_CASE("Testing Mediator Pattern Implementation")
 {
     SUBCASE("Customer Creation and Basic Operations")
@@ -2360,4 +2364,51 @@ TEST_CASE("Testing concurrency")
     delete dirRose;
     delete Inventory::getInstance();
     delete watcher;
+}
+
+TEST_CASE("Testing getImagePath for different states")
+{
+    Inventory *inv = Inventory::getInstance();
+
+    SUBCASE("Path generation for standard plant name")
+    {
+        LivingPlant *plant = new Tree(); // Default name is "Tree"
+
+        // Test Seed state
+        plant->setMaturity(Seed::getID());
+        MaturityState *seedState = inv->getStates(Seed::getID())->getState();
+        CHECK(seedState->getImagePath(plant) == "docs/images/Tree1.jpg");
+
+        // Test Vegetative state
+        plant->setMaturity(Vegetative::getID());
+        MaturityState *vegetativeState = inv->getStates(Vegetative::getID())->getState();
+        CHECK(vegetativeState->getImagePath(plant) == "docs/images/Tree2.jpg");
+
+        // Test Mature state
+        plant->setMaturity(Mature::getID());
+        MaturityState *matureState = inv->getStates(Mature::getID())->getState();
+        CHECK(matureState->getImagePath(plant) == "docs/images/Tree3.jpg");
+
+        // Test Dead state
+        plant->setMaturity(Dead::getID());
+        MaturityState *deadState = inv->getStates(Dead::getID())->getState();
+        CHECK(deadState->getImagePath(plant) == "docs/images/Tree4.jpg");
+
+        delete plant;
+    }
+
+    SUBCASE("Path generation for plant name with spaces")
+    {
+        // Using a constructor that takes a name
+        LivingPlant *plant = new Shrub("Maple Tree");
+
+        plant->setMaturity(Seed::getID());
+        MaturityState *seedState = inv->getStates(Seed::getID())->getState();
+        // Check if space is removed
+        CHECK(seedState->getImagePath(plant) == "docs/images/MapleTree1.jpg");
+
+        delete plant;
+    }
+
+    delete Inventory::getInstance();
 }
