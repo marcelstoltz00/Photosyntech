@@ -6,22 +6,18 @@
 void Seed::grow(LivingPlant* plant) {
     plant->setAge(plant->getAge() + 1);
     double waterusage = 6.0;
-    //    switch (plant->getSeason()) {
-//         case Season::SPRING:
-//             waterusage *= 0.9;
-//             break;
-//         case Season::SUMMER:
-//             waterusage *= 1.3f;
-//             break;
-//         case Season::AUTUMN:
-//             waterusage *= 1.0f;
-//             break;
-//         case Season::WINTER:
-//             waterusage *= 0.7f;
-//             break;
-//         default:
-//             waterusage *= 1.0f;
-//     }
+   std::string season = *plant->getSeason()->getState();
+    if (season == "Spring") {
+        waterusage *= 0.9;
+    } else if (season == "Summer") {
+        waterusage *= 1.3f;
+    } else if (season == "Autumn") {
+        waterusage *= 1.0f;
+    } else if (season == "Winter") {
+        waterusage *= 0.7f;
+    } else {
+        waterusage *= 1.0f;
+    }
     
     plant->setWaterLevel(plant->getWaterLevel() - waterusage);
 
@@ -40,4 +36,12 @@ void Seed::grow(LivingPlant* plant) {
         
         plant->setMaturity(Vegetative::getID());
     }
+}
+
+
+std::string Seed::getImagePath(LivingPlant *plant)
+{
+    std::string plantName = plant->getName();
+    plantName.erase(std::remove(plantName.begin(), plantName.end(), ' '), plantName.end());
+    return "docs/images/" + plantName + std::to_string(getID()) + ".png";
 }
