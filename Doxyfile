@@ -32,7 +32,30 @@ INPUT                  = README.md \
                          docs/design-patterns
                     
 
-# Recursive parsing
+OUTPUT_DIRECTORY       = ./docs/doxygen
+CREATE_SUBDIRS         = YES
+ALLOW_UNICODE_NAMES    = YES
+
+# Input files and directories
+INPUT                  = . \
+                         builder \
+                         command \
+                         composite \
+                         decorator \
+                         facade \
+                         flyweight \
+                         iterator \
+                         mediator \
+                         observer \
+                         prototype \
+                         singleton \
+                         state \
+                         strategy \
+                         gui \
+                         docs
+
+INPUT_ENCODING         = UTF-8
+FILE_PATTERNS          = *.h *.hpp *.cpp *.c *.cc *.cxx *.C *.md
 RECURSIVE              = YES
 
 # File types to include
