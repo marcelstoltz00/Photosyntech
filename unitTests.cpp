@@ -87,6 +87,14 @@ TEST_CASE("Overall Testing of flyweight water strategies")
     delete fac;
     delete plant;
 }
+TEST_CASE("Customers and staff are managed in singleton")
+{
+    Inventory::getInstance()->addCustomer(new Customer());
+    Inventory::getInstance()->addStaff(new Staff);
+    
+    delete Inventory::getInstance();
+}
+
 TEST_CASE("Singleton basics with water strategy testing and with state testing")
 {
 
@@ -121,7 +129,6 @@ TEST_CASE("Testing decorator")
     plant->addAttribute(new Autumn());
 
     delete plant;
-
 
     delete Inventory::getInstance();
 }
@@ -441,8 +448,6 @@ TEST_CASE("Testing Builder Pattern Implementation")
         delete Inventory::getInstance();
     }
 }
-
-
 
 TEST_CASE("Testing Mediator Pattern Implementation")
 {

@@ -117,24 +117,36 @@ double LivingPlant::getPrice()
 
 std::string LivingPlant::getInfo()
 {
-    std::string plantName = *name->getState();
-    std::string baseInfo = "";
+    std::ostringstream stream;
+    stream << std::fixed << std::setprecision(2);
 
-    baseInfo += "Name: " + plantName + "\n";
-    baseInfo += "Health: " + std::to_string(health) + "\n";
-    baseInfo += "Age: " + std::to_string(age) + " days\n";
-    baseInfo += "Water Level: " + std::to_string(waterLevel) + "\n";
-    baseInfo += "Sun Exposure: " + std::to_string(sunExposure) + "\n";
-    baseInfo += "Base Price: R" + std::to_string(price) + "\n";
+    std::string plantName = *name->getState();
+
+    stream << "-------------------------------\n";
+
+    stream << "| " << std::left << std::setw(15) << "Name:" << std::setw(13) << plantName << "|\n";
+    stream << "| " << std::left << std::setw(15) << "Health:" << std::setw(13) << health << "|\n";
+    stream << "| " << std::left << std::setw(15) << "Age:" << std::setw(13) << (std::to_string(age) + " days") << "|\n";
+    stream << "| " << std::left << std::setw(15) << "Water Level:" << std::setw(13) << waterLevel << "|\n";
+    stream << "| " << std::left << std::setw(15) << "Sun Exposure:" << std::setw(13) << sunExposure << "|\n";
+    stream << "| " << std::left << std::setw(15) << "Base Price:" << "R" << std::setw(12) << price << "|\n";
+
+    stream << "-------------------------------\n";
+
     if (decorator)
     {
-        baseInfo += "Total Price: R" + std::to_string(decorator->getPrice()) + "\n";
-        baseInfo += "Water Affection: " + std::to_string(decorator->affectWater()) + "\n";
-        baseInfo += "Sun Affection: " + std::to_string(decorator->affectSunlight()) + "\n";
+        stream << "\n";
+        stream << "Total:\n";
+        stream << "-------------------------------\n";
+        stream << "| " << std::left << std::setw(20) << "Total Price:" << "R" << std::setw(7) << decorator->getPrice() << "|\n";
+        stream << "| " << std::left << std::setw(20) << "Water Affection:" << std::setw(8) << decorator->affectWater() << "|\n";
+        stream << "| " << std::left << std::setw(20) << "Sun Affection:" << std::setw(8) << decorator->affectSunlight() << "|\n";
+        stream << "-------------------------------\n";
+        stream << "Attributes:\n";
     }
 
-    return baseInfo;
-};
+    return stream.str();
+}
 
 Flyweight<std::string *> *LivingPlant::getSeason()
 {

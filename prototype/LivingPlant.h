@@ -5,6 +5,8 @@
 #include "../composite/PlantComponent.h"
 #include "../flyweight/Flyweight.h"
 
+#include <sstream>
+#include <iomanip>
 #include "../strategy/WaterStrategy.h"
 #include "../strategy/SunStrategy.h"
 #include "../decorator/PlantAttributes.h"
