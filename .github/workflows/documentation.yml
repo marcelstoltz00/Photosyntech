@@ -37,11 +37,11 @@ jobs:
         # This path MUST match the 'OUTPUT_DIRECTORY' + 'HTML_OUTPUT'
         # from your Doxyfile.
         #
-        # Example: if Doxyfile has:
-        # OUTPUT_DIRECTORY = docs
-        # HTML_OUTPUT      = doxygen/html
-        # Then the path here should be: "docs/doxygen/html"
-        path: 'docs/doxygen/html' # <--- DOUBLE-CHECK THIS PATH
+        # Current Doxyfile configuration:
+        # OUTPUT_DIRECTORY = docs/doxygen
+        # HTML_OUTPUT      = html
+        # Result path: "docs/doxygen/html"
+        path: 'docs/doxygen/html'
 
   # ----------------------------------------------------
   # 2. DEPLOY JOB: Deploy the artifact to Pages
