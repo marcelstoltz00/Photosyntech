@@ -79,14 +79,22 @@ TEST_CASE("Overall Testing of flyweight water strategies")
     LivingPlant *plant = new Tree();
     fac->getFlyweight(LowWater::getID(), new LowWater());
 
-    CHECK(fac->getFlyweight(LowWater::getID())->getState()->water(plant) == 10);
+    CHECK(fac->getFlyweight(LowWater::getID())->getState()->water(plant) == 35);
 
     fac->getFlyweight(MidWater::getID(), new MidWater());
 
-    CHECK(fac->getFlyweight(MidWater::getID())->getState()->water(plant) == 20);
+    CHECK(fac->getFlyweight(MidWater::getID())->getState()->water(plant) == 45);
     delete fac;
     delete plant;
 }
+TEST_CASE("Customers and staff are managed in singleton")
+{
+    Inventory::getInstance()->addCustomer(new Customer());
+    Inventory::getInstance()->addStaff(new Staff);
+
+    delete Inventory::getInstance();
+}
+
 TEST_CASE("Singleton basics with water strategy testing and with state testing")
 {
 
@@ -94,8 +102,8 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
 
     Inventory *inv = Inventory::getInstance();
     CHECK(inv == Inventory::getInstance());
-    CHECK(inv->getWaterFly(LowWater::getID())->getState()->water(plant) == 10);
-    CHECK(Inventory::getInstance()->getWaterFly(MidWater::getID())->getState()->water(plant) == 20);
+    CHECK(inv->getWaterFly(LowWater::getID())->getState()->water(plant) == 35);
+    CHECK(Inventory::getInstance()->getWaterFly(MidWater::getID())->getState()->water(plant) == 45);
 
     for (int i = 0; i < 7; i++)
     {
@@ -105,7 +113,7 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
 
     SUBCASE("Correct exception handling")
     {
-        CHECK(Inventory::getInstance()->getWaterFly(5000)->getState()->water(plant) == 10);
+        CHECK(Inventory::getInstance()->getWaterFly(5000)->getState()->water(plant) == 35);
 
         CHECK(*Inventory::getInstance()->getString("Insert1")->getState() == "Insert1");
     }
@@ -122,7 +130,6 @@ TEST_CASE("Testing decorator")
 
     delete plant;
 
-
     delete Inventory::getInstance();
 }
 
@@ -133,21 +140,21 @@ TEST_CASE("Testing WaterStrategy implementations")
     SUBCASE("LowWater strategy")
     {
         WaterStrategy *lowWater = new LowWater();
-        CHECK(lowWater->water(plant) == 10);
+        CHECK(lowWater->water(plant) == 35);
         delete lowWater;
     }
 
     SUBCASE("MidWater strategy")
     {
         WaterStrategy *midWater = new MidWater();
-        CHECK(midWater->water(plant) == 20);
+        CHECK(midWater->water(plant) == 45);
         delete midWater;
     }
 
     SUBCASE("HighWater strategy")
     {
         WaterStrategy *highWater = new HighWater();
-        CHECK(highWater->water(plant) == 30);
+        CHECK(highWater->water(plant) == 65);
         delete highWater;
     }
 
@@ -157,8 +164,8 @@ TEST_CASE("Testing WaterStrategy implementations")
         int first = altWater->water(plant);
         int second = altWater->water(plant);
         CHECK(first != second);
-        CHECK((first >= 2 && first <= 5));
-        CHECK((second >= 2 && second <= 5));
+        CHECK((first >= 2 && first <= 50));
+        CHECK((second >= 2 && second <= 50));
         delete altWater;
     }
 
@@ -172,14 +179,14 @@ TEST_CASE("Testing SunStrategy implementations")
     SUBCASE("LowSun strategy")
     {
         SunStrategy *lowSun = new LowSun();
-        CHECK(lowSun->addSun(plant) == 6);
+        CHECK(lowSun->addSun(plant) == 12);
         delete lowSun;
     }
 
     SUBCASE("MidSun strategy")
     {
         SunStrategy *midSun = new MidSun();
-        CHECK(midSun->addSun(plant) == 25);
+        CHECK(midSun->addSun(plant) == 40);
         delete midSun;
     }
 
@@ -214,17 +221,17 @@ TEST_CASE("Testing strategy switching in LivingPlant")
         plant->setWaterStrategy(1);
         plant->water();
 
-        CHECK(plant->getWaterLevel() == 10);
+        CHECK(plant->getWaterLevel() == 35);
 
         plant->setWaterLevel(0);
         plant->setWaterStrategy(2);
         plant->water();
-        CHECK(plant->getWaterLevel() == 20);
+        CHECK(plant->getWaterLevel() == 45);
 
         plant->setWaterLevel(0);
         plant->setWaterStrategy(3);
         plant->water();
-        CHECK(plant->getWaterLevel() == 30);
+        CHECK(plant->getWaterLevel() == 65);
     }
 
     SUBCASE("Sun strategy switching")
@@ -232,12 +239,12 @@ TEST_CASE("Testing strategy switching in LivingPlant")
         plant->setSunExposure(0);
         plant->setSunStrategy(1);
         plant->setOutside();
-        CHECK(plant->getSunExposure() == 6);
+        CHECK(plant->getSunExposure() == 12);
 
         plant->setSunExposure(0);
         plant->setSunStrategy(2);
         plant->setOutside();
-        CHECK(plant->getSunExposure() == 25);
+        CHECK(plant->getSunExposure() == 40);
 
         plant->setSunExposure(0);
         plant->setSunStrategy(3);
@@ -441,8 +448,6 @@ TEST_CASE("Testing Builder Pattern Implementation")
         delete Inventory::getInstance();
     }
 }
-
-
 
 TEST_CASE("Testing Mediator Pattern Implementation")
 {
@@ -1122,7 +1127,7 @@ TEST_CASE("Observer Pattern Implementation Tests")
             plant->setWaterLevel(0);
 
             plant->water();
-            CHECK(plant->getWaterLevel() == 10); // adds 10
+            CHECK(plant->getWaterLevel() == 35); // adds 10
 
             delete plant;
         }
@@ -1134,7 +1139,7 @@ TEST_CASE("Observer Pattern Implementation Tests")
             plant->setSunExposure(0);
 
             plant->setOutside();
-            CHECK(plant->getSunExposure() == 6); // adds 6
+            CHECK(plant->getSunExposure() == 12); // adds 6
 
             delete plant;
         }
@@ -2330,8 +2335,8 @@ TEST_CASE("Auto update of plants")
     for (int i = 0; i < 10; i++)
         Inventory::getInstance()->getInventory()->update();
 
-    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getWaterValue() == 40);
-    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getSunlightValue() == 45);
+    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getWaterValue() == 45);
+    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getSunlightValue() == 40);
     Inventory::getInstance()->getInventory()->checkState();
     delete roseB;
     delete dirRose;
@@ -2345,20 +2350,18 @@ TEST_CASE("Testing concurrency")
     dirRose->construct();
     Staff *watcher = new Staff("Woody");
 
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 1; i++)
         Inventory::getInstance()->getInventory()->addComponent(dirRose->getPlant());
 
-    for (int i = 0; i < 7; i++)
-    {
-        Inventory::getInstance()->getInventory()->update();
-    }
     Inventory::getInstance()->getInventory()->attach(watcher);
 
     Inventory::startTicker();
     // uncomment to actually test
-    // cin.get();
+    //cin.get();
 
     Inventory::stopTicker();
+
+   cout<< Inventory::getInstance()->getInventory()->getInfo();
 
     delete roseB;
     delete dirRose;

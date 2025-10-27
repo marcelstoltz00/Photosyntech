@@ -6,7 +6,7 @@
 void Vegetative::grow(LivingPlant *plant)
 {
     plant->setAge(plant->getAge() + 1);
-    double waterusage = 10.0;
+    double waterusage = 5.0;
 
 
     plant->setWaterLevel(plant->getWaterLevel() - waterusage);

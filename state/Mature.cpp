@@ -5,7 +5,7 @@
 
 void Mature::grow(LivingPlant* plant) {
     plant->setAge(plant->getAge() + 1);
-    double waterusage = 8.0;
+    double waterusage = 4.0;
  
 
     
