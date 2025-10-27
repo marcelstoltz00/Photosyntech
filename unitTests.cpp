@@ -2357,7 +2357,7 @@ TEST_CASE("Testing concurrency")
 
     Inventory::startTicker();
     // uncomment to actually test
-    cin.get();
+    //cin.get();
 
     Inventory::stopTicker();
 
