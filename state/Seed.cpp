@@ -6,6 +6,7 @@
 void Seed::grow(LivingPlant* plant) {
     plant->setAge(plant->getAge() + 1);
     double waterusage = 6.0;
+
     
     plant->setWaterLevel(plant->getWaterLevel() - waterusage);
 
@@ -24,4 +25,12 @@ void Seed::grow(LivingPlant* plant) {
         
         plant->setMaturity(Vegetative::getID());
     }
+}
+
+
+std::string Seed::getImagePath(LivingPlant *plant)
+{
+    std::string plantName = plant->getName();
+    plantName.erase(std::remove(plantName.begin(), plantName.end(), ' '), plantName.end());
+    return "docs/images/" + plantName + std::to_string(getID()) + ".png";
 }

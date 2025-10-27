@@ -7,6 +7,7 @@ void Mature::grow(LivingPlant* plant) {
     plant->setAge(plant->getAge() + 1);
     double waterusage = 8.0;
  
+
     
     plant->setWaterLevel(plant->getWaterLevel() - waterusage);
 
@@ -21,4 +22,10 @@ void Mature::grow(LivingPlant* plant) {
         
         plant->setMaturity(Dead::getID());
     }
+}
+std::string Mature::getImagePath(LivingPlant *plant)
+{
+    std::string plantName = plant->getName();
+    plantName.erase(std::remove(plantName.begin(), plantName.end(), ' '), plantName.end());
+    return "docs/images/" + plantName + std::to_string(getID()) + ".png";
 }
