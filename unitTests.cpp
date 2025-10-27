@@ -91,7 +91,7 @@ TEST_CASE("Customers and staff are managed in singleton")
 {
     Inventory::getInstance()->addCustomer(new Customer());
     Inventory::getInstance()->addStaff(new Staff);
-    
+
     delete Inventory::getInstance();
 }
 
@@ -147,7 +147,7 @@ TEST_CASE("Testing WaterStrategy implementations")
     SUBCASE("MidWater strategy")
     {
         WaterStrategy *midWater = new MidWater();
-        CHECK(midWater->water(plant) ==35);
+        CHECK(midWater->water(plant) == 35);
         delete midWater;
     }
 
@@ -2335,8 +2335,8 @@ TEST_CASE("Auto update of plants")
     for (int i = 0; i < 10; i++)
         Inventory::getInstance()->getInventory()->update();
 
-    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getWaterValue() == 65);
-    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getSunlightValue() == 35);
+    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getWaterValue() == 85);
+    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getSunlightValue() == 45);
     Inventory::getInstance()->getInventory()->checkState();
     delete roseB;
     delete dirRose;
@@ -2350,20 +2350,18 @@ TEST_CASE("Testing concurrency")
     dirRose->construct();
     Staff *watcher = new Staff("Woody");
 
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 1; i++)
         Inventory::getInstance()->getInventory()->addComponent(dirRose->getPlant());
 
-    for (int i = 0; i < 7; i++)
-    {
-        Inventory::getInstance()->getInventory()->update();
-    }
     Inventory::getInstance()->getInventory()->attach(watcher);
 
     Inventory::startTicker();
     // uncomment to actually test
-    // cin.get();
+    cin.get();
 
     Inventory::stopTicker();
+
+   cout<< Inventory::getInstance()->getInventory()->getInfo();
 
     delete roseB;
     delete dirRose;

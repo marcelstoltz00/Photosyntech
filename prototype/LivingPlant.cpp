@@ -190,6 +190,7 @@ void LivingPlant::update()
     if (this->decorator != nullptr)
     {
         this->waterLevel -= this->decorator->affectWater();
+
         this->sunExposure -= this->decorator->affectSunlight();
     }
     else
@@ -232,7 +233,7 @@ Herb::Herb()
     : LivingPlant("Herb", 30.00, 3, 3) {};
 
 Herb::Herb(std::string name)
-    : LivingPlant(name, 75.00, 4, 4) {};
+    : LivingPlant(name, 30.00, 4, 4) {};
 
 Herb::Herb(const Herb &other)
     : LivingPlant(other) {};
@@ -260,7 +261,7 @@ Succulent::Succulent()
     : LivingPlant("Succulent", 45.00, 1, 5) {};
 
 Succulent::Succulent(std::string name)
-    : LivingPlant(name, 75.00, 4, 4) {};
+    : LivingPlant(name, 45.00, 4, 4) {};
 
 Succulent::Succulent(const Succulent &other)
     : LivingPlant(other) {};
@@ -274,7 +275,7 @@ Tree::Tree()
     : LivingPlant("Tree", 150.00, 5, 5) {};
 
 Tree::Tree(std::string name)
-    : LivingPlant(name, 75.00, 4, 4) {};
+    : LivingPlant(name, 150.00, 4, 4) {};
 
 Tree::Tree(const Tree &other)
     : LivingPlant(other) {};
@@ -311,5 +312,6 @@ int LivingPlant::getSunlightValue()
 }
 void LivingPlant::tick()
 {
+    
     this->maturityState->getState()->grow(this);
 }

@@ -15,6 +15,6 @@ int AlternatingSun::getID() {
 }
 
 AlternatingSun::AlternatingSun() {
-    intensity = 4;   
+    intensity = 5;   
     hoursNeeded = 4; 
 }

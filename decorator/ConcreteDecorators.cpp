@@ -16,7 +16,7 @@
 #include "plantDecorator/Winter.h"
 
 LargePot::LargePot()
-    : PlantAttributes("Large Pot", 25.00, 5, 0)
+    : PlantAttributes("Large Pot", 55.00, 5, 0)
 {
 }
 
@@ -32,7 +32,7 @@ PlantComponent *LargePot::clone()
     return clone;
 }
 PlantCharm::PlantCharm()
-    : PlantAttributes("Standard Plant Charm", 10.00, 0, 0)
+    : PlantAttributes("Standard Plant Charm", 30.00, 0, 0)
 {
 }
 
@@ -49,7 +49,7 @@ PlantComponent *PlantCharm::clone()
 }
 
 RedPot::RedPot()
-    : PlantAttributes("Red Clay Pot", 15.00, 3, 0)
+    : PlantAttributes("Red Clay Pot", 45.00, 3, 0)
 {
 }
 
@@ -66,7 +66,7 @@ PlantComponent *RedPot::clone()
 }
 
 ShopThemedCharm::ShopThemedCharm()
-    : PlantAttributes("Cute Charm", 20.00, 0, 2)
+    : PlantAttributes("Cute Charm", 50.00, 0, 2)
 {
 }
 
@@ -83,7 +83,7 @@ PlantComponent *ShopThemedCharm::clone()
 }
 
 Autumn::Autumn()
-    : PlantAttributes("Autumn Season", 50.00, 5, 2)
+    : PlantAttributes("Autumn Season", 30.00, 3, 2)
 {
 }
 
@@ -100,7 +100,7 @@ PlantComponent *Autumn::clone()
 }
 
 LargeFlowers::LargeFlowers()
-    : PlantAttributes("Large Flowers", 5.00, 5, 4)
+    : PlantAttributes("Large Flowers", 5.00, 3, 3)
 {
 }
 
@@ -117,7 +117,7 @@ PlantComponent *LargeFlowers::clone()
 }
 
 LargeLeaf::LargeLeaf()
-    : PlantAttributes("Large Leaves", 3.00, 5, -9)
+    : PlantAttributes("Large Leaves", 3.00, 3, -9)
 {
 }
 
@@ -134,7 +134,7 @@ PlantComponent *LargeLeaf::clone()
 }
 
 LargeStem::LargeStem()
-    : PlantAttributes("Large Stem", 2.00, 4, -1)
+    : PlantAttributes("Large Stem", 2.00, 2, -1)
 {
 }
 
@@ -152,7 +152,7 @@ PlantComponent *LargeStem::clone()
 
 SmallFlowers::SmallFlowers()
 
-    : PlantAttributes("Small Flowers", 1.00, 2, 2)
+    : PlantAttributes("Small Flowers", 1.00, 1, 1)
 {
 }
 
@@ -169,7 +169,7 @@ PlantComponent *SmallFlowers::clone()
 }
 
 SmallLeaf::SmallLeaf()
-    : PlantAttributes("Small Leaves", 5, 2, -2)
+    : PlantAttributes("Small Leaves", 5, 1, -2)
 {
 }
 
@@ -186,7 +186,7 @@ PlantComponent *SmallLeaf::clone()
 }
 
 SmallStem::SmallStem()
-    : PlantAttributes("Small Stem", 0.00, 2, -1)
+    : PlantAttributes("Small Stem", 0.00, 1, -1)
 {
 }
 
@@ -203,7 +203,7 @@ PlantComponent *SmallStem::clone()
 }
 
 Spring::Spring()
-    : PlantAttributes("Spring Season", 100, 5, 15)
+    : PlantAttributes("Spring Season", 50, 3, 10)
 {
 }
 
@@ -220,7 +220,7 @@ PlantComponent *Spring::clone()
 }
 
 Summer::Summer()
-    : PlantAttributes("Summer Season", 75, 5, 20)
+    : PlantAttributes("Summer Season", 40, 3, 15)
 {
 }
 
@@ -237,7 +237,7 @@ PlantComponent *Summer::clone()
 }
 
 Thorns::Thorns()
-    : PlantAttributes("Thorns/Spikes", -5, 4, 0)
+    : PlantAttributes("Thorns/Spikes", -5, 2, 0)
 {
 }
 
@@ -254,7 +254,7 @@ PlantComponent *Thorns::clone()
 }
 
 Winter::Winter()
-    : PlantAttributes("Winter Season", 60, 5, 2)
+    : PlantAttributes("Winter Season", 30, 3, 1)
 {
 }
 

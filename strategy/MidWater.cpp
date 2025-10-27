@@ -13,5 +13,5 @@ int MidWater::getID() {
 }
 
 MidWater::MidWater() {
-    waterAmount = 35; 
+    waterAmount = 45; 
 }
