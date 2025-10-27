@@ -7,7 +7,7 @@ Ensures a single, globally accessible instance of the inventory and flyweight fa
 
 | Pattern Role | Photosyntech Class(es) | Responsibility |
 |--------------|------------------------|----------------|
-| **Singleton** | `Singleton` | Ensures only one instance exists; provides global access point through `getInstance()`; manages inventory and flyweight factories |
+| **Singleton** | `Inventory` | Ensures only one instance exists; provides global access point through `getInstance()`; manages inventory and flyweight factories |
 | **Managed Resources** | `PlantGroup* _inventory`<br>`FlyweightFactory<string, string>* _string`<br>`FlyweightFactory<int, WaterStrategy>* _waterStrategies`<br>`FlyweightFactory<int, SunStrategy>* _sunStrategies` | Centralized resources managed by the Singleton instance |
 
 ## Functional Requirements
@@ -51,7 +51,7 @@ The Singleton pattern was chosen because:
 ## Extension Points
 
 **Adding New Shared Resources:**
-1. Add new flyweight factory member to `Singleton` class in `singleton/Singleton.h`
+1. Add new flyweight factory member to `Inventory` class in `singleton/Inventory.h`
 2. Initialize factory in singleton constructor
 3. Provide getter method following existing pattern
 4. Example: Adding shared immutable data for new plant attributes
