@@ -37,6 +37,10 @@ jobs:
     - name: Generate coverage report
       run: make cov
 
+    - name: Get coverage percentage
+      id: coverage
+      run: echo "percent=$(grep -o '[0-9.]*%' coverage.txt)" >> $GITHUB_OUTPUT
+
     - name: Create coverage badge
       uses: schneegans/dynamic-badges-action@v1.7.0
       with:
@@ -44,7 +48,7 @@ jobs:
         gistID: 0498d898440eb443f768fdfd73d46c47
         filename: coverage.json
         label: Coverage
-        message: $(grep -o '[0-9.]*%' coverage.txt)
+        message: ${{ steps.coverage.outputs.percent }}
         color: green
         
     - name: Upload coverage report
