@@ -7,7 +7,7 @@ permissions:
 
 on:
   push:
-    branches: [ main, master, devBranch, TUI ]
+    branches: [ main, master, devBranch, TUI , devDoc]
   workflow_dispatch:
 
 jobs:
@@ -22,8 +22,8 @@ jobs:
       with:
         submodules: 'recursive'
 
-    - name: Install Doxygen
-      run: sudo apt-get update && sudo apt-get install -y doxygen
+    - name: Install Doxygen and Graphviz
+      run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
 
     - name: Create output directory
       run: mkdir -p docs/doxygen/html
