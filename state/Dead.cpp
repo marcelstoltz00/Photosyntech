@@ -1,5 +1,5 @@
 #include "Dead.h"
-
+#include <algorithm>
 void Dead::grow(LivingPlant *plant)
 {
 
