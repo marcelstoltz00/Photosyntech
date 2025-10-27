@@ -1,6 +1,7 @@
 # Project Info
-PROJECT_NAME           = "Photosyntech"
-OUTPUT_DIRECTORY       = docs/doxygen
+PROJECT_NAME           = "PhotoSynTech"
+OUTPUT_DIRECTORY = docs
+HTML_OUTPUT      = doxygen/html
 
 # Input folders
 INPUT                  = command builder composite decorator flyweight iterator mediator observer prototype singleton state strategy 

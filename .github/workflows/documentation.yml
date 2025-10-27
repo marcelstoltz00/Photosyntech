@@ -37,7 +37,6 @@ jobs:
         # Example: if Doxyfile has:
         # OUTPUT_DIRECTORY = docs
         # HTML_OUTPUT      = doxygen/html
-        #
         # Then the path here should be: "docs/doxygen/html"
         path: 'docs/doxygen/html' # <--- DOUBLE-CHECK THIS PATH
 
