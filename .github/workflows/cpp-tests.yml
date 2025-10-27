@@ -2,7 +2,7 @@ name: UNIT TESTS
 
 on:
   push:
-    branches: [ main, master, devBranch ]
+    branches: [ main, master, devBranch, TUI ]
   pull_request:
     branches: [ main, master ]
 
@@ -36,7 +36,26 @@ jobs:
     
     - name: Generate coverage report
       run: make cov
-    
+
+    - name: Display coverage file
+      run: cat coverage.txt
+
+    - name: Get coverage percentage
+      id: coverage
+      run: |
+        PERCENTAGE=$(awk -F '[ %]' '/^lines:/ {print $2}' coverage.txt)
+        echo "percent=${PERCENTAGE}" >> $GITHUB_OUTPUT
+
+    - name: Create coverage badge
+      uses: schneegans/dynamic-badges-action@v1.7.0
+      with:
+        auth: ${{ secrets.GIST_SECRET }}
+        gistID: 0498d898440eb443f768fdfd73d46c47
+        filename: coverage.json
+        label: Coverage
+        message: ${{ steps.coverage.outputs.percent }}%
+        color: green
+        
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       with:
