@@ -2374,38 +2374,32 @@ TEST_CASE("Testing getImagePath for different states")
     {
         LivingPlant *plant = new Tree(); // Default name is "Tree"
 
-        // Test Seed state
         plant->setMaturity(Seed::getID());
         MaturityState *seedState = inv->getStates(Seed::getID())->getState();
-        CHECK(seedState->getImagePath(plant) == "docs/images/Tree1.jpg");
+        CHECK(seedState->getImagePath(plant) == "docs/images/Tree0.png");
 
-        // Test Vegetative state
         plant->setMaturity(Vegetative::getID());
         MaturityState *vegetativeState = inv->getStates(Vegetative::getID())->getState();
-        CHECK(vegetativeState->getImagePath(plant) == "docs/images/Tree2.jpg");
+        CHECK(vegetativeState->getImagePath(plant) == "docs/images/Tree1.png");
 
-        // Test Mature state
         plant->setMaturity(Mature::getID());
         MaturityState *matureState = inv->getStates(Mature::getID())->getState();
-        CHECK(matureState->getImagePath(plant) == "docs/images/Tree3.jpg");
+        CHECK(matureState->getImagePath(plant) == "docs/images/Tree2.png");
 
-        // Test Dead state
         plant->setMaturity(Dead::getID());
         MaturityState *deadState = inv->getStates(Dead::getID())->getState();
-        CHECK(deadState->getImagePath(plant) == "docs/images/Tree4.jpg");
+        CHECK(deadState->getImagePath(plant) == "docs/images/Tree3.png");
 
         delete plant;
     }
 
     SUBCASE("Path generation for plant name with spaces")
     {
-        // Using a constructor that takes a name
         LivingPlant *plant = new Shrub("Maple Tree");
 
         plant->setMaturity(Seed::getID());
         MaturityState *seedState = inv->getStates(Seed::getID())->getState();
-        // Check if space is removed
-        CHECK(seedState->getImagePath(plant) == "docs/images/MapleTree1.jpg");
+        CHECK(seedState->getImagePath(plant) == "docs/images/MapleTree0.png");
 
         delete plant;
     }

@@ -7,18 +7,18 @@ void Vegetative::grow(LivingPlant *plant)
 {
     plant->setAge(plant->getAge() + 1);
     double waterusage = 10.0;
-    // std::string season = *plant->getSeason()->getState();
-    // if (season == "Spring") {
-    //     waterusage *= 0.9;
-    // } else if (season == "Summer") {
-    //     waterusage *= 1.3f;
-    // } else if (season == "Autumn") {
-    //     waterusage *= 1.0f;
-    // } else if (season == "Winter") {
-    //     waterusage *= 0.7f;
-    // } else {
-    //     waterusage *= 1.0f;
-    // }
+    std::string season = *plant->getSeason()->getState();
+    if (season == "Spring") {
+        waterusage *= 0.9;
+    } else if (season == "Summer") {
+        waterusage *= 1.3f;
+    } else if (season == "Autumn") {
+        waterusage *= 1.0f;
+    } else if (season == "Winter") {
+        waterusage *= 0.7f;
+    } else {
+        waterusage *= 1.0f;
+    }
 
     plant->setWaterLevel(plant->getWaterLevel() - waterusage);
 
