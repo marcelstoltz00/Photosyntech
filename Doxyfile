@@ -1,24 +1,162 @@
-# Project Info
+# ==============================================================================
+# PROJECT INFORMATION
+# ==============================================================================
 PROJECT_NAME           = "PhotoSynTech"
-OUTPUT_DIRECTORY = docs
-HTML_OUTPUT      = doxygen/html
+PROJECT_BRIEF          = "A C++ Plant Management System Demonstrating Design Patterns"
+PROJECT_NUMBER         = "v1.0"
+PROJECT_LOGO           = docs/images/photosyntech_logo.JPG
 
-# Input folders
-INPUT                  = command builder composite decorator flyweight iterator mediator observer prototype singleton state strategy 
+OUTPUT_DIRECTORY       = docs
+HTML_OUTPUT            = doxygen/html
+
+# ==============================================================================
+# INPUT SOURCES
+# ==============================================================================
+# Include all pattern directories and main documentation
+INPUT                  = README.md \
+                         builder \
+                         command \
+                         composite \
+                         decorator \
+                         facade \
+                         flyweight \
+                         iterator \
+                         mediator \
+                         observer \
+                         prototype \
+                         singleton \
+                         state \
+                         strategy \
+                         docs/design-patterns
 
 # Recursive parsing
 RECURSIVE              = YES
 
 # File types to include
-FILE_PATTERNS          = *.h *.cpp
+FILE_PATTERNS          = *.h *.cpp *.md 
 
-# HTML output
+# Include markdown files
+USE_MDFILE_AS_MAINPAGE = README.md
+
+# ==============================================================================
+# OUTPUT FORMATS
+# ==============================================================================
 GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+GENERATE_XML           = NO
 
-# Optional: Enable diagrams if Graphviz is installed
-HAVE_DOT               = NO
-CALL_GRAPH             = YES
-CLASS_DIAGRAMS         = YES
+# ==============================================================================
+# HTML CUSTOMIZATION
+# ==============================================================================
+HTML_EXTRA_STYLESHEET  = 
+HTML_COLORSTYLE_HUE    = 120
+HTML_COLORSTYLE_SAT    = 100
+HTML_COLORSTYLE_GAMMA  = 80
+HTML_TIMESTAMP         = YES
+HTML_DYNAMIC_SECTIONS  = YES
 
+# Enable tree view for better navigation
+GENERATE_TREEVIEW      = YES
+FULL_SIDEBAR           = NO
+
+# ==============================================================================
+# DOCUMENTATION EXTRACTION
+# ==============================================================================
 # Extract all entities, even if undocumented
 EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+
+# Show all files in file list
+SHOW_FILES             = YES
+SHOW_INCLUDE_FILES     = YES
+
+# Include implementation details
+INLINE_SOURCES         = NO
+SOURCE_BROWSER         = YES
+STRIP_CODE_COMMENTS    = NO
+
+# ==============================================================================
+# PREPROCESSING
+# ==============================================================================
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+EXPAND_ONLY_PREDEF     = NO
+
+# ==============================================================================
+# DIAGRAMS AND GRAPHS
+# ==============================================================================
+# Enable diagrams if Graphviz is installed (set to YES if you have it)
+HAVE_DOT               = NO
+DOT_NUM_THREADS        = 4
+
+# Diagram types
+CLASS_DIAGRAMS         = YES
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+COLLABORATION_GRAPH    = YES
+INCLUDE_GRAPH          = YES
+INCLUDED_BY_GRAPH      = YES
+GRAPHICAL_HIERARCHY    = YES
+DIRECTORY_GRAPH        = YES
+DOT_IMAGE_FORMAT       = svg
+INTERACTIVE_SVG        = YES
+
+# ==============================================================================
+# LAYOUT AND ORGANIZATION
+# ==============================================================================
+# Create separate pages for each class/file
+ALPHABETICAL_INDEX     = YES
+COLS_IN_ALPHA_INDEX    = 3
+
+# Group related items
+DISTRIBUTE_GROUP_DOC   = YES
+GROUP_NESTED_COMPOUNDS = YES
+
+# Organize by file structure
+FILE_VERSION_FILTER    = 
+LAYOUT_FILE            = 
+
+# ==============================================================================
+# CROSS-REFERENCING
+# ==============================================================================
+# Enable cross-references between documentation
+REFERENCES_RELATION    = YES
+REFERENCED_BY_RELATION = YES
+REFERENCES_LINK_SOURCE = YES
+
+# Create tags for external references
+GENERATE_TAGFILE       = docs/doxygen/photosyntech.tag
+ALLEXTERNALS           = NO
+EXTERNAL_GROUPS        = YES
+
+# ==============================================================================
+# SEARCH FUNCTIONALITY
+# ==============================================================================
+SEARCHENGINE           = YES
+SERVER_BASED_SEARCH    = NO
+
+# ==============================================================================
+# WARNINGS AND ERRORS
+# ==============================================================================
+WARNINGS               = YES
+WARN_IF_UNDOCUMENTED   = NO
+WARN_IF_DOC_ERROR      = YES
+WARN_NO_PARAMDOC       = NO
+
+# ==============================================================================
+# ADDITIONAL FEATURES
+# ==============================================================================
+# Enable todo lists and bug tracking in docs
+GENERATE_TODOLIST      = YES
+GENERATE_TESTLIST      = YES
+GENERATE_BUGLIST       = YES
+GENERATE_DEPRECATEDLIST= YES
+
+# Create namespace documentation
+HIDE_UNDOC_NAMESPACES  = NO
+
+# Show file/line info in documentation
+SHOW_USED_FILES        = YES
+SHOW_FILES             = YES
