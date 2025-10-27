@@ -79,11 +79,11 @@ TEST_CASE("Overall Testing of flyweight water strategies")
     LivingPlant *plant = new Tree();
     fac->getFlyweight(LowWater::getID(), new LowWater());
 
-    CHECK(fac->getFlyweight(LowWater::getID())->getState()->water(plant) == 10);
+    CHECK(fac->getFlyweight(LowWater::getID())->getState()->water(plant) == 25);
 
     fac->getFlyweight(MidWater::getID(), new MidWater());
 
-    CHECK(fac->getFlyweight(MidWater::getID())->getState()->water(plant) == 20);
+    CHECK(fac->getFlyweight(MidWater::getID())->getState()->water(plant) == 35);
     delete fac;
     delete plant;
 }
@@ -102,8 +102,8 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
 
     Inventory *inv = Inventory::getInstance();
     CHECK(inv == Inventory::getInstance());
-    CHECK(inv->getWaterFly(LowWater::getID())->getState()->water(plant) == 10);
-    CHECK(Inventory::getInstance()->getWaterFly(MidWater::getID())->getState()->water(plant) == 20);
+    CHECK(inv->getWaterFly(LowWater::getID())->getState()->water(plant) == 25);
+    CHECK(Inventory::getInstance()->getWaterFly(MidWater::getID())->getState()->water(plant) == 35);
 
     for (int i = 0; i < 7; i++)
     {
@@ -113,7 +113,7 @@ TEST_CASE("Singleton basics with water strategy testing and with state testing")
 
     SUBCASE("Correct exception handling")
     {
-        CHECK(Inventory::getInstance()->getWaterFly(5000)->getState()->water(plant) == 10);
+        CHECK(Inventory::getInstance()->getWaterFly(5000)->getState()->water(plant) == 25);
 
         CHECK(*Inventory::getInstance()->getString("Insert1")->getState() == "Insert1");
     }
@@ -140,21 +140,21 @@ TEST_CASE("Testing WaterStrategy implementations")
     SUBCASE("LowWater strategy")
     {
         WaterStrategy *lowWater = new LowWater();
-        CHECK(lowWater->water(plant) == 10);
+        CHECK(lowWater->water(plant) == 25);
         delete lowWater;
     }
 
     SUBCASE("MidWater strategy")
     {
         WaterStrategy *midWater = new MidWater();
-        CHECK(midWater->water(plant) == 20);
+        CHECK(midWater->water(plant) ==35);
         delete midWater;
     }
 
     SUBCASE("HighWater strategy")
     {
         WaterStrategy *highWater = new HighWater();
-        CHECK(highWater->water(plant) == 30);
+        CHECK(highWater->water(plant) == 45);
         delete highWater;
     }
 
@@ -221,17 +221,17 @@ TEST_CASE("Testing strategy switching in LivingPlant")
         plant->setWaterStrategy(1);
         plant->water();
 
-        CHECK(plant->getWaterLevel() == 10);
+        CHECK(plant->getWaterLevel() == 25);
 
         plant->setWaterLevel(0);
         plant->setWaterStrategy(2);
         plant->water();
-        CHECK(plant->getWaterLevel() == 20);
+        CHECK(plant->getWaterLevel() == 35);
 
         plant->setWaterLevel(0);
         plant->setWaterStrategy(3);
         plant->water();
-        CHECK(plant->getWaterLevel() == 30);
+        CHECK(plant->getWaterLevel() == 45);
     }
 
     SUBCASE("Sun strategy switching")
@@ -1127,7 +1127,7 @@ TEST_CASE("Observer Pattern Implementation Tests")
             plant->setWaterLevel(0);
 
             plant->water();
-            CHECK(plant->getWaterLevel() == 10); // adds 10
+            CHECK(plant->getWaterLevel() == 25); // adds 10
 
             delete plant;
         }
@@ -2335,8 +2335,8 @@ TEST_CASE("Auto update of plants")
     for (int i = 0; i < 10; i++)
         Inventory::getInstance()->getInventory()->update();
 
-    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getWaterValue() == 40);
-    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getSunlightValue() == 45);
+    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getWaterValue() == 65);
+    CHECK((*Inventory::getInstance()->getInventory()->getPlants()->begin())->getSunlightValue() == 35);
     Inventory::getInstance()->getInventory()->checkState();
     delete roseB;
     delete dirRose;
