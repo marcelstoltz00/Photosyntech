@@ -119,8 +119,9 @@ TEST_CASE("Testing decorator")
 {
     LivingPlant *plant = new Tree();
     plant->addAttribute(new Autumn());
-    delete Inventory::getInstance();
-    delete plant->getDecorator();
+
+    delete plant;
+
 
     delete Inventory::getInstance();
 }
