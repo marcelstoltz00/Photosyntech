@@ -9,10 +9,6 @@ PROJECT_LOGO           = docs/images/photosyntech_logo.JPG
 OUTPUT_DIRECTORY       = docs
 HTML_OUTPUT            = doxygen/html
 
-# Logo size settings (width in pixels)
-HTML_LOGO_WIDTH        = 80
-HTML_LOGO_HEIGHT       = 80
-
 # ==============================================================================
 # INPUT SOURCES
 # ==============================================================================
@@ -22,6 +18,8 @@ INPUT                  = README.md \
                          command \
                          composite \
                          decorator \
+                         decorator/customerDecorator \
+                         decorator/plantDecorator \
                          facade \
                          flyweight \
                          iterator \
@@ -31,6 +29,7 @@ INPUT                  = README.md \
                          singleton \
                          state \
                          strategy \
+                         docs/design-patterns
                     
 
 # Recursive parsing
@@ -52,16 +51,21 @@ GENERATE_XML           = NO
 # ==============================================================================
 # HTML CUSTOMIZATION
 # ==============================================================================
-HTML_EXTRA_STYLESHEET  = 
+HTML_EXTRA_STYLESHEET  = docs/doxygen-custom.css
+HTML_COLORSTYLE        = DARK
 HTML_COLORSTYLE_HUE    = 120
 HTML_COLORSTYLE_SAT    = 100
 HTML_COLORSTYLE_GAMMA  = 80
-HTML_TIMESTAMP         = YES
+HTML_DYNAMIC_MENUS     = YES
 HTML_DYNAMIC_SECTIONS  = YES
 
 # Enable tree view for better navigation
 GENERATE_TREEVIEW      = YES
 FULL_SIDEBAR           = NO
+TREEVIEW_WIDTH         = 250
+
+# Show namespace and directory pages in navigation
+SHOW_NAMESPACES        = YES
 
 # ==============================================================================
 # DOCUMENTATION EXTRACTION
@@ -93,11 +97,15 @@ EXPAND_ONLY_PREDEF     = NO
 # ==============================================================================
 # Enable diagrams if Graphviz is installed (set to YES if you have it)
 HAVE_DOT               = YES
-DOT_NUM_THREADS        = 4
-DOT_PATH               = 
+DOT_NUM_THREADS        = 10
+DOT_COMMON_ATTR        = "fontname=Helvetica,fontsize=10"
+DOT_EDGE_ATTR          = "labelfontname=Helvetica,labelfontsize=10"
+DOT_NODE_ATTR          = "shape=box,height=0.2,width=0.4"
 
 # Diagram types
-CLASS_DIAGRAMS         = YES
+CLASS_DIAGRAM          = YES
+UML_LOOK               = YES
+TEMPLATE_RELATIONS     = YES
 CALL_GRAPH             = YES
 CALLER_GRAPH           = YES
 COLLABORATION_GRAPH    = YES
@@ -110,7 +118,6 @@ INTERACTIVE_SVG        = YES
 
 # Control diagram complexity (prevent overwhelming diagrams)
 MAX_DOT_GRAPH_DEPTH    = 5
-DOT_TRANSPARENT        = YES
 DOT_MULTI_TARGETS      = YES
 
 # ==============================================================================
@@ -118,11 +125,20 @@ DOT_MULTI_TARGETS      = YES
 # ==============================================================================
 # Create separate pages for each class/file
 ALPHABETICAL_INDEX     = YES
-COLS_IN_ALPHA_INDEX    = 3
+
+# Enable directory documentation
+CREATE_SUBDIRS         = NO
+STRIP_FROM_PATH        = .
+
+# Show directory hierarchy
+SHOW_DIRECTORIES       = YES
 
 # Group related items
 DISTRIBUTE_GROUP_DOC   = YES
 GROUP_NESTED_COMPOUNDS = YES
+
+# Enable modules/groups for better organization
+ENABLE_SECTIONS        = YES
 
 # Organize by file structure
 FILE_VERSION_FILTER    = 
