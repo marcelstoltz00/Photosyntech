@@ -189,7 +189,7 @@ int main()
     auto nameInput = Input(&userName, "Enter your name here");
     auto addCustomerButton = Button("Login", [&]
                                     { currentCustomer = nursery.addCustomer(userName); 
-                                        userName = "Added correctly"; });
+                                        });
 
     auto customerTab = Container::Vertical({Container::Horizontal({nameInput, addCustomerButton})
 

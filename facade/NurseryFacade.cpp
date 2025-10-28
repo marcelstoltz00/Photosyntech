@@ -111,7 +111,7 @@ std::list<PlantComponent *> NurseryFacade::getGroupContents(PlantComponent *grou
     return {};
 }
 
-PlantGroup *NurseryFacade::createPlantGroup(const std::string &name)
+PlantGroup *NurseryFacade::createPlantGroup()
 {
     PlantGroup *newGroup = new PlantGroup();
     return newGroup;
@@ -195,4 +195,9 @@ Staff *NurseryFacade::addStaff(string name)
 void NurseryFacade::setObserver(Staff *staff, PlantGroup *plants)
 {
     plants->attach(staff);
+}
+
+std::list<PlantComponent *> NurseryFacade::getCustomerPlants(Customer *customer)
+{
+     return *customer->getBasket()->getPlants();
 }

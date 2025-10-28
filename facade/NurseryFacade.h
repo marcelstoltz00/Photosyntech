@@ -122,7 +122,7 @@ public:
 
     std::list<PlantComponent *> getGroupContents(PlantComponent *group);
 
-    PlantGroup *createPlantGroup(const std::string &name);
+    PlantGroup *createPlantGroup();
 
     void addComponentToGroup(PlantComponent *parent, PlantComponent *child);
 
@@ -158,8 +158,9 @@ public:
     /**
      * @brief adds staff as an observer to plantGroup
      */
-    void setObserver(Staff* staff,PlantGroup*);
-    
+    void setObserver(Staff *staff, PlantGroup *);
+
+    std::list<PlantComponent *> getCustomerPlants(Customer *);
 };
 
 #endif

@@ -21,13 +21,6 @@ SuggestionFloor::SuggestionFloor()
  */
 void SuggestionFloor::getAssistance(User *customer)
 {
-    Customer *cust = dynamic_cast<Customer *>(customer);
-    if (cust == nullptr)
-    {
-        std::cout << "SuggestionFloor: Invalid customer type for suggestion assistance" << std::endl;
-        return;
-    }
-
     std::cout << "SuggestionFloor: Routing suggestion request from customer" << std::endl;
 
     // Get staff list directly from Singleton
