@@ -31,11 +31,11 @@
 #include "../decorator/plantDecorator/Summer.h"
 #include "../decorator/plantDecorator/Autumn.h"
 #include "../decorator/plantDecorator/Winter.h"
-#include "../../../prototype/LivingPlant.h"
-#include "../../../prototype/Herb.h"
-#include "../../../prototype/Shrub.h"
-#include "../../../prototype/Succulent.h"
-#include "../../../prototype/Tree.h"
+#include "../prototype/LivingPlant.h"
+#include "../prototype/Herb.h"
+#include "../prototype/Shrub.h"
+#include "../prototype/Succulent.h"
+#include "../prototype/Tree.h"
 
 
 /**
