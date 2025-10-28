@@ -185,6 +185,10 @@ int main()
     });
     string userName = "";
     Customer *currentCustomer = nullptr;
+
+    nursery.addCustomer("Customer");
+    nursery.addStaff("Staff");
+
     string customerTerminalStr = "";
     auto nameInput = Input(&userName, "Enter your name here");
     auto addCustomerButton = Button("Login", [&]

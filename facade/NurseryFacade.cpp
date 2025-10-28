@@ -150,6 +150,7 @@ Customer *NurseryFacade::addCustomer(string name)
             return (*list)[i];
         }
     }
+
     Customer *nCust = new Customer(name);
     Inventory::getInstance()->addCustomer(nCust);
     nCust->setSalesFloor(sales);
@@ -161,9 +162,12 @@ string NurseryFacade::askForSuggestion(Customer *customer)
 {
     if (customer)
     return customer->askForSuggestion();
+
+    return "";
 }
 void NurseryFacade::addToCustomerBasket(Customer *customer, PlantComponent *nPlant)
 {
+    if (customer)
     customer->addPlant(nPlant);
 }
 string NurseryFacade::customerPurchase(Customer *customer)
@@ -201,5 +205,6 @@ void NurseryFacade::setObserver(Staff *staff, PlantGroup *plants)
 
 std::list<PlantComponent *> NurseryFacade::getCustomerPlants(Customer *customer)
 {
+    if (customer)
     return *customer->getBasket()->getPlants();
 }

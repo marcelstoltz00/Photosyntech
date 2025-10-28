@@ -51,7 +51,7 @@ string Staff::assistSuggestion()
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     int idx = std::rand() % plantKeys.size();
 
-    std::string recommendation = "I recommend the " + plantKeys[idx] + ".";
+    std::string recommendation = this->name+": recommends the " + plantKeys[idx] + ".";
     std::cout << recommendation << std::endl;
     return recommendation;
 }
@@ -74,7 +74,7 @@ string Staff::assistPurchases(PlantGroup *basket)
     receipt << basket->getInfo();
     receipt << "Total price: " << basket->getPrice() << "\n";
 
-    std::cout << receipt.str() << std::endl;
+   // std::cout << receipt.str() << std::endl;
     return receipt.str();
     // Remove purchased plants from system scope
     delete basket;
