@@ -62,7 +62,7 @@ public:
 	 */
 	void setSuggestionFloor(Mediator *mediator) { suggestionFloor = mediator; }
 
-	string getName() { return this->name; }
+	std::string getName() { return this->name; }
 };
 
 #endif

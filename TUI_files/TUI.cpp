@@ -184,9 +184,12 @@ int main()
         treeMenu,
     });
     string userName = "";
+    Customer *currentCustomer = nullptr;
+
     auto nameInput = Input(&userName, "Enter your name here");
     auto addCustomerButton = Button("Login", [&]
-                                    { nursery.addCustomer(userName); });
+                                    { currentCustomer = nursery.addCustomer(userName); 
+                                        userName = "Added correctly"; });
 
     auto customerTab = Container::Vertical({Container::Horizontal({nameInput, addCustomerButton})
 
@@ -269,7 +272,6 @@ int main()
     }
 
     std::cerr.rdbuf(oldCerrBuf);
-
 
     delete Inventory::getInstance();
     return 0;
