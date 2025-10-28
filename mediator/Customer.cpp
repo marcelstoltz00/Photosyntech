@@ -15,11 +15,11 @@
 /**
  * @brief Constructs a new Customer object.
  */
-Customer::Customer() : basket(nullptr)
+Customer::Customer() : basket(nullptr) ,User()
 {
     name = "Customer";
 }
-Customer::Customer(string name) : basket(nullptr)
+Customer::Customer(string name) : basket(nullptr) ,User()
 {
     this->name = name;
 }
@@ -97,13 +97,6 @@ void Customer::addPlant(PlantComponent *plant)
     std::cout << "Customer: Added plant to basket" << std::endl;
 }
 
-/**
- * @brief Performs a customer operation.
- */
-void Customer::operation()
-{
-    std::cout << "Customer: Performing customer browsing operation" << std::endl;
-}
 
 /**
  * @brief Gets the customer's current shopping basket.

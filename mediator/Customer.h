@@ -61,12 +61,10 @@ class Customer : public User
 		 */
 		void addPlant(PlantComponent* plant);
 
-		/**
-		 * @brief Performs a customer operation.
-		 */
-		void operation();
+
 		PlantGroup* getBasket() const;
    		void clearBasket();
+		
 };
 
 #endif

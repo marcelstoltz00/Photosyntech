@@ -37,6 +37,8 @@
 #include "../prototype/Succulent.h"
 #include "../prototype/Tree.h"
 #include "../mediator/Customer.h"
+#include "../mediator/SalesFloor.h"
+#include "../mediator/SuggestionFloor.h"
 
 /**
  * @brief Unified facade interface for the nursery management system.
@@ -86,45 +88,67 @@
  * @see Iterator (plant filtering and browsing)
  */
 
-
-class NurseryFacade {
+class NurseryFacade
+{
 private:
-    Director* director;
-    Builder* sunflowerBuilder;
-    Builder* roseBuilder;
-    Builder* jadePlantBuilder;
-    Builder* mapleBuilder;
-	Builder* cactusBuilder;
-	Builder* cherryBlossomBuilder;
-	Builder* lavenderBuilder;
-	Builder* pineBuilder;
-    std::vector<PlantComponent*> plants;
+    Director *director;
+    Builder *sunflowerBuilder;
+    Builder *roseBuilder;
+    Builder *jadePlantBuilder;
+    Builder *mapleBuilder;
+    Builder *cactusBuilder;
+    Builder *cherryBlossomBuilder;
+    Builder *lavenderBuilder;
+    Builder *pineBuilder;
+    std::vector<PlantComponent *> plants;
+    SalesFloor *sales;
+    SuggestionFloor *suggestionFloor;
 
 public:
     NurseryFacade();
     ~NurseryFacade();
 
-    PlantComponent* createPlant(const std::string& type);
-    void waterPlant(PlantComponent* plant);
-    void addSunlight(PlantComponent* plant);
-    std::string getPlantInfo(PlantComponent* plant);
+    PlantComponent *createPlant(const std::string &type);
+
+    void waterPlant(PlantComponent *plant);
+
+    void addSunlight(PlantComponent *plant);
+
+    std::string getPlantInfo(PlantComponent *plant);
 
     std::vector<std::string> getAvailablePlantTypes();
 
-	PlantComponent* getInventoryRoot();
+    PlantComponent *getInventoryRoot();
 
-    std::list<PlantComponent*> getGroupContents(PlantComponent* group);
+    std::list<PlantComponent *> getGroupContents(PlantComponent *group);
 
-    PlantGroup* createPlantGroup(const std::string& name);
+    PlantGroup *createPlantGroup(const std::string &name);
 
-    void addComponentToGroup(PlantComponent* parent, PlantComponent* child);
+    void addComponentToGroup(PlantComponent *parent, PlantComponent *child);
 
     bool startNurseryTick();
 
     bool stopNurseryTick();
 
+    /**
+     * @brief adds a customer singleton for memory management
+     */
     void addCustomer(string);
-    string getCustomerList();
+
+    /**
+     * @brief performs the communication of customer to staff member
+     */
+    void askForSuggestion(Customer *);
+
+    /**
+     * @brief adds a plant to a customers basket
+     */
+    void addToCustomerBasket(Customer *, PlantComponent *);
+
+    /**
+     * @brief adds a plant to a customers basket
+     */
+    void customerPurchase(Customer *);
 };
 
 #endif

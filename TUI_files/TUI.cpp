@@ -72,7 +72,7 @@ void refreshInventoryView(NurseryFacade &nursery)
 int main()
 {
     Inventory::getInstance();
-    
+
     std::ofstream cerrLog("plant_manager_debug.txt");
     std::streambuf *oldCerrBuf = std::cerr.rdbuf();
     std::cerr.rdbuf(cerrLog.rdbuf());
@@ -188,10 +188,7 @@ int main()
     auto addCustomerButton = Button("Login", [&]
                                     { nursery.addCustomer(userName); });
 
-    auto customerTab = Container::Vertical({
-        Container::Horizontal({
-            nameInput,addCustomerButton
-        })
+    auto customerTab = Container::Vertical({Container::Horizontal({nameInput, addCustomerButton})
 
     });
 
@@ -273,7 +270,7 @@ int main()
 
     std::cerr.rdbuf(oldCerrBuf);
 
-    return 0;
 
     delete Inventory::getInstance();
+    return 0;
 }

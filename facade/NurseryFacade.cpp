@@ -11,6 +11,8 @@ NurseryFacade::NurseryFacade()
     lavenderBuilder = new LavenderBuilder();
     pineBuilder = new PineBuilder();
     director = new Director(sunflowerBuilder);
+    sales = new SalesFloor();
+    suggestionFloor = new SuggestionFloor();
 }
 
 NurseryFacade::~NurseryFacade()
@@ -24,6 +26,8 @@ NurseryFacade::~NurseryFacade()
     delete cherryBlossomBuilder;
     delete lavenderBuilder;
     delete pineBuilder;
+    delete sales;
+    delete suggestionFloor;
 }
 
 PlantComponent *NurseryFacade::createPlant(const std::string &type)
@@ -134,7 +138,24 @@ bool NurseryFacade::stopNurseryTick()
 
 void NurseryFacade::addCustomer(string name)
 {
-    Inventory::getInstance()->addCustomer(new Customer(name));
+    if (name.empty() == false)
+    {
+        Customer *nCust = new Customer(name);
+        Inventory::getInstance()->addCustomer(nCust);
+        nCust->setSalesFloor(sales);
+        nCust->setSuggestionFloor(suggestionFloor);
+    }
 }
 
-
+void NurseryFacade::askForSuggestion(Customer *customer)
+{
+    customer->askForSuggestion();
+}
+void NurseryFacade::addToCustomerBasket(Customer *customer, PlantComponent *nPlant)
+{
+    customer->addPlant(nPlant);
+}
+void NurseryFacade::customerPurchase(Customer *customer)
+{
+    customer->purchasePlants();
+}
