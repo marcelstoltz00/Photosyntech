@@ -30,34 +30,6 @@ include_directories(external/json)
 # PROJECT STRUCTURE
 # =============================================================================
 
-# -----------------------------------------------------------------------------
-# Automatic generation of ui_<project_name>.h headers from .tuik files declared by the user
-# -----------------------------------------------------------------------------
-# Example usage in the project's CMakeLists.txt:
-# set(TUIKIT_UI examples/simple_ui.tuik path/to/other_ui.tuik)
-find_program(XXD_EXE xxd REQUIRED)
-if(NOT DEFINED TUIKIT_UI)
-    set(TUIKIT_UI "${CMAKE_SOURCE_DIR}/examples/example_2.tuik")
-endif()
-set(EMBEDDED_HEADERS "")
-foreach(TUIK_FILE ${TUIKIT_UI})
-    get_filename_component(TUIK_NAME ${TUIK_FILE} NAME_WE)
-    get_filename_component(TUIK_DIR ${TUIK_FILE} DIRECTORY)
-    set(VAR_NAME "${TUIK_NAME}_tuik")
-    set(HEADER_FILE "${TUIK_DIR}/${TUIK_NAME}_tuik.h")
-    add_custom_command(
-        OUTPUT ${HEADER_FILE}
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${TUIK_DIR}
-        COMMAND ${XXD_EXE} -i -n ${VAR_NAME} ${TUIK_FILE} > ${HEADER_FILE}
-        DEPENDS ${TUIK_FILE}
-        COMMENT "Generating ${HEADER_FILE} from ${TUIK_FILE} with variable ${VAR_NAME}"
-        VERBATIM
-    )
-    list(APPEND EMBEDDED_HEADERS ${HEADER_FILE})
-endforeach()
-add_custom_target(generate_embedded_headers ALL DEPENDS ${EMBEDDED_HEADERS})
-
-
 # Headers
 set(TUIKIT_HEADERS
     include/tuikit.h
@@ -126,22 +98,6 @@ set(TUIKIT_SOURCES
     # Add other source files as they are created
 )
 
-set(EXAMPLE_SOURCES
-    examples/example_1.cpp
-)
-
-set(EXAMPLE_2_SOURCES
-    examples/example_2.cpp
-)
-
-set(OPENFOAM_TUI_SOURCES
-    examples/openfoam_tui/openfoam_tui.cpp
-    examples/openfoam_tui/OpenFoamParameters.cpp
-)
-
-set(FTXUI_TEST_SOURCES
-    examples/ftxui_test.cpp
-)
 
 # =============================================================================
 # TUI FRAMEWORK LIBRARY
@@ -155,13 +111,6 @@ target_include_directories(tuikit PUBLIC
 )
 target_link_libraries(tuikit PUBLIC ftxui::screen ftxui::dom ftxui::component)
 
-
-# =============================================================================
-# OPENFOAM TUI EXECUTABLE
-# =============================================================================
-
-add_executable(openfoam_tui ${OPENFOAM_TUI_SOURCES})
-target_link_libraries(openfoam_tui PRIVATE tuikit)
 
 add_executable(TUI
     TUI.cpp
