@@ -1,0 +1,3 @@
+[submodule "TUI/TUIKit"]
+	path = TUI/TUIKit
+	url = https://github.com/skhelladi/TUIKit.git
