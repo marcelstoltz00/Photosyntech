@@ -38,7 +38,7 @@ void buildTreeEntries(
     indexMap[currentIndex] = component;
     
     if (component->getType() == ComponentType::PLANT_GROUP){
-        PlantGroup* group = dynamic_cast<PlantGroup*>(component);
+        PlantGroup* group = static_cast<PlantGroup*>(component);
         if (group){
             std::list<PlantComponent*> children = *group->getPlants();
             for (PlantComponent* child : children){
@@ -62,6 +62,7 @@ void refreshInventoryView(NurseryFacade& nursery){
         buildTreeEntries(root, treeEntries, treeIndexToComponent);
     }
 }
+
 
 int main(){
     std::ofstream cerrLog("plant_manager_debug.txt");
