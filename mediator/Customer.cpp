@@ -1,5 +1,5 @@
 #include "Customer.h"
-#include "Mediator.h"                
+#include "Mediator.h"
 #include "../composite/PlantGroup.h"
 #include <iostream>
 
@@ -18,6 +18,10 @@
 Customer::Customer() : basket(nullptr)
 {
     name = "Customer";
+}
+Customer::Customer(string name) : basket(nullptr)
+{
+    this->name = name;
 }
 
 /**

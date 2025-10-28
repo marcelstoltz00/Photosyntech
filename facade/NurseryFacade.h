@@ -36,7 +36,7 @@
 #include "../prototype/Shrub.h"
 #include "../prototype/Succulent.h"
 #include "../prototype/Tree.h"
-
+#include "../mediator/Customer.h"
 
 /**
  * @brief Unified facade interface for the nursery management system.
@@ -122,6 +122,9 @@ public:
     bool startNurseryTick();
 
     bool stopNurseryTick();
+
+    void addCustomer(string);
+    string getCustomerList();
 };
 
 #endif

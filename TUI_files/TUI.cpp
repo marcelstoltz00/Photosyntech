@@ -10,63 +10,69 @@
 #include <list>
 #include <memory>
 #include "../../../facade/NurseryFacade.h"
-#include "../../../composite/PlantGroup.h" 
+#include "../../../composite/PlantGroup.h"
 #include "../../../composite/PlantComponent.h"
 
 using namespace ftxui;
 
-std::map<int, PlantComponent*> treeIndexToComponent;
+std::map<int, PlantComponent *> treeIndexToComponent;
 int selectedTreeIndex = -1;
-PlantComponent* selectedInventoryComponent = nullptr;
+PlantComponent *selectedInventoryComponent = nullptr;
 std::string inventoryStatusText = "Inventory: Initialising...";
 std::string selectedInfoText = "Component details will appear here.";
 
 std::vector<std::string> treeEntries;
 
 void buildTreeEntries(
-    PlantComponent* component,
-    std::vector<std::string>& entries,
-    std::map<int, PlantComponent*>& indexMap,
+    PlantComponent *component,
+    std::vector<std::string> &entries,
+    std::map<int, PlantComponent *> &indexMap,
     int depth = 0)
 {
-    if (!component) return;
-    
+    if (!component)
+        return;
+
     int currentIndex = entries.size();
     std::string indent(depth * 2, ' ');
     std::string prefix = depth > 0 ? "├─ " : "";
     entries.push_back(indent + prefix + component->getName());
     indexMap[currentIndex] = component;
-    
-    if (component->getType() == ComponentType::PLANT_GROUP){
-        PlantGroup* group = static_cast<PlantGroup*>(component);
-        if (group){
-            std::list<PlantComponent*> children = *group->getPlants();
-            for (PlantComponent* child : children){
+
+    if (component->getType() == ComponentType::PLANT_GROUP)
+    {
+        PlantGroup *group = static_cast<PlantGroup *>(component);
+        if (group)
+        {
+            std::list<PlantComponent *> children = *group->getPlants();
+            for (PlantComponent *child : children)
+            {
                 buildTreeEntries(child, entries, indexMap, depth + 1);
             }
         }
     }
 }
 
-void refreshInventoryView(NurseryFacade& nursery){
+void refreshInventoryView(NurseryFacade &nursery)
+{
     treeEntries.clear();
     treeIndexToComponent.clear();
     selectedTreeIndex = -1;
     selectedInventoryComponent = nullptr;
-    
+
     selectedInfoText = "Select an item in the inventory.";
     inventoryStatusText = "Inventory refreshed.";
-    
-    PlantComponent* root = nursery.getInventoryRoot();
-    if (root){
+
+    PlantComponent *root = nursery.getInventoryRoot();
+    if (root)
+    {
         buildTreeEntries(root, treeEntries, treeIndexToComponent);
     }
 }
 
-
-int main(){
+int main()
+{
     std::ofstream cerrLog("plant_manager_debug.txt");
-    std::streambuf* oldCerrBuf = std::cerr.rdbuf();
+    std::streambuf *oldCerrBuf = std::cerr.rdbuf();
     std::cerr.rdbuf(cerrLog.rdbuf());
 
     auto screen = ScreenInteractive::Fullscreen();
@@ -77,11 +83,12 @@ int main(){
     int plantSelectorIndex = 0;
     std::string plantInfoText = "No plant selected";
     std::string statusText = "Status: Ready";
-    PlantComponent* currentPlant = nullptr;
+    PlantComponent *currentPlant = nullptr;
 
     auto plantSelector = Dropdown(&plantTypes, &plantSelectorIndex);
-    
-    auto createButton = Button("Create Plant", [&]{
+
+    auto createButton = Button("Create Plant", [&]
+                               {
         if (plantSelectorIndex >= 0 && plantSelectorIndex < plantTypes.size()){
             std::string selectedType = plantTypes[plantSelectorIndex];
             currentPlant = nursery.createPlant(selectedType);
@@ -90,55 +97,54 @@ int main(){
                 statusText = "Status: Created new " + selectedType + " and added to Inventory.";
                 refreshInventoryView(nursery);
             }
-        }
-    });
+        } });
 
-    auto waterButton = Button("Water Plant", [&]{
+    auto waterButton = Button("Water Plant", [&]
+                              {
         if (currentPlant){
             nursery.waterPlant(currentPlant);
             plantInfoText = nursery.getPlantInfo(currentPlant);
             statusText = "Status: Watered plant";
-        }
-    });
+        } });
 
-    auto sunButton = Button("Add Sunlight", [&]{
+    auto sunButton = Button("Add Sunlight", [&]
+                            {
         if (currentPlant){
             nursery.addSunlight(currentPlant);
             plantInfoText = nursery.getPlantInfo(currentPlant);
             statusText = "Status: Added sunlight";
-        }
-    });
+        } });
 
-    auto infoButton = Button("Get Info", [&]{
+    auto infoButton = Button("Get Info", [&]
+                             {
         if (currentPlant){
             plantInfoText = nursery.getPlantInfo(currentPlant);
             statusText = "Status: Updated info";
-        }
-    });
+        } });
 
-    auto refreshButton = Button("Refresh Inventory", [&]{
-        refreshInventoryView(nursery);
-    });
+    auto refreshButton = Button("Refresh Inventory", [&]
+                                { refreshInventoryView(nursery); });
 
-    auto startTickButton = Button("Start Ticker", [&]{
+    auto startTickButton = Button("Start Ticker", [&]
+                                  {
         if (nursery.startNurseryTick()){
             inventoryStatusText = "Inventory: Ticker Started.";
         }else{
             inventoryStatusText = "Inventory: Ticker already running.";
-        }
-    });
+        } });
 
-    auto stopTickButton = Button("Stop Ticker", [&]{
+    auto stopTickButton = Button("Stop Ticker", [&]
+                                 {
         if (nursery.stopNurseryTick()){
             inventoryStatusText = "Inventory: Ticker Stopped.";
         }else{
             inventoryStatusText = "Inventory: Ticker was not running.";
         }
-        refreshInventoryView(nursery);
-    });
+        refreshInventoryView(nursery); });
 
     auto treeMenu = Menu(&treeEntries, &selectedTreeIndex);
-    treeMenu |= CatchEvent([&](Event event){
+    treeMenu |= CatchEvent([&](Event event)
+                           {
         if (event == Event::Return && selectedTreeIndex >= 0){
             auto it = treeIndexToComponent.find(selectedTreeIndex);
             if (it != treeIndexToComponent.end()){
@@ -147,14 +153,13 @@ int main(){
                 inventoryStatusText = "Status: Selected item in Inventory.";
             }
         }
-        return false;
-    });
+        return false; });
 
     int tabSelected = 0;
-    std::vector<std::string> tabTitles ={
+    std::vector<std::string> tabTitles = {
         "Plant Manager (Builder)",
-        "Inventory (Composite/Singleton)"
-    };
+        "Inventory (Composite/Singleton)",
+        "Iterate"};
 
     auto tabToggle = Toggle(&tabTitles, &tabSelected);
 
@@ -177,17 +182,29 @@ int main(){
         treeMenu,
     });
 
-    auto tabContainer = Container::Tab({
-        tab1Content,
-        tab2Content,
-    }, &tabSelected);
+    auto addCustomerButton = Button("Add customer",[&]
+        {
+
+        });
+
+    auto customerTab = Container::Vertical({Container::Horizontal({
+
+    })
+
+    });
+
+    auto tabContainer = Container::Tab({tab1Content,
+                                        tab2Content,
+                                        customerTab},
+                                       &tabSelected);
 
     auto mainContainer = Container::Vertical({
         tabToggle,
         tabContainer,
     });
 
-    auto mainRenderer = Renderer(mainContainer, [&]{
+    auto mainRenderer = Renderer(mainContainer, [&]
+                                 {
         Element tab1View = vbox({
             window(text("Plant Creation"), vbox({
                 hbox(text("Select Plant Type: "), text(plantTypes[plantSelectorIndex])),
@@ -211,6 +228,7 @@ int main(){
                 refreshButton->Render(),
                 startTickButton->Render(),
                 stopTickButton->Render(),
+
             }),
             text(inventoryStatusText),
             window(text("Inventory Hierarchy"), 
@@ -221,28 +239,40 @@ int main(){
             ),
         });
 
+        Element customerView = vbox({
+                       window( text("Customer"),paragraphAlignCenter("Customer Interactions")),
+            hbox({
+
+
+            }),
+
+
+        });
+
         return vbox({
             hbox({
                 text("Photosyntech Plant Manager") | bold | center,
             }) | border,
             tabToggle->Render(),
             separator(),
-            (tabSelected == 0 ? tab1View : tab2View) | flex,
+            (tabSelected == 0 ? tab1View : tabSelected == 1 ? tab2View :customerView) | flex,
             separator(),
             text(statusText) | border,
-        });
-    });
+        }); });
 
     refreshInventoryView(nursery);
 
     screen.Loop(mainRenderer);
 
-    try{
+    try
+    {
         nursery.stopNurseryTick();
-    }catch (const std::exception& e){
     }
-    
+    catch (const std::exception &e)
+    {
+    }
+
     std::cerr.rdbuf(oldCerrBuf);
-    
+
     return 0;
 }

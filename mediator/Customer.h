@@ -43,6 +43,7 @@ class Customer : public User
 
 	public:
 		Customer();
+		Customer(std::string name);
     	virtual ~Customer();
 		/**
 		 * @brief Requests plant care suggestions from staff via the mediator.
