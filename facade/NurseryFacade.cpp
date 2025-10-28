@@ -136,7 +136,5 @@ void NurseryFacade::addCustomer(string name)
 {
     Inventory::getInstance()->addCustomer(new Customer(name));
 }
-string NurseryFacade::getCustomerList()
-{
-   
-}
+
+

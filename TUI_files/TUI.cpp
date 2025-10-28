@@ -71,6 +71,8 @@ void refreshInventoryView(NurseryFacade &nursery)
 
 int main()
 {
+    Inventory::getInstance();
+    
     std::ofstream cerrLog("plant_manager_debug.txt");
     std::streambuf *oldCerrBuf = std::cerr.rdbuf();
     std::cerr.rdbuf(cerrLog.rdbuf());
@@ -159,7 +161,7 @@ int main()
     std::vector<std::string> tabTitles = {
         "Plant Manager (Builder)",
         "Inventory (Composite/Singleton)",
-        "Iterate"};
+        "Customer"};
 
     auto tabToggle = Toggle(&tabTitles, &tabSelected);
 
@@ -181,15 +183,15 @@ int main()
         }),
         treeMenu,
     });
+    string userName = "";
+    auto nameInput = Input(&userName, "Enter your name here");
+    auto addCustomerButton = Button("Login", [&]
+                                    { nursery.addCustomer(userName); });
 
-    auto addCustomerButton = Button("Add customer",[&]
-        {
-
-        });
-
-    auto customerTab = Container::Vertical({Container::Horizontal({
-
-    })
+    auto customerTab = Container::Vertical({
+        Container::Horizontal({
+            nameInput,addCustomerButton
+        })
 
     });
 
@@ -240,13 +242,10 @@ int main()
         });
 
         Element customerView = vbox({
-                       window( text("Customer"),paragraphAlignCenter("Customer Interactions")),
             hbox({
-
-
-            }),
-
-
+               nameInput->Render() | frame |size(HEIGHT,EQUAL,3)| size(WIDTH, EQUAL, 200),
+               addCustomerButton->Render() |size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,10)
+            })
         });
 
         return vbox({
@@ -275,4 +274,6 @@ int main()
     std::cerr.rdbuf(oldCerrBuf);
 
     return 0;
+
+    delete Inventory::getInstance();
 }
