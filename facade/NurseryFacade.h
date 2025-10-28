@@ -138,7 +138,7 @@ public:
     /**
      * @brief performs the communication of customer to staff member
      */
-    void askForSuggestion(Customer *);
+    string askForSuggestion(Customer *);
 
     /**
      * @brief adds a plant to a customers basket
@@ -148,7 +148,7 @@ public:
     /**
      * @brief adds a plant to a customers basket
      */
-    void customerPurchase(Customer *);
+    string customerPurchase(Customer *);
 
     /**
      * @brief adds a Staff member singleton for memory management

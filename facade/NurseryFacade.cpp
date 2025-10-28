@@ -157,17 +157,19 @@ Customer *NurseryFacade::addCustomer(string name)
     return nCust;
 }
 
-void NurseryFacade::askForSuggestion(Customer *customer)
+string NurseryFacade::askForSuggestion(Customer *customer)
 {
-    customer->askForSuggestion();
+    if (customer)
+    return customer->askForSuggestion();
 }
 void NurseryFacade::addToCustomerBasket(Customer *customer, PlantComponent *nPlant)
 {
     customer->addPlant(nPlant);
 }
-void NurseryFacade::customerPurchase(Customer *customer)
+string NurseryFacade::customerPurchase(Customer *customer)
 {
-    customer->purchasePlants();
+    if (customer)
+    return customer->purchasePlants();
 }
 
 Staff *NurseryFacade::addStaff(string name)
@@ -199,5 +201,5 @@ void NurseryFacade::setObserver(Staff *staff, PlantGroup *plants)
 
 std::list<PlantComponent *> NurseryFacade::getCustomerPlants(Customer *customer)
 {
-     return *customer->getBasket()->getPlants();
+    return *customer->getBasket()->getPlants();
 }

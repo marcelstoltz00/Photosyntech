@@ -48,12 +48,12 @@ class Customer : public User
 		/**
 		 * @brief Requests plant care suggestions from staff via the mediator.
 		 */
-		void askForSuggestion();
+		string askForSuggestion();
 
 		/**
 		 * @brief Initiates plant purchase transaction via the sales floor mediator.
 		 */
-		void purchasePlants();
+		string purchasePlants();
 
 		/**
 		 * @brief Adds a plant to the customer's shopping basket.

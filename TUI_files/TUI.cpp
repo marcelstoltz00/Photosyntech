@@ -185,15 +185,19 @@ int main()
     });
     string userName = "";
     Customer *currentCustomer = nullptr;
-
+    string customerTerminalStr = "";
     auto nameInput = Input(&userName, "Enter your name here");
     auto addCustomerButton = Button("Login", [&]
-                                    { currentCustomer = nursery.addCustomer(userName); 
-                                        });
+                                    { currentCustomer = nursery.addCustomer(userName); });
 
-    auto customerTab = Container::Vertical({Container::Horizontal({nameInput, addCustomerButton})
+    auto askAdvice = Button("get suggestion", [&]
+                            { customerTerminalStr = nursery.askForSuggestion(currentCustomer); });
 
-    });
+    auto customerTab = Container::Vertical(
+        {Container::Horizontal({nameInput, addCustomerButton}),
+         Container::Vertical({
+             askAdvice,
+         })});
 
     auto tabContainer = Container::Tab({tab1Content,
                                         tab2Content,
@@ -245,6 +249,10 @@ int main()
             hbox({
                nameInput->Render() | frame |size(HEIGHT,EQUAL,3)| size(WIDTH, EQUAL, 200),
                addCustomerButton->Render() |size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,10)
+            }),
+            vbox ({
+                askAdvice->Render(),
+              window(text("Conversations"), paragraph(customerTerminalStr))
             })
         });
 

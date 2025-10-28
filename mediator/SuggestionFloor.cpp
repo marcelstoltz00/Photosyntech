@@ -19,7 +19,7 @@ SuggestionFloor::SuggestionFloor()
  * @brief Routes customer suggestion requests to available staff.
  * @param customer Pointer to the User requesting suggestions.
  */
-void SuggestionFloor::getAssistance(User *customer)
+string SuggestionFloor::getAssistance(User *customer)
 {
     std::cout << "SuggestionFloor: Routing suggestion request from customer" << std::endl;
 
@@ -29,7 +29,7 @@ void SuggestionFloor::getAssistance(User *customer)
     if (staffList.empty())
     {
         std::cout << "SuggestionFloor: No staff available for suggestions, customer must wait" << std::endl;
-        return;
+        return "SuggestionFloor: No staff available for suggestions, customer must wait" ;
     }
 
     // Random staff selection

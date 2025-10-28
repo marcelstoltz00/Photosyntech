@@ -36,18 +36,16 @@ Staff::Staff(std::string name) : User(name)
     this->name = name;
 }
 
-void Staff::assistSuggestion()
+string Staff::assistSuggestion()
 {
     Inventory *inventory = Inventory::getInstance();
     if (!inventory)
-        return;
+        return "No inventory";
 
     // Temporary plant list for all seasons, can be expanded as needed with flyweights
     std::vector<std::string> plantKeys = {
-        "Rose", "Tulip", "Peony", "Bougainvillea",
-        "Sunflower", "Hibiscus", "Century Plant", "Agave", "Zinnia",
-        "Japanese Barberry", "Chrysanthemum", "Hawthorn", "Sedum",
-        "Cactus", "Opuntia", "Juniper", "Yucca", "Winter Jasmine"};
+         "Sunflower", "Rose", "Jade Plant", "Maple",
+        "Cactus", "Cherry Blossom", "Lavender", "Pine"};
 
     // Randomly select a plant
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -55,6 +53,7 @@ void Staff::assistSuggestion()
 
     std::string recommendation = "I recommend the " + plantKeys[idx] + ".";
     std::cout << recommendation << std::endl;
+    return recommendation;
 }
 
 /**
@@ -65,10 +64,10 @@ void Staff::assistSuggestion()
  *
  * @param plants Pointer to the PlantGroup being purchased.
  */
-void Staff::assistPurchases(PlantGroup *basket)
+string Staff::assistPurchases(PlantGroup *basket)
 {
     if (!basket)
-        return;
+        return "Invalid basket provided";
 
     std::ostringstream receipt;
     receipt << "Purchase Receipt:\n";
@@ -76,7 +75,7 @@ void Staff::assistPurchases(PlantGroup *basket)
     receipt << "Total price: " << basket->getPrice() << "\n";
 
     std::cout << receipt.str() << std::endl;
-
+    return receipt.str();
     // Remove purchased plants from system scope
     delete basket;
 }

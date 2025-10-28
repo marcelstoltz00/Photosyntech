@@ -15,11 +15,11 @@
 /**
  * @brief Constructs a new Customer object.
  */
-Customer::Customer() : basket(nullptr) ,User()
+Customer::Customer() : basket(nullptr), User()
 {
     name = "Customer";
 }
-Customer::Customer(string name) : basket(nullptr) ,User()
+Customer::Customer(string name) : basket(nullptr), User()
 {
     this->name = name;
 }
@@ -39,39 +39,42 @@ Customer::~Customer()
 /**
  * @brief Requests plant care suggestions from staff via the mediator.
  */
-void Customer::askForSuggestion()
+string Customer::askForSuggestion()
 {
     if (suggestionFloor != nullptr)
     {
         std::cout << "Customer: Requesting plant care suggestions" << std::endl;
-        suggestionFloor->getAssistance(this);
+        return suggestionFloor->getAssistance(this);
     }
     else
     {
         std::cout << "Customer: No suggestion floor available" << std::endl;
+        return "Customer: No suggestion floor available";
     }
 }
 
 /**
  * @brief Initiates plant purchase transaction via the sales floor mediator.
  */
-void Customer::purchasePlants()
+string Customer::purchasePlants()
 {
     if (salesFloor != nullptr)
     {
         if (basket != nullptr)
         {
             std::cout << "Customer: Initiating plant purchase" << std::endl;
-            salesFloor->getAssistance(this);
+            return salesFloor->getAssistance(this);
         }
         else
         {
             std::cout << "Customer: Cannot purchase - basket is empty" << std::endl;
+            return  "Customer: Cannot purchase - basket is empty";
         }
     }
     else
     {
         std::cout << "Customer: No sales floor available" << std::endl;
+        return "Customer: No sales floor available";
     }
 }
 
@@ -96,7 +99,6 @@ void Customer::addPlant(PlantComponent *plant)
     basket->addComponent(plant);
     std::cout << "Customer: Added plant to basket" << std::endl;
 }
-
 
 /**
  * @brief Gets the customer's current shopping basket.

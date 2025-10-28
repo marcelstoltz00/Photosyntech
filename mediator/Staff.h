@@ -47,13 +47,13 @@ class Staff : public User, public Observer
 		/**
 		 * @brief Assists customers with plant care suggestions via the suggestion floor mediator.
 		 */
-		void assistSuggestion();
+		string assistSuggestion();
 
 		/**
 		 * @brief Assists customers with purchase transactions via the sales floor mediator.
 		 * @param plants Pointer to the PlantGroup being purchased.
 		 */
-		void assistPurchases(PlantGroup* plants);
+		string assistPurchases(PlantGroup* plants);
 
 		/**
 		 * @brief Receives notification that a plant needs water.
