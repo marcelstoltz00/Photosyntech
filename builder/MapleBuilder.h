@@ -10,7 +10,9 @@
  * - Base Type: Tree
  * - Sun Strategy: MidSun
  * - Water Strategy: MidWater
+ * - Initial Health: 100%
  * - Decorators: No Flowers, Large Leaves, Large Stem, No Thorns
+ * - Initial State: Seed
  *
  * @see Builder
  * @see Tree
@@ -50,7 +52,7 @@ public:
      */
     void setUp() ;
     /**
-     * @brief Adds decorators to the LivingPlant.
+     * @brief Adds decorators to the PlantComponent.
      */
     void addDecorators() ;
 

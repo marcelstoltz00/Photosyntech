@@ -9,12 +9,12 @@ Provides a simplified, unified interface to the complex nursery subsystems (plan
 |--------------|------------------------|----------------|
 | **Facade** | `NurseryFacade` | Provides high-level methods for common operations; delegates to appropriate subsystems; coordinates complex multi-step processes |
 | **Subsystems** | `Director` (plant creation)<br>`Singleton` (inventory)<br>`Mediator` classes (staff/customer interaction)<br>`Command` classes (operations)<br>`Iterator` factories (filtering) | Implement detailed subsystem functionality; work together through facade coordination |
-| **Client** | `GUI`<br>External interfaces | Uses the facade to interact with the system through simple method calls |
+| **Client** | `TUI`<br>External interfaces | Uses the facade to interact with the system through simple method calls |
 
 ## Functional Requirements
 
 ### Primary Requirements
-- **FR-17: Unified System Interface** - Provides simplified interface layer handling all business logic and coordinating subsystem interactions; enables GUI and CLI to interact through simple function calls; decouples business logic from presentation layer
+- **FR-17: Unified System Interface** - Provides simplified interface layer handling all business logic and coordinating subsystem interactions; enables TUI and CLI to interact through simple function calls; decouples business logic from presentation layer
 
 ### Supporting Requirements
 - **NFR-3: Usability** - Simplifies complex operations into easy-to-understand methods
@@ -38,7 +38,7 @@ The **Facade** pattern serves as the **unified system entry point**, coordinatin
 - **Strategy & Flyweight**: Ensures strategy reuse and memory efficiency
 
 ### System Dependencies
-- **Single Integration Point**: Only interface GUI and CLI need to know about
+- **Single Integration Point**: Only interface TUI and CLI need to know about
 - **Business Logic Coordination**: Coordinates complex multi-step operations
 - **Subsystem Isolation**: Changes to subsystems don't affect external interfaces
 - **Operation Routing**: Routes different operation types to appropriate pattern implementations
@@ -46,10 +46,10 @@ The **Facade** pattern serves as the **unified system entry point**, coordinatin
 ## Design Rationale
 
 The Facade pattern was chosen because:
-1. **Complexity Hiding**: Shields GUI/CLI from 13 pattern interactions
+1. **Complexity Hiding**: Shields TUI/CLI from 13 pattern interactions
 2. **Integration Point**: Single place to coordinate cross-pattern workflows
 3. **API Stability**: External interfaces remain stable despite internal changes
-4. **Reduced Coupling**: GUI/CLI depend only on facade, not individual patterns
+4. **Reduced Coupling**: TUI/CLI depend only on facade, not individual patterns
 5. **Operation Composition**: Complex operations built from simpler pattern operations
 
 ## Extension Points

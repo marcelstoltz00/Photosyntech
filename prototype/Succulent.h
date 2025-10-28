@@ -9,6 +9,30 @@
  * Succulents are drought-tolerant plants with thick, fleshy parts adapted to store water.
  * Typically require low water strategies and can tolerate varying sun conditions.
  * Implements the Prototype pattern to enable cloning of succulent instances.
+ *
+ * **System Role:**
+ * Concrete plant type (one of four base types). Encapsulates succulent-specific
+ * characteristics and default strategies. Created by Builder pattern,
+ * cloned for inventory multiplication, wrapped with decorators for customization.
+ *
+ * **Pattern Role:** Concrete Prototype (implements cloning for succulent species)
+ *
+ * **Related Patterns:**
+ * - LivingPlant: Extends base plant class for shared behavior
+ * - Builder: CactusBuilder can create succulents (Builder pattern)
+ * - Composite: Leaf in plant hierarchy
+ * - Prototype: clone() creates succulent copies
+ * - PlantComponent: Implements composite interface
+ *
+ * **System Interactions:**
+ * - Constructor initializes succulent-specific defaults
+ * - clone() creates new Succulent copy preserving all characteristics
+ * - Cloned succulents added to inventory for distribution
+ * - Can be decorated with pots, charms, seasonal features
+ * - Subject to lifecycle state changes via StatePattern
+ *
+ * @see LivingPlant (base class)
+ * @see Builder (plant creation)
  */
 class Succulent : public LivingPlant
 {

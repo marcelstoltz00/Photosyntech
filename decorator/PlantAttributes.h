@@ -3,7 +3,6 @@
 
 #include <string>
 #include "../composite/PlantComponent.h"
-//@Wilmar does this mess anything up in flyweight? It is what the diagram says ...
 #include "../flyweight/Flyweight.h"
 #include "../singleton/Singleton.h"
 
@@ -61,7 +60,6 @@ public:
 
 	/**
 	 * @brief Copies a plant attribute decorator.
-
 	 */
 	PlantAttributes(const PlantAttributes &other);
 
@@ -69,11 +67,13 @@ public:
 	 * @brief Gets the sunlight affection value including decorator modifications.
 	 * @return Integer representing total sunlight impact.
 	 */
+	int affectSunlight() ;
 
 	/**
 	 * @brief Gets the water affection value including decorator modifications.
 	 * @return Integer representing total water impact.
 	 */
+	int affectWater() ;
 
 	/**
 	 * @brief Gets plant information including decorator details.
@@ -86,18 +86,6 @@ public:
 	 * @return Total price in currency units.
 	 */
 	double getPrice() ;
-
-	/**
-	 * @brief Gets the sunlight affection value for this component.
-	 * @return Integer representing sunlight impact.
-	 */
-	int affectSunlight() ;
-
-	/**
-	 * @brief Gets the water affection value for this component.
-	 * @return Integer representing water impact.
-	 */
-	int affectWater() ;
 
 	/**
 	 * @brief Gets component name as a formatted string.

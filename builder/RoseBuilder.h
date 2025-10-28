@@ -56,7 +56,7 @@ public:
   void setUp() ;
 
   /**
-   * @brief Adds decorators to the LivingPlant.
+   * @brief Adds decorators to the PlantComponent.
    *
    * Applies the following decorators in sequence:
    * - Spring season
