@@ -1,5 +1,6 @@
 #include "PlantAttributes.h"
 #include <sstream>
+#include <iomanip>
 
 PlantAttributes::PlantAttributes(std::string name, double price, int waterAffect, int sunAffect)
     : PlantComponent(price, waterAffect, sunAffect),
@@ -37,7 +38,7 @@ std::string PlantAttributes::getInfo()
     std::string baseInfo = (nextComponent != nullptr) ? nextComponent->getInfo() : "";
     std::stringstream ss;
     ss << baseInfo;
-    ss << "Attributes:\t" << *name->getState() << "\t Price R" << this->price << "\t Affect on water\t[" + to_string(this->affectWaterValue) << "]" << "\t Affect on sunlight\t[" + to_string(this->affectSunValue) << "]" << "\n";
+    ss<< *name->getState() << "\t Price R" << this->price<<std::setprecision(2) << "\t Affect on water\t[" + to_string(this->affectWaterValue) << "]" << "\t Affect on sunlight\t[" + to_string(this->affectSunValue) << "]" << "\n";
     return ss.str();
 };
 

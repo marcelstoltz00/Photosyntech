@@ -12,6 +12,6 @@ int LowSun::getID() {
 }
 
 LowSun::LowSun() {
-    intensity = 2;    
+    intensity = 4;    
     hoursNeeded = 3; 
 }

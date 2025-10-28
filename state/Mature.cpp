@@ -5,28 +5,15 @@
 
 void Mature::grow(LivingPlant* plant) {
     plant->setAge(plant->getAge() + 1);
-    double waterusage = 8.0;
-    //    switch (plant->getSeason()) {
-//         case Season::SPRING:
-//             waterusage *= 0.9;
-//             break;
-//         case Season::SUMMER:
-//             waterusage *= 1.3f;
-//             break;
-//         case Season::AUTUMN:
-//             waterusage *= 1.0f;
-//             break;
-//         case Season::WINTER:
-//             waterusage *= 0.7f;
-//             break;
-//         default:
-//             waterusage *= 1.0f;
-//     }
+    double waterusage = 4.0;
+ 
+
     
     plant->setWaterLevel(plant->getWaterLevel() - waterusage);
+  plant->setHealth(plant->getHealth() - 2);
 
     if (plant->getWaterLevel() >= 30 && plant->getSunExposure() >= 40) {
-        plant->setHealth(plant->getHealth() + 1);
+        plant->setHealth(plant->getHealth() + 3);
     }
     
     if (plant->getAge() >= 120 || plant->getHealth() <= 0) {
@@ -36,4 +23,10 @@ void Mature::grow(LivingPlant* plant) {
         
         plant->setMaturity(Dead::getID());
     }
+}
+std::string Mature::getImagePath(LivingPlant *plant)
+{
+    std::string plantName = plant->getName();
+    plantName.erase(std::remove(plantName.begin(), plantName.end(), ' '), plantName.end());
+    return "docs/images/" + plantName + std::to_string(getID()) + ".png";
 }

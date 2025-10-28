@@ -7,7 +7,7 @@ permissions:
 
 on:
   push:
-    branches: [ main, master, devBranch, TUI ]
+    branches: [ main, master, devBranch, TUI , devDoc]
   workflow_dispatch:
 
 jobs:
@@ -22,8 +22,11 @@ jobs:
       with:
         submodules: 'recursive'
 
-    - name: Install Doxygen
-      run: sudo apt-get update && sudo apt-get install -y doxygen
+    - name: Install Doxygen and Graphviz
+      run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
+
+    - name: Create output directory
+      run: mkdir -p docs/doxygen/html
 
     - name: Run Doxygen
       run: doxygen Doxyfile # This runs Doxygen and creates the HTML files
@@ -34,12 +37,11 @@ jobs:
         # This path MUST match the 'OUTPUT_DIRECTORY' + 'HTML_OUTPUT'
         # from your Doxyfile.
         #
-        # Example: if Doxyfile has:
-        # OUTPUT_DIRECTORY = docs
-        # HTML_OUTPUT      = doxygen/html
-        #
-        # Then the path here should be: "docs/doxygen/html"
-        path: 'docs/doxygen/html' # <--- DOUBLE-CHECK THIS PATH
+        # Current Doxyfile configuration:
+        # OUTPUT_DIRECTORY = docs/doxygen
+        # HTML_OUTPUT      = html
+        # Result path: "docs/doxygen/html"
+        path: 'docs/doxygen/html'
 
   # ----------------------------------------------------
   # 2. DEPLOY JOB: Deploy the artifact to Pages
@@ -47,9 +49,6 @@ jobs:
   deploy:
     # This job must wait for the build job to finish
     needs: build-documentation
-
-    # Only deploy from non-development branches
-    if: github.ref_name != 'devBranch'
 
     # Use the same environment as your first working log
     environment:

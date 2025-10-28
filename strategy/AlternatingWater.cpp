@@ -4,10 +4,10 @@
 
 int AlternatingWater::water(LivingPlant* plant) {
     
-   if (waterAmount < 5) {
-      waterAmount++;
+   if (waterAmount < 40) {
+      waterAmount+=5;
     } else {
-        waterAmount = 2; 
+        waterAmount = 20; 
     }
     
     plant->setWaterLevel(plant->getWaterLevel() + waterAmount);
@@ -19,6 +19,6 @@ int AlternatingWater::getID() {
 }
 
 AlternatingWater::AlternatingWater() {
-    waterAmount = 2;
+    waterAmount = 20;
    
 }

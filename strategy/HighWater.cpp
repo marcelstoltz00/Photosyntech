@@ -13,5 +13,5 @@ int HighWater::water(LivingPlant* plant) {
 }
 
 HighWater::HighWater() {
-    waterAmount = 30; 
+    waterAmount = 65; 
 }

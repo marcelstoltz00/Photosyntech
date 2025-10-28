@@ -12,6 +12,6 @@ int MidSun::getID() {
 }
 
 MidSun::MidSun() {
-    intensity = 5;   
+    intensity = 8;   
     hoursNeeded = 5; 
 }
