@@ -24,8 +24,7 @@ class Winter : public PlantAttributes
 {
 	public:
         /**
-         * @brief Constructs a Winter decorator, wrapping the given component.
-         * @param component The PlantComponent to decorate.
+         * @brief Constructs a Winter decorator.
          */
         Winter();
 

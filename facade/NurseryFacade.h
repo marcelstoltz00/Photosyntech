@@ -15,11 +15,11 @@
  * Provides simplified, high-level methods for common operations by
  * coordinating multiple subsystems (plant creation via Builder/Director,
  * inventory management via Singleton, sales via Mediator, operations via Command,
- * and filtering via Iterator). Hides system complexity from GUI and external clients.
+ * and filtering via Iterator). Hides system complexity from TUI and external clients.
  *
  * **System Role:**
  * This class serves as the single integration point for the entire Photosyntech system.
- * It is the only interface that GUI, CLI, and external systems need to know about.
+ * It is the only interface that TUI, CLI, and external systems need to know about.
  * All system operations are coordinated through this facade:
  * - Plant creation and inventory management
  * - Sales transactions and customer interactions
@@ -43,7 +43,7 @@
  * - Strategy: Executes plant care algorithms
  *
  * **System Interactions:**
- * - External interfaces (GUI/CLI) call methods on facade only
+ * - External interfaces (TUI/CLI) call methods on facade only
  * - Facade delegates to appropriate subsystem implementations
  * - Commands queued through facade for operation history
  * - All resource access goes through singleton instance

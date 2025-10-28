@@ -37,8 +37,7 @@ class LargePot : public PlantAttributes
 {
 	public:
         /**
-         * @brief Constructs a LargePot decorator, wrapping the given component.
-         * @param component The PlantComponent to decorate.
+         * @brief Constructs a LargePot decorator.
          */
         LargePot();
 

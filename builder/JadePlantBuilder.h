@@ -10,7 +10,9 @@
  * - Base Type: Succulent
  * - Sun Strategy: MidSun
  * - Water Strategy: LowWater
+ * - Initial Health: 100%
  * - Decorators: Small Flowers, Small Leaves, Medium Stem, No Thorns
+ * - Initial State: Seed
  *
  * @see Builder
  * @see Succulent

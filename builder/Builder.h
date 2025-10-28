@@ -21,7 +21,7 @@
  *
  * **Related Patterns:**
  * - Director: Orchestrates the construction steps defined in this interface
- * - Concrete Builders: RoseBuilder, SunflowerBuilder, PlantComponent3Builder implement this
+ * - Concrete Builders: RoseBuilder, SunflowerBuilder implement this
  * - Strategy: Builder assigns water/sun strategy instances to PlantComponents
  * - State: Builder initializes PlantComponents in Seed maturity state
  * - Prototype: Builder creates templates that are cloned for inventory

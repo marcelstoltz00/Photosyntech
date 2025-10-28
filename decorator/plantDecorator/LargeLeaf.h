@@ -22,8 +22,7 @@ class LargeLeaf : public PlantAttributes
 {
 public:
         /**
-         * @brief Constructs a LargeLeaf decorator, wrapping the given component.
-         * @param component The PlantComponent to decorate.
+         * @brief Constructs a LargeLeaf decorator.
          */
         LargeLeaf();
 

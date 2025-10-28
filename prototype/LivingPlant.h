@@ -109,8 +109,8 @@ public:
 	void setHealth(int health);
 
 	/**
-	 * @brief Sets the waterLevel for this plant.
-	 * @param waterLevel Integer waterLevel for the new waterLevel of the plant.
+	 * @brief Sets the season for this plant.
+	 * @param season Flyweight pointer to the season string.
 	 */
 	void setSeason(Flyweight<std::string *> *season);
 
@@ -200,28 +200,18 @@ public:
 	 * @brief Gets the sunlight affection value.
 	 * @return Integer representing sunlight impact.
 	 */
+	int affectSunlight() ;
 
 	/**
 	 * @brief Gets the water affection value.
 	 * @return Integer representing water impact.
 	 */
+	int affectWater() ;
 
 	/**
 	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
 	 */
 	void update() ;
-
-	/**
-	 * @brief Gets the sunlight affection value including decorator modifications.
-	 * @return Integer representing total sunlight impact.
-	 */
-	int affectSunlight() ;
-
-	/**
-	 * @brief Gets the water affection value including decorator modifications.
-	 * @return Integer representing total water impact.
-	 */
-	int affectWater() ;
 
 	/**
 	 * @brief Gets the price of this plant.

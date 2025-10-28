@@ -72,7 +72,8 @@ This document maps functional requirements to their corresponding design pattern
 
 **Functional Requirements (FR-17):**
 - The system will provide a NurseryFacade class that handles all business logic and coordinates subsystem interactions.
-- Facade enables both GUI and CLI interfaces to interact with the system through simple function calls (one per button/menu option).
+- Facade enables both TUI and CLI interfaces to interact with the system through simple function calls (one per button/menu option).
+- Used by the Facade to handle user actions from TUI/CLI interfaces.
 - Decouples presentation layer from business logic, allowing UI changes without affecting core system.
 - Manages complex operations involving multiple subsystems (Director, Singleton, Mediator, Command patterns).
 - Provides methods for plant creation, inventory display, sales processing, command execution, and seasonal filtering.
