@@ -131,9 +131,9 @@ public:
     bool stopNurseryTick();
 
     /**
-     * @brief adds a customer singleton for memory management
+     * @brief adds a customer to singleton for memory management
      */
-    void addCustomer(string);
+    Customer *addCustomer(string);
 
     /**
      * @brief performs the communication of customer to staff member
@@ -149,6 +149,17 @@ public:
      * @brief adds a plant to a customers basket
      */
     void customerPurchase(Customer *);
+
+    /**
+     * @brief adds a Staff member singleton for memory management
+     */
+    Staff *addStaff(string);
+
+    /**
+     * @brief adds staff as an observer to plantGroup
+     */
+    void setObserver(Staff* staff,PlantGroup*);
+    
 };
 
 #endif

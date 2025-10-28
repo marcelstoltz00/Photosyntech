@@ -136,15 +136,25 @@ bool NurseryFacade::stopNurseryTick()
     return Inventory::stopTicker();
 }
 
-void NurseryFacade::addCustomer(string name)
+Customer *NurseryFacade::addCustomer(string name)
 {
     if (name.empty() == false)
     {
-        Customer *nCust = new Customer(name);
-        Inventory::getInstance()->addCustomer(nCust);
-        nCust->setSalesFloor(sales);
-        nCust->setSuggestionFloor(suggestionFloor);
+        name = "Customer";
     }
+    std::vector<Customer *> *list = Inventory::getInstance()->getCustomers();
+    for (size_t i = 0; i < list->size(); i++)
+    {
+        if ((*list)[i]->getName() == name)
+        {
+            return (*list)[i];
+        }
+    }
+    Customer *nCust = new Customer(name);
+    Inventory::getInstance()->addCustomer(nCust);
+    nCust->setSalesFloor(sales);
+    nCust->setSuggestionFloor(suggestionFloor);
+    return nCust;
 }
 
 void NurseryFacade::askForSuggestion(Customer *customer)
@@ -158,4 +168,31 @@ void NurseryFacade::addToCustomerBasket(Customer *customer, PlantComponent *nPla
 void NurseryFacade::customerPurchase(Customer *customer)
 {
     customer->purchasePlants();
+}
+
+Staff *NurseryFacade::addStaff(string name)
+{
+    if (name.empty() == false)
+    {
+        name = "Staff";
+    }
+
+    std::vector<Staff *> *list = Inventory::getInstance()->getStaff();
+    for (size_t i = 0; i < list->size(); i++)
+    {
+        if ((*list)[i]->getName() == name)
+        {
+            return (*list)[i];
+        }
+    }
+    Staff *nStaff = new Staff(name);
+    Inventory::getInstance()->addStaff(nStaff);
+    nStaff->setSalesFloor(sales);
+    nStaff->setSuggestionFloor(suggestionFloor);
+    return nStaff;
+}
+
+void NurseryFacade::setObserver(Staff *staff, PlantGroup *plants)
+{
+    plants->attach(staff);
 }

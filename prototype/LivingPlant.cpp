@@ -142,7 +142,6 @@ std::string LivingPlant::getInfo()
         stream << "| " << std::left << std::setw(20) << "Water Affection:" << std::setw(8) << decorator->affectWater() << "|\n";
         stream << "| " << std::left << std::setw(20) << "Sun Affection:" << std::setw(8) << decorator->affectSunlight() << "|\n";
         stream << "-------------------------------\n";
-        stream << "Attributes:\n";
     }
 
     return stream.str();

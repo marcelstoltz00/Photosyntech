@@ -46,7 +46,7 @@ public:
 	 * @brief Constructs a User with initialized mediator pointers.
 	 */
 	User() : salesFloor(nullptr), suggestionFloor(nullptr) {}
-	User(std::string name) : name(name) ,salesFloor(nullptr), suggestionFloor(nullptr) {}
+	User(std::string name) : name(name), salesFloor(nullptr), suggestionFloor(nullptr) {}
 	/**
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
@@ -61,6 +61,8 @@ public:
 	 * @brief Sets the suggestion floor mediator.
 	 */
 	void setSuggestionFloor(Mediator *mediator) { suggestionFloor = mediator; }
+
+	string getName() { return this->name; }
 };
 
 #endif
