@@ -50,11 +50,10 @@ string Staff::assistSuggestion()
 
     auto plants = currentInventory->getPlants();
     
-    std::vector<LivingPlant*> availablePlants;
+    std::vector<PlantComponent*> availablePlants;
     for (auto plant : *plants) {
-        LivingPlant* livingPlant = dynamic_cast<LivingPlant*>(plant);
-        if (livingPlant) {
-            availablePlants.push_back(livingPlant);
+        if (plant) {
+            availablePlants.push_back(plant);
         }
     }
 
@@ -64,7 +63,7 @@ string Staff::assistSuggestion()
 
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     int idx = std::rand() % availablePlants.size();
-    LivingPlant* selectedPlant = availablePlants[idx];
+    PlantComponent* selectedPlant = availablePlants[idx];
     std::string plantType = selectedPlant->getName();
 
     std::string recommendation = "\nYou know, based on what we have in stock right now, I'd really recommend our " + plantType + ".\n";
