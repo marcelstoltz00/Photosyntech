@@ -12,7 +12,7 @@
 #include "../../../facade/NurseryFacade.h"
 #include "../../../composite/PlantGroup.h"
 #include "../../../composite/PlantComponent.h"
-
+#include "../TUI/TUIKit/include/tuikit.h"
 using namespace ftxui;
 
 std::map<int, PlantComponent *> treeIndexToComponent;
@@ -201,6 +201,8 @@ int main()
     PlantComponent *currentCustomerPlant = nursery.findPlant(0);
     int customerTreeIndex = 0;
     int customerBasketIndex = 0;
+    int water = 0;
+    int sun = 0;
     vector<string> plantNames = nursery.getMenuString();
     vector<string> basketNames = {};
     nursery.addCustomer("Customer");
@@ -233,20 +235,24 @@ int main()
                                 refreshCustomerBasket(nursery,basketNames,currentCustomer); });
     auto removeFromBasket = Button("Remove plant", [&]
                                    { nursery.removeFromCustomer(currentCustomer,customerBasketIndex);
- refreshCustomerBasket(nursery,basketNames,currentCustomer); 
-});
+ refreshCustomerBasket(nursery,basketNames,currentCustomer); });
 
     auto customerTab = Container::Vertical(
-        {Container::Horizontal({nameInput, addCustomerButton}),
-         Container::Vertical({
+        {
+            Container::Horizontal({nameInput, addCustomerButton}),
+            Container::Vertical({
 
-             askAdvice,
-             basketAddBtn,
-             purchaseBtn,
-             removeFromBasket
+                askAdvice,
+                basketAddBtn,
+                purchaseBtn,
+                removeFromBasket,
 
-         }),
-         Container::Horizontal({customerMenu, customerBasket})});
+            }),
+            Container::Horizontal({
+                customerMenu,
+                customerBasket,
+            }),
+        });
 
     // #### Customer code //
 
@@ -260,10 +266,31 @@ int main()
         tabContainer,
     });
 
+    auto waterSlider = Slider("Water", &water, 0.0f, 200.0f, 1.0f);
+
+    auto waterStyled = Renderer(waterSlider, [&]
+                                {
+                                    return waterSlider->Render() | color(Color::Blue) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90); // Adjust width as needed
+                                });
+
+    auto sunSlider = Slider("Sun", &sun, 0.0f, 200.0f, 1.0f);
+    auto sunStyled = Renderer(sunSlider, [&]
+                              {
+                                  return sunSlider->Render() | color(Color::Red) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90); // Adjust width as needed
+                              });
+
     auto mainRenderer = Renderer(mainContainer, [&]
                                  {    
 
 refreshCustomerView(nursery,plantNames);
+
+currentCustomerPlant = nursery.findPlant(customerTreeIndex);
+
+    if (currentCustomerPlant)
+    {water = currentCustomerPlant->getWaterValue();
+    sun = currentCustomerPlant->getSunlightValue();}
+
+
         Element tab1View = vbox({
             window(text("Plant Creation"), vbox({
                 hbox(text("Select Plant Type: "), text(plantTypes[plantSelectorIndex])),
@@ -298,34 +325,46 @@ refreshCustomerView(nursery,plantNames);
         });
  
         Element customerView = vbox({
-            hbox({
-               nameInput->Render() | frame |size(HEIGHT,EQUAL,3)| size(WIDTH, EQUAL, 200),
+           hcenter( hbox({
+              window (text("Enter username"),nameInput->Render() | frame |size(HEIGHT,EQUAL,1)| size(WIDTH, EQUAL, 100)), filler(),
                addCustomerButton->Render() |size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,10)
-            }),
+            }) )|size(HEIGHT,EQUAL,3) ,
 
 
              currentCustomer // ? vbox(with access) : vbox (no access)
-        ? vbox({
-             // This is the section where user is logged in any access user not logged in
-            hbox({
-              askAdvice->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,20),
-                basketAddBtn->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) ,
-                 purchaseBtn->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) ,
-                removeFromBasket->Render()| size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) }),
-                window(
-                    text("Conversations"),
-                    paragraph(customerTerminalStr)|  frame |vscroll_indicator|  size(HEIGHT, LESS_THAN, 25)
-                ),
-                
+        ?  hcenter (vbox({
+             // This is the section where user is logged in any access user not logged in                 
             hbox ({
-                window (text("Available Plants"),customerMenu->Render()) |frame |size(WIDTH,EQUAL,200) , window(text(currentCustomer->getName()+"'s basket"),customerBasket->Render()|frame  | size(WIDTH,EQUAL,200) )              
-            })         
-            })
+                window (text("Available Plants"),customerMenu->Render())
+                 |size(WIDTH,GREATER_THAN,100) 
+                 |size(HEIGHT,GREATER_THAN,15), 
+                 window(text(currentCustomer->getName()+"'s basket"),customerBasket->Render())  
+                 | size(WIDTH,GREATER_THAN,100) 
+                 |size(HEIGHT,GREATER_THAN,15)         
+            })  ,
+
+          hbox(
+              { waterStyled->Render(),filler(),
+                sunStyled->Render(),}),
+                filler(),
+
+
+                    window(
+                    text("Conversations"),
+                    paragraph(customerTerminalStr)|  frame   |vscroll_indicator|  size(HEIGHT, EQUAL, 15)
+                ),
+
+                        hbox({
+              askAdvice->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,20),filler(),
+                basketAddBtn->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) ,filler(),
+                 purchaseBtn->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) ,filler(),
+                removeFromBasket->Render()| size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) })| border | size(WIDTH, EQUAL, 200) ,filler()
+            }))
        
         : vbox({
              // This is the section without any access user not logged in
               window(text("Enter details"), paragraph("Please enter your name first and press login"))
-          }),
+          })
 
         });
 
