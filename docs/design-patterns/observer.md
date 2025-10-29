@@ -14,12 +14,12 @@ Establishes a one-to-many dependency between plant groups and staff members, aut
 ## Functional Requirements
 
 ### Primary Requirements
-- **FR-12: Plant Monitoring by Staff** - Allows staff members to monitor assigned plants and receive notifications about health changes and lifecycle transitions
+- **FR-14: Plant Monitoring by Staff** - Allows staff members to monitor assigned plants and receive notifications about health changes and lifecycle transitions
 - **FR-8: Inventory Tracking and Notifications** - Notifies staff of inventory changes; supports multiple staff monitoring the same inventory
 
 ### Supporting Requirements
 - **NFR-5: Reliability** - Decouples plant groups from staff, allowing changes to one without affecting the other
-- **FR-13: Staff Action Execution** - Notifications trigger staff to execute appropriate care actions
+- **FR-15: Staff Action Execution** - Notifications trigger staff to execute appropriate care actions
 
 ## System Role & Integration
 

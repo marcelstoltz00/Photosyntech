@@ -14,11 +14,11 @@ Coordinates interactions between staff and customers on different floors (sales 
 ## Functional Requirements
 
 ### Primary Requirements
-- **FR-14: Staff-Customer Communication** - Coordinates communication between staff and customers on the sales floor; keeps staff and customers independent; enables central communication coordination
+- **FR-12: Staff-Customer Communication** - Coordinates communication between staff and customers on the sales floor; keeps staff and customers independent; enables central communication coordination
 
 ### Supporting Requirements
 - **NFR-5: Reliability** - Decouples staff and customers, allowing changes to one without affecting the other
-- **FR-15: Plant Sales Transactions** - Sales floor mediates purchase interactions
+- **FR-13: Plant Sales Transactions** - Sales floor mediates purchase interactions
 - **NFR-2: Maintainability/Extensibility** - New interaction types can be added to mediator without modifying staff or customer classes
 
 ## System Role & Integration
