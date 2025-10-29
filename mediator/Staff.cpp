@@ -136,10 +136,10 @@ string Staff::assistSuggestion()
  *
  * @param plants Pointer to the PlantGroup being purchased.
  */
-void Staff::assistPurchases(PlantGroup *basket)
+string Staff::assistPurchases(PlantGroup *basket)
 {
     if (!basket)
-        return;
+        return "";
 
     std::ostringstream receipt;
     receipt << "Purchase Receipt:\n";
@@ -150,6 +150,7 @@ void Staff::assistPurchases(PlantGroup *basket)
 
     // Remove purchased plants from system scope
     delete basket;
+    return receipt.str();
 }
 
 /**
