@@ -69,6 +69,16 @@ void refreshInventoryView(NurseryFacade &nursery)
     }
 }
 
+void refreshCustomerView(NurseryFacade &nursery, vector<string> &plantNames)
+{
+    plantNames = nursery.getMenuString();
+}
+void refreshCustomerBasket(NurseryFacade &nursery, vector<string> &plantNames, Customer *customer)
+{
+    if (customer)
+        plantNames = nursery.getCustomerBasketString(customer);
+}
+
 int main()
 {
     Inventory::getInstance();
@@ -98,6 +108,7 @@ int main()
                 plantInfoText = nursery.getPlantInfo(currentPlant);
                 statusText = "Status: Created new " + selectedType + " and added to Inventory.";
                 refreshInventoryView(nursery);
+                
             }
         } });
 
@@ -183,26 +194,58 @@ int main()
         }),
         treeMenu,
     });
+
+    // #### Customer code //
     string userName = "";
     Customer *currentCustomer = nullptr;
-
+    PlantComponent *currentCustomerPlant = nursery.findPlant(0);
+    int customerTreeIndex = 0;
+    int customerBasketIndex = 0;
+    vector<string> plantNames = nursery.getMenuString();
+    vector<string> basketNames = {};
     nursery.addCustomer("Customer");
     nursery.addStaff("Staff");
 
     string customerTerminalStr = "";
     auto nameInput = Input(&userName, "Enter your name here");
+    auto customerMenu = Menu(&plantNames, &customerTreeIndex);
+    auto customerBasket = Menu(&basketNames, &customerBasketIndex);
+
     auto addCustomerButton = Button("Login", [&]
-                                    { currentCustomer = nursery.addCustomer(userName); });
+                                    {
+    currentCustomer = nursery.addCustomer(userName);
+    screen.Post([&] {
+        if (currentCustomer)
+            refreshCustomerBasket(nursery, basketNames, currentCustomer);
+    }); });
 
     auto askAdvice = Button("get suggestion", [&]
                             { customerTerminalStr = nursery.askForSuggestion(currentCustomer); });
 
+    auto basketAddBtn = Button("Add plant to basket", [&]
+                               { bool result= nursery.addToCustomerBasket(currentCustomer, nursery.findPlant(customerTreeIndex)); 
+                                result ? statusText = "Plant added successfully": statusText = "Something went wrong with plant adding";
+                                currentCustomerPlant = nursery.findPlant(customerTreeIndex);
+                                customerTreeIndex = 0 ; refreshCustomerBasket(nursery,basketNames,currentCustomer); });
+
+    auto purchaseBtn = Button("Purchase plants", [&]
+                              { customerTerminalStr = nursery.customerPurchase(currentCustomer);
+                                refreshCustomerBasket(nursery,basketNames,currentCustomer); });
+
+    
+
     auto customerTab = Container::Vertical(
         {Container::Horizontal({nameInput, addCustomerButton}),
          Container::Vertical({
+
              askAdvice,
-             treeMenu,
-         })});
+             basketAddBtn,
+             purchaseBtn
+
+         }),
+         Container::Horizontal({customerMenu, customerBasket})});
+
+    // #### Customer code //
 
     auto tabContainer = Container::Tab({tab1Content,
                                         tab2Content,
@@ -215,7 +258,9 @@ int main()
     });
 
     auto mainRenderer = Renderer(mainContainer, [&]
-                                 {
+                                 {    
+
+refreshCustomerView(nursery,plantNames);
         Element tab1View = vbox({
             window(text("Plant Creation"), vbox({
                 hbox(text("Select Plant Type: "), text(plantTypes[plantSelectorIndex])),
@@ -239,7 +284,6 @@ int main()
                 refreshButton->Render(),
                 startTickButton->Render(),
                 stopTickButton->Render(),
-
             }),
             text(inventoryStatusText),
             window(text("Inventory Hierarchy"), 
@@ -255,20 +299,30 @@ int main()
                nameInput->Render() | frame |size(HEIGHT,EQUAL,3)| size(WIDTH, EQUAL, 200),
                addCustomerButton->Render() |size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,10)
             }),
+
+
              currentCustomer // ? vbox(with access) : vbox (no access)
         ? vbox({
              // This is the section where user is logged in any access user not logged in
             hbox({
-              askAdvice->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,20)   }),
-              window(text("Conversations"), paragraph(customerTerminalStr)),
-                treeMenu->Render() | frame | size(HEIGHT, LESS_THAN, 15)
-          })
+              askAdvice->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,20),  basketAddBtn->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) , purchaseBtn->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) }),
+           vbox({
+                window(
+                    text("Conversations"),
+                    paragraph(customerTerminalStr) |border |vscroll_indicator| frame | size(HEIGHT, LESS_THAN, 25)
+                )
+                }),
+
+            hbox ({
+                window (text("Available Plants"),customerMenu->Render()) |size(WIDTH,EQUAL,200) , window(text(currentCustomer->getName()+"'s basket"),customerBasket->Render() | size(WIDTH,EQUAL,200) )              
+            })         
+            })
        
         : vbox({
              // This is the section without any access user not logged in
               window(text("Enter details"), paragraph("Please enter your name first and press login"))
-          })
-             
+          }),
+
         });
 
 

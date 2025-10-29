@@ -62,13 +62,16 @@ string Customer::purchasePlants()
     {
         if (basket != nullptr)
         {
+
             std::cout << "Customer: Initiating plant purchase" << std::endl;
-            return salesFloor->getAssistance(this);
+            string output = salesFloor->getAssistance(this);
+            basket = nullptr;
+            return output;
         }
         else
         {
             std::cout << "Customer: Cannot purchase - basket is empty" << std::endl;
-            return  "Customer: Cannot purchase - basket is empty";
+            return "Customer: Cannot purchase - basket is empty";
         }
     }
     else

@@ -44,14 +44,14 @@ string Staff::assistSuggestion()
 
     // Temporary plant list for all seasons, can be expanded as needed with flyweights
     std::vector<std::string> plantKeys = {
-         "Sunflower", "Rose", "Jade Plant", "Maple",
+        "Sunflower", "Rose", "Jade Plant", "Maple",
         "Cactus", "Cherry Blossom", "Lavender", "Pine"};
 
     // Randomly select a plant
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
     int idx = std::rand() % plantKeys.size();
 
-    std::string recommendation = this->name+": recommends the " + plantKeys[idx] + ".";
+    std::string recommendation = this->name + ": recommends the " + plantKeys[idx] + ".";
     std::cout << recommendation << std::endl;
     return recommendation;
 }
@@ -73,11 +73,10 @@ string Staff::assistPurchases(PlantGroup *basket)
     receipt << "Purchase Receipt:\n";
     receipt << basket->getInfo();
     receipt << "Total price: " << basket->getPrice() << "\n";
-
-   // std::cout << receipt.str() << std::endl;
+    delete basket;
+    // std::cout << receipt.str() << std::endl;
     return receipt.str();
     // Remove purchased plants from system scope
-    delete basket;
 }
 
 /**
