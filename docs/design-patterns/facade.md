@@ -1,14 +1,14 @@
 # Facade Pattern
 
 ## Responsibility
-Provides a simplified, unified interface to the complex nursery subsystems (plant creation, inventory management, sales, commands), hiding system complexity from user interfaces and external clients.
+Provides a simplified, unified interface to the complex nursery subsystems (plant creation, inventory management, sales, operations), hiding system complexity from user interfaces and external clients.
 
 ## Participant Mapping
 
 | Pattern Role | Photosyntech Class(es) | Responsibility |
 |--------------|------------------------|----------------|
 | **Facade** | `NurseryFacade` | Provides high-level methods for common operations; delegates to appropriate subsystems; coordinates complex multi-step processes |
-| **Subsystems** | `Director` (plant creation)<br>`Singleton` (inventory)<br>`Mediator` classes (staff/customer interaction)<br>`Command` classes (operations)<br>`Iterator` factories (filtering) | Implement detailed subsystem functionality; work together through facade coordination |
+| **Subsystems** | `Director` (plant creation)<br>`Singleton` (inventory)<br>`Mediator` classes (staff/customer interaction)<br>`Iterator` factories (filtering) | Implement detailed subsystem functionality; work together through facade coordination |
 | **Client** | `TUI`<br>External interfaces | Uses the facade to interact with the system through simple method calls |
 
 ## Functional Requirements
@@ -27,11 +27,10 @@ Provides a simplified, unified interface to the complex nursery subsystems (plan
 ### Pattern Integration
 The **Facade** pattern serves as the **unified system entry point**, coordinating all patterns:
 
-- **All 12 Other Patterns**: Facade delegates to Director (Builder), Singleton (resources), Mediators (staff/customer), Commands (operations), Iterators (filtering), etc.
+- **All 11 Other Patterns**: Facade delegates to Director (Builder), Singleton (resources), Mediators (staff/customer), Iterators (filtering), etc.
 - **Director & Builder**: Delegates plant creation requests
 - **Singleton**: Accesses centralized inventory and resource management
 - **Mediator**: Routes customer requests through appropriate floor mediators
-- **Command**: Provides command execution interface with undo/redo
 - **Iterator & Composite**: Filters and accesses plant collections
 - **Observer & Subject**: Coordinates staff monitoring setup
 - **Decorator & Prototype**: Provides plant customization and cloning operations
@@ -46,7 +45,7 @@ The **Facade** pattern serves as the **unified system entry point**, coordinatin
 ## Design Rationale
 
 The Facade pattern was chosen because:
-1. **Complexity Hiding**: Shields TUI/CLI from 13 pattern interactions
+1. **Complexity Hiding**: Shields TUI/CLI from 12 pattern interactions
 2. **Integration Point**: Single place to coordinate cross-pattern workflows
 3. **API Stability**: External interfaces remain stable despite internal changes
 4. **Reduced Coupling**: TUI/CLI depend only on facade, not individual patterns

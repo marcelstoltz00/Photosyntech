@@ -29,8 +29,7 @@ The **Singleton** pattern serves as the **central resource hub** of Photosyntech
 - **Flyweight Pattern**: Manages flyweight factories for water strategies, sun strategies, maturity states, and season names.
 - **Composite Pattern**: Owns and manages the root `PlantGroup` representing the centralized inventory.
 - **Builder Pattern**: The `Director` accesses the singleton to obtain strategy and state instances during plant construction.
-- **Facade Pattern**: The `NurseryFacade` accesses the singleton for inventory operations and resource management.
-- **Command Pattern**: Commands modify the inventory state through the singleton's managed `PlantGroup`.
+- **Facade Pattern**: The `NurseryFacade` accesses the singleton for inventory operations and resource management, and modifies the inventory state through direct facade operations.
 - **Observer Pattern**: The `PlantGroup` (managed by the singleton) acts as a `Subject` for staff notifications.
 - **Iterator Pattern**: Iterator factories obtain a reference to the plant collection from the singleton inventory.
 

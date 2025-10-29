@@ -11,7 +11,7 @@
  *
  * **System Role:**
  * Strategy for drought-tolerant plants (Succulents, some Herbs). Applied via
- * Builder during plant construction. Executed by WaterPlantCommand during care.
+ * Builder during plant construction. Executed via Facade during plant care operations.
  * Shared via flyweight factory across all low-water plants.
  *
  * **Pattern Role:** Concrete Strategy (implements low-water algorithm)

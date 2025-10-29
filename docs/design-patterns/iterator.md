@@ -32,8 +32,7 @@ The **Iterator** pattern enables **filtered plant collection traversal** through
 - **Decorator Pattern**: The `SeasonIterator` uses seasonal decorators to identify plants for filtering.
 - **Singleton Pattern**: Iterator factories obtain a reference to the plant collection from the `Singleton` inventory.
 - **Flyweight Pattern**: The `AggSeason` aggregate uses a `Flyweight` for the season name to ensure efficient filtering.
-- **Facade Pattern**: The `NurseryFacade` provides convenience methods for creating and using iterators.
-- **Command Pattern**: Commands like `BrowsePlantsCommand` use iterators to find and operate on filtered sets of plants.
+- **Facade Pattern**: The `NurseryFacade` provides convenience methods for creating and using iterators, and browse operations use iterators to find and display filtered plant sets.
 
 ## Design Rationale
 
