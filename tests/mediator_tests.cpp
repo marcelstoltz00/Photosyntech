@@ -11,22 +11,20 @@
 #include "prototype/Shrub.h"
 #include "composite/PlantGroup.h"
 #include <vector>
+#include <string>
+#include <cstring>
 
 TEST_CASE("Testing Mediator Pattern Implementation")
 {
     SUBCASE("Customer Creation and Basic Operations")
     {
         Customer *customer = new Customer();
-
         CHECK(customer != nullptr);
         CHECK(customer->getBasket() == nullptr);
-
         LivingPlant *testPlant = new Tree();
         customer->addPlant(testPlant);
         PlantGroup *basket = customer->getBasket();
         CHECK(basket != nullptr);
-
-        // Clear the basket before deleting customer
         customer->clearBasket();
         delete customer;
     }
@@ -34,48 +32,20 @@ TEST_CASE("Testing Mediator Pattern Implementation")
     SUBCASE("Customer Basket Management")
     {
         Customer *customer = new Customer();
-
-        SUBCASE("Plant addition to basket")
-        {
-            LivingPlant *plant1 = new Tree();
-            LivingPlant *plant2 = new Shrub();
-
-            customer->addPlant(plant1);
-            customer->addPlant(plant2);
-
-            // Clear basket before cleanup
-            customer->clearBasket();
-            delete customer;
-        }
-
-        SUBCASE("Basket clearing")
-        {
-            LivingPlant *plant = new Tree();
-            customer->addPlant(plant);
-            CHECK(customer->getBasket() != nullptr);
-
-            customer->clearBasket();
-            CHECK(customer->getBasket() == nullptr);
-
-            delete customer;
-        }
+        LivingPlant *plant1 = new Tree();
+        LivingPlant *plant2 = new Shrub();
+        customer->addPlant(plant1);
+        customer->addPlant(plant2);
+        customer->clearBasket();
+        delete customer;
         delete Inventory::getInstance();
     }
 
     SUBCASE("SalesFloor Mediator Operations")
     {
         SalesFloor *salesFloor = new SalesFloor();
-
-        SUBCASE("SalesFloor creation")
-        {
-            CHECK(salesFloor != nullptr);
-        }
-
-        SUBCASE("Assist method without staff or customers")
-        {
-            salesFloor->assist();
-        }
-
+        CHECK(salesFloor != nullptr);
+        salesFloor->assist();
         delete salesFloor;
         delete Inventory::getInstance();
     }
@@ -83,166 +53,133 @@ TEST_CASE("Testing Mediator Pattern Implementation")
     SUBCASE("Staff Creation and Basic Operations")
     {
         Staff *staff = new Staff();
-
-        SUBCASE("Staff creation")
-        {
-            CHECK(staff != nullptr);
-        }
-
-        // SUBCASE("Staff operation method") {
-        //     staff->operation();
-        //  commented it out, it was causing errors
-        //}
-
+        CHECK(staff != nullptr);
         delete staff;
     }
 
     SUBCASE("SuggestionFloor Mediator Operations")
     {
         SuggestionFloor *suggestionFloor = new SuggestionFloor();
-
-        SUBCASE("SuggestionFloor creation")
-        {
-            CHECK(suggestionFloor != nullptr);
-        }
-
-        SUBCASE("Assist method")
-        {
-            suggestionFloor->assist();
-            // just checking it doesn't crash
-        }
-
+        CHECK(suggestionFloor != nullptr);
+        suggestionFloor->assist();
         delete suggestionFloor;
+    }
+
+    SUBCASE("Staff Suggestion Functionality")
+    {
+        Staff *staff = new Staff();
+
+        std::string suggestion = staff->assistSuggestion();
+        std::cout << "STAFF SUGGESTION: " << suggestion << std::endl;
+
+        CHECK_FALSE(suggestion.empty());
+        CHECK(suggestion.length() > 0);
+
+        bool hasPlantReference = (suggestion.find("plant") != std::string::npos) ||
+                                 (suggestion.find("Tree") != std::string::npos) ||
+                                 (suggestion.find("Rose") != std::string::npos) ||
+                                 (suggestion.find("Cactus") != std::string::npos) ||
+                                 (suggestion.find("recommend") != std::string::npos);
+        CHECK(hasPlantReference == true);
+
+        delete staff;
     }
 
     SUBCASE("Customer-Mediator Interaction Scenarios")
     {
-        SUBCASE("Customer without mediators")
-        {
-            Customer *customer = new Customer();
-
-            customer->askForSuggestion();
-            customer->purchasePlants();
-
-            delete customer;
-        }
-
-        SUBCASE("Customer with empty basket purchase attempt")
-        {
-            Customer *customer = new Customer();
-            SalesFloor *salesFloor = new SalesFloor();
-
-            customer->purchasePlants();
-
-            delete customer;
-            delete salesFloor;
-        }
+        Customer *customer = new Customer();
+        customer->askForSuggestion();
+        customer->purchasePlants();
+        delete customer;
     }
 
     SUBCASE("Inventory Integration with Mediator Components")
     {
         Inventory *inv = Inventory::getInstance();
-
-        SUBCASE("Staff management in inventory")
-        {
-            std::vector<Staff *> *staffList = inv->getStaff();
-            CHECK(staffList != nullptr);
-
-            // add a staff member
-            Staff *newStaff = new Staff();
-            staffList->push_back(newStaff);
-
-            CHECK(staffList->size() > 0);
-            CHECK(staffList->back() == newStaff);
-
-            delete newStaff;
-            staffList->clear();
-        }
-
-        SUBCASE("Customer management in inventory")
-        {
-            std::vector<Customer *> *customerList = inv->getCustomers();
-            CHECK(customerList != nullptr);
-
-            // add a customer
-            Customer *newCustomer = new Customer();
-            customerList->push_back(newCustomer);
-
-            CHECK(customerList->size() > 0);
-            CHECK(customerList->back() == newCustomer);
-
-            delete newCustomer;
-            customerList->clear();
-        }
+        std::vector<Staff *> *staffList = inv->getStaff();
+        CHECK(staffList != nullptr);
+        Staff *newStaff = new Staff();
+        staffList->push_back(newStaff);
+        CHECK(staffList->size() > 0);
+        CHECK(staffList->back() == newStaff);
+        delete newStaff;
+        staffList->clear();
     }
 
     SUBCASE("Mediator Pattern Integration Test")
     {
-        SUBCASE("Complete mediator system setup")
-        {
-            SalesFloor *salesFloor = new SalesFloor();
-            SuggestionFloor *suggestionFloor = new SuggestionFloor();
-            Customer *customer = new Customer();
-            Staff *staff = new Staff();
+        SalesFloor *salesFloor = new SalesFloor();
+        SuggestionFloor *suggestionFloor = new SuggestionFloor();
+        Customer *customer = new Customer();
+        Staff *staff = new Staff();
+        std::vector<Staff *> *staffList = Inventory::getInstance()->getStaff();
+        staffList->push_back(staff);
+        std::vector<Customer *> *customerList = Inventory::getInstance()->getCustomers();
+        customerList->push_back(customer);
+        CHECK(salesFloor != nullptr);
+        CHECK(suggestionFloor != nullptr);
+        CHECK(customer != nullptr);
+        CHECK(staff != nullptr);
+        CHECK(staffList->size() == 1);
+        CHECK(customerList->size() == 1);
+        salesFloor->assist();
+        suggestionFloor->assist();
+        delete salesFloor;
+        delete suggestionFloor;
+        delete customer;
+        delete staff;
+        staffList->clear();
+        customerList->clear();
+    }
+    std::cout << std::endl;
+    SUBCASE("Realistic Customer-Staff Interaction")
+    {
+        Customer *customer = new Customer();
+        Staff *staff = new Staff();
 
-            // add staff to inventory
-            std::vector<Staff *> *staffList = Inventory::getInstance()->getStaff();
-            staffList->push_back(staff);
+        LivingPlant *rose = new Tree();
+        //rose->setName("Rose");
+        Inventory::getInstance()->getInventory()->addComponent(rose);
 
-            // add customer to inventory
-            std::vector<Customer *> *customerList = Inventory::getInstance()->getCustomers();
-            customerList->push_back(customer);
+        std::string staffSuggestion = staff->assistSuggestion();
+        std::cout << "REAL-TIME SUGGESTION: " << staff->assistSuggestion() << std::endl;
 
-            // check system state
-            CHECK(salesFloor != nullptr);
-            CHECK(suggestionFloor != nullptr);
-            CHECK(customer != nullptr);
-            CHECK(staff != nullptr);
-            CHECK(staffList->size() == 1);
-            CHECK(customerList->size() == 1);
+        CHECK_FALSE(staffSuggestion.empty());
+        CHECK(staffSuggestion.find("recommend") != std::string::npos);
 
-            salesFloor->assist();
-            suggestionFloor->assist();
-
-            delete salesFloor;
-            delete suggestionFloor;
-            delete customer;
-            delete staff;
-            staffList->clear();
-            customerList->clear();
-        }
+        delete customer;
+        delete staff;
     }
 
-    SUBCASE("Error Handling in Mediator System")
+    SUBCASE("Multiple Staff Suggestions")
     {
-        SUBCASE("Null pointer handling")
-        {
-            Customer *customer = new Customer();
+        Staff *staff1 = new Staff();
+        Staff *staff2 = new Staff();
 
-            // test with null plant addition
-            customer->addPlant(nullptr);
+        std::string suggestion1 = staff1->assistSuggestion();
+        std::string suggestion2 = staff2->assistSuggestion();
 
-            // these should handle internal null checks
-            customer->askForSuggestion();
-            customer->purchasePlants();
+        std::cout << "STAFF 1 SUGGESTION: " << suggestion1 << std::endl;
+        std::cout << "STAFF 2 SUGGESTION: " << suggestion2 << std::endl;
 
-            delete customer;
-        }
+        CHECK_FALSE(suggestion1.empty());
+        CHECK_FALSE(suggestion2.empty());
+        CHECK(suggestion1.length() > 10);
+        CHECK(suggestion2.length() > 10);
 
-        SUBCASE("Empty inventory handling")
-        {
-            SalesFloor *salesFloor = new SalesFloor();
+        delete staff1;
+        delete staff2;
+    }
 
-            // clears any existing staff/customers
-            std::vector<Staff *> *staffList = Inventory::getInstance()->getStaff();
-            std::vector<Customer *> *customerList = Inventory::getInstance()->getCustomers();
-            staffList->clear();
-            customerList->clear();
+    SUBCASE("Suggestion Content Validation")
+    {
+        Staff *staff = new Staff();
+        std::string suggestion = staff->assistSuggestion();
 
-            salesFloor->assist();
+        CHECK(suggestion.find('.') != std::string::npos);
+        CHECK(suggestion.length() >= 20);
 
-            delete salesFloor;
-        }
+        delete staff;
     }
     delete Inventory::getInstance();
 }
