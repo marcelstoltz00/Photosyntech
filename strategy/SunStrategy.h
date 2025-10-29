@@ -33,8 +33,6 @@
  * @see Concrete strategies: LowSun, MidSun, HighSun
  * @see LivingPlant (context)
  * @see Singleton (manages flyweight factories)
- * @see LivingPlant (context)
- * @see Singleton (manages flyweight factories)
  */
 
 class LivingPlant; // forward declaration

@@ -22,8 +22,7 @@ class SmallFlowers : public PlantAttributes
 {
 	public:
         /**
-         * @brief Constructs a SmallFlowers decorator, wrapping the given component.
-         * @param component The PlantComponent to decorate.
+         * @brief Constructs a SmallFlowers decorator.
          */
         SmallFlowers();
 

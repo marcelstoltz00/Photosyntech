@@ -21,8 +21,7 @@ class Thorns : public PlantAttributes
 {
 	public:
         /**
-         * @brief Constructs a Thorns decorator, wrapping the given component.
-         * @param component The PlantComponent to decorate.
+         * @brief Constructs a Thorns decorator.
          */
         Thorns();
 

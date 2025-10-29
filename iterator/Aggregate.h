@@ -33,7 +33,7 @@
  * - Enables polymorphic iterator creation
  *
  * @see Iterator (created by aggregate, has friend access)
- * @see Concrete aggregates: AggPlant, AggSpring, AggSummer, etc.
+ * @see Concrete aggregates: AggPlant, AggSeason
  */
 class Aggregate
 {

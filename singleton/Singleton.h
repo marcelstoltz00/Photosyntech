@@ -64,7 +64,6 @@ class SunStrategy;
 class MaturityState;
 class PlantGroup;
 class Staff;
-class Customer;
 class Inventory
 
 {
@@ -149,9 +148,9 @@ public:
 
 	/**
 	 * @brief Adds a customer to the system.
-	 * @param Customer Pointer to Customer instance.
+	 * @param customer Pointer to Customer instance.
 	 */
-	void addCustomer(Customer *Customer);
+	void addCustomer(Customer *customer);
 
 	/**
 	 * @brief Starts the background ticker thread.

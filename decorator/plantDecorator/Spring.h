@@ -39,8 +39,7 @@ class Spring : public PlantAttributes
 {
 	public:
         /**
-         * @brief Constructs a Spring decorator, wrapping the given component.
-         * @param component The PlantComponent to decorate.
+         * @brief Constructs a Spring decorator.
          */
         Spring();
 

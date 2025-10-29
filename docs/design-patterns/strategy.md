@@ -19,7 +19,7 @@ Defines interchangeable algorithms for plant care operations (watering and sunli
 
 ### Supporting Requirements
 - **NFR-2: Maintainability/Extensibility** - New care strategies can be added without modifying plant classes
-- **FR-13: Staff Action Execution** - Enables staff to execute watering and care routines through strategy execution
+- **FR-15: Staff Action Execution** - Enables staff to execute watering and care routines through strategy execution
 
 ## System Role & Integration
 
@@ -31,7 +31,7 @@ The **Strategy** pattern defines **interchangeable care algorithms** through the
 - **Builder Pattern**: Builder selects and assigns appropriate strategies during plant construction
 - **State Pattern**: State may inform strategy selection or modification
 - **Singleton Pattern**: Strategies obtained from singleton flyweight factories
-- **Command Pattern**: Staff watering/care commands execute selected strategies
+- **Facade Pattern**: Staff care operations execute selected strategies through facade methods
 - **Composite Pattern**: Group operations apply strategies to all children
 - **Decorator Pattern**: Seasonal decorators may adjust strategy requirements
 

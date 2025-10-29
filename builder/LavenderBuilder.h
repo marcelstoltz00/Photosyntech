@@ -10,7 +10,9 @@
  * - Base Type: Herb
  * - Sun Strategy: HighSun
  * - Water Strategy: LowWater
+ * - Initial Health: 100%
  * - Decorators: Small Flowers, Small Leaves, Medium Stem, No Thorns
+ * - Initial State: Seed
  *
  * @see Builder
  * @see Herb
@@ -51,7 +53,7 @@ public:
      */
     void setUp() ;
     /**
-     * @brief Adds decorators to the LivingPlant.
+     * @brief Adds decorators to the PlantComponent.
      */
     void addDecorators() ;
 

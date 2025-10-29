@@ -22,8 +22,7 @@ class RedPot : public PlantAttributes
 {
 	public:
         /**
-         * @brief Constructs a RedPot decorator, wrapping the given component.
-         * @param component The PlantComponent to decorate.
+         * @brief Constructs a RedPot decorator.
          */
         RedPot();
 

@@ -22,8 +22,7 @@ class LargeStem : public PlantAttributes
 {
 	public:
         /**
-         * @brief Constructs a LargeStem decorator, wrapping the given component.
-         * @param component The PlantComponent to decorate.
+         * @brief Constructs a LargeStem decorator.
          */
         LargeStem();
 
