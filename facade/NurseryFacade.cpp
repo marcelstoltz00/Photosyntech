@@ -138,9 +138,9 @@ bool NurseryFacade::stopNurseryTick()
 
 Customer *NurseryFacade::addCustomer(string name)
 {
-    if (name.empty() == false)
+    if (name.empty() != false)
     {
-        name = "Customer";
+        return nullptr;
     }
     std::vector<Customer *> *list = Inventory::getInstance()->getCustomers();
     for (size_t i = 0; i < list->size(); i++)
@@ -161,24 +161,24 @@ Customer *NurseryFacade::addCustomer(string name)
 string NurseryFacade::askForSuggestion(Customer *customer)
 {
     if (customer)
-    return customer->askForSuggestion();
+        return customer->askForSuggestion();
 
     return "";
 }
 void NurseryFacade::addToCustomerBasket(Customer *customer, PlantComponent *nPlant)
 {
     if (customer)
-    customer->addPlant(nPlant);
+        customer->addPlant(nPlant);
 }
 string NurseryFacade::customerPurchase(Customer *customer)
 {
     if (customer)
-    return customer->purchasePlants();
+        return customer->purchasePlants();
 }
 
 Staff *NurseryFacade::addStaff(string name)
 {
-    if (name.empty() == false)
+    if (name.empty() != false)
     {
         name = "Staff";
     }
@@ -206,5 +206,7 @@ void NurseryFacade::setObserver(Staff *staff, PlantGroup *plants)
 std::list<PlantComponent *> NurseryFacade::getCustomerPlants(Customer *customer)
 {
     if (customer)
-    return *customer->getBasket()->getPlants();
+        return *customer->getBasket()->getPlants();
+    else
+        return list<PlantComponent *>();
 }

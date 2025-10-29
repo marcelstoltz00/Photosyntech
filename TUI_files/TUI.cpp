@@ -249,16 +249,24 @@ int main()
             ),
         });
 
+
         Element customerView = vbox({
             hbox({
                nameInput->Render() | frame |size(HEIGHT,EQUAL,3)| size(WIDTH, EQUAL, 200),
                addCustomerButton->Render() |size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,10)
             }),
-            vbox ({
-                askAdvice->Render(),
-              window(text("Conversations"), paragraph(customerTerminalStr))
-            })
+             currentCustomer
+        ? vbox({
+              askAdvice->Render(),
+              window(text("Conversations"), paragraph(customerTerminalStr)),
+                treeMenu->Render() | frame | size(HEIGHT, LESS_THAN, 15)
+          })
+        : vbox({
+              window(text("Enter details"), paragraph("Please enter your name first and press login"))
+          })
+             
         });
+
 
         return vbox({
             hbox({
