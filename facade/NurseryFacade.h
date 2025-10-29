@@ -39,6 +39,7 @@
 #include "../mediator/Customer.h"
 #include "../mediator/SalesFloor.h"
 #include "../mediator/SuggestionFloor.h"
+#include "../iterator/AggPlant.h"
 
 /**
  * @brief Unified facade interface for the nursery management system.
@@ -151,7 +152,7 @@ public:
     /**
      * @brief adds a plant to a customers basket
      */
-    void addToCustomerBasket(Customer *, PlantComponent *);
+    bool addToCustomerBasket(Customer *, PlantComponent *);
 
     /**
      * @brief adds a plant to a customers basket
@@ -169,6 +170,12 @@ public:
     void setObserver(Staff *staff, PlantGroup *);
 
     std::list<PlantComponent *> getCustomerPlants(Customer *);
+
+    std::vector<string> getMenuString();
+
+    PlantComponent*findPlant(int index);
+
+    std::vector<string> getCustomerBasketString(Customer* customer);
 };
 
 #endif

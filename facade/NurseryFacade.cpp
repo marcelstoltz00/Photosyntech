@@ -182,15 +182,21 @@ string NurseryFacade::askForSuggestion(Customer *customer)
 
     return "";
 }
-void NurseryFacade::addToCustomerBasket(Customer *customer, PlantComponent *nPlant)
+bool NurseryFacade::addToCustomerBasket(Customer *customer, PlantComponent *nPlant)
 {
-    if (customer)
+    if (customer && nPlant)
+    {
         customer->addPlant(nPlant);
+        Inventory::getInstance()->getInventory()->getPlants()->remove(nPlant);
+        return true;
+    }
+    return false;
 }
 string NurseryFacade::customerPurchase(Customer *customer)
 {
     if (customer)
         return customer->purchasePlants();
+    return "";
 }
 
 Staff *NurseryFacade::addStaff(string name)
@@ -226,4 +232,54 @@ std::list<PlantComponent *> NurseryFacade::getCustomerPlants(Customer *customer)
         return *customer->getBasket()->getPlants();
     else
         return list<PlantComponent *>();
+}
+std::vector<string> NurseryFacade::getCustomerBasketString(Customer *customer)
+{
+    if (customer && customer->getBasket() && customer->getBasket()->getPlants())
+    {
+        
+        AggPlant *agg = new AggPlant(customer->getBasket()->getPlants());
+        std::vector<string> plantNames;
+        Iterator *itr = agg->createIterator();
+        while (!itr->isDone())
+        {
+            plantNames.push_back(itr->currentItem()->getName());
+            itr->next();
+        }
+        delete agg;
+        delete itr;
+        return plantNames;
+    }
+    return {};
+}
+
+std::vector<string> NurseryFacade::getMenuString()
+{
+    AggPlant *agg = new AggPlant(Inventory::getInstance()->getInventory()->getPlants());
+    std::vector<string> plantNames;
+    Iterator *itr = agg->createIterator();
+    while (!itr->isDone())
+    {
+        plantNames.push_back(itr->currentItem()->getName());
+        itr->next();
+    }
+    delete agg;
+    delete itr;
+    return plantNames;
+}
+PlantComponent *NurseryFacade::findPlant(int index)
+{
+    AggPlant *agg = new AggPlant(Inventory::getInstance()->getInventory()->getPlants());
+    Iterator *itr = agg->createIterator();
+    int count = 0;
+    while (!itr->isDone() && count != index)
+    {
+
+        itr->next();
+        count++;
+    }
+    PlantComponent *curr = itr->currentItem();
+    delete agg;
+    delete itr;
+    return curr;
 }
