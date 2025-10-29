@@ -136,6 +136,12 @@ public:
     Customer *addCustomer(string);
 
     /**
+     * @brief Removes a component from anywhere in the inventory tree.
+     * @param component The component to remove.
+     */
+    void removeComponentFromInventory(PlantComponent *component); // <-- ADD THIS
+
+    /**
      * @brief performs the communication of customer to staff member
      */
     string askForSuggestion(Customer *);

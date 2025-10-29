@@ -144,6 +144,13 @@ public:
 	void addComponent(PlantComponent *component);
 	virtual PlantComponent *correctShape(PlantComponent *);
 
+	/**
+     * @brief Removes a component from this group or its subgroups.
+     * @param component The component to remove.
+     * @return true if the component was found and removed, false otherwise.
+     */
+    bool removeComponent(PlantComponent *component);
+
 	void checkWater();
 	void checkSunlight();
 	void checkState();

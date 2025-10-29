@@ -2,6 +2,7 @@
 #include "../observer/Observer.h"
 #include "../prototype/LivingPlant.h"
 #include <sstream>
+#include <algorithm>
 
 PlantGroup::PlantGroup()
     : PlantComponent(0.0, 0, 0) {};
@@ -151,6 +152,29 @@ void PlantGroup::addAttribute(PlantComponent *attribute)
 void PlantGroup::addComponent(PlantComponent *component)
 {
     plants.push_back(component);
+}
+
+bool PlantGroup::removeComponent(PlantComponent *component) {
+    std::list<PlantComponent*>::iterator it = 
+        std::find(plants.begin(), plants.end(), component);
+    
+    if (it != plants.end()) {
+        plants.erase(it);
+        return true;
+    }
+
+    // 2. Recursively check subgroups
+    for (PlantComponent* child : plants) {
+        if (child->getType() == ComponentType::PLANT_GROUP) {
+            PlantGroup* childGroup = dynamic_cast<PlantGroup*>(child);
+            if (childGroup && childGroup->removeComponent(component)) {
+                return true;
+            }
+        }
+    }
+
+    // 3. Not found in this group or any of its subgroups
+    return false;
 }
 
 std::string PlantGroup::getName()

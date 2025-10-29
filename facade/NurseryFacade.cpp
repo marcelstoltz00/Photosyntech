@@ -126,6 +126,17 @@ void NurseryFacade::addComponentToGroup(PlantComponent *parent, PlantComponent *
     }
 }
 
+void NurseryFacade::removeComponentFromInventory(PlantComponent *component)
+{
+    PlantComponent* root = Inventory::getInstance()->getInventory();
+    PlantGroup* rootGroup = dynamic_cast<PlantGroup*>(root);
+
+    if (rootGroup)
+    {
+        rootGroup->removeComponent(component);
+    }
+}
+
 bool NurseryFacade::startNurseryTick()
 {
     return Inventory::startTicker();
