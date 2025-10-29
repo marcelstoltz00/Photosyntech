@@ -19,7 +19,7 @@ Defines interchangeable algorithms for plant care operations (watering and sunli
 
 ### Supporting Requirements
 - **NFR-2: Maintainability/Extensibility** - New care strategies can be added without modifying plant classes
-- **FR-13: Staff Action Execution** - Enables staff to execute watering and care routines through strategy execution
+- **FR-15: Staff Action Execution** - Enables staff to execute watering and care routines through strategy execution
 
 ## System Role & Integration
 

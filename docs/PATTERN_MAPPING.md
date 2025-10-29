@@ -135,7 +135,7 @@ This document maps functional requirements to their corresponding design pattern
 ### Observer (Staff Monitoring)
 **Pattern Documentation:** [observer.md](design-patterns/observer.md)
 
-**Functional Requirements (FR-12):**
+**Functional Requirements (FR-14):**
 - Staff members will observe assigned plants' states to receive notifications about the health changes and lifecycle changes of the observed plant.
 - The system will notify the assigned staff of state changes.
 - PlantGroup acts as Subject, Staff acts as Observer.
@@ -159,7 +159,7 @@ This document maps functional requirements to their corresponding design pattern
 ### Mediator (Interactions Between Staff and Customers)
 **Pattern Documentation:** [mediator.md](design-patterns/mediator.md)
 
-**Functional Requirements (FR-14):**
+**Functional Requirements (FR-12):**
 - A mediator will coordinate communication between staff and customers on the sales floor, allowing decoupling of staff and customers.
 - SalesFloor and SuggestionFloor mediators handle different interaction types.
 - Staff and Customer remain loosely coupled through the mediator.
