@@ -5,8 +5,6 @@
 // As tests are migrated, their files will be included here.
 
 #include "builder_tests.cpp" //Passing
-//#include "command_tests.cpp" //Passing - removed for merge
-//#include "command_memento_tests.cpp" //Passing - removed for merge
 //#include "composite_tests.cpp" //Passing - removed for merge
 #include "decorator_tests.cpp" //Passing
 //#include "facade_tests.cpp" //Passing - finally - removed for merge

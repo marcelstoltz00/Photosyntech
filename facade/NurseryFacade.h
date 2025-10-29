@@ -4,7 +4,6 @@
 #include "../builder/Director.h"
 #include "../singleton/Singleton.h"
 #include "../mediator/Mediator.h"
-#include "../command/Command.h"
 #include "../iterator/Aggregate.h"
 #include "../composite/PlantComponent.h"
 
@@ -14,7 +13,7 @@
  *
  * Provides simplified, high-level methods for common operations by
  * coordinating multiple subsystems (plant creation via Builder/Director,
- * inventory management via Singleton, sales via Mediator, operations via Command,
+ * inventory management via Singleton, sales via Mediator,
  * and filtering via Iterator). Hides system complexity from TUI and external clients.
  *
  * **System Role:**
@@ -32,7 +31,6 @@
  * - Builder/Director: Delegates plant creation requests
  * - Singleton: Accesses centralized inventory and resources
  * - Mediator: Routes customer/staff interactions through floor mediators
- * - Command: Encapsulates operations with undo/redo capability
  * - Iterator: Provides filtered plant collection access
  * - Composite: Works with plant hierarchies for bulk operations
  * - Observer: Coordinates staff monitoring setup
@@ -45,7 +43,7 @@
  * **System Interactions:**
  * - External interfaces (TUI/CLI) call methods on facade only
  * - Facade delegates to appropriate subsystem implementations
- * - Commands queued through facade for operation history
+ * - Operations are executed directly through facade methods
  * - All resource access goes through singleton instance
  * - Staff-customer interactions coordinated via mediators
  * - Plant filtering delegated to iterator factories
@@ -53,7 +51,6 @@
  * @see Singleton (resource hub accessed by facade)
  * @see Builder (plant creation via director)
  * @see Mediator (sales and suggestion floor coordination)
- * @see Command (operation encapsulation)
  * @see Iterator (plant filtering and browsing)
  */
 class NurseryFacade

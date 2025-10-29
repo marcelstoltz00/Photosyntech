@@ -75,8 +75,8 @@ This document maps functional requirements to their corresponding design pattern
 - Facade enables both TUI and CLI interfaces to interact with the system through simple function calls (one per button/menu option).
 - Used by the Facade to handle user actions from TUI/CLI interfaces.
 - Decouples presentation layer from business logic, allowing UI changes without affecting core system.
-- Manages complex operations involving multiple subsystems (Director, Singleton, Mediator, Command patterns).
-- Provides methods for plant creation, inventory display, sales processing, command execution, and seasonal filtering.
+- Manages complex operations involving multiple subsystems (Director, Singleton, Mediator patterns).
+- Provides methods for plant creation, inventory display, sales processing, operation execution, and seasonal filtering.
 
 **Implementation:** See [facade.md](design-patterns/facade.md) for file structure and implementation details.
 
@@ -180,23 +180,9 @@ This document maps functional requirements to their corresponding design pattern
 
 ---
 
-### Command (User Actions)
-**Pattern Documentation:** [command.md](design-patterns/command.md)
-
-**Functional Requirements (FR-13):**
-- Actions such as watering plants, browsing inventory, purchasing plants, and adding to inventory will be executed through Command objects.
-- Command pattern encapsulates complex multi-step user interface operations, enabling undo/redo functionality.
-- Used by the Facade to handle user actions from GUI/CLI interfaces.
-- Decouples user interface actions from business logic execution.
-- Commands include: AddToInventoryCommand, BrowsePlantsCommand, WaterPlantCommand, PurchasePlantCommand.
-
-**Implementation:** See [command.md](design-patterns/command.md) for file structure and implementation details.
-
----
-
 ## Pattern Summary
 
-### Implemented Patterns (13 total)
+### Implemented Patterns (12 total)
 
 **Creational (3):**
 - Builder
@@ -209,8 +195,7 @@ This document maps functional requirements to their corresponding design pattern
 - Facade
 - Flyweight
 
-**Behavioral (6):**
-- Command
+**Behavioral (5):**
 - Iterator
 - Mediator
 - Observer

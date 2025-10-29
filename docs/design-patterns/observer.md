@@ -28,7 +28,7 @@ The **Observer** pattern enables **automatic monitoring and notifications** thro
 
 - **Composite Pattern**: `PlantGroup` (composite node) implements Subject interface
 - **State Pattern**: State transitions trigger notifications to observers
-- **Command Pattern**: Observer notifications may trigger staff command execution
+- **Facade Pattern**: Facade coordinates observer notifications and staff actions
 - **Mediator Pattern**: Staff (observer) coordinates with customers through mediators
 - **Singleton Pattern**: Staff instances managed globally for consistent monitoring
 - **Strategy Pattern**: Observer may respond differently based on plant strategies
@@ -36,7 +36,7 @@ The **Observer** pattern enables **automatic monitoring and notifications** thro
 
 ### System Dependencies
 - **Monitoring Flow**: Plant groups notify staff of water/sunlight/state needs
-- **Event-Driven Actions**: Staff responds to notifications with care commands
+- **Event-Driven Actions**: Staff responds to notifications with care actions via facade
 - **Decoupling**: Plants unaware of specific staff implementation
 - **Scalability**: Multiple staff members can monitor same plant group independently
 

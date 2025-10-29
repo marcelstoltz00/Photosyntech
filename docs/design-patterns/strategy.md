@@ -31,7 +31,7 @@ The **Strategy** pattern defines **interchangeable care algorithms** through the
 - **Builder Pattern**: Builder selects and assigns appropriate strategies during plant construction
 - **State Pattern**: State may inform strategy selection or modification
 - **Singleton Pattern**: Strategies obtained from singleton flyweight factories
-- **Command Pattern**: Staff watering/care commands execute selected strategies
+- **Facade Pattern**: Staff care operations execute selected strategies through facade methods
 - **Composite Pattern**: Group operations apply strategies to all children
 - **Decorator Pattern**: Seasonal decorators may adjust strategy requirements
 

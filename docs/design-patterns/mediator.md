@@ -27,7 +27,7 @@ Coordinates interactions between staff and customers on different floors (sales 
 The **Mediator** pattern enables **staff-customer coordination** through these interactions:
 
 - **Observer Pattern**: Staff (observers) execute actions coordinated by mediator
-- **Command Pattern**: Mediator may trigger purchase/suggestion commands
+- **Facade Pattern**: Facade coordinates mediator actions and purchase operations
 - **Composite Pattern**: Mediator routes requests involving plant groups (customer baskets)
 - **Singleton Pattern**: Mediator accesses singleton inventory during transactions
 - **Facade Pattern**: Facade coordinates mediator setup and initial interactions

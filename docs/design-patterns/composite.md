@@ -32,8 +32,7 @@ The **Composite** pattern enables **hierarchical plant organization** through th
 - **Singleton Pattern**: The root of the plant inventory is a `PlantGroup` that is managed as a `Singleton`.
 - **Decorator Pattern**: Decorators can wrap `PlantComponent` objects, adding new functionality while preserving the common interface.
 - **Prototype Pattern**: The `clone()` method on `PlantComponent` allows for the deep copying of the composite structure.
-- **Command Pattern**: Commands can operate on `PlantGroup` objects, applying an operation to all children in the group uniformly.
-- **Facade Pattern**: The `NurseryFacade` provides a simplified interface for interacting with the plant hierarchy, hiding the complexity of the composite structure from the client.
+- **Facade Pattern**: The `NurseryFacade` provides a simplified interface for interacting with the plant hierarchy, hiding the complexity of the composite structure from the client, and operations on `PlantGroup` objects are managed through the facade.
 
 ### System Dependencies
 - **Primary Structure**: Forms the core hierarchical inventory representation.

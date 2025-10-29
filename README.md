@@ -35,7 +35,7 @@ PhotoSyntech is a C++ plant management system demonstrating multiple design patt
 
 <h1 align="center">🏛️ Design Patterns Used 🏛️</h1>
 
-PhotoSyntech employs 13 different design patterns to create a modular, extensible, and efficient system. Below is a summary of the patterns used. For a more detailed explanation, please see the individual documentation files.
+PhotoSyntech employs 12 different design patterns to create a modular, extensible, and efficient system. Below is a summary of the patterns used. For a more detailed explanation, please see the individual documentation files.
 
 | Category     | Pattern                                                    | Responsibility                                                                                             |
 | :----------- | :--------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------- |
@@ -46,8 +46,7 @@ PhotoSyntech employs 13 different design patterns to create a modular, extensibl
 |              | [**Decorator**](docs/design-patterns/decorator.md)           | Dynamically adds new attributes and behaviors to plant objects without altering their structure.           |
 |              | [**Facade**](docs/design-patterns/facade.md)                 | Provides a simplified, unified interface to the complex subsystems of the nursery.                         |
 |              | [**Flyweight**](docs/design-patterns/flyweight.md)           | Minimizes memory usage by sharing common, immutable data (like strategies and seasons) among many objects. |
-| **Behavioral** | [**Command**](docs/design-patterns/command.md)               | Encapsulates user actions (e.g., water, purchase) as objects, enabling undo, queuing, and logging.         |
-|              | [**Iterator**](docs/design-patterns/iterator.md)             | Provides a standard way to traverse plant collections, with support for filtering (e.g., by season).       |
+| **Behavioral** | [**Iterator**](docs/design-patterns/iterator.md)             | Provides a standard way to traverse plant collections, with support for filtering (e.g., by season).       |
 |              | [**Mediator**](docs/design-patterns/mediator.md)             | Centralizes communication between staff and customers, reducing direct dependencies between them.          |
 |              | [**Observer**](docs/design-patterns/observer.md)             | Notifies staff automatically when plants change state or require care.                                     |
 |              | [**State**](docs/design-patterns/state.md)                   | Manages a plant's lifecycle (Seed, Vegetative, Mature, Dead) by altering its behavior as its state changes.|

@@ -11,7 +11,7 @@
  *
  * **System Role:**
  * Strategy for water-loving plants (Ferns, Tropical species). Applied via
- * Builder during plant construction. Executed by WaterPlantCommand during care.
+ * Builder during plant construction. Executed via Facade during plant care operations.
  * Shared via flyweight factory across all high-water plants.
  *
  * **Pattern Role:** Concrete Strategy (implements high-water algorithm)

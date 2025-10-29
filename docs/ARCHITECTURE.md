@@ -27,10 +27,10 @@ The design leverages **10+ design patterns** to ensure flexibility, maintainabil
 
 **Key Statistics:**
 
-- **Design Patterns:** 11 (exceeds minimum requirement of 10)
-- **Creational Patterns:** 4
+- **Design Patterns:** 12 (exceeds minimum requirement of 10)
+- **Creational Patterns:** 3
 - **Behavioral Patterns:** 5
-- **Structural Patterns:** 2
+- **Structural Patterns:** 4
 - **Functional Requirements:** 15+
 - **Non-Functional Requirements:** 3
 
@@ -129,9 +129,9 @@ _Pattern: Decorator_
 The Iterator will traverse through the Composite Plant structure based on the season the plant is assigned to.  
 _Pattern: Iterator_
 
-**FR13: Command-Based Actions**  
-Actions such as watering plants, selling plants and hiring/firing staff will be executed through Command objects.  
-_Pattern: Command_
+**FR13: Direct Action Execution**  
+Actions such as watering plants, selling plants and managing staff will be executed directly through the Facade interface, providing a simplified interface to complex subsystem operations.  
+_Pattern: Facade_
 
 ### 3.4 Additional Functional Requirements
 
@@ -191,7 +191,6 @@ This project utilizes 12 design patterns to ensure a modular, extensible, and ma
 
 ### 5.2 Behavioral Patterns
 
-*   **[Command](design-patterns/command.md):** Encapsulates requests as objects, enabling undoable operations and request queuing.
 *   **[Iterator](design-patterns/iterator.md):** Provides a way to access the elements of an aggregate object sequentially without exposing its underlying representation.
 *   **[Mediator](design-patterns/mediator.md):** Defines an object that encapsulates how a set of objects interact.
 *   **[Observer](design-patterns/observer.md):** Defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically.
@@ -221,7 +220,7 @@ This project utilizes 12 design patterns to ensure a modular, extensible, and ma
 ┌─────────────────────────────────────────────────────┐
 │                 Facade Layer                        │
 │                (NurseryFacade)                      │
-│          [Command Pattern for complex ops]          │
+│        [Simplified interface to subsystems]         │
 └──────────────────────┬──────────────────────────────┘
                        │ coordinates
                        ▼
@@ -266,7 +265,7 @@ Purchase ← Decorator → Customized plant
 **Interface Flow:**
 
 ```
-TUI → Command → Facade → Subsystems
+TUI → Facade → Subsystems
 ```
 
 ### 6.3 Subsystem Communication
@@ -324,7 +323,7 @@ PlantComponent (Abstract)
 - `SalesFloor` ──mediates──> `Staff` & `Customer`
 - `PlantDecorator` ──wraps──> `Plant`
 - `NurseryFacade` ──uses──> all subsystems
-- `Command` ──uses──> `NurseryFacade`
+- `TUI` ──uses──> `NurseryFacade`
 
 ---
 
@@ -371,10 +370,10 @@ PlantComponent (Abstract)
 |State|Behavioral|Plant maturity behaviors|FR6|
 |Mediator|Behavioral|Coordinate staff-customer|FR11|
 |Iterator|Behavioral|Traverse plant collections|FR13|
-|Command|Behavioral|Encapsulate GUI operations|FR15|
 |Composite|Structural|Organize plant hierarchies|FR7|
 |Decorator|Structural|Add plant customizations|FR12|
-|Facade|Structural|Simplify GUI interface|FR14|
+|Facade|Structural|Simplify GUI interface|FR14, FR15|
+|Flyweight|Structural|Share common data efficiently|NFR4|
 
 ---
 
