@@ -16,13 +16,15 @@
 
 using namespace ftxui;
 
-std::map<int, PlantComponent*> treeIndexToComponent;
+std::map<int, PlantComponent *> treeIndexToComponent;
 std::vector<std::string> treeEntries;
 int selectedTreeIndex = -1;
 int previousSelectedTreeIndex = -1;
 int plantInfoScrollY = 0;
 int selectedInfoScrollY = 0;
-PlantComponent* selectedInventoryComponent = nullptr;
+
+int scrollReciept = 0;
+PlantComponent *selectedInventoryComponent = nullptr;
 
 std::string inventoryStatusText = "Inventory: Initialising...";
 std::string selectedInfoText = "Component details will appear here.";
@@ -30,8 +32,8 @@ bool showCreateGroupDialogue = false;
 bool showMoveDialogue = false;
 int groupCounter = 1;
 
-PlantComponent* componentToMove = nullptr;
-PlantComponent* targetGroup = nullptr;
+PlantComponent *componentToMove = nullptr;
+PlantComponent *targetGroup = nullptr;
 
 Component mainContainer;
 Component groupDialogueContainer;
@@ -39,72 +41,86 @@ Component moveDialogueContainer;
 Component main_ui;
 
 void buildTreeEntries(
-    PlantComponent* component,
-    std::vector<std::string>& entries,
-    std::map<int, PlantComponent*>& indexMap,
+    PlantComponent *component,
+    std::vector<std::string> &entries,
+    std::map<int, PlantComponent *> &indexMap,
     int depth = 0)
 {
-    if (!component) return;
+    if (!component)
+        return;
 
     int currentIndex = entries.size();
     std::string indent(depth * 2, ' ');
     std::string prefix = depth > 0 ? "├─ " : "📦 ";
 
     std::string icon = "";
-    if (component->getType() == ComponentType::PLANT_GROUP) {
+    if (component->getType() == ComponentType::PLANT_GROUP)
+    {
         icon = "📁 ";
-    } else {
+    }
+    else
+    {
         icon = "🌱 ";
     }
 
     entries.push_back(indent + prefix + icon + component->getName());
     indexMap[currentIndex] = component;
 
-    if (component->getType() == ComponentType::PLANT_GROUP) {
-        PlantGroup* group = dynamic_cast<PlantGroup*>(component);
-        if (group) {
-            std::list<PlantComponent*> children = *group->getPlants();
-            for (PlantComponent* child : children) {
+    if (component->getType() == ComponentType::PLANT_GROUP)
+    {
+        PlantGroup *group = dynamic_cast<PlantGroup *>(component);
+        if (group)
+        {
+            std::list<PlantComponent *> children = *group->getPlants();
+            for (PlantComponent *child : children)
+            {
                 buildTreeEntries(child, entries, indexMap, depth + 1);
             }
         }
     }
 }
 
-void refreshInventoryView(NurseryFacade& nursery) {
+void refreshInventoryView(NurseryFacade &nursery)
+{
     treeEntries.clear();
     treeIndexToComponent.clear();
 
     selectedInfoText = "Select an item in the inventory.";
     inventoryStatusText = "Inventory refreshed.";
 
-    PlantComponent* root = nursery.getInventoryRoot();
-    if (root) {
+    PlantComponent *root = nursery.getInventoryRoot();
+    if (root)
+    {
         buildTreeEntries(root, treeEntries, treeIndexToComponent);
     }
 
-    if (selectedTreeIndex >= 0 && selectedTreeIndex < treeEntries.size()) {
+    if (selectedTreeIndex >= 0 && selectedTreeIndex < treeEntries.size())
+    {
         auto it = treeIndexToComponent.find(selectedTreeIndex);
-        if (it != treeIndexToComponent.end()) {
+        if (it != treeIndexToComponent.end())
+        {
             selectedInventoryComponent = it->second;
         }
     }
 }
 
-void refreshCustomerView(NurseryFacade& nursery, vector<string>& plantNames) {
+void refreshCustomerView(NurseryFacade &nursery, vector<string> &plantNames)
+{
     plantNames = nursery.getMenuString();
 }
 
-void refreshCustomerBasket(NurseryFacade& nursery, vector<string>& plantNames, Customer* customer) {
+void refreshCustomerBasket(NurseryFacade &nursery, vector<string> &plantNames, Customer *customer)
+{
     if (customer)
         plantNames = nursery.getCustomerBasketString(customer);
 }
 
-int main() {
+int main()
+{
     Inventory::getInstance();
 
     std::ofstream cerrLog("plant_manager_debug.txt");
-    std::streambuf* oldCerrBuf = std::cerr.rdbuf();
+    std::streambuf *oldCerrBuf = std::cerr.rdbuf();
     std::cerr.rdbuf(cerrLog.rdbuf());
 
     auto screen = ScreenInteractive::Fullscreen();
@@ -114,11 +130,12 @@ int main() {
     int plantSelectorIndex = 0;
     std::string plantInfoText = "No plant selected";
     std::string statusText = "Status: Ready";
-    PlantComponent* currentPlant = nullptr;
+    PlantComponent *currentPlant = nullptr;
 
     auto plantSelector = Dropdown(&plantTypes, &plantSelectorIndex);
 
-    auto createButton = Button("Create Plant", [&] {
+    auto createButton = Button("Create Plant", [&]
+                               {
         if (plantSelectorIndex >= 0 && plantSelectorIndex < plantTypes.size()) {
             std::string selectedType = plantTypes[plantSelectorIndex];
             currentPlant = nursery.createPlant(selectedType);
@@ -127,59 +144,58 @@ int main() {
                 statusText = "Status: Created new " + selectedType + " and added to Inventory.";
                 refreshInventoryView(nursery);
             }
-        }
-    });
+        } });
 
-    auto waterButton = Button("Water Plant", [&] {
+    auto waterButton = Button("Water Plant", [&]
+                              {
         if (currentPlant) {
             nursery.waterPlant(currentPlant);
             plantInfoText = nursery.getPlantInfo(currentPlant);
             statusText = "Status: Watered plant";
-        }
-    });
+        } });
 
-    auto sunButton = Button("Add Sunlight", [&] {
+    auto sunButton = Button("Add Sunlight", [&]
+                            {
         if (currentPlant) {
             nursery.addSunlight(currentPlant);
             plantInfoText = nursery.getPlantInfo(currentPlant);
             statusText = "Status: Added sunlight";
-        }
-    });
+        } });
 
-    auto infoButton = Button("Get Info", [&] {
+    auto infoButton = Button("Get Info", [&]
+                             {
         if (currentPlant) {
             plantInfoText = nursery.getPlantInfo(currentPlant);
             statusText = "Status: Updated info";
-        }
-    });
+        } });
 
-    auto refreshButton = Button("Refresh", [&] {
-        refreshInventoryView(nursery);
-    });
+    auto refreshButton = Button("Refresh", [&]
+                                { refreshInventoryView(nursery); });
 
-    auto startTickButton = Button("Start Ticker", [&] {
+    auto startTickButton = Button("Start Ticker", [&]
+                                  {
         if (nursery.startNurseryTick()) {
             inventoryStatusText = "Inventory: Ticker Started.";
         } else {
             inventoryStatusText = "Inventory: Ticker already running.";
-        }
-    });
+        } });
 
-    auto stopTickButton = Button("Stop Ticker", [&] {
+    auto stopTickButton = Button("Stop Ticker", [&]
+                                 {
         if (nursery.stopNurseryTick()) {
             inventoryStatusText = "Inventory: Ticker Stopped.";
         } else {
             inventoryStatusText = "Inventory: Ticker was not running.";
         }
-        refreshInventoryView(nursery);
-    });
+        refreshInventoryView(nursery); });
 
-    auto createGroupButton = Button("Create Group", [&] {
+    auto createGroupButton = Button("Create Group", [&]
+                                    {
         showCreateGroupDialogue = true;
-        mainContainer->SetActiveChild(groupDialogueContainer.get());
-    });
+        mainContainer->SetActiveChild(groupDialogueContainer.get()); });
 
-    auto confirmGroupButton = Button("Create", [&] {
+    auto confirmGroupButton = Button("Create", [&]
+                                     {
         PlantGroup* newGroup = nursery.createPlantGroup();
 
         if (selectedInventoryComponent &&
@@ -193,60 +209,63 @@ int main() {
         groupCounter++;
         showCreateGroupDialogue = false;
         refreshInventoryView(nursery);
-        mainContainer->SetActiveChild(main_ui.get());
-    });
+        mainContainer->SetActiveChild(main_ui.get()); });
 
-    auto cancelGroupButton = Button("Cancel", [&] {
+    auto cancelGroupButton = Button("Cancel", [&]
+                                    {
         showCreateGroupDialogue = false;
-        mainContainer->SetActiveChild(main_ui.get());
-    });
+        mainContainer->SetActiveChild(main_ui.get()); });
 
-    groupDialogueContainer = Container::Vertical({
-        Container::Horizontal({
-            confirmGroupButton,
-            cancelGroupButton
-        })
-    });
+    groupDialogueContainer = Container::Vertical({Container::Horizontal({confirmGroupButton,
+                                                                         cancelGroupButton})});
 
     std::vector<std::string> groupList;
-    std::vector<PlantComponent*> groupComponents;
+    std::vector<PlantComponent *> groupComponents;
     int selectedGroupIndex = 0;
 
-    std::function<void()> buildGroupList = [&]() {
+    std::function<void()> buildGroupList = [&]()
+    {
         groupList.clear();
         groupComponents.clear();
         selectedGroupIndex = 0;
 
-        PlantComponent* root = nursery.getInventoryRoot();
+        PlantComponent *root = nursery.getInventoryRoot();
         groupList.push_back("Root Inventory");
         groupComponents.push_back(root);
 
-        std::function<void(PlantComponent*, int)> findGroups = [&](PlantComponent* comp, int depth) {
-            if (comp && comp->getType() == ComponentType::PLANT_GROUP) {
-                PlantGroup* group = dynamic_cast<PlantGroup*>(comp);
-                if (group && comp != nursery.getInventoryRoot() && comp != componentToMove) {
+        std::function<void(PlantComponent *, int)> findGroups = [&](PlantComponent *comp, int depth)
+        {
+            if (comp && comp->getType() == ComponentType::PLANT_GROUP)
+            {
+                PlantGroup *group = dynamic_cast<PlantGroup *>(comp);
+                if (group && comp != nursery.getInventoryRoot() && comp != componentToMove)
+                {
                     std::string indent(depth * 2, ' ');
                     groupList.push_back(indent + "└─ " + comp->getName());
                     groupComponents.push_back(comp);
 
-                    std::list<PlantComponent*> children = *group->getPlants();
-                    for (PlantComponent* child : children) {
+                    std::list<PlantComponent *> children = *group->getPlants();
+                    for (PlantComponent *child : children)
+                    {
                         findGroups(child, depth + 1);
                     }
                 }
             }
         };
 
-        if (root && root->getType() == ComponentType::PLANT_GROUP) {
-            PlantGroup* rootGroup = dynamic_cast<PlantGroup*>(root);
-            std::list<PlantComponent*> children = *rootGroup->getPlants();
-            for (PlantComponent* child : children) {
+        if (root && root->getType() == ComponentType::PLANT_GROUP)
+        {
+            PlantGroup *rootGroup = dynamic_cast<PlantGroup *>(root);
+            std::list<PlantComponent *> children = *rootGroup->getPlants();
+            for (PlantComponent *child : children)
+            {
                 findGroups(child, 1);
             }
         }
     };
 
-    auto addToGroupButton = Button("Move to Group", [&] {
+    auto addToGroupButton = Button("Move to Group", [&]
+                                   {
         if (selectedInventoryComponent &&
             selectedInventoryComponent->getType() != ComponentType::PLANT_GROUP) {
             componentToMove = selectedInventoryComponent;
@@ -255,12 +274,12 @@ int main() {
             mainContainer->SetActiveChild(moveDialogueContainer.get());
         } else {
             inventoryStatusText = "Select a plant (not a group) to move.";
-        }
-    });
+        } });
 
     auto groupSelectMenu = Menu(&groupList, &selectedGroupIndex);
 
-    auto confirmMoveButton = Button("Move", [&] {
+    auto confirmMoveButton = Button("Move", [&]
+                                    {
         if (selectedGroupIndex >= 0 && selectedGroupIndex < groupComponents.size()) {
             targetGroup = groupComponents[selectedGroupIndex];
             nursery.removeComponentFromInventory(componentToMove);
@@ -269,31 +288,32 @@ int main() {
             showMoveDialogue = false;
             refreshInventoryView(nursery);
             mainContainer->SetActiveChild(main_ui.get());
-        }
-    });
+        } });
 
-    auto cancelMoveButton = Button("Cancel", [&] {
+    auto cancelMoveButton = Button("Cancel", [&]
+                                   {
         showMoveDialogue = false;
-        mainContainer->SetActiveChild(main_ui.get());
-    });
+        mainContainer->SetActiveChild(main_ui.get()); });
 
-    moveDialogueContainer = Container::Vertical({
-        groupSelectMenu,
-        Container::Horizontal({
-            confirmMoveButton,
-            cancelMoveButton
-        })
-    });
+    moveDialogueContainer = Container::Vertical({groupSelectMenu,
+                                                 Container::Horizontal({confirmMoveButton,
+                                                                        cancelMoveButton})});
 
-    auto on_menu_change = [&] {
-        if (selectedTreeIndex >= 0 && selectedTreeIndex < treeEntries.size()) {
+    auto on_menu_change = [&]
+    {
+        if (selectedTreeIndex >= 0 && selectedTreeIndex < treeEntries.size())
+        {
             auto it = treeIndexToComponent.find(selectedTreeIndex);
-            if (it != treeIndexToComponent.end()) {
+            if (it != treeIndexToComponent.end())
+            {
                 selectedInventoryComponent = it->second;
 
-                if (selectedInventoryComponent->getType() == ComponentType::PLANT_GROUP) {
+                if (selectedInventoryComponent->getType() == ComponentType::PLANT_GROUP)
+                {
                     selectedInfoText = selectedInventoryComponent->getInfo();
-                } else {
+                }
+                else
+                {
                     selectedInfoText = selectedInventoryComponent->getDecorator()->getInfo();
                 }
 
@@ -309,8 +329,8 @@ int main() {
 
     // Customer Tab Components
     string userName = "";
-    Customer* currentCustomer = nullptr;
-    PlantComponent* currentCustomerPlant = nursery.findPlant(0);
+    Customer *currentCustomer = nullptr;
+    PlantComponent *currentCustomerPlant = nursery.findPlant(0);
     int customerTreeIndex = 0;
     int customerBasketIndex = 0;
     int water = 0;
@@ -325,48 +345,45 @@ int main() {
     auto customerMenu = Menu(&plantNames, &customerTreeIndex);
     auto customerBasket = Menu(&basketNames, &customerBasketIndex);
 
-    auto addCustomerButton = Button("Login", [&] {
+    auto addCustomerButton = Button("Login", [&]
+                                    {
         currentCustomer = nursery.addCustomer(userName);
         screen.Post([&] {
             if (currentCustomer)
                 refreshCustomerBasket(nursery, basketNames, currentCustomer);
-        });
-    });
+        }); });
 
-    auto askAdvice = Button("Get Suggestion", [&] {
-        customerTerminalStr = nursery.askForSuggestion(currentCustomer);
-    });
+    auto askAdvice = Button("Get Suggestion", [&]
+                            { customerTerminalStr = nursery.askForSuggestion(currentCustomer); });
 
-    auto basketAddBtn = Button("Add to Basket", [&] {
+    auto basketAddBtn = Button("Add to Basket", [&]
+                               {
         bool result = nursery.addToCustomerBasket(currentCustomer, nursery.findPlant(customerTreeIndex));
         result ? statusText = "Plant added successfully" : statusText = "Something went wrong with plant adding";
         currentCustomerPlant = nursery.findPlant(customerTreeIndex);
         customerTreeIndex = 0;
-        refreshCustomerBasket(nursery, basketNames, currentCustomer);
-    });
+        refreshCustomerBasket(nursery, basketNames, currentCustomer); });
 
-    auto purchaseBtn = Button("Purchase Plants", [&] {
+    auto purchaseBtn = Button("Purchase Plants", [&]
+                              {
         customerTerminalStr = nursery.customerPurchase(currentCustomer);
-        refreshCustomerBasket(nursery, basketNames, currentCustomer);
-    });
+        refreshCustomerBasket(nursery, basketNames, currentCustomer); });
 
-    auto removeFromBasket = Button("Remove Plant", [&] {
+    auto removeFromBasket = Button("Remove Plant", [&]
+                                   {
         nursery.removeFromCustomer(currentCustomer, customerBasketIndex);
-        refreshCustomerBasket(nursery, basketNames, currentCustomer);
-    });
+        refreshCustomerBasket(nursery, basketNames, currentCustomer); });
 
     int tabSelected = 0;
     std::vector<std::string> tabTitles = {
         "Plant Manager (Builder)",
         "Inventory (Composite/Singleton)",
-        "Customer"
-    };
+        "Customer"};
 
     auto tabToggle = Toggle(&tabTitles, &tabSelected);
 
-    auto plantInfoRenderer = Renderer([&] {
-        return paragraph(plantInfoText) | color(Color::GrayLight);
-    });
+    auto plantInfoRenderer = Renderer([&]
+                                      { return paragraph(plantInfoText) | color(Color::GrayLight); });
 
     auto tab1Content = Container::Vertical({
         plantSelector,
@@ -379,13 +396,14 @@ int main() {
         plantInfoRenderer,
     });
 
-    auto selectedInfoRenderer_Base = Renderer([&] {
-        return paragraph(selectedInfoText) | color(Color::GrayLight) |
-                vscroll_indicator | yframe |
-                focusPositionRelative(0, selectedInfoScrollY);
-    }) | size(HEIGHT, EQUAL, 10);
+    auto selectedInfoRenderer_Base = Renderer([&]
+                                              { return paragraph(selectedInfoText) | color(Color::GrayLight) |
+                                                       vscroll_indicator | yframe |
+                                                       focusPositionRelative(0, selectedInfoScrollY); }) |
+                                     size(HEIGHT, EQUAL, 10);
 
-    auto selectedInfoRenderer = CatchEvent(selectedInfoRenderer_Base, [&](Event event) {
+    auto selectedInfoRenderer = CatchEvent(selectedInfoRenderer_Base, [&](Event event)
+                                           {
         if (event.is_mouse() && event.mouse().button == Mouse::WheelUp) {
             selectedInfoScrollY = std::max(0, selectedInfoScrollY - 1);
             return true;
@@ -406,8 +424,7 @@ int main() {
             selectedInfoRenderer_Base->TakeFocus();
             return true;
         }
-        return false;
-    });
+        return false; });
 
     auto tab2Content = Container::Vertical({
         Container::Horizontal({
@@ -423,15 +440,43 @@ int main() {
         selectedInfoRenderer,
     });
 
+    auto baseScrollCustomer = Renderer([&]
+                                       { return paragraph(customerTerminalStr) | color(Color::GrayLight) |
+                                                vscroll_indicator | yframe |
+                                                focusPositionRelative(0, scrollReciept); }) |
+                              size(HEIGHT, EQUAL, 14);
+
+    auto recieptRenderer = CatchEvent(baseScrollCustomer, [&](Event event)
+                                      {
+        if (event.is_mouse() && event.mouse().button == Mouse::WheelUp) {
+            scrollReciept = std::max(0, scrollReciept - 1);
+            return true;
+        }
+        if (event.is_mouse() && event.mouse().button == Mouse::WheelDown) {
+            scrollReciept++;
+            return true;
+        }
+        if (event == Event::ArrowUp) {
+            scrollReciept = std::max(0, scrollReciept - 1);
+            return true;
+        }
+        if (event == Event::ArrowDown) {
+            scrollReciept++;
+            return true;
+        }
+        if (event.is_mouse() && event.mouse().button == Mouse::Left && event.mouse().motion == Mouse::Pressed) {
+            baseScrollCustomer->TakeFocus();
+            return true;
+        }
+        return false; });
+
     auto waterSlider = Slider("Water", &water, 0.0f, 200.0f, 1.0f);
-    auto waterStyled = Renderer(waterSlider, [&] {
-        return waterSlider->Render() | color(Color::Blue) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90);
-    });
+    auto waterStyled = Renderer(waterSlider, [&]
+                                { return waterSlider->Render() | color(Color::Blue) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90); });
 
     auto sunSlider = Slider("Sun", &sun, 0.0f, 200.0f, 1.0f);
-    auto sunStyled = Renderer(sunSlider, [&] {
-        return sunSlider->Render() | color(Color::Red) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90);
-    });
+    auto sunStyled = Renderer(sunSlider, [&]
+                              { return sunSlider->Render() | color(Color::Red) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90); });
 
     auto customerTab = Container::Vertical({
         Container::Horizontal({nameInput, addCustomerButton}),
@@ -445,13 +490,15 @@ int main() {
             customerMenu,
             customerBasket,
         }),
+        recieptRenderer
     });
 
     auto tabContainer = Container::Tab({
-        tab1Content,
-        tab2Content,
-        customerTab,
-    }, &tabSelected);
+                                           tab1Content,
+                                           tab2Content,
+                                           customerTab,
+                                       },
+                                       &tabSelected);
 
     main_ui = Container::Vertical({
         tabToggle,
@@ -464,7 +511,8 @@ int main() {
         moveDialogueContainer,
     });
 
-    auto mainRenderer = Renderer(mainContainer, [&] {
+    auto mainRenderer = Renderer(mainContainer, [&]
+                                 {
         refreshCustomerView(nursery, plantNames);
         currentCustomerPlant = nursery.findPlant(customerTreeIndex);
 
@@ -581,10 +629,9 @@ int main() {
                 }),
                 filler(),
 
-                window(
-                    text("Conversations") | bold | color(Color::Cyan),
-                    paragraph(customerTerminalStr) | frame | vscroll_indicator | size(HEIGHT, EQUAL, 15) | color(Color::GrayLight)
-                ),
+              window(
+                 text("Conversations") | bold | color(Color::Cyan),
+              recieptRenderer->Render()),
 
                 hbox({
                     askAdvice->Render() | color(Color::Magenta) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
@@ -621,16 +668,18 @@ int main() {
             });
         }
 
-        return main;
-    });
+        return main; });
 
     refreshInventoryView(nursery);
 
     screen.Loop(mainRenderer);
 
-    try {
+    try
+    {
         nursery.stopNurseryTick();
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception &e)
+    {
         std::cerr << "Error during cleanup: " << e.what() << std::endl;
     }
 
