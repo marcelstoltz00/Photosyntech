@@ -311,7 +311,6 @@ auto treeMenu = Menu(&treeEntries, &selectedTreeIndex, menuOption);
 
     auto tabToggle = Toggle(&tabTitles, &tabSelected);
 
-    // FIXED: Scrollable plant info - using simpler approach
     auto plantInfoRenderer = Renderer([&] {
         return paragraph(plantInfoText) | color(Color::GrayLight);
     });
@@ -327,7 +326,6 @@ auto treeMenu = Menu(&treeEntries, &selectedTreeIndex, menuOption);
         plantInfoRenderer,
     });
 
-    // FIXED: Scrollable selected info with mouse wheel support
     auto selectedInfoRenderer_Base = Renderer([&] {
         return paragraph(selectedInfoText) | color(Color::GrayLight) |
                 vscroll_indicator | yframe |
@@ -335,7 +333,6 @@ auto treeMenu = Menu(&treeEntries, &selectedTreeIndex, menuOption);
     }) | size(HEIGHT, EQUAL, 10);
 
     auto selectedInfoRenderer = CatchEvent(selectedInfoRenderer_Base, [&](Event event) {
-        // Mouse wheel scrolling (works without focus)
         if (event.is_mouse() && event.mouse().button == Mouse::WheelUp) {
             selectedInfoScrollY = std::max(0, selectedInfoScrollY - 1);
             return true;
@@ -344,8 +341,7 @@ auto treeMenu = Menu(&treeEntries, &selectedTreeIndex, menuOption);
             selectedInfoScrollY++;
             return true;
         }
-        
-        // Arrow key scrolling when focused
+
         if (event == Event::ArrowUp) {
             selectedInfoScrollY = std::max(0, selectedInfoScrollY - 1);
             return true;
@@ -354,8 +350,7 @@ auto treeMenu = Menu(&treeEntries, &selectedTreeIndex, menuOption);
             selectedInfoScrollY++;
             return true;
         }
-        
-        // Click to focus
+
         if (event.is_mouse() && event.mouse().button == Mouse::Left && event.mouse().motion == Mouse::Pressed) {
             selectedInfoRenderer_Base->TakeFocus();
             return true;
