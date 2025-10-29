@@ -23,11 +23,8 @@
 class Autumn : public PlantAttributes
 {
 	public:
-		/**
-         * @brief Constructs an Autumn decorator, wrapping the given component.
-         * * Calls the base PlantAttributes constructor with specific Autumn
-         * decoration details (name, price modifier, and care modifiers).
-         * * @param component The PlantComponent to decorate.
+        /**
+         * @brief Constructs an Autumn decorator.
          */
         Autumn();
 

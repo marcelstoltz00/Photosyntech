@@ -35,7 +35,7 @@
  * - Concrete iterators implement filtering logic
  *
  * @see Aggregate (creates iterators)
- * @see Concrete iterators: PlantIterator, SpringIterator, etc.
+ * @see Concrete iterators: PlantIterator, SeasonIterator
  */
 class Aggregate;
 

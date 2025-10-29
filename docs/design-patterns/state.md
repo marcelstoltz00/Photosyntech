@@ -82,7 +82,7 @@ The **State** pattern manages **plant lifecycle behavior** through these interac
 - **Observer Pattern**: State changes trigger notifications to staff via subject interface
 - **Builder Pattern**: Plants initialized in Seed state during construction
 - **Strategy Pattern**: State affects water and sun exposure strategies
-- **Command Pattern**: Staff actions may trigger state transitions
+- **Facade Pattern**: Care operations may trigger state transitions through plant lifecycle
 - **Composite Pattern**: Group state aggregates individual plant states
 - **Decorator Pattern**: State affects decorated properties (e.g., mature plant pricing)
 - **Prototype Pattern**: Cloned plants preserve their current state

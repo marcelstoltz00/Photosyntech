@@ -116,7 +116,7 @@ DOT_IMAGE_FORMAT       = svg
 INTERACTIVE_SVG        = YES
 
 # Control diagram complexity (prevent overwhelming diagrams)
-MAX_DOT_GRAPH_DEPTH    = 5
+MAX_DOT_GRAPH_DEPTH    = 10
 DOT_MULTI_TARGETS      = YES
 
 # ==============================================================================

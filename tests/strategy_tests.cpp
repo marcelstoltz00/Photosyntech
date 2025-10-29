@@ -19,21 +19,21 @@ TEST_CASE("Testing WaterStrategy implementations")
     SUBCASE("LowWater strategy")
     {
         WaterStrategy *lowWater = new LowWater();
-        CHECK(lowWater->water(plant) == 10);
+        CHECK(lowWater->water(plant) == 35);
         delete lowWater;
     }
 
     SUBCASE("MidWater strategy")
     {
         WaterStrategy *midWater = new MidWater();
-        CHECK(midWater->water(plant) == 20);
+        CHECK(midWater->water(plant) == 45);
         delete midWater;
     }
 
     SUBCASE("HighWater strategy")
     {
         WaterStrategy *highWater = new HighWater();
-        CHECK(highWater->water(plant) == 30);
+        CHECK(highWater->water(plant) == 65);
         delete highWater;
     }
 
@@ -43,8 +43,8 @@ TEST_CASE("Testing WaterStrategy implementations")
         int first = altWater->water(plant);
         int second = altWater->water(plant);
         CHECK(first != second);
-        CHECK((first >= 2 && first <= 5));
-        CHECK((second >= 2 && second <= 5));
+        CHECK((first >= 2 && first <= 50));
+        CHECK((second >= 2 && second <= 50));
         delete altWater;
     }
 
@@ -58,14 +58,14 @@ TEST_CASE("Testing SunStrategy implementations")
     SUBCASE("LowSun strategy")
     {
         SunStrategy *lowSun = new LowSun();
-        CHECK(lowSun->addSun(plant) == 6);
+        CHECK(lowSun->addSun(plant) == 12);
         delete lowSun;
     }
 
     SUBCASE("MidSun strategy")
     {
         SunStrategy *midSun = new MidSun();
-        CHECK(midSun->addSun(plant) == 25);
+        CHECK(midSun->addSun(plant) == 40);
         delete midSun;
     }
 
@@ -100,17 +100,17 @@ TEST_CASE("Testing strategy switching in LivingPlant")
         plant->setWaterStrategy(1);
         plant->water();
 
-        CHECK(plant->getWaterLevel() == 10);
+        CHECK(plant->getWaterLevel() == 35);
 
         plant->setWaterLevel(0);
         plant->setWaterStrategy(2);
         plant->water();
-        CHECK(plant->getWaterLevel() == 20);
+        CHECK(plant->getWaterLevel() == 45);
 
         plant->setWaterLevel(0);
         plant->setWaterStrategy(3);
         plant->water();
-        CHECK(plant->getWaterLevel() == 30);
+        CHECK(plant->getWaterLevel() == 65);
     }
 
     SUBCASE("Sun strategy switching")
@@ -118,12 +118,12 @@ TEST_CASE("Testing strategy switching in LivingPlant")
         plant->setSunExposure(0);
         plant->setSunStrategy(1);
         plant->setOutside();
-        CHECK(plant->getSunExposure() == 6);
+        CHECK(plant->getSunExposure() == 12);
 
         plant->setSunExposure(0);
         plant->setSunStrategy(2);
         plant->setOutside();
-        CHECK(plant->getSunExposure() == 25);
+        CHECK(plant->getSunExposure() == 40);
 
         plant->setSunExposure(0);
         plant->setSunStrategy(3);

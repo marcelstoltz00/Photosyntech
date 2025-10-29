@@ -22,8 +22,7 @@ class SmallLeaf : public PlantAttributes
 {
 	public:
         /**
-         * @brief Constructs a SmallLeaf decorator, wrapping the given component.
-         * @param component The PlantComponent to decorate.
+         * @brief Constructs a SmallLeaf decorator.
          */
         SmallLeaf();
 

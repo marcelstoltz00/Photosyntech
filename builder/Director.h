@@ -17,6 +17,7 @@
  * 3. Assign sun strategy
  * 4. Assign maturity state
  * 5. Add decorators (season and plant attributes)
+ * 6. Set up initial health, water, and sun levels
  * 
  * @see Builder The abstract builder interface that defines construction steps
  * @see LivingPlant The product being constructed
@@ -43,6 +44,7 @@ class Director
 		 * 3. assignSunStrategy() - Sets sun exposure needs
 		 * 4. assignMaturityState() - Sets initial growth state
 		 * 5. addDecorators() - Adds season and plant attributes
+		 * 6. setUp() - Sets up initial health, water, and sun levels
 		 * 
 		 * If no builder is assigned (null), the method returns without constructing.
 		 */
@@ -52,8 +54,8 @@ class Director
 		 * @brief Retrieves the constructed plant from the builder.
 		 * @return Pointer to the fully constructed PlantComponent object, or nullptr if no builder is assigned.
 		 * 
-		 * The returned plant is a clone of the builder's template object,
-		 * allowing the builder to be reused for creating multiple instances.
+		 * The builder's getResult() method is called to get the constructed plant.
+		 * The builder implementation determines whether a new instance or a pointer to the same instance is returned.
 		 */
 		PlantComponent* getPlant();
 };

@@ -35,24 +35,96 @@ Staff::Staff(std::string name) : User(name)
 {
     this->name = name;
 }
-
+//This is updated to add more to the suggestion. also checks directly from the inventory so i replaced the other temp list i made. it still randomised though.
 string Staff::assistSuggestion()
 {
-    Inventory *inventory = Inventory::getInstance();
-    if (!inventory)
-        return "No inventory";
+    Inventory* inventory = Inventory::getInstance();
+    if (!inventory) {
+        return "Sorry, I can't access our inventory right now. Please check back later.\n";
+    }
 
-    // Temporary plant list for all seasons, can be expanded as needed with flyweights
-    std::vector<std::string> plantKeys = {
-        "Sunflower", "Rose", "Jade Plant", "Maple",
-        "Cactus", "Cherry Blossom", "Lavender", "Pine"};
+    PlantGroup* currentInventory = inventory->getInventory();
+    if (!currentInventory || currentInventory->getPlants()->empty()) {
+        return "I'm sorry, but our inventory is currently empty. Please check back later when we have new plants in stock.\n";
+    }
 
-    // Randomly select a plant
+    auto plants = currentInventory->getPlants();
+    
+    std::vector<LivingPlant*> availablePlants;
+    for (auto plant : *plants) {
+        LivingPlant* livingPlant = dynamic_cast<LivingPlant*>(plant);
+        if (livingPlant) {
+            availablePlants.push_back(livingPlant);
+        }
+    }
+
+    if (availablePlants.empty()) {
+        return "We have plants in inventory, but none are available for recommendations at the moment.\n";
+    }
+
     std::srand(static_cast<unsigned int>(std::time(nullptr)));
-    int idx = std::rand() % plantKeys.size();
+    int idx = std::rand() % availablePlants.size();
+    LivingPlant* selectedPlant = availablePlants[idx];
+    std::string plantType = selectedPlant->getName();
 
-    std::string recommendation = this->name + ": recommends the " + plantKeys[idx] + ".";
-    std::cout << recommendation << std::endl;
+    std::string recommendation = "\nYou know, based on what we have in stock right now, I'd really recommend our " + plantType + ".\n";
+    
+    if (plantType.find("Maple") != std::string::npos || 
+        plantType.find("Pine") != std::string::npos || 
+        plantType.find("Cherry") != std::string::npos) {
+        recommendation += "It's a tree, so it's more of a long-term investment for your garden. ";
+        if (plantType.find("Maple") != std::string::npos) 
+            recommendation += "The Maple gives you those gorgeous fall colors - really transforms your yard in autumn.";
+        else if (plantType.find("Pine") != std::string::npos)
+            recommendation += "The Pine stays green all year round and doesn't need much maintenance, which is great if you're busy.";
+        else if (plantType.find("Cherry") != std::string::npos)
+            recommendation += "The Cherry Blossom puts on an amazing show in spring - the flowers are just spectacular.";
+        recommendation += " Just keep in mind it'll need regular watering and plenty of space to grow.\n";
+        
+    } else if (plantType.find("Rose") != std::string::npos || 
+               plantType.find("Sunflower") != std::string::npos || 
+               plantType.find("Lavender") != std::string::npos) {
+        recommendation += "This is one of our flowering plants - perfect if you want some seasonal color. ";
+        if (plantType.find("Rose") != std::string::npos)
+            recommendation += "Roses are classic, though watch out for the thorns when you're pruning them.";
+        else if (plantType.find("Sunflower") != std::string::npos) 
+            recommendation += "Sunflowers grow really fast and the bees absolutely love them - great for your garden ecosystem.";
+        else if (plantType.find("Lavender") != std::string::npos)
+            recommendation += "Lavender smells amazing, doesn't need much water, and the purple flowers are just lovely.";
+        recommendation += " They do best with regular watering and lots of sunlight.\n";
+        
+    } else if (plantType.find("Cactus") != std::string::npos || 
+               plantType.find("Jade") != std::string::npos ||
+               plantType.find("Succulent") != std::string::npos) {
+        recommendation += "If you're looking for something low-maintenance, this is perfect. ";
+        if (plantType.find("Cactus") != std::string::npos)
+            recommendation += "Cacti are practically indestructible - they store water so you can't really overwater them.";
+        else if (plantType.find("Jade") != std::string::npos)
+            recommendation += "Jade plants are supposed to bring good luck, and they're super easy to grow from cuttings.";
+        else
+            recommendation += "Succulents are great for beginners - they're hardy and don't need constant attention.";
+        recommendation += " They don't need much attention and do great indoors or in sunny spots.\n";
+    } else {
+        recommendation += "This is one of our quality plants that's been growing well in our nursery. ";
+        recommendation += "It's a great choice that should adapt well to most home environments.\n";
+    }
+
+    recommendation += "This particular " + plantType + " is priced at R" + 
+                     std::to_string(static_cast<int>(selectedPlant->getPrice())) + 
+                     " and comes with our quality guarantee.\n";
+
+    std::vector<std::string> expertiseComments = {
+        "We've been getting great feedback on these from other customers.",
+        "I actually have one of these at home myself - they're really easy to care for.",
+        "These just came in fresh this week, so you're getting the pick of the bunch.",
+        "This time of year is perfect for planting these - they'll establish really well.",
+        "I've been caring for these myself and they're in excellent health.",
+        "This variety has been particularly popular with our customers lately."
+    };
+    
+    int commentIdx = std::rand() % expertiseComments.size();
+    recommendation += expertiseComments[commentIdx] + " Would you like me to show you where we keep them?\n";
+    
     return recommendation;
 }
 
