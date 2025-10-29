@@ -16,8 +16,7 @@ fetch-doctest:
 	fi
 
 
-
-TEST_SRC = unitTests.cpp\
+TEST_SRC = tests/tests_core.cpp\
             strategy/LowWater.cpp\
             strategy/MidWater.cpp\
             strategy/HighWater.cpp\
@@ -25,33 +24,39 @@ TEST_SRC = unitTests.cpp\
             strategy/LowSun.cpp\
             strategy/MidSun.cpp\
             strategy/HighSun.cpp\
+            strategy/AlternatingSun.cpp\
             singleton/Singleton.cpp\
             prototype/LivingPlant.cpp\
             composite/PlantComponent.cpp\
+            composite/PlantGroup.cpp\
             state/Dead.cpp\
             state/Mature.cpp\
             state/Seed.cpp\
             state/Vegetative.cpp\
             decorator/PlantAttributes.cpp\
             decorator/ConcreteDecorators.cpp\
-			strategy/AlternatingSun.cpp\
-			composite/PlantGroup.cpp\
-			builder/Director.cpp\
-			builder/RoseBuilder.cpp\
-			builder/CactusBuilder.cpp\
-			iterator/Aggregate.cpp\
-			iterator/AggPlant.cpp\
-			iterator/AggSeason.cpp\
-			iterator/PlantIterator.cpp\
-			iterator/SeasonIterator.cpp\
-			   mediator/Mediator.cpp \
-			   mediator/Customer.cpp \
-			   mediator/SalesFloor.cpp \
-			   mediator/Staff.cpp \
-			   mediator/SuggestionFloor.cpp\
-			   observer/Observer.cpp \
-			   observer/Subject.cpp \
-               builder/Builder.cpp\
+            builder/Builder.cpp\
+            builder/Director.cpp\
+            builder/RoseBuilder.cpp\
+            builder/CactusBuilder.cpp\
+            builder/CherryBlossomBuilder.cpp\
+            builder/SunflowerBuilder.cpp\
+            builder/PineBuilder.cpp\
+            builder/MapleBuilder.cpp\
+            builder/JadePlantBuilder.cpp\
+            builder/LavenderBuilder.cpp\
+            iterator/Aggregate.cpp\
+            iterator/AggPlant.cpp\
+            iterator/AggSeason.cpp\
+            iterator/PlantIterator.cpp\
+            iterator/SeasonIterator.cpp\
+            mediator/Mediator.cpp\
+            mediator/Customer.cpp\
+            mediator/SalesFloor.cpp\
+            mediator/Staff.cpp\
+            mediator/SuggestionFloor.cpp\
+            observer/Observer.cpp\
+            observer/Subject.cpp
 
 SRC = $(TEST_SRC)
 OBJ := $(SRC:.cpp=.o)
@@ -97,62 +102,6 @@ valgrind v: $(BIN)
 
 leaks: $(BIN)
 	leaks --atExit -- ./$(BIN)
-
-# Demo target for PhotosyntechDemoMain.cpp
-DEMO_SRC = PhotosyntechDemoMain.cpp\
-            strategy/LowWater.cpp\
-            strategy/MidWater.cpp\
-            strategy/HighWater.cpp\
-            strategy/AlternatingWater.cpp\
-            strategy/LowSun.cpp\
-            strategy/MidSun.cpp\
-            strategy/HighSun.cpp\
-            strategy/AlternatingSun.cpp\
-            singleton/Singleton.cpp\
-            prototype/LivingPlant.cpp\
-            composite/PlantComponent.cpp\
-            composite/PlantGroup.cpp\
-            state/Dead.cpp\
-            state/Mature.cpp\
-            state/Seed.cpp\
-            state/Vegetative.cpp\
-            decorator/PlantAttributes.cpp\
-            decorator/ConcreteDecorators.cpp\
-            builder/Builder.cpp\
-            builder/Director.cpp\
-            builder/RoseBuilder.cpp\
-            builder/SunflowerBuilder.cpp\
-            builder/CactusBuilder.cpp\
-            builder/PineBuilder.cpp\
-            builder/MapleBuilder.cpp\
-            builder/JadePlantBuilder.cpp\
-            builder/LavenderBuilder.cpp\
-            builder/CherryBlossomBuilder.cpp\
-            iterator/Aggregate.cpp\
-            iterator/AggPlant.cpp\
-            iterator/AggSeason.cpp\
-            iterator/PlantIterator.cpp\
-            iterator/SeasonIterator.cpp\
-            mediator/Mediator.cpp\
-            mediator/Customer.cpp\
-            mediator/SalesFloor.cpp\
-            mediator/Staff.cpp\
-            mediator/SuggestionFloor.cpp\
-            observer/Observer.cpp\
-            observer/Subject.cpp
-
-DEMO_OBJ := $(DEMO_SRC:.cpp=.o)
-DEMO_BIN := photosyntech_demo
-
-.PHONY: demo demo-run
-
-demo: $(DEMO_BIN)
-
-$(DEMO_BIN): $(DEMO_OBJ)
-	$(CXX) $(CXXFLAGS) -o $@ $^
-
-demo-run: demo
-	./$(DEMO_BIN)
 
 # Documentation generation targets
 .PHONY: docs doxygen

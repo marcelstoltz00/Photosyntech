@@ -153,11 +153,6 @@
     <class kind="class">PineBuilder</class>
   </compound>
   <compound kind="file">
-    <name>PlantLayouts.md</name>
-    <path>builder/</path>
-    <filename>_plant_layouts_8md.html</filename>
-  </compound>
-  <compound kind="file">
     <name>RoseBuilder.cpp</name>
     <path>builder/</path>
     <filename>_rose_builder_8cpp.html</filename>
@@ -199,43 +194,6 @@
     <filename>_sunflower_builder_8h.html</filename>
     <includes id="_builder_8h" name="Builder.h" local="yes" import="no" module="no" objc="no">Builder.h</includes>
     <class kind="class">SunflowerBuilder</class>
-  </compound>
-  <compound kind="file">
-    <name>TemplatePlantBuilder.h</name>
-    <path>builder/</path>
-    <filename>_template_plant_builder_8h.html</filename>
-    <includes id="_builder_8h" name="Builder.h" local="yes" import="no" module="no" objc="no">Builder.h</includes>
-    <includes id="_living_plant_8h" name="LivingPlant.h" local="yes" import="no" module="no" objc="no">../prototype/LivingPlant.h</includes>
-    <includes id="_seed_8h" name="Seed.h" local="yes" import="no" module="no" objc="no">../state/Seed.h</includes>
-    <class kind="class">TemplatePlantBuilder</class>
-    <member kind="typedef">
-      <type>TemplatePlantBuilder&lt; Tree, MidSun, MidWater &gt;</type>
-      <name>CherryBlossomBuilder</name>
-      <anchorfile>_template_plant_builder_8h.html</anchorfile>
-      <anchor>a0afebf6af002e9ba7a8c5094460c4e16</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>TemplatePlantBuilder&lt; Succulent, HighSun, LowWater &gt;</type>
-      <name>CactusBuilder</name>
-      <anchorfile>_template_plant_builder_8h.html</anchorfile>
-      <anchor>af141432088ef8ad2ef24360cad1408fa</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>TemplatePlantBuilder&lt; Shrub, MidSun, MidWater &gt;</type>
-      <name>RoseBuilder</name>
-      <anchorfile>_template_plant_builder_8h.html</anchorfile>
-      <anchor>aba5c36bb093f7fc459d66bf20645aadb</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="typedef">
-      <type>TemplatePlantBuilder&lt; Herb, HighSun, MidWater &gt;</type>
-      <name>SunflowerBuilder</name>
-      <anchorfile>_template_plant_builder_8h.html</anchorfile>
-      <anchor>a5ebef00bf2977ec3d3d01eb9e7dbd6ec</anchor>
-      <arglist></arglist>
-    </member>
   </compound>
   <compound kind="file">
     <name>AddToInventoryCommand.h</name>
@@ -1809,32 +1767,18 @@
       <arglist>(int level)</arglist>
     </member>
     <member kind="function">
-      <type>PlantGroup *</type>
-      <name>getInventory</name>
-      <anchorfile>class_inventory.html</anchorfile>
-      <anchor>adc4cf0901be89dc8e5dfafe8ee463ce0</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type></type>
-      <name>Inventory</name>
-      <anchorfile>class_inventory.html</anchorfile>
-      <anchor>a166bec78191cca82ee7693b4c51ad038</anchor>
-      <arglist>(const Inventory &amp;)=delete</arglist>
-    </member>
-    <member kind="function">
-      <type>Inventory &amp;</type>
-      <name>operator=</name>
-      <anchorfile>class_inventory.html</anchorfile>
-      <anchor>a0fe260952bbcd6a52d7ef3b9faff955f</anchor>
-      <arglist>(const Inventory &amp;)=delete</arglist>
-    </member>
-    <member kind="function">
       <type>Flyweight&lt; MaturityState * &gt; *</type>
       <name>getStates</name>
       <anchorfile>class_inventory.html</anchorfile>
       <anchor>a6228147f49fd3d60ff94a9bfbef60add</anchor>
       <arglist>(int id)</arglist>
+    </member>
+    <member kind="function">
+      <type>PlantGroup *</type>
+      <name>getInventory</name>
+      <anchorfile>class_inventory.html</anchorfile>
+      <anchor>adc4cf0901be89dc8e5dfafe8ee463ce0</anchor>
+      <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>vector&lt; Customer * &gt; *</type>
@@ -1861,8 +1805,8 @@
       <type>void</type>
       <name>addCustomer</name>
       <anchorfile>class_inventory.html</anchorfile>
-      <anchor>a2cc7a8c0f7f4df777a5944fa9a3512f0</anchor>
-      <arglist>(Customer *Customer)</arglist>
+      <anchor>aad06a233309865e9c8cda4e2715a3f81</anchor>
+      <arglist>(Customer *customer)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -2394,13 +2338,6 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
-      <name>update</name>
-      <anchorfile>class_living_plant.html</anchorfile>
-      <anchor>aaa373b13d0ddd1bbe972ef6b01820b4a</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
       <type>int</type>
       <name>affectSunlight</name>
       <anchorfile>class_living_plant.html</anchorfile>
@@ -2412,6 +2349,13 @@
       <name>affectWater</name>
       <anchorfile>class_living_plant.html</anchorfile>
       <anchor>acd36a3775427da6a2d94650444421484</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>update</name>
+      <anchorfile>class_living_plant.html</anchorfile>
+      <anchor>aaa373b13d0ddd1bbe972ef6b01820b4a</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -2996,20 +2940,6 @@
       <arglist>(const PlantAttributes &amp;other)</arglist>
     </member>
     <member kind="function">
-      <type>std::string</type>
-      <name>getInfo</name>
-      <anchorfile>class_plant_attributes.html</anchorfile>
-      <anchor>a0a6089d0d4c957c4ce785ada3ca5c707</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>double</type>
-      <name>getPrice</name>
-      <anchorfile>class_plant_attributes.html</anchorfile>
-      <anchor>aac48b6756a983774e764e26c5e56edd3</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
       <type>int</type>
       <name>affectSunlight</name>
       <anchorfile>class_plant_attributes.html</anchorfile>
@@ -3021,6 +2951,20 @@
       <name>affectWater</name>
       <anchorfile>class_plant_attributes.html</anchorfile>
       <anchor>a11afe351a549e62ba6d441d2ca1f772c</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>std::string</type>
+      <name>getInfo</name>
+      <anchorfile>class_plant_attributes.html</anchorfile>
+      <anchor>a0a6089d0d4c957c4ce785ada3ca5c707</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>double</type>
+      <name>getPrice</name>
+      <anchorfile>class_plant_attributes.html</anchorfile>
+      <anchor>aac48b6756a983774e764e26c5e56edd3</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -4388,98 +4332,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>TemplatePlantBuilder</name>
-    <filename>class_template_plant_builder.html</filename>
-    <templarg>typename PlantType</templarg>
-    <templarg>typename SunStrategyType</templarg>
-    <templarg>typename WaterStrategyType</templarg>
-    <base>Builder</base>
-    <member kind="function">
-      <type></type>
-      <name>TemplatePlantBuilder</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>af101cfad178e6ccd67cf322d253b7966</anchor>
-      <arglist>(int health=100, int water=50, int sun=50)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>createObject</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>aaafa2a70b4163e67cea3982f4ced0601</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>assignWaterStrategy</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>a9c772b481364aa8c542aba9f8b3e4d9f</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>assignSunStrategy</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>a73ff70ecea95f0927a7f18dfa8a7f6c5</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>assignMaturityState</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>a379c6cc98e622db7966c2725dda22c9e</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>setUp</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>a9c2b8244a1025e07ae2e69cda6e27d2e</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>PlantComponent *</type>
-      <name>getResult</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>af13b053199b5e8e42a39268d647de9fc</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~TemplatePlantBuilder</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>a66a22d653caaf11f7fc61966ece591f8</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="variable" protection="private">
-      <type>LivingPlant *</type>
-      <name>plant</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>a682e0d2f892db2923f1e3085d4b3535a</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private">
-      <type>int</type>
-      <name>initialHealth</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>a815cb1e4e1507689ce82926e30c84e60</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private">
-      <type>int</type>
-      <name>initialWater</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>ac34a3e68a7c0ee5baca3c1db0cd507ea</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable" protection="private">
-      <type>int</type>
-      <name>initialSun</name>
-      <anchorfile>class_template_plant_builder.html</anchorfile>
-      <anchor>a155a24a2acee7ae8c727f044e1783580</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>Thorns</name>
     <filename>class_thorns.html</filename>
     <base>PlantAttributes</base>
@@ -4714,11 +4566,6 @@
       <anchor>a6f9075f74d97c1e08eeab62d5644b72d</anchor>
       <arglist>()</arglist>
     </member>
-  </compound>
-  <compound kind="page">
-    <name>md_builder_2_plant_layouts</name>
-    <title>Plant Layouts by Season</title>
-    <filename>md_builder_2_plant_layouts.html</filename>
   </compound>
   <compound kind="page">
     <name>md_docs_2design-patterns_2builder</name>
