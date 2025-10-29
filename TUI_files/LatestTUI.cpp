@@ -352,6 +352,7 @@ int main() {
         currentCustomerPlant = nursery.findPlant(customerTreeIndex);
         customerTreeIndex = 0;
         refreshCustomerBasket(nursery, basketNames, currentCustomer);
+        refreshInventoryView(nursery);
     });
 
     auto purchaseBtn = Button("Purchase Plants", [&] {
@@ -380,31 +381,6 @@ auto viewInventoryPlantButton = Button("View Plant", [&] {
     }
 });
 
-auto viewAvailablePlantButton = Button("View Plant", [&] {
-    currentCustomerPlant = nursery.findPlant(customerTreeIndex); 
-    if (currentCustomerPlant) {
-        
-        plantToView = currentCustomerPlant;
-        previousTab = tabSelected;
-        tabSelected = 2;
-
-        screen.Post([]{});
-    
-    }
-});
-
-auto viewBasketPlantButton = Button("View Plant", [&] {
-    PlantComponent* plant = nursery.getPlantFromBasket(currentCustomer, customerBasketIndex);
-    if (plant) {
-        
-        plantToView = plant; 
-        previousTab = tabSelected; 
-        tabSelected = 2; 
-
-        screen.Post([]{});
-    
-    }
-});
 
     int tabSelected = 0;
     std::vector<std::string> tabTitles = {
@@ -475,14 +451,30 @@ auto viewBasketPlantButton = Button("View Plant", [&] {
     });
 
 
-    auto waterSlider = Slider("Water", &water, 0.0f, 200.0f, 1.0f);
-    auto waterStyled = Renderer(waterSlider, [&] {
-        return waterSlider->Render() | color(Color::Blue) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90);
-    });
+ftxui::SliderOption<int> water_slider_option;
+water_slider_option.value = &water;
+water_slider_option.min = 0;
+water_slider_option.max = 200;
+water_slider_option.increment = 1;
+water_slider_option.color_active = ftxui::Color::Blue;
+water_slider_option.color_inactive = ftxui::Color::GrayDark;
 
-    auto sunSlider = Slider("Sun", &sun, 0.0f, 200.0f, 1.0f);
+
+    auto waterSlider = Slider(water_slider_option);
+    auto waterStyled = Renderer(waterSlider, [&] {
+        return waterSlider->Render()  | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90);
+    });
+ftxui::SliderOption<int> sun_slider_option;
+sun_slider_option.value = &sun;
+sun_slider_option.min = 0;
+sun_slider_option.max = 200;
+sun_slider_option.increment = 1;
+sun_slider_option.color_active = ftxui::Color::Yellow;
+sun_slider_option.color_inactive = ftxui::Color::GrayDark;
+
+    auto sunSlider = Slider(sun_slider_option);
     auto sunStyled = Renderer(sunSlider, [&] {
-        return sunSlider->Render() | color(Color::Red) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90);
+        return sunSlider->Render()  | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90);
     });
 
     auto backButton = Button("<< Back", [&] {
@@ -521,8 +513,6 @@ auto viewBasketPlantButton = Button("View Plant", [&] {
             basketAddBtn,
             purchaseBtn,
             removeFromBasket,
-            viewAvailablePlantButton,
-            viewBasketPlantButton
         }),
         Container::Horizontal({
             customerMenu,
@@ -652,16 +642,17 @@ auto viewBasketPlantButton = Button("View Plant", [&] {
                 hbox({
                     window(text("Available Plants") | bold | color(Color::Cyan), customerMenu->Render())
                     | size(WIDTH, GREATER_THAN, 100)
-                    | size(HEIGHT, GREATER_THAN, 15),
+                    | size(HEIGHT, GREATER_THAN, 12),
                     window(text(currentCustomer->getName() + "'s basket") | bold | color(Color::Cyan), customerBasket->Render())
                     | size(WIDTH, GREATER_THAN, 100)
-                    | size(HEIGHT, GREATER_THAN, 15)
+                    | size(HEIGHT, GREATER_THAN, 12)
                 }),
 
                 hbox({
-                    waterStyled->Render(),
+                    
+                    window (text("Water Level"),{waterStyled->Render()}),
                     filler(),
-                    sunStyled->Render(),
+                     window (text("Sun level"),{sunStyled->Render()}),
                 }),
                 filler(),
 
@@ -676,7 +667,7 @@ auto viewBasketPlantButton = Button("View Plant", [&] {
 
                 vbox({
                     basketAddBtn->Render() | color(Color::Green),
-                    viewAvailablePlantButton->Render() | color(Color::Cyan)
+            
                 }) | size(WIDTH, EQUAL, 25),
 
                 filler(),
@@ -685,7 +676,7 @@ auto viewBasketPlantButton = Button("View Plant", [&] {
 
                 vbox({
                     removeFromBasket->Render() | color(Color::Red),
-                    viewBasketPlantButton->Render() | color(Color::Cyan)
+
                 }) | size(WIDTH, EQUAL, 25)
 
         }) | border | size(WIDTH, EQUAL, 200),
