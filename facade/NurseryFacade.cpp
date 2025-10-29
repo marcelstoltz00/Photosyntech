@@ -89,6 +89,38 @@ std::string NurseryFacade::getPlantInfo(PlantComponent *plant)
     return plant ? plant->getInfo() : "No plant selected";
 }
 
+PlantComponent* NurseryFacade::getPlantFromBasket(Customer* customer, int index)
+{
+    if (customer && customer->getBasket() && customer->getBasket()->getPlants())
+    {
+        if (customer->getBasket()->getPlants()->empty() || index < 0 || index >= customer->getBasket()->getPlants()->size())
+        {
+            return nullptr;
+        }
+
+        AggPlant* agg = new AggPlant(customer->getBasket()->getPlants());
+        Iterator* itr = agg->createIterator();
+        int count = 0;
+
+        while (!itr->isDone() && count != index)
+        {
+            itr->next();
+            count++;
+        }
+
+        PlantComponent* curr = nullptr;
+        if (!itr->isDone())
+        {
+            curr = itr->currentItem();
+        }
+
+        delete agg;
+        delete itr;
+        return curr;
+    }
+    return nullptr;
+}
+
 std::vector<std::string> NurseryFacade::getAvailablePlantTypes()
 {
     return {

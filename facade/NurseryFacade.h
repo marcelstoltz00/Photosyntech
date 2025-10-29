@@ -169,6 +169,11 @@ public:
      */
     void setObserver(Staff *staff, PlantGroup *);
 
+    /**
+ * @brief Gets a plant from the customer's basket by index.
+ */
+PlantComponent* getPlantFromBasket(Customer* customer, int index);
+
     std::list<PlantComponent *> getCustomerPlants(Customer *);
 
     std::vector<string> getMenuString();
