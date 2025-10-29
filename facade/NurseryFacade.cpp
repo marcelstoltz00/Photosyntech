@@ -117,6 +117,12 @@ PlantGroup *NurseryFacade::createPlantGroup()
     return newGroup;
 }
 
+PlantGroup *NurseryFacade::createPlantGroup(const std::string &name)
+{
+    PlantGroup *newGroup = new PlantGroup(name);
+    return newGroup;
+}
+
 void NurseryFacade::addComponentToGroup(PlantComponent *parent, PlantComponent *child)
 {
     PlantGroup *group = dynamic_cast<PlantGroup *>(parent);

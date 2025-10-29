@@ -22,6 +22,8 @@ private:
 	// This is the list of observers
 	std::list<Observer *> observers;
 
+	std::string groupName = "";
+
 	/**
 	 * @brief Notifies observers that plants in this group need water.
 	 */
@@ -39,9 +41,14 @@ private:
 
 public:
 	/**
-	 * @brief Constructs a PlantGroup with 0 as attributes.
+	 * @brief Constructs a PlantGroup with 0 attributes.
 	 */
 	PlantGroup();
+
+	/**
+	 * @brief Constructs a PlantGroup with a name
+	 */
+	PlantGroup(std::string groupName);
 
 	/**
 	 * @brief Copy constructor for deep copying the group hierarchy.
@@ -106,10 +113,21 @@ public:
 	int affectSunlight() ;
 
 	/**
+	 * @brief Gets names in group as a formatted string.
+	 * @return String containing plant names.
+	 */
+	std::string getName() ;
+
+	/**
 	 * @brief Gets group name as a formatted string.
 	 * @return String containing group name.
 	 */
-	std::string getName() ;
+	std::string getGroupName() ;
+
+	/**
+	 * @brief Sets group name as a formatted string.
+	 */
+    void setGroupName(std::string newGroupName);
 
 	/**
 	 * @brief Gets the total price of all plants in this group.

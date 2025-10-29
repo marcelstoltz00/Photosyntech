@@ -22,6 +22,10 @@ PlantGroup::~PlantGroup()
     }
 }
 
+PlantGroup::PlantGroup(std::string groupName)
+    : PlantComponent(0.0, 0, 0), groupName(groupName) {
+}
+
 PlantGroup::PlantGroup(const PlantGroup &other)
     : PlantComponent(other)
 {
@@ -86,6 +90,14 @@ ComponentType PlantGroup::getType() const
 PlantComponent *PlantGroup::clone()
 {
     return new PlantGroup(*this);
+};
+
+void PlantGroup::setGroupName(std::string newGroupName){
+    this->groupName = newGroupName;
+}
+
+std::string PlantGroup::getGroupName(){
+    return this->groupName;
 };
 
 void PlantGroup::update()
@@ -163,7 +175,6 @@ bool PlantGroup::removeComponent(PlantComponent *component) {
         return true;
     }
 
-    // 2. Recursively check subgroups
     for (PlantComponent* child : plants) {
         if (child->getType() == ComponentType::PLANT_GROUP) {
             PlantGroup* childGroup = dynamic_cast<PlantGroup*>(child);
@@ -173,7 +184,6 @@ bool PlantGroup::removeComponent(PlantComponent *component) {
         }
     }
 
-    // 3. Not found in this group or any of its subgroups
     return false;
 }
 

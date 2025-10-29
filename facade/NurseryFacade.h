@@ -124,6 +124,8 @@ public:
 
     PlantGroup *createPlantGroup();
 
+    PlantGroup *createPlantGroup(const std::string& name);
+
     void addComponentToGroup(PlantComponent *parent, PlantComponent *child);
 
     bool startNurseryTick();
