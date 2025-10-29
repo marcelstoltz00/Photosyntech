@@ -2,42 +2,56 @@
 #define PHOTOSYNTECH_SEASONITERATOR_H
 
 #include "Iterator.h"
+#include "StackFrame.h"
 #include "../prototype/LivingPlant.h"
 #include "../composite/PlantComponent.h"
 #include "../composite/PlantGroup.h"
 #include <stack>
 
 /**
- * @brief Generic concrete iterator for filtering plants by season.
+ * @brief Generic bidirectional concrete iterator for filtering plants by season.
  *
  * Iterates through a plant collection returning only plants whose getSeason()
  * method matches the target season string. Handles nested hierarchies by
- * recursively descending into PlantGroups to find matching LivingPlants.
+ * descending into PlantGroups to find matching LivingPlants. Supports bidirectional
+ * traversal, maintaining season filtering in both forward (next()) and backward (back())
+ * directions.
  *
  * **System Role:**
- * Generic iterator for browsing season-specific plants. Enables customers to
- * view and select plants appropriate for any season (Spring, Summer, Autumn, Winter).
- * Skips non-matching plants during traversal, providing focused seasonal inventory access.
+ * Generic iterator for browsing season-specific plants bidirectionally. Enables
+ * customers to view and select plants appropriate for any season (Spring, Summer,
+ * Autumn, Winter). Skips non-matching plants during traversal in both directions,
+ * providing focused seasonal inventory access with flexible navigation.
  *
- * **Pattern Role:** Concrete Iterator (season-specific filtering with composite support)
+ * **Pattern Role:** Concrete Iterator (bidirectional season-specific filtering with composite support)
  *
  * **Related Patterns:**
- * - Iterator: Implements filtering traversal interface
+ * - Iterator: Implements bidirectional filtering traversal interface
  * - Aggregate: Created by AggSeason aggregate factory
  * - Decorator: Filters plants based on their seasonal decorator chain (via getSeason())
- * - Composite: Handles nested PlantGroup hierarchies
+ * - Composite: Handles nested PlantGroup hierarchies in both directions
+ * - Flyweight: Leverages shared season string pointers for O(1) comparison
  *
  * **System Interactions:**
  * - first() finds first plant matching target season
- * - next() advances to next matching plant
+ * - next() advances to next matching plant, skipping non-matches
+ * - back() moves to previous matching plant, skipping non-matches
  * - isDone() checks iteration completion
  * - currentItem() returns current matching plant
  * - Filters using direct Flyweight pointer comparison (plant->getSeason() == aggregate->targetSeason)
  * - Leverages Flyweight pattern: same season strings share same pointer for O(1) comparison
+ * - Supports bidirectional navigation through filtered results
+ *
+ * **Implementation Details:**
+ * - Uses std::stack<StackFrame> for iterative tree traversal
+ * - Maintains O(1) amortized complexity for next() and back() operations
+ * - Filtering applied consistently in both traversal directions
+ * - Handles empty groups and composite boundaries gracefully
  *
  * @see Iterator (abstract interface)
  * @see AggSeason (creates this iterator)
  * @see LivingPlant::getSeason() (method used for filtering)
+ * @see StackFrame (traversal state structure)
  */
 class AggSeason;
 
@@ -66,6 +80,11 @@ class SeasonIterator : public Iterator
 		void next();
 
 		/**
+		 * @brief Moves the iterator back to the previous plant matching the target season.
+		 */
+		void back();
+
+		/**
 		 * @brief Checks if iteration is complete.
 		 * @return True if no more matching plants to iterate, false otherwise.
 		 */
@@ -84,18 +103,9 @@ class SeasonIterator : public Iterator
 		LivingPlant* currentPlant;
 
 		/**
-		 * @brief Stack frame for iterative tree traversal.
-		 * Stores position in a single level of the plant hierarchy.
-		 */
-		struct StackFrame {
-			std::list<PlantComponent*>* plantList;
-			std::list<PlantComponent*>::iterator current;
-			std::list<PlantComponent*>::iterator end;
-		};
-
-		/**
 		 * @brief Stack tracking current position in nested plant groups.
 		 * Enables O(1) next() by avoiding re-traversal from root.
+		 * Uses shared StackFrame struct for iterative tree traversal.
 		 */
 		std::stack<StackFrame> traversalStack;
 
@@ -109,6 +119,12 @@ class SeasonIterator : public Iterator
 		 * Filters by season while traversing. Replaces recursive findNextMatch.
 		 */
 		void advanceToNextPlant();
+
+		/**
+		 * @brief Moves back to the previous matching plant using iterative stack-based traversal.
+		 * Filters by season while traversing backwards.
+		 */
+		void moveToPreviousPlant();
 };
 
 #endif //PHOTOSYNTECH_SEASONITERATOR_H
