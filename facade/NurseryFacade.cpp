@@ -237,7 +237,7 @@ std::vector<string> NurseryFacade::getCustomerBasketString(Customer *customer)
 {
     if (customer && customer->getBasket() && customer->getBasket()->getPlants())
     {
-        
+
         AggPlant *agg = new AggPlant(customer->getBasket()->getPlants());
         std::vector<string> plantNames;
         Iterator *itr = agg->createIterator();
@@ -282,4 +282,27 @@ PlantComponent *NurseryFacade::findPlant(int index)
     delete agg;
     delete itr;
     return curr;
+}
+
+PlantComponent *NurseryFacade::removeFromCustomer(Customer *customer, int index)
+{
+    if (customer && customer->getBasket())
+    {
+        AggPlant *agg = new AggPlant(customer->getBasket()->getPlants());
+        Iterator *itr = agg->createIterator();
+        int count = 0;
+        while (!itr->isDone() && count != index)
+        {
+
+            itr->next();
+            count++;
+        }
+        customer->getBasket()->getPlants()->remove(itr->currentItem());
+        PlantComponent *curr = itr->currentItem();
+        Inventory::getInstance()->getInventory()->addComponent(curr);
+        delete agg;
+        delete itr;
+        return curr;
+    }
+    return nullptr;
 }

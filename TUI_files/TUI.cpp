@@ -206,7 +206,7 @@ int main()
     nursery.addCustomer("Customer");
     nursery.addStaff("Staff");
 
-    string customerTerminalStr = "";
+    string customerTerminalStr = "Your conversations go here";
     auto nameInput = Input(&userName, "Enter your name here");
     auto customerMenu = Menu(&plantNames, &customerTreeIndex);
     auto customerBasket = Menu(&basketNames, &customerBasketIndex);
@@ -231,8 +231,10 @@ int main()
     auto purchaseBtn = Button("Purchase plants", [&]
                               { customerTerminalStr = nursery.customerPurchase(currentCustomer);
                                 refreshCustomerBasket(nursery,basketNames,currentCustomer); });
-
-    
+    auto removeFromBasket = Button("Remove plant", [&]
+                                   { nursery.removeFromCustomer(currentCustomer,customerBasketIndex);
+ refreshCustomerBasket(nursery,basketNames,currentCustomer); 
+});
 
     auto customerTab = Container::Vertical(
         {Container::Horizontal({nameInput, addCustomerButton}),
@@ -240,7 +242,8 @@ int main()
 
              askAdvice,
              basketAddBtn,
-             purchaseBtn
+             purchaseBtn,
+             removeFromBasket
 
          }),
          Container::Horizontal({customerMenu, customerBasket})});
@@ -305,16 +308,17 @@ refreshCustomerView(nursery,plantNames);
         ? vbox({
              // This is the section where user is logged in any access user not logged in
             hbox({
-              askAdvice->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,20),  basketAddBtn->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) , purchaseBtn->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) }),
-           vbox({
+              askAdvice->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,20),
+                basketAddBtn->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) ,
+                 purchaseBtn->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) ,
+                removeFromBasket->Render()| size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,25) }),
                 window(
                     text("Conversations"),
-                    paragraph(customerTerminalStr) |border |vscroll_indicator| frame | size(HEIGHT, LESS_THAN, 25)
-                )
-                }),
-
+                    paragraph(customerTerminalStr)|  frame |vscroll_indicator|  size(HEIGHT, LESS_THAN, 25)
+                ),
+                
             hbox ({
-                window (text("Available Plants"),customerMenu->Render()) |size(WIDTH,EQUAL,200) , window(text(currentCustomer->getName()+"'s basket"),customerBasket->Render() | size(WIDTH,EQUAL,200) )              
+                window (text("Available Plants"),customerMenu->Render()) |frame |size(WIDTH,EQUAL,200) , window(text(currentCustomer->getName()+"'s basket"),customerBasket->Render()|frame  | size(WIDTH,EQUAL,200) )              
             })         
             })
        
