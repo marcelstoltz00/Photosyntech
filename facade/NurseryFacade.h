@@ -168,6 +168,8 @@ public:
     PlantComponent*findPlant(int index);
 
     std::vector<string> getCustomerBasketString(Customer* customer);
+
+    PlantComponent * removeFromCustomer(Customer *,int index);
 };
 
 #endif
