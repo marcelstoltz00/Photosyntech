@@ -11,7 +11,7 @@
 #include <memory>
 #include <algorithm>
 #include "../../../facade/NurseryFacade.h"
-#include "../../../composite/PlantGroup.h" 
+#include "../../../composite/PlantGroup.h"
 #include "../../../composite/PlantComponent.h"
 
 using namespace ftxui;
@@ -19,17 +19,24 @@ using namespace ftxui;
 std::map<int, PlantComponent*> treeIndexToComponent;
 std::vector<std::string> treeEntries;
 int selectedTreeIndex = -1;
+int previousSelectedTreeIndex = -1;
+int plantInfoScrollY = 0;
+int selectedInfoScrollY = 0;
 PlantComponent* selectedInventoryComponent = nullptr;
 
 std::string inventoryStatusText = "Inventory: Initialising...";
 std::string selectedInfoText = "Component details will appear here.";
-std::string groupNameInput = "";
-bool showCreateGroupDialog = false;
-bool showMoveDialog = false;
-int groupCounter = 1; 
+bool showCreateGroupDialogue = false;
+bool showMoveDialogue = false;
+int groupCounter = 1;
 
 PlantComponent* componentToMove = nullptr;
 PlantComponent* targetGroup = nullptr;
+
+Component mainContainer;
+Component groupDialogueContainer;
+Component moveDialogueContainer;
+Component main_ui;
 
 void buildTreeEntries(
     PlantComponent* component,
@@ -38,21 +45,21 @@ void buildTreeEntries(
     int depth = 0)
 {
     if (!component) return;
-    
+
     int currentIndex = entries.size();
     std::string indent(depth * 2, ' ');
     std::string prefix = depth > 0 ? "├─ " : "📦 ";
-    
+
     std::string icon = "";
     if (component->getType() == ComponentType::PLANT_GROUP) {
         icon = "📁 ";
     } else {
         icon = "🌱 ";
     }
-    
+
     entries.push_back(indent + prefix + icon + component->getName());
     indexMap[currentIndex] = component;
-    
+
     if (component->getType() == ComponentType::PLANT_GROUP) {
         PlantGroup* group = dynamic_cast<PlantGroup*>(component);
         if (group) {
@@ -67,15 +74,15 @@ void buildTreeEntries(
 void refreshInventoryView(NurseryFacade& nursery) {
     treeEntries.clear();
     treeIndexToComponent.clear();
-    
+
     selectedInfoText = "Select an item in the inventory.";
     inventoryStatusText = "Inventory refreshed.";
-    
+
     PlantComponent* root = nursery.getInventoryRoot();
     if (root) {
         buildTreeEntries(root, treeEntries, treeIndexToComponent);
     }
-    
+
     if (selectedTreeIndex >= 0 && selectedTreeIndex < treeEntries.size()) {
         auto it = treeIndexToComponent.find(selectedTreeIndex);
         if (it != treeIndexToComponent.end()) {
@@ -99,7 +106,7 @@ int main() {
     PlantComponent* currentPlant = nullptr;
 
     auto plantSelector = Dropdown(&plantTypes, &plantSelectorIndex);
-    
+
     auto createButton = Button("Create Plant", [&] {
         if (plantSelectorIndex >= 0 && plantSelectorIndex < plantTypes.size()) {
             std::string selectedType = plantTypes[plantSelectorIndex];
@@ -157,54 +164,35 @@ int main() {
     });
 
     auto createGroupButton = Button("Create Group", [&] {
-        showCreateGroupDialog = true;
-        groupNameInput = "Group " + std::to_string(groupCounter);
+        showCreateGroupDialogue = true;
+
+        mainContainer->SetActiveChild(groupDialogueContainer.get());
     });
 
-    auto addToGroupButton = Button("Move to Group", [&] {
-        if (selectedInventoryComponent && 
-            selectedInventoryComponent->getType() != ComponentType::PLANT_GROUP) {
-            componentToMove = selectedInventoryComponent;
-            showMoveDialog = true;
-        } else {
-            inventoryStatusText = "Select a plant (not a group) to move.";
-        }
-    });
 
-    auto selectAsCurrentButton = Button("Use as Current", [&] {
-        if (selectedInventoryComponent && 
-            selectedInventoryComponent->getType() != ComponentType::PLANT_GROUP) {
-            currentPlant = selectedInventoryComponent;
-            plantInfoText = currentPlant->getDecorator()->getInfo();
-            statusText = "Status: Selected plant from inventory";
-        }
-    });
-
-    auto groupNameInputComponent = Input(&groupNameInput, "Group name");
     auto confirmGroupButton = Button("Create", [&] {
-        if (!groupNameInput.empty()) {
             PlantGroup* newGroup = nursery.createPlantGroup();
-            
-            if (selectedInventoryComponent && 
+
+            if (selectedInventoryComponent &&
                 selectedInventoryComponent->getType() == ComponentType::PLANT_GROUP) {
                 nursery.addComponentToGroup(selectedInventoryComponent, newGroup);
             } else {
                 nursery.addComponentToGroup(nursery.getInventoryRoot(), newGroup);
             }
-            
-            inventoryStatusText = "Created " + groupNameInput;
-            groupCounter++; 
-            showCreateGroupDialog = false;
+
+            inventoryStatusText = "Created Group " + std::to_string(groupCounter);
+            groupCounter++;
+            showCreateGroupDialogue = false;
             refreshInventoryView(nursery);
-        }
-    });
-    
-    auto cancelGroupButton = Button("Cancel", [&] {
-        showCreateGroupDialog = false;
+            mainContainer->SetActiveChild(main_ui.get());
     });
 
-    auto groupDialogContainer = Container::Vertical({
-        groupNameInputComponent,
+    auto cancelGroupButton = Button("Cancel", [&] {
+        showCreateGroupDialogue = false;
+        mainContainer->SetActiveChild(main_ui.get());
+    });
+
+    groupDialogueContainer = Container::Vertical({
         Container::Horizontal({
             confirmGroupButton,
             cancelGroupButton
@@ -219,11 +207,11 @@ int main() {
         groupList.clear();
         groupComponents.clear();
         selectedGroupIndex = 0;
-        
+
         PlantComponent* root = nursery.getInventoryRoot();
         groupList.push_back("Root Inventory");
         groupComponents.push_back(root);
-        
+
         std::function<void(PlantComponent*, int)> findGroups = [&](PlantComponent* comp, int depth) {
             if (comp && comp->getType() == ComponentType::PLANT_GROUP) {
                 PlantGroup* group = dynamic_cast<PlantGroup*>(comp);
@@ -231,7 +219,7 @@ int main() {
                     std::string indent(depth * 2, ' ');
                     groupList.push_back(indent + "└─ " + comp->getName());
                     groupComponents.push_back(comp);
-                    
+
                     std::list<PlantComponent*> children = *group->getPlants();
                     for (PlantComponent* child : children) {
                         findGroups(child, depth + 1);
@@ -239,7 +227,7 @@ int main() {
                 }
             }
         };
-        
+
         if (root && root->getType() == ComponentType::PLANT_GROUP) {
             PlantGroup* rootGroup = dynamic_cast<PlantGroup*>(root);
             std::list<PlantComponent*> children = *rootGroup->getPlants();
@@ -249,24 +237,43 @@ int main() {
         }
     };
 
+    auto addToGroupButton = Button("Move to Group", [&] {
+        if (selectedInventoryComponent &&
+            selectedInventoryComponent->getType() != ComponentType::PLANT_GROUP) {
+            componentToMove = selectedInventoryComponent;
+            showMoveDialogue = true;
+
+            buildGroupList();
+
+            mainContainer->SetActiveChild(moveDialogueContainer.get());
+        } else {
+            inventoryStatusText = "Select a plant (not a group) to move.";
+        }
+    });
+
     auto groupSelectMenu = Menu(&groupList, &selectedGroupIndex);
-    
+
     auto confirmMoveButton = Button("Move", [&] {
         if (selectedGroupIndex >= 0 && selectedGroupIndex < groupComponents.size()) {
             targetGroup = groupComponents[selectedGroupIndex];
-            
+
+            nursery.removeComponentFromInventory(componentToMove);
+
             nursery.addComponentToGroup(targetGroup, componentToMove);
+
             inventoryStatusText = "Moved component to " + targetGroup->getName();
-            showMoveDialog = false;
+            showMoveDialogue = false;
             refreshInventoryView(nursery);
+            mainContainer->SetActiveChild(main_ui.get());
         }
     });
-    
+
     auto cancelMoveButton = Button("Cancel", [&] {
-        showMoveDialog = false;
+        showMoveDialogue = false;
+        mainContainer->SetActiveChild(main_ui.get());
     });
 
-    auto moveDialogContainer = Container::Vertical({
+    moveDialogueContainer = Container::Vertical({
         groupSelectMenu,
         Container::Horizontal({
             confirmMoveButton,
@@ -274,24 +281,27 @@ int main() {
         })
     });
 
-    auto treeMenu = Menu(&treeEntries, &selectedTreeIndex);
-    treeMenu |= CatchEvent([&](Event event) {
-        if (event == Event::Return && selectedTreeIndex >= 0) {
-            auto it = treeIndexToComponent.find(selectedTreeIndex);
-            if (it != treeIndexToComponent.end()) {
-                selectedInventoryComponent = it->second;
-                
-                if (selectedInventoryComponent->getType() == ComponentType::PLANT_GROUP) {
-                    selectedInfoText = selectedInventoryComponent->getInfo();
-                } else {
-                    selectedInfoText = selectedInventoryComponent->getDecorator()->getInfo();
-                }
-                
-                inventoryStatusText = "Status: Selected item in Inventory.";
+auto on_menu_change = [&] {
+    if (selectedTreeIndex >= 0 && selectedTreeIndex < treeEntries.size()) {
+        auto it = treeIndexToComponent.find(selectedTreeIndex);
+        if (it != treeIndexToComponent.end()) {
+            selectedInventoryComponent = it->second;
+
+            if (selectedInventoryComponent->getType() == ComponentType::PLANT_GROUP) {
+                selectedInfoText = selectedInventoryComponent->getInfo();
+            } else {
+                selectedInfoText = selectedInventoryComponent->getDecorator()->getInfo();
             }
+
+            inventoryStatusText = "Status: Selected item in Inventory.";
         }
-        return false;
-    });
+    }
+};
+
+MenuOption menuOption;
+menuOption.on_change = on_menu_change;
+
+auto treeMenu = Menu(&treeEntries, &selectedTreeIndex, menuOption);
 
     int tabSelected = 0;
     std::vector<std::string> tabTitles = {
@@ -301,6 +311,11 @@ int main() {
 
     auto tabToggle = Toggle(&tabTitles, &tabSelected);
 
+    // FIXED: Scrollable plant info - using simpler approach
+    auto plantInfoRenderer = Renderer([&] {
+        return paragraph(plantInfoText) | color(Color::GrayLight);
+    });
+
     auto tab1Content = Container::Vertical({
         plantSelector,
         createButton,
@@ -309,6 +324,44 @@ int main() {
             sunButton,
             infoButton,
         }),
+        plantInfoRenderer,
+    });
+
+    // FIXED: Scrollable selected info with mouse wheel support
+    auto selectedInfoRenderer_Base = Renderer([&] {
+        return paragraph(selectedInfoText) | color(Color::GrayLight) |
+                vscroll_indicator | yframe |
+                focusPositionRelative(0, selectedInfoScrollY);
+    }) | size(HEIGHT, EQUAL, 10);
+
+    auto selectedInfoRenderer = CatchEvent(selectedInfoRenderer_Base, [&](Event event) {
+        // Mouse wheel scrolling (works without focus)
+        if (event.is_mouse() && event.mouse().button == Mouse::WheelUp) {
+            selectedInfoScrollY = std::max(0, selectedInfoScrollY - 1);
+            return true;
+        }
+        if (event.is_mouse() && event.mouse().button == Mouse::WheelDown) {
+            selectedInfoScrollY++;
+            return true;
+        }
+        
+        // Arrow key scrolling when focused
+        if (event == Event::ArrowUp) {
+            selectedInfoScrollY = std::max(0, selectedInfoScrollY - 1);
+            return true;
+        }
+        if (event == Event::ArrowDown) {
+            selectedInfoScrollY++;
+            return true;
+        }
+        
+        // Click to focus
+        if (event.is_mouse() && event.mouse().button == Mouse::Left && event.mouse().motion == Mouse::Pressed) {
+            selectedInfoRenderer_Base->TakeFocus();
+            return true;
+        }
+        
+        return false;
     });
 
     auto tab2Content = Container::Vertical({
@@ -318,11 +371,11 @@ int main() {
             addToGroupButton,
         }),
         Container::Horizontal({
-            selectAsCurrentButton,
             startTickButton,
             stopTickButton,
         }),
-        treeMenu,
+        treeMenu | size(HEIGHT, EQUAL, 15),
+        selectedInfoRenderer,
     });
 
     auto tabContainer = Container::Tab({
@@ -330,119 +383,121 @@ int main() {
         tab2Content,
     }, &tabSelected);
 
-    auto mainContainer = Container::Vertical({
+    main_ui = Container::Vertical({
         tabToggle,
         tabContainer,
     });
 
-    auto mainRenderer = Renderer(mainContainer, [&] {
-        Element dialog = text("");
-        
-        if (showCreateGroupDialog) {
-            dialog = dbox({
-                text("") | bgcolor(Color::Black) | dim, 
+    mainContainer = Container::Stacked({
+        main_ui,
+        groupDialogueContainer,
+        moveDialogueContainer,
+    });
+
+auto mainRenderer = Renderer(mainContainer, [&] {
+        Element Dialogue = text("");
+
+        if (showCreateGroupDialogue) {
+            Dialogue = dbox({
+                text(""),
                 vbox({
-                    window(text("Create New Group"), vbox({
-                        text("Group Name (auto-generated):"),
-                        text(groupNameInput) | bold | color(Color::Cyan),
-                        separator(),
-                        text("This will create: " + groupNameInput),
-                        separator(),
-                        hbox({
-                            confirmGroupButton->Render(),
-                            text(" "),
-                            cancelGroupButton->Render()
-                        })
-                    }))
+                    window(text("Create New Group") | bold | color(Color::Yellow), vbox({
+                text("Group Name:"),
+                text("Create a new, empty group?"),
+
+                separator(),
+                hbox({
+                    confirmGroupButton->Render() | color(Color::Green),
+                    text(" "),
+                    cancelGroupButton->Render() | color(Color::Red)
+                })
+            }))
                 }) | center | size(WIDTH, LESS_THAN, 50)
             });
-        } else if (showMoveDialog) {
-            buildGroupList(); 
-            dialog = dbox({
-                text("") | bgcolor(Color::Black) | dim,
-                vbox({
-                    window(text("Move Component"), vbox({
-                        text("Select target group:"),
-                        groupSelectMenu->Render() | frame | size(HEIGHT, LESS_THAN, 10),
-                        separator(),
-                        hbox({
-                            confirmMoveButton->Render(),
-                            text(" "),
-                            cancelMoveButton->Render()
-                        })
-                    }))
-                }) | center | size(WIDTH, LESS_THAN, 60)
+        } else if (showMoveDialogue) {
+            Dialogue = dbox({
+                text(""),
+                hbox({
+                    filler(),
+
+                    vbox({
+                window(text("Move Component") | bold | color(Color::Yellow), vbox({
+                            text("Select target group:") | color(Color::GrayLight),
+                            groupSelectMenu->Render() | frame | size(HEIGHT, LESS_THAN, 10),
+                            separator(),
+                            hbox({
+                                confirmMoveButton->Render() | color(Color::Green),
+                                text(" "),
+                                cancelMoveButton->Render() | color(Color::Red)
+                            })
+                }))
+                        }) | size(WIDTH, LESS_THAN, 60)
+                })
             });
         }
 
-        Element tab1View = vbox({
-            window(text("Plant Creation"), vbox({
-                hbox(text("Select Plant Type: "), text(plantTypes[plantSelectorIndex]) | bold),
+Element tab1View = vbox({
+            window(text("Plant Creation") | bold | color(Color::Cyan), vbox({
+                hbox(text("Select Plant Type: ") | color(Color::GrayLight), text(plantTypes[plantSelectorIndex]) | bold | color(Color::White)),
                 plantSelector->Render(),
-                createButton->Render(),
+                createButton->Render() | color(Color::Green),
             })),
-            window(text("Plant Actions"), 
+            window(text("Plant Actions") | bold | color(Color::Cyan),
                 hbox({
-                    waterButton->Render(),
+                    waterButton->Render() | color(Color::Blue),
                     text(" "),
-                    sunButton->Render(),
+                    sunButton->Render() | color(Color::Yellow),
                     text(" "),
-                    infoButton->Render(),
+                    infoButton->Render() | color(Color::GrayLight),
                 })
             ),
-            window(text("Current Plant Information"), 
-                vbox({
-                    paragraph(plantInfoText) | size(HEIGHT, LESS_THAN, 15)
-                }) | frame
+            window(text("Current Plant Information") | bold | color(Color::Cyan),
+                plantInfoRenderer->Render()
             ),
         });
 
         Element tab2View = vbox({
             hbox({
-                refreshButton->Render(),
+                refreshButton->Render() | color(Color::Blue),
                 text(" "),
-                createGroupButton->Render(),
+                createGroupButton->Render() | color(Color::Green),
                 text(" "),
-                addToGroupButton->Render(),
+                addToGroupButton->Render() | color(Color::Yellow),
             }),
             hbox({
-                selectAsCurrentButton->Render(),
+                startTickButton->Render() | color(Color::LightGreen),
                 text(" "),
-                startTickButton->Render(),
-                text(" "),
-                stopTickButton->Render(),
+                stopTickButton->Render() | color(Color::RedLight),
             }),
             separator(),
             text(inventoryStatusText) | color(Color::Yellow),
             separator(),
-            window(text("Inventory Hierarchy"), 
-                treeMenu->Render() | frame | size(HEIGHT, LESS_THAN, 15)
+            window(text("Inventory Hierarchy") | bold | color(Color::Cyan),
+                treeMenu->Render() | frame
             ),
-            window(text("Selected Component Info"), 
-                vbox({
-                    paragraph(selectedInfoText) | size(HEIGHT, LESS_THAN, 10)
-                }) | frame
+            window(text("Selected Component Info") | bold | color(Color::Cyan),
+                selectedInfoRenderer->Render()
             ),
         });
 
         Element main = vbox({
             hbox({
-                text("🌿 Photosyntech Plant Manager 🌿") | bold | center,
+                text("🌿 Photosyntech Plant Manager 🌿") | bold | center | color(Color::Green),
             }) | border,
             tabToggle->Render(),
             separator(),
             (tabSelected == 0 ? tab1View : tab2View) | flex,
             separator(),
-            text(statusText) | border,
+            text(statusText) | border | color(Color::Cyan),
         });
 
-        if (showCreateGroupDialog || showMoveDialog) {
+        if (showCreateGroupDialogue || showMoveDialogue) {
             return dbox({
                 main,
-                dialog
+                Dialogue
             });
         }
-        
+
         return main;
     });
 
@@ -455,8 +510,8 @@ int main() {
     } catch (const std::exception& e) {
         std::cerr << "Error during cleanup: " << e.what() << std::endl;
     }
-    
+
     std::cerr.rdbuf(oldCerrBuf);
-    
+
     return 0;
 }
