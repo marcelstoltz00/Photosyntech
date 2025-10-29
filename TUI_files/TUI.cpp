@@ -248,20 +248,22 @@ int main()
                 paragraphAlignLeft(selectedInfoText)
             ),
         });
-
-
+ 
         Element customerView = vbox({
             hbox({
                nameInput->Render() | frame |size(HEIGHT,EQUAL,3)| size(WIDTH, EQUAL, 200),
                addCustomerButton->Render() |size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,10)
             }),
-             currentCustomer
+             currentCustomer // ? vbox(with access) : vbox (no access)
         ? vbox({
+             // This is the section where user is logged in any access user not logged in
               askAdvice->Render(),
               window(text("Conversations"), paragraph(customerTerminalStr)),
                 treeMenu->Render() | frame | size(HEIGHT, LESS_THAN, 15)
           })
+       
         : vbox({
+             // This is the section without any access user not logged in
               window(text("Enter details"), paragraph("Please enter your name first and press login"))
           })
              
