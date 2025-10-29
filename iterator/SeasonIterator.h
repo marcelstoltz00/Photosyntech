@@ -115,6 +115,12 @@ class SeasonIterator : public Iterator
 		bool inComposite;
 
 		/**
+		 * @brief Flag indicating if we moved past the end (true) vs before beginning (false).
+		 * Used to determine behavior when stack is empty and currentPlant is nullptr.
+		 */
+		bool pastEnd;
+
+		/**
 		 * @brief Advances to the next matching plant using iterative stack-based traversal.
 		 * Filters by season while traversing. Replaces recursive findNextMatch.
 		 */
@@ -125,6 +131,11 @@ class SeasonIterator : public Iterator
 		 * Filters by season while traversing backwards.
 		 */
 		void moveToPreviousPlant();
+
+		/**
+		 * @brief Positions iterator at the last matching plant (for back() from end position).
+		 */
+		void findLastPlant();
 };
 
 #endif //PHOTOSYNTECH_SEASONITERATOR_H

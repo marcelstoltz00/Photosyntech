@@ -1,7 +1,7 @@
 #include "SeasonIterator.h"
 #include "AggSeason.h"
 
-SeasonIterator::SeasonIterator(AggSeason* aggregate) : currentPlant(nullptr), inComposite(false)
+SeasonIterator::SeasonIterator(AggSeason* aggregate) : currentPlant(nullptr), inComposite(false), pastEnd(false)
 {
 	this->aggregate = aggregate;
 	first();
@@ -14,6 +14,7 @@ void SeasonIterator::first()
 		traversalStack.pop();
 	}
 	inComposite = false;
+	pastEnd = false;  // Reset position flags
 
 	// Cast aggregate to access plants member
 	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
@@ -44,7 +45,12 @@ void SeasonIterator::next()
 void SeasonIterator::back()
 {
 	if (traversalStack.empty()) {
-		currentPlant = nullptr;
+		// Use pastEnd flag to determine if we should go to last matching element
+		if (pastEnd) {
+			// We're past the end, go to last matching element
+			findLastPlant();
+		}
+		// Otherwise we're before beginning, stay there (do nothing)
 		return;
 	}
 
@@ -121,6 +127,7 @@ void SeasonIterator::advanceToNextPlant()
 	// Stack exhausted - no more matching plants
 	currentPlant = nullptr;
 	inComposite = false;
+	pastEnd = true;  // We moved past the end
 }
 
 void SeasonIterator::moveToPreviousPlant()
@@ -204,7 +211,103 @@ void SeasonIterator::moveToPreviousPlant()
 		continue;
 	}
 
-	// Stack exhausted - no more matching plants
+	// Stack exhausted - moved before beginning
 	currentPlant = nullptr;
 	inComposite = false;
+	pastEnd = false;  // We moved before the beginning
+}
+
+void SeasonIterator::findLastPlant()
+{
+	// Clear stack and reset state
+	while (!traversalStack.empty()) {
+		traversalStack.pop();
+	}
+	inComposite = false;
+	currentPlant = nullptr;
+	pastEnd = false;  // Reset flag since we're positioning at a valid element
+
+	// Cast aggregate to access plants member and target season
+	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
+
+	if (seasonAgg->plants->empty()) {
+		return;
+	}
+
+	// Start from the root level at the last element
+	StackFrame root;
+	root.plantList = seasonAgg->plants;
+	root.end = seasonAgg->plants->end();
+	root.current = seasonAgg->plants->end();
+	--root.current;  // Move to last element
+	traversalStack.push(root);
+
+	// Navigate to the deepest last matching plant
+	while (!traversalStack.empty()) {
+		StackFrame& frame = traversalStack.top();
+
+		PlantComponent* component = *frame.current;
+		ComponentType type = component->getType();
+
+		// Found a living plant - check if it matches season
+		if (type == ComponentType::LIVING_PLANT) {
+			LivingPlant* plant = static_cast<LivingPlant*>(component);
+
+			// Check season match using Flyweight pointer comparison
+			if (plant->getSeason() == seasonAgg->targetSeason) {
+				currentPlant = plant;
+				pastEnd = false;  // At valid position
+				return;
+			}
+
+			// Doesn't match - try previous element
+			if (frame.current == frame.plantList->begin()) {
+				traversalStack.pop();
+				inComposite = !traversalStack.empty();
+			} else {
+				--frame.current;
+			}
+			continue;
+		}
+
+		// Found a plant group - descend to its last element
+		if (type == ComponentType::PLANT_GROUP) {
+			PlantGroup* group = static_cast<PlantGroup*>(component);
+			std::list<PlantComponent*>* children = group->getPlants();
+
+			if (children->empty()) {
+				// Empty group, move back at this level
+				if (frame.current == frame.plantList->begin()) {
+					traversalStack.pop();
+					inComposite = !traversalStack.empty();
+					continue;
+				}
+				--frame.current;
+				continue;
+			}
+
+			// Push child frame starting at end
+			StackFrame childFrame;
+			childFrame.plantList = children;
+			childFrame.end = children->end();
+			childFrame.current = children->end();
+			--childFrame.current;  // Move to last element
+			traversalStack.push(childFrame);
+			inComposite = true;
+			continue;
+		}
+
+		// Unknown type or can't find plant - try previous
+		if (frame.current == frame.plantList->begin()) {
+			traversalStack.pop();
+			inComposite = !traversalStack.empty();
+		} else {
+			--frame.current;
+		}
+	}
+
+	// Couldn't find any matching plant
+	currentPlant = nullptr;
+	inComposite = false;
+	pastEnd = false;
 }

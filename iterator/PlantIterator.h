@@ -111,6 +111,12 @@ class PlantIterator : public Iterator
 		bool inComposite;
 
 		/**
+		 * @brief Flag indicating if we moved past the end (true) vs before beginning (false).
+		 * Used to determine behavior when stack is empty and currentPlant is nullptr.
+		 */
+		bool pastEnd;
+
+		/**
 		 * @brief Advances to the next plant using iterative stack-based traversal.
 		 * Replaces recursive findNextMatch with O(1) amortized complexity.
 		 */
@@ -121,6 +127,11 @@ class PlantIterator : public Iterator
 		 * Handles composite hierarchy traversal in reverse direction.
 		 */
 		void moveToPreviousPlant();
+
+		/**
+		 * @brief Positions iterator at the last plant (for back() from end position).
+		 */
+		void findLastPlant();
 };
 
 #endif

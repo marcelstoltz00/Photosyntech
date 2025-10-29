@@ -636,8 +636,9 @@ TEST_CASE("PlantIterator - back() basic functionality")
         iter->first();
         CHECK(iter->currentItem() == plant1);
 
-        iter->back();  // Should handle gracefully
-        CHECK(iter->isDone() == true || iter->currentItem() == nullptr);
+        iter->back();  // Should handle gracefully at beginning
+        CHECK(iter->isDone() == true);
+        CHECK(iter->currentItem() == nullptr);
 
         delete iter;
         delete agg;
@@ -811,7 +812,8 @@ TEST_CASE("SeasonIterator - back() with filtering")
         CHECK(iter->currentItem() == spring1);
 
         iter->back();  // No previous Spring plant
-        CHECK(iter->isDone() == true || iter->currentItem() == nullptr);
+        CHECK(iter->isDone() == true);
+        CHECK(iter->currentItem() == nullptr);
 
         delete iter;
         delete agg;
@@ -912,7 +914,8 @@ TEST_CASE("Edge case - back() on single element")
         CHECK(iter->currentItem() == plant);
 
         iter->back();
-        CHECK(iter->isDone() == true || iter->currentItem() == nullptr);
+        CHECK(iter->isDone() == true);
+        CHECK(iter->currentItem() == nullptr);
 
         delete iter;
         delete agg;
@@ -942,7 +945,8 @@ TEST_CASE("Edge case - Multiple back() calls at beginning")
         iter->back();
         iter->back();
 
-        CHECK(iter->isDone() == true || iter->currentItem() == nullptr);
+        CHECK(iter->isDone() == true);
+        CHECK(iter->currentItem() == nullptr);
 
         delete iter;
         delete agg;
