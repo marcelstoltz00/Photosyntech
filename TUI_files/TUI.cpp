@@ -201,6 +201,7 @@ int main()
         {Container::Horizontal({nameInput, addCustomerButton}),
          Container::Vertical({
              askAdvice,
+             treeMenu,
          })});
 
     auto tabContainer = Container::Tab({tab1Content,
@@ -257,7 +258,8 @@ int main()
              currentCustomer // ? vbox(with access) : vbox (no access)
         ? vbox({
              // This is the section where user is logged in any access user not logged in
-              askAdvice->Render(),
+            hbox({
+              askAdvice->Render() | size(HEIGHT,EQUAL,3) |size(WIDTH,EQUAL,20)   }),
               window(text("Conversations"), paragraph(customerTerminalStr)),
                 treeMenu->Render() | frame | size(HEIGHT, LESS_THAN, 15)
           })
