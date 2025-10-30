@@ -81,6 +81,7 @@ TEST_CASE("Testing MaturityState transitions and behavior")
     }
 
     delete plant;
+    delete Inventory::getInstance();
 }
 
 // ============================================================================
@@ -154,6 +155,7 @@ TEST_CASE("Testing State Transitions - Health-Based Path to Dead")
 
         delete plant;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing State Transitions - All Plant Types Through All States")
@@ -234,6 +236,7 @@ TEST_CASE("Testing State Transitions - All Plant Types Through All States")
 
         delete herb;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing State Transitions - Boundary Value Testing")
@@ -315,6 +318,7 @@ TEST_CASE("Testing State Transitions - Boundary Value Testing")
 
         delete plant;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing State-Specific Behavior")
@@ -376,6 +380,7 @@ TEST_CASE("Testing State-Specific Behavior")
 
         delete plant;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing State Transitions - Observer Integration")
@@ -417,10 +422,12 @@ TEST_CASE("Testing State Transitions - Observer Integration")
             delete p;
         }
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing State Transitions - Concurrent State Changes")
 {
+
     Inventory *inv = Inventory::getInstance();
 
     SUBCASE("Age and health changing simultaneously")
@@ -461,6 +468,7 @@ TEST_CASE("Testing State Transitions - Concurrent State Changes")
 
         delete plant;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing State Transitions - Invalid States")
@@ -507,6 +515,7 @@ TEST_CASE("Testing State Transitions - Invalid States")
 
         delete plant;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing State Transitions - Large Scale")
@@ -539,6 +548,7 @@ TEST_CASE("Testing State Transitions - Large Scale")
             delete p;
         }
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing State Transitions - Continuous Aging")
@@ -575,4 +585,5 @@ TEST_CASE("Testing State Transitions - Continuous Aging")
 
         delete plant;
     }
+    delete Inventory::getInstance();
 }

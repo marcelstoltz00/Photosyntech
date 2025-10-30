@@ -136,6 +136,7 @@ TEST_CASE("Testing Builder Pattern Implementation")
         delete rosePlant;
         delete roseBuilder;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing CherryBlossomBuilder Implementation")
@@ -295,6 +296,7 @@ TEST_CASE("Testing CherryBlossomBuilder Implementation")
         delete cherryPlant;
         delete cherryBuilder;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing JadePlantBuilder Implementation")
@@ -412,6 +414,7 @@ TEST_CASE("Testing JadePlantBuilder Implementation")
         delete jadePlant;
         delete jadeBuilder;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing LavenderBuilder Implementation")
@@ -508,6 +511,7 @@ TEST_CASE("Testing LavenderBuilder Implementation")
         delete lavenderPlant;
         delete lavenderBuilder;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing MapleBuilder Implementation")
@@ -625,6 +629,7 @@ TEST_CASE("Testing MapleBuilder Implementation")
         delete maplePlant;
         delete mapleBuilder;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing PineBuilder Implementation")
@@ -745,6 +750,7 @@ TEST_CASE("Testing PineBuilder Implementation")
         delete pineBuilder1;
         delete pineBuilder2;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing SunflowerBuilder Implementation")
@@ -882,4 +888,6 @@ TEST_CASE("Testing SunflowerBuilder Implementation")
         delete sunflowerPlant;
         delete sunflowerBuilder;
     }
+    delete Inventory::getInstance();
 }
+

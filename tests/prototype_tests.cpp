@@ -48,6 +48,7 @@ TEST_CASE("Testing Prototype Pattern - Plant Type Creation")
 
         delete herb;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Prototype Pattern - Plant Type Differences")
@@ -67,6 +68,7 @@ TEST_CASE("Testing Prototype Pattern - Plant Type Differences")
         delete succulent;
         delete shrub;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Prototype Pattern - Plant Initialization")
@@ -98,6 +100,7 @@ TEST_CASE("Testing Prototype Pattern - Plant Initialization")
         delete plant1;
         delete plant2;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Prototype Pattern - Plant Cloning via Copy")
@@ -130,6 +133,7 @@ TEST_CASE("Testing Prototype Pattern - Plant Cloning via Copy")
         delete originalPlant;
         delete clonedPlant;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Prototype Pattern - Mixed Plant Types")
@@ -156,6 +160,7 @@ TEST_CASE("Testing Prototype Pattern - Mixed Plant Types")
             delete plants[i];
         }
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Prototype Pattern - Plant Lifecycle Properties")
@@ -192,6 +197,7 @@ TEST_CASE("Testing Prototype Pattern - Plant Lifecycle Properties")
 
         delete plant;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Prototype Pattern - Plant Care Properties")
@@ -227,6 +233,7 @@ TEST_CASE("Testing Prototype Pattern - Plant Care Properties")
 
         delete plant;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Prototype Pattern - Plant Type Operations")
@@ -269,4 +276,5 @@ TEST_CASE("Testing Prototype Pattern - Plant Type Operations")
         delete tree;
         delete herb;
     }
+    delete Inventory::getInstance();
 }

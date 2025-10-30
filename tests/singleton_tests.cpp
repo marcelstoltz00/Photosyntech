@@ -37,7 +37,9 @@ TEST_CASE("Testing Singleton Pattern - Basic Instance")
         CHECK(invB == invC);
         CHECK(invA == invC);
     }
+    delete Inventory::getInstance();
 }
+
 
 TEST_CASE("Testing Singleton Pattern - Flyweight Strategy Integration")
 {
@@ -89,6 +91,7 @@ TEST_CASE("Testing Singleton Pattern - Flyweight Strategy Integration")
         // Should be the same flyweight instance due to flyweight pattern
         CHECK(strategy1 == strategy2);
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Singleton Pattern - State Management")
@@ -137,6 +140,7 @@ TEST_CASE("Testing Singleton Pattern - State Management")
 
         CHECK(seedState != vegState);
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Singleton Pattern - String Flyweight Management")
@@ -171,6 +175,7 @@ TEST_CASE("Testing Singleton Pattern - String Flyweight Management")
 
         CHECK(autumn != winter);
         CHECK(*autumn->getState() != *winter->getState());
+        delete Inventory::getInstance();
     }
 
     SUBCASE("Multiple string instances can coexist")
@@ -186,7 +191,9 @@ TEST_CASE("Testing Singleton Pattern - String Flyweight Management")
         CHECK(summer != autumn);
         CHECK(autumn != winter);
         CHECK(spring != winter);
+        delete Inventory::getInstance();
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Singleton Pattern - Mediator Component Integration")
@@ -208,6 +215,7 @@ TEST_CASE("Testing Singleton Pattern - Mediator Component Integration")
 
         delete testStaff;
         staffList->clear();
+        delete Inventory::getInstance();
     }
 
     SUBCASE("Inventory manages customers")
@@ -227,7 +235,9 @@ TEST_CASE("Testing Singleton Pattern - Mediator Component Integration")
 
         delete testCustomer;
         customerList->clear();
+        delete Inventory::getInstance();
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Singleton Pattern - Error Handling with Invalid IDs")
@@ -245,6 +255,7 @@ TEST_CASE("Testing Singleton Pattern - Error Handling with Invalid IDs")
         CHECK(invalidStrategy->getState() != nullptr);
 
         delete plant;
+        delete Inventory::getInstance();
     }
 
     SUBCASE("Invalid state ID falls back to default")
@@ -257,13 +268,16 @@ TEST_CASE("Testing Singleton Pattern - Error Handling with Invalid IDs")
         // Should still return a valid state (default fallback)
         CHECK(invalidState != nullptr);
         CHECK(invalidState->getState() != nullptr);
+        delete Inventory::getInstance();
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Singleton Pattern - Global State Consistency")
 {
     SUBCASE("Modifications via singleton are globally visible")
     {
+        
         Inventory *inv1 = Inventory::getInstance();
         Inventory *inv2 = Inventory::getInstance();
 
@@ -278,6 +292,7 @@ TEST_CASE("Testing Singleton Pattern - Global State Consistency")
         CHECK(staffList1->size() == 0);
         CHECK(staffList2->size() == 0);
         CHECK(staffList1 == staffList2);
+        delete Inventory::getInstance();
     }
 
     SUBCASE("Strategy flyweights are shared across references")
@@ -290,7 +305,9 @@ TEST_CASE("Testing Singleton Pattern - Global State Consistency")
 
         // Should be identical instances
         CHECK(strategy1 == strategy2);
+        delete Inventory::getInstance();
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Singleton Pattern - Memory Efficiency Verification")
@@ -304,6 +321,7 @@ TEST_CASE("Testing Singleton Pattern - Memory Efficiency Verification")
         // All should be the same memory location
         CHECK(firstCall == secondCall);
         CHECK(secondCall == thirdCall);
+        delete Inventory::getInstance();
     }
 
     SUBCASE("Flyweight strategy sharing reduces memory usage")
@@ -318,5 +336,8 @@ TEST_CASE("Testing Singleton Pattern - Memory Efficiency Verification")
         // All should point to the same strategy (flyweight reuse)
         CHECK(strat1 == strat2);
         CHECK(strat2 == strat3);
+        delete Inventory::getInstance();
     }
+    delete Inventory::getInstance();
 }
+

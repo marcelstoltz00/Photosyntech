@@ -76,6 +76,7 @@ TEST_CASE("PlantIterator - Empty collection")
         delete iter;
         delete agg;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("PlantIterator - Single plant")
@@ -101,6 +102,7 @@ TEST_CASE("PlantIterator - Single plant")
         delete plant;
         delete Inventory::getInstance();
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("PlantIterator - Multiple plants in flat list")
@@ -139,6 +141,7 @@ TEST_CASE("PlantIterator - Multiple plants in flat list")
         delete plant3;
         delete Inventory::getInstance();
     }
+    delete Inventory::getInstance();
 }
 
 // ============================================================================
@@ -162,6 +165,7 @@ TEST_CASE("SeasonIterator - Empty collection with season filter")
         delete agg;
         delete Inventory::getInstance();
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("SeasonIterator - Single matching plant")
@@ -186,6 +190,7 @@ TEST_CASE("SeasonIterator - Single matching plant")
         delete plant;
         delete Inventory::getInstance();
     }
+
 }
 
 TEST_CASE("SeasonIterator - Mixed seasons with filtering")
@@ -520,6 +525,7 @@ TEST_CASE("Edge case - All plants same season")
         delete plant2;
         delete Inventory::getInstance();
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Edge case - Each plant different season")
@@ -579,6 +585,7 @@ TEST_CASE("Edge case - Each plant different season")
         delete winter;
         delete Inventory::getInstance();
     }
+    delete Inventory::getInstance();
 }
 
 // ============================================================================

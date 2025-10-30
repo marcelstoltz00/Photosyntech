@@ -76,6 +76,7 @@ TEST_CASE("Testing Composite Pattern - Basic PlantGroup Operations")
 
         delete group;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Composite Pattern - Aggregated Care Operations")
@@ -142,6 +143,7 @@ TEST_CASE("Testing Composite Pattern - Aggregated Care Operations")
 
         delete group;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Composite Pattern - Aggregated Value Queries")
@@ -251,6 +253,7 @@ TEST_CASE("Testing Composite Pattern - Aggregated Value Queries")
 
         delete group;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Composite Pattern - Group Information")
@@ -287,6 +290,7 @@ TEST_CASE("Testing Composite Pattern - Group Information")
 
         delete group;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Composite Pattern - Clone and Copy Functionality")
@@ -370,6 +374,7 @@ TEST_CASE("Testing Composite Pattern - Clone and Copy Functionality")
         delete original;
         delete cloned;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Composite Pattern - Hierarchical Composition")
@@ -447,6 +452,7 @@ TEST_CASE("Testing Composite Pattern - Hierarchical Composition")
 
         delete level1;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Composite Pattern - Observer Integration")
@@ -538,6 +544,7 @@ TEST_CASE("Testing Composite Pattern - Observer Integration")
         delete group;
         delete observer;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Composite Pattern - Decorator Integration")
@@ -551,6 +558,7 @@ TEST_CASE("Testing Composite Pattern - Decorator Integration")
 
         delete group;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Composite Pattern - Edge Cases and Boundaries")
@@ -688,6 +696,7 @@ TEST_CASE("Testing Composite Pattern - Edge Cases and Boundaries")
 
         delete group;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Composite Pattern - Complex Scenarios")
@@ -748,4 +757,5 @@ TEST_CASE("Testing Composite Pattern - Complex Scenarios")
         delete original;
         delete cloned;
     }
+    delete Inventory::getInstance();
 }

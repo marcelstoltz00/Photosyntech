@@ -575,4 +575,5 @@ TEST_CASE("Testing Observer Pattern Implementation")
             delete observer;
         }
     }
+    delete Inventory::getInstance();
 }
