@@ -1,13 +1,13 @@
-#include "SeasonIterator.h"
-#include "AggSeason.h"
+#include "PlantNameIterator.h"
+#include "AggPlantName.h"
 
-SeasonIterator::SeasonIterator(AggSeason* aggregate) : currentPlant(nullptr), inComposite(false), pastEnd(false)
+PlantNameIterator::PlantNameIterator(AggPlantName* aggregate) : currentPlant(nullptr), inComposite(false), pastEnd(false)
 {
 	this->aggregate = aggregate;
 	first();
 }
 
-void SeasonIterator::first()
+void PlantNameIterator::first()
 {
 	// Clear stack and reset state
 	while (!traversalStack.empty()) {
@@ -17,20 +17,20 @@ void SeasonIterator::first()
 	pastEnd = false;  // Reset position flags
 
 	// Cast aggregate to access plants member
-	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
+	AggPlantName* nameAgg = static_cast<AggPlantName*>(aggregate);
 
 	// Push root level frame
 	StackFrame root;
-	root.plantList = seasonAgg->plants;
-	root.current = seasonAgg->plants->begin();
-	root.end = seasonAgg->plants->end();
+	root.plantList = nameAgg->plants;
+	root.current = nameAgg->plants->begin();
+	root.end = nameAgg->plants->end();
 	traversalStack.push(root);
 
 	// Find first matching plant
 	advanceToNextPlant();
 }
 
-void SeasonIterator::next()
+void PlantNameIterator::next()
 {
 	if (traversalStack.empty()) {
 		currentPlant = nullptr;
@@ -42,7 +42,7 @@ void SeasonIterator::next()
 	advanceToNextPlant();
 }
 
-void SeasonIterator::back()
+void PlantNameIterator::back()
 {
 	if (traversalStack.empty()) {
 		// Use pastEnd flag to determine if we should go to last matching element
@@ -58,20 +58,20 @@ void SeasonIterator::back()
 	moveToPreviousPlant();
 }
 
-bool SeasonIterator::isDone()
+bool PlantNameIterator::isDone()
 {
 	return currentPlant == nullptr;
 }
 
-LivingPlant* SeasonIterator::currentItem()
+LivingPlant* PlantNameIterator::currentItem()
 {
 	return currentPlant;
 }
 
-void SeasonIterator::advanceToNextPlant()
+void PlantNameIterator::advanceToNextPlant()
 {
-	// Need to cast aggregate to access targetSeason
-	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
+	// Need to cast aggregate to access targetName
+	AggPlantName* nameAgg = static_cast<AggPlantName*>(aggregate);
 
 	while (!traversalStack.empty()) {
 		StackFrame& frame = traversalStack.top();
@@ -86,18 +86,18 @@ void SeasonIterator::advanceToNextPlant()
 		PlantComponent* component = *frame.current;
 		ComponentType type = component->getType();
 
-		// Found a living plant - check if it matches season
+		// Found a living plant - check if it matches name
 		if (type == ComponentType::LIVING_PLANT) {
 			LivingPlant* plant = static_cast<LivingPlant*>(component);
 
-			// Check season match using direct Flyweight pointer comparison
-			// Flyweight pattern ensures same season strings share same pointer
-			if (plant->getSeason() == seasonAgg->targetSeason) {
+			// Check name match using direct Flyweight pointer comparison
+			// Flyweight pattern ensures same name strings share same pointer
+			if (plant->getNameFlyweight() == nameAgg->targetName) {
 				currentPlant = plant;
 				return;
 			}
 
-			// Doesn't match season - skip it
+			// Doesn't match name - skip it
 			frame.current++;
 			continue;
 		}
@@ -130,10 +130,10 @@ void SeasonIterator::advanceToNextPlant()
 	pastEnd = true;  // We moved past the end
 }
 
-void SeasonIterator::moveToPreviousPlant()
+void PlantNameIterator::moveToPreviousPlant()
 {
-	// Need to cast aggregate to access targetSeason
-	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
+	// Need to cast aggregate to access targetName
+	AggPlantName* nameAgg = static_cast<AggPlantName*>(aggregate);
 
 	while (!traversalStack.empty()) {
 		StackFrame& frame = traversalStack.top();
@@ -153,8 +153,8 @@ void SeasonIterator::moveToPreviousPlant()
 					PlantComponent* component = *parentFrame.current;
 					if (component->getType() == ComponentType::LIVING_PLANT) {
 						LivingPlant* plant = static_cast<LivingPlant*>(component);
-						// Check season match
-						if (plant->getSeason() == seasonAgg->targetSeason) {
+						// Check name match
+						if (plant->getNameFlyweight() == nameAgg->targetName) {
 							currentPlant = plant;
 							return;
 						}
@@ -177,17 +177,17 @@ void SeasonIterator::moveToPreviousPlant()
 		PlantComponent* component = *frame.current;
 		ComponentType type = component->getType();
 
-		// Found a living plant - check if it matches season
+		// Found a living plant - check if it matches name
 		if (type == ComponentType::LIVING_PLANT) {
 			LivingPlant* plant = static_cast<LivingPlant*>(component);
 
-			// Check season match using direct Flyweight pointer comparison
-			if (plant->getSeason() == seasonAgg->targetSeason) {
+			// Check name match using direct Flyweight pointer comparison
+			if (plant->getNameFlyweight() == nameAgg->targetName) {
 				currentPlant = plant;
 				return;
 			}
 
-			// Doesn't match season - continue backwards
+			// Doesn't match name - continue backwards
 			continue;
 		}
 
@@ -225,7 +225,7 @@ void SeasonIterator::moveToPreviousPlant()
 	pastEnd = false;  // We moved before the beginning
 }
 
-void SeasonIterator::findLastPlant()
+void PlantNameIterator::findLastPlant()
 {
 	// Clear stack and reset state
 	while (!traversalStack.empty()) {
@@ -235,18 +235,18 @@ void SeasonIterator::findLastPlant()
 	currentPlant = nullptr;
 	pastEnd = false;  // Reset flag since we're positioning at a valid element
 
-	// Cast aggregate to access plants member and target season
-	AggSeason* seasonAgg = static_cast<AggSeason*>(aggregate);
+	// Cast aggregate to access plants member and target name
+	AggPlantName* nameAgg = static_cast<AggPlantName*>(aggregate);
 
-	if (seasonAgg->plants->empty()) {
+	if (nameAgg->plants->empty()) {
 		return;
 	}
 
 	// Start from the root level at the last element
 	StackFrame root;
-	root.plantList = seasonAgg->plants;
-	root.end = seasonAgg->plants->end();
-	root.current = seasonAgg->plants->end();
+	root.plantList = nameAgg->plants;
+	root.end = nameAgg->plants->end();
+	root.current = nameAgg->plants->end();
 	--root.current;  // Move to last element
 	traversalStack.push(root);
 
@@ -257,12 +257,12 @@ void SeasonIterator::findLastPlant()
 		PlantComponent* component = *frame.current;
 		ComponentType type = component->getType();
 
-		// Found a living plant - check if it matches season
+		// Found a living plant - check if it matches name
 		if (type == ComponentType::LIVING_PLANT) {
 			LivingPlant* plant = static_cast<LivingPlant*>(component);
 
-			// Check season match using Flyweight pointer comparison
-			if (plant->getSeason() == seasonAgg->targetSeason) {
+			// Check name match using Flyweight pointer comparison
+			if (plant->getNameFlyweight() == nameAgg->targetName) {
 				currentPlant = plant;
 				pastEnd = false;  // At valid position
 				return;
