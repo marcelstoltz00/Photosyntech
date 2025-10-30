@@ -29,7 +29,7 @@ public:
      * @brief Constructor for CherryBlossomBuilder.
      */
     CherryBlossomBuilder();
-
+	virtual ~CherryBlossomBuilder(){};
     /**
      * @brief Creates a new Tree object as the base for the Cherry Blossom.
      */

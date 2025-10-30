@@ -12,6 +12,7 @@ PlantGroup::~PlantGroup()
     std::list<PlantComponent *>::iterator itr = plants.begin();
     while (itr != plants.end())
     {
+      
         if ((*itr)->getDecorator() != nullptr)
             delete (*itr)->getDecorator();
         else

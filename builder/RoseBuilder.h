@@ -29,7 +29,7 @@ public:
    * @brief Constructor for RoseBuilder.
    */
   RoseBuilder();
-
+	virtual ~RoseBuilder(){};
   /**
    * @brief Creates a new Shrub object as the base for the Rose.
    */

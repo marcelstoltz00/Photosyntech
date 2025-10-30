@@ -30,7 +30,7 @@ public:
      * @brief Constructor for PineBuilder.
      */
     PineBuilder();
-
+	virtual ~PineBuilder(){};
     /**
      * @brief Creates a new Tree object as the base for the Pine.
      */

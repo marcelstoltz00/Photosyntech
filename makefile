@@ -56,7 +56,8 @@ TEST_SRC = tests/tests_core.cpp\
             mediator/Staff.cpp\
             mediator/SuggestionFloor.cpp\
             observer/Observer.cpp\
-            observer/Subject.cpp
+            observer/Subject.cpp\
+			facade/NurseryFacade.cpp
 
 SRC = $(TEST_SRC)
 OBJ := $(SRC:.cpp=.o)

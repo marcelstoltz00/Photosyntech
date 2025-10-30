@@ -13,6 +13,7 @@ NurseryFacade::NurseryFacade()
     director = new Director(sunflowerBuilder);
     sales = new SalesFloor();
     suggestionFloor = new SuggestionFloor();
+    
 }
 
 NurseryFacade::~NurseryFacade()
@@ -26,8 +27,11 @@ NurseryFacade::~NurseryFacade()
     delete cherryBlossomBuilder;
     delete lavenderBuilder;
     delete pineBuilder;
+
+    
     delete sales;
     delete suggestionFloor;
+    
 }
 
 PlantComponent *NurseryFacade::createPlant(const std::string &type)
@@ -53,21 +57,17 @@ PlantComponent *NurseryFacade::createPlant(const std::string &type)
     else
         return nullptr;
 
+        
+    delete director;
     director = new Director(selectedBuilder);
+
     director->construct();
-    PlantComponent *plant = director->getPlant();
+
+    PlantComponent *plant = selectedBuilder->getResult();
 
     plants.push_back(plant);
 
-    PlantComponent *inventoryRoot = Inventory::getInstance()->getInventory();
-    if (inventoryRoot && inventoryRoot->getType() == ComponentType::PLANT_GROUP)
-    {
-        PlantGroup *rootGroup = dynamic_cast<PlantGroup *>(inventoryRoot);
-        if (rootGroup)
-        {
-            rootGroup->addComponent(plant);
-        }
-    }
+    Inventory::getInstance()->getInventory()->addComponent(plant);
 
     return plant;
 }
@@ -375,7 +375,7 @@ Staff *NurseryFacade::findStaff(int index)
 
 std::vector<string> NurseryFacade::getAllPlantGroups()
 {
-    std::vector<string> names;
+
     std::list<PlantComponent *> groups = *Inventory::getInstance()->getInventory()->getPlants();
     std::vector<string> groupNames;
     int count = 0;
@@ -386,6 +386,7 @@ std::vector<string> NurseryFacade::getAllPlantGroups()
         {
             groupNames.push_back("Plant Group " + to_string(count++));
         }
+        itr++;
     }
     return groupNames;
 }
