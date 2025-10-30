@@ -13,6 +13,7 @@
 #include "observer/Subject.h"
 #include "observer/Observer.h"
 #include <vector>
+#include <iostream>
 
 TEST_CASE("Testing MaturityState transitions and behavior")
 {
@@ -45,7 +46,10 @@ TEST_CASE("Testing MaturityState transitions and behavior")
 
         inv->getStates(Vegetative::getID())->getState()->grow(plant);
 
-        CHECK(plant->getWaterLevel() == 45);
+        CHECK(plant->getWaterLevel() == 45
+    
+    
+    );
         CHECK(plant->getSunExposure() == 50);
         CHECK(plant->getHealth() >= 55);
     }
@@ -571,10 +575,12 @@ TEST_CASE("Testing State Transitions - Continuous Aging")
             if (age == 6) {
                 Seed seed;
                 seed.grow(plant);
-            } else if (age == 29) {
+            }
+            else if (age == 29) {
                 Vegetative veg;
                 veg.grow(plant);
-            } else if (age == 120) {
+            }
+            else if (age == 120) {
                 Mature mature;
                 mature.grow(plant);
             }
@@ -586,4 +592,49 @@ TEST_CASE("Testing State Transitions - Continuous Aging")
         delete plant;
     }
     delete Inventory::getInstance();
+}
+
+TEST_CASE("Testing Plant Growth Balancing")
+{
+    SUBCASE("Simulate plant growth over 100 days")
+    {
+        Inventory* inv = Inventory::getInstance();
+
+        // Create a plant for testing
+        LivingPlant* testPlant = new Herb("Test Herb");
+
+        // Set initial conditions
+        testPlant->setMaturity(Seed::getID());
+        testPlant->setHealth(100);
+        testPlant->setWaterLevel(100);
+        testPlant->setSunExposure(100);
+        testPlant->setSeason(inv->getString("Spring Season"));
+
+
+        std::cout << "\n--- Starting Plant Growth Simulation ---\n";
+        std::cout << testPlant->getInfo();
+
+        // Simulate 100 days
+        for (int day = 1; day <= 100; ++day)
+        {
+            std::cout << "\n--- Day " << day << " ---\n";
+
+            // Water the plant every 3 days to keep it alive
+            if (day % 3 == 0) {
+                std::cout << "Watering the plant...\n";
+                testPlant->water();
+            }
+
+            testPlant->tick();
+            std::cout << testPlant->getInfo();
+        }
+
+        std::cout << "\n--- Simulation Finished ---\n";
+
+        CHECK(testPlant->getAge() == 100);
+        CHECK(testPlant->getHealth() > 0); // Should still be alive
+
+        delete testPlant;
+        delete inv;
+    }
 }

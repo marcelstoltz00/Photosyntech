@@ -6,7 +6,7 @@
 
 void Mature::grow(LivingPlant *plant) {
   plant->setAge(plant->getAge() + 1);
-  double waterusage = 4.0;
+  double waterusage = 8.0;
 
   Flyweight<std::string*>* currentSeasonFly = Inventory::getInstance()->getSeason();
   Flyweight<std::string*>* plantSeasonFly = plant->getSeason();
@@ -32,10 +32,9 @@ void Mature::grow(LivingPlant *plant) {
   }
 
   plant->setWaterLevel(plant->getWaterLevel() - waterusage);
-  plant->setHealth(plant->getHealth() - 10);
 
   if (plant->getWaterLevel() >= 30 && plant->getSunExposure() >= 40) {
-    plant->setHealth(plant->getHealth() + 3);
+    plant->setHealth(plant->getHealth() + 1);
   }
 
   if (plant->getAge() >= 120 || plant->getHealth() <= 0) {
