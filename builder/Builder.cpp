@@ -10,12 +10,13 @@ PlantComponent *Builder::getResult()
         throw "Plant has not been constructed";
         return NULL;
     }
+
 }
 Builder::~Builder()
 {
     if (plant)
     {
-        delete plant->getDecorator();
+        delete plant;
         plant = NULL;
     }
 }

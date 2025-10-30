@@ -6,7 +6,7 @@
 
 void Seed::grow(LivingPlant *plant) {
   plant->setAge(plant->getAge() + 1);
-  double waterusage = 3.0;
+  double waterusage = 1.0;
 
   Flyweight<std::string*>* currentSeasonFly = Inventory::getInstance()->getSeason();
   Flyweight<std::string*>* plantSeasonFly = plant->getSeason();
@@ -32,10 +32,9 @@ void Seed::grow(LivingPlant *plant) {
   }
 
   plant->setWaterLevel(plant->getWaterLevel() - waterusage);
-  plant->setHealth(plant->getHealth() - 9);
 
   if (plant->getWaterLevel() >= 40 && plant->getSunExposure() >= 20) {
-    plant->setHealth(plant->getHealth() + 4);
+    plant->setHealth(plant->getHealth() + 1);
   }
 
   if (plant->getAge() >= 7 && plant->getHealth() >= 50 &&
@@ -54,3 +53,5 @@ std::string Seed::getImagePath(LivingPlant *plant) {
                   plantName.end());
   return "docs/images/" + plantName + std::to_string(getID()) + ".png";
 }
+
+

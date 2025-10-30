@@ -26,7 +26,7 @@ public:
      * @brief Constructor for MapleBuilder.
      */
     MapleBuilder();
-
+	virtual ~MapleBuilder(){};
     /**
      * @brief Creates a new Tree object as the base for the Maple.
      */

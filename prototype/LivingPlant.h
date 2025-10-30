@@ -75,6 +75,7 @@ protected:
 	Flyweight<MaturityState *> *maturityState;
 	Flyweight<WaterStrategy *> *waterStrategy;
 	Flyweight<SunStrategy *> *sunStrategy;
+    
 
 public:
 	/**
@@ -294,6 +295,8 @@ virtual int getSunlightValue();
 virtual void tick();
 
 	virtual Flyweight<std::string *> *getNameFlyweight() { return this->name; };
+
+
 
 };
 

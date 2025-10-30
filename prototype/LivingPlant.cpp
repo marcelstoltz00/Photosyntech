@@ -8,6 +8,7 @@
 #include "../singleton/Singleton.h"
 #include "../state/MaturityState.h"
 
+
 LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int sunAffect)
     : PlantComponent(price, waterAffect, sunAffect), age(0),
       health(0),
@@ -24,19 +25,26 @@ LivingPlant::LivingPlant(std::string name, double price, int waterAffect, int su
 };
 
 LivingPlant::LivingPlant(const LivingPlant &other)
-    : PlantComponent(other),
+        : PlantComponent(other),
 
-      name(other.name),
-      age(other.age),
-      health(other.health),
-      waterLevel(other.waterLevel),
-      sunExposure(other.sunExposure),
-      season(other.season),
+            name(other.name),
+            age(other.age),
+            health(other.health),
+            waterLevel(other.waterLevel),
+            sunExposure(other.sunExposure),
+            season(other.season),
 
-      maturityState(other.maturityState),
-      waterStrategy(other.waterStrategy),
-      sunStrategy(other.sunStrategy),
-      decorator(nullptr) {};
+            maturityState(other.maturityState),
+            waterStrategy(other.waterStrategy),
+            sunStrategy(other.sunStrategy),
+            decorator(nullptr)
+{
+        health = std::max(0, std::min(100, health));
+        waterLevel = std::max(0, std::min(100, waterLevel));
+        sunExposure = std::max(0, std::min(100, sunExposure));
+};
+
+
 
 void LivingPlant::setAge(int age)
 {
@@ -46,16 +54,21 @@ void LivingPlant::setAge(int age)
 void LivingPlant::setHealth(int health)
 {
     this->health = health;
+    this->health = std::max(0, std::min(100, this->health));
 };
+
 
 void LivingPlant::setWaterLevel(int waterLevel)
 {
     this->waterLevel = waterLevel;
+    this->waterLevel = std::max(0, std::min(100, this->waterLevel));
 };
+
 
 void LivingPlant::setSunExposure(int sunExposure)
 {
     this->sunExposure = sunExposure;
+    this->sunExposure = std::max(0, std::min(100, this->sunExposure));
 };
 
 void LivingPlant::setWaterStrategy(int strategy)
@@ -119,13 +132,20 @@ std::string LivingPlant::getInfo()
 {
     std::ostringstream stream;
     stream << std::fixed << std::setprecision(2);
-
+    string stateStr = "";
     std::string plantName = *name->getState();
+
+    if (this->maturityState)
+        stateStr = this->maturityState->getState()->getName();
 
     stream << "-------------------------------\n";
 
     stream << "| " << std::left << std::setw(15) << "Name:" << std::setw(13) << plantName << "|\n";
     stream << "| " << std::left << std::setw(15) << "Health:" << std::setw(13) << health << "|\n";
+    stream << "| " << std::left << std::setw(15) << "Age:" << std::setw(13) << (std::to_string(age) + " days") << "|\n";
+    if (this->maturityState)
+        stream << "| " << std::left << std::setw(15) << "State:" << std::setw(13) << stateStr << "|\n";
+
     stream << "| " << std::left << std::setw(15) << "Age:" << std::setw(13) << (std::to_string(age) + " days") << "|\n";
     stream << "| " << std::left << std::setw(15) << "Water Level:" << std::setw(13) << waterLevel << "|\n";
     stream << "| " << std::left << std::setw(15) << "Sun Exposure:" << std::setw(13) << sunExposure << "|\n";
@@ -142,7 +162,6 @@ std::string LivingPlant::getInfo()
         stream << "| " << std::left << std::setw(20) << "Water Affection:" << std::setw(8) << decorator->affectWater() << "|\n";
         stream << "| " << std::left << std::setw(20) << "Sun Affection:" << std::setw(8) << decorator->affectSunlight() << "|\n";
         stream << "-------------------------------\n";
-        stream << "Attributes:\n";
     }
 
     return stream.str();
@@ -171,6 +190,9 @@ void LivingPlant::water()
         WaterStrategy *strategy = this->waterStrategy->getState();
 
         int waterApplied = strategy->water(this);
+    this->health = std::max(0, std::min(100, this->health));
+    this->waterLevel = std::max(0, std::min(100, this->waterLevel));
+    this->sunExposure = std::max(0, std::min(100, this->sunExposure));
     }
 }
 
@@ -198,6 +220,9 @@ void LivingPlant::update()
         this->waterLevel -= this->affectWater();
         this->sunExposure -= this->affectSunlight();
     }
+    this->health = std::max(0, std::min(100, this->health));
+    this->waterLevel = std::max(0, std::min(100, this->waterLevel));
+    this->sunExposure = std::max(0, std::min(100, this->sunExposure));
 };
 
 void LivingPlant::setOutside()
@@ -208,6 +233,9 @@ void LivingPlant::setOutside()
         SunStrategy *strategy = this->sunStrategy->getState();
 
         int sunApplied = strategy->addSun(this);
+    this->health = std::max(0, std::min(100, this->health));
+    this->waterLevel = std::max(0, std::min(100, this->waterLevel));
+    this->sunExposure = std::max(0, std::min(100, this->sunExposure));
     }
 }
 
@@ -312,6 +340,9 @@ int LivingPlant::getSunlightValue()
 }
 void LivingPlant::tick()
 {
-    
+
     this->maturityState->getState()->grow(this);
+    this->health = std::max(0, std::min(100, this->health));
+    this->waterLevel = std::max(0, std::min(100, this->waterLevel));
+    this->sunExposure = std::max(0, std::min(100, this->sunExposure));
 }

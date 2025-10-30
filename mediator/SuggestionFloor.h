@@ -43,7 +43,7 @@ class SuggestionFloor : public Mediator
 		 * @brief Routes customer assistance requests to available advisory staff.
 		 * @param customer Pointer to the User requesting plant care suggestions.
 		 */
-		void getAssistance(User* customer);
+		string getAssistance(User* customer);
 
 		/**
 		 * @brief Coordinates staff assistance for suggestion operations.

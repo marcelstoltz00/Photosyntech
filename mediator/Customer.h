@@ -43,16 +43,17 @@ class Customer : public User
 
 	public:
 		Customer();
+		Customer(std::string name);
     	virtual ~Customer();
 		/**
 		 * @brief Requests plant care suggestions from staff via the mediator.
 		 */
-		void askForSuggestion();
+		string askForSuggestion();
 
 		/**
 		 * @brief Initiates plant purchase transaction via the sales floor mediator.
 		 */
-		void purchasePlants();
+		string purchasePlants();
 
 		/**
 		 * @brief Adds a plant to the customer's shopping basket.
@@ -60,12 +61,10 @@ class Customer : public User
 		 */
 		void addPlant(PlantComponent* plant);
 
-		/**
-		 * @brief Performs a customer operation.
-		 */
-		void operation();
+
 		PlantGroup* getBasket() const;
    		void clearBasket();
+		
 };
 
 #endif

@@ -6,7 +6,39 @@
 #include "../mediator/Mediator.h"
 #include "../iterator/Aggregate.h"
 #include "../composite/PlantComponent.h"
-
+#include <string>
+#include <vector>
+#include "../builder/Director.h"
+#include "../builder/SunflowerBuilder.h"
+#include "../builder/RoseBuilder.h"
+#include "../builder/JadePlantBuilder.h"
+#include "../builder/MapleBuilder.h"
+#include "../builder/CactusBuilder.h"
+#include "../builder/CherryBlossomBuilder.h"
+#include "../builder/LavenderBuilder.h"
+#include "../builder/PineBuilder.h"
+#include "../composite/PlantGroup.h"
+#include "../decorator/plantDecorator/PlantAttributesHeader.h"
+#include "../decorator/plantDecorator/LargeStem.h"
+#include "../decorator/plantDecorator/LargeLeaf.h"
+#include "../decorator/plantDecorator/LargeFlowers.h"
+#include "../decorator/plantDecorator/SmallStem.h"
+#include "../decorator/plantDecorator/SmallLeaf.h"
+#include "../decorator/plantDecorator/SmallFlowers.h"
+#include "../decorator/plantDecorator/Thorns.h"
+#include "../decorator/plantDecorator/Spring.h"
+#include "../decorator/plantDecorator/Summer.h"
+#include "../decorator/plantDecorator/Autumn.h"
+#include "../decorator/plantDecorator/Winter.h"
+#include "../prototype/LivingPlant.h"
+#include "../prototype/Herb.h"
+#include "../prototype/Shrub.h"
+#include "../prototype/Succulent.h"
+#include "../prototype/Tree.h"
+#include "../mediator/Customer.h"
+#include "../mediator/SalesFloor.h"
+#include "../mediator/SuggestionFloor.h"
+#include "../iterator/AggPlant.h"
 
 /**
  * @brief Unified facade interface for the nursery management system.
@@ -53,50 +85,107 @@
  * @see Mediator (sales and suggestion floor coordination)
  * @see Iterator (plant filtering and browsing)
  */
+
 class NurseryFacade
 {
-	private:
-		Director* director;
-		Singleton* inventory;
-		Mediator* salesFloor;
-		Mediator* suggestionFloor;
+private:
+    Director *director;
+    Builder *sunflowerBuilder;
+    Builder *roseBuilder;
+    Builder *jadePlantBuilder;
+    Builder *mapleBuilder;
+    Builder *cactusBuilder;
+    Builder *cherryBlossomBuilder;
+    Builder *lavenderBuilder;
+    Builder *pineBuilder;
+    std::vector<PlantComponent *> plants;
+    SalesFloor *sales;
+    SuggestionFloor *suggestionFloor;
 
-	public:
-		/**
-		 * @brief Creates a new plant using the builder pattern.
-		 * @param species String identifying the plant species to create.
-		 * @return Pointer to the newly created PlantComponent.
-		 */
-		PlantComponent* createPlant(const char* species);
+public:
+    NurseryFacade();
+    ~NurseryFacade();
 
-		/**
-		 * @brief Adds a plant to the global inventory.
-		 * @param plant Pointer to the PlantComponent to add.
-		 */
-		void addToInventory(PlantComponent* plant);
+    PlantComponent *createPlant(const std::string &type);
 
-		/**
-		 * @brief Browses available plants, optionally filtered by criteria.
-		 * @param filter Optional filter string (e.g., season name).
-		 */
-		void browsePlants(const char* filter);
+    void waterPlant(PlantComponent *plant);
 
-		/**
-		 * @brief Initiates a plant purchase transaction.
-		 * @param plant Pointer to the PlantComponent being purchased.
-		 */
-		void purchasePlant(PlantComponent* plant);
+    void addSunlight(PlantComponent *plant);
 
-		/**
-		 * @brief Waters a specific plant.
-		 * @param plant Pointer to the PlantComponent to water.
-		 */
-		void waterPlant(PlantComponent* plant);
+    std::string getPlantInfo(PlantComponent *plant);
 
-		/**
-		 * @brief Requests plant care suggestions from staff.
-		 */
-		void getSuggestions();
+    std::vector<std::string> getAvailablePlantTypes();
+
+    PlantComponent *getInventoryRoot();
+
+    std::list<PlantComponent *> getGroupContents(PlantComponent *group);
+
+    PlantGroup *createPlantGroup();
+
+    PlantGroup *createPlantGroup(const std::string& name);
+
+    void addComponentToGroup(PlantComponent *parent, PlantComponent *child);
+
+    bool startNurseryTick();
+
+    bool stopNurseryTick();
+
+    /**
+     * @brief adds a customer to singleton for memory management
+     */
+    Customer *addCustomer(string);
+
+    /**
+     * @brief Removes a component from anywhere in the inventory tree.
+     * @param component The component to remove.
+     */
+    void removeComponentFromInventory(PlantComponent *component); // <-- ADD THIS
+
+    /**
+     * @brief performs the communication of customer to staff member
+     */
+    string askForSuggestion(Customer *);
+
+    /**
+     * @brief adds a plant to a customers basket
+     */
+    bool addToCustomerBasket(Customer *, PlantComponent *);
+
+    /**
+     * @brief adds a plant to a customers basket
+     */
+    string customerPurchase(Customer *);
+
+    /**
+     * @brief adds a Staff member singleton for memory management
+     */
+    Staff *addStaff(string);
+
+    /**
+     * @brief adds staff as an observer to plantGroup
+     */
+    void setObserver(Staff *staff, PlantGroup *);
+
+    /**
+ * @brief Gets a plant from the customer's basket by index.
+ */
+PlantComponent* getPlantFromBasket(Customer* customer, int index);
+
+    std::list<PlantComponent *> getCustomerPlants(Customer *);
+
+    std::vector<string> getMenuString();
+
+    PlantComponent*findPlant(int index);
+
+    std::vector<string> getCustomerBasketString(Customer* customer);
+
+    PlantComponent * removeFromCustomer(Customer *,int index);
+
+       std::vector<string> getAllStaffMembers();
+        Staff* findStaff(int i);
+
+    std::vector<string> getAllPlantGroups();
+
 };
 
 #endif

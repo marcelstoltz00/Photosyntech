@@ -58,7 +58,8 @@ TEST_SRC = tests/tests_core.cpp\
             mediator/Staff.cpp\
             mediator/SuggestionFloor.cpp\
             observer/Observer.cpp\
-            observer/Subject.cpp
+            observer/Subject.cpp\
+			facade/NurseryFacade.cpp
 
 SRC = $(TEST_SRC)
 OBJ := $(SRC:.cpp=.o)
@@ -207,3 +208,6 @@ tui-build-raw:
 # Full sequence: clone repo (if needed), fetch deps, configure and build
 tui-full: tui-clone tui-deps tui-configure-raw tui-build-raw
 	@echo "TUIKit build complete (tui-full)"
+
+tui-manager: tui
+	cd TUI/TUIKit/build && ./TUI

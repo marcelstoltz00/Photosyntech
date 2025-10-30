@@ -47,5 +47,6 @@ public:
      * @return Integer identifier for the state
      */
     static const int getID() { return 0; }
+    virtual const string getName() { return "Seed"; };
 };
 #endif /* Seed_h */
