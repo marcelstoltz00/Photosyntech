@@ -89,7 +89,7 @@ std::string NurseryFacade::getPlantInfo(PlantComponent *plant)
     return plant ? plant->getInfo() : "No plant selected";
 }
 
-PlantComponent* NurseryFacade::getPlantFromBasket(Customer* customer, int index)
+PlantComponent *NurseryFacade::getPlantFromBasket(Customer *customer, int index)
 {
     if (customer && customer->getBasket() && customer->getBasket()->getPlants())
     {
@@ -98,8 +98,8 @@ PlantComponent* NurseryFacade::getPlantFromBasket(Customer* customer, int index)
             return nullptr;
         }
 
-        AggPlant* agg = new AggPlant(customer->getBasket()->getPlants());
-        Iterator* itr = agg->createIterator();
+        AggPlant *agg = new AggPlant(customer->getBasket()->getPlants());
+        Iterator *itr = agg->createIterator();
         int count = 0;
 
         while (!itr->isDone() && count != index)
@@ -108,7 +108,7 @@ PlantComponent* NurseryFacade::getPlantFromBasket(Customer* customer, int index)
             count++;
         }
 
-        PlantComponent* curr = nullptr;
+        PlantComponent *curr = nullptr;
         if (!itr->isDone())
         {
             curr = itr->currentItem();
@@ -166,8 +166,8 @@ void NurseryFacade::addComponentToGroup(PlantComponent *parent, PlantComponent *
 
 void NurseryFacade::removeComponentFromInventory(PlantComponent *component)
 {
-    PlantComponent* root = Inventory::getInstance()->getInventory();
-    PlantGroup* rootGroup = dynamic_cast<PlantGroup*>(root);
+    PlantComponent *root = Inventory::getInstance()->getInventory();
+    PlantGroup *rootGroup = dynamic_cast<PlantGroup *>(root);
 
     if (rootGroup)
     {
@@ -337,4 +337,55 @@ PlantComponent *NurseryFacade::removeFromCustomer(Customer *customer, int index)
         return curr;
     }
     return nullptr;
+}
+
+std::vector<string> NurseryFacade::getAllStaffMembers()
+{
+    std::vector<string> names;
+    std::vector<Staff *> *staff = Inventory::getInstance()->getStaff();
+    for (size_t i = 0; i < staff->size(); i++)
+    {
+        names.push_back((*staff)[i]->getName());
+    }
+    return names;
+}
+
+Staff *NurseryFacade::findStaff(int index)
+{
+    std::vector<string> names;
+    std::vector<Staff *> staff = *Inventory::getInstance()->getStaff();
+    auto itr = staff.begin();
+    int count = 0;
+
+    while (itr != staff.end() && *itr != nullptr && count < index)
+    {
+        count++;
+        itr++;
+    }
+
+    if (*itr)
+    {
+        return *itr;
+    }
+    else
+    {
+        return addStaff("Staff");
+    }
+}
+
+std::vector<string> NurseryFacade::getAllPlantGroups()
+{
+    std::vector<string> names;
+    std::list<PlantComponent *> groups = *Inventory::getInstance()->getInventory()->getPlants();
+    std::vector<string> groupNames;
+    int count = 0;
+    auto itr = groups.begin();
+    while (itr != groups.end())
+    {
+        if (*itr && (*itr)->getType() == ComponentType::PLANT_GROUP)
+        {
+            groupNames.push_back("Plant Group " + to_string(count++));
+        }
+    }
+    return groupNames;
 }

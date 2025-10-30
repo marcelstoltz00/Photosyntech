@@ -180,6 +180,12 @@ PlantComponent* getPlantFromBasket(Customer* customer, int index);
     std::vector<string> getCustomerBasketString(Customer* customer);
 
     PlantComponent * removeFromCustomer(Customer *,int index);
+
+       std::vector<string> getAllStaffMembers();
+        Staff* findStaff(int i);
+
+    std::vector<string> getAllPlantGroups();
+
 };
 
 #endif
