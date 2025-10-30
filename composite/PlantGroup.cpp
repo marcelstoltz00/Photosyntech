@@ -338,7 +338,6 @@ void PlantGroup::tick()
     this->update();
     for (PlantComponent *component : plants)
     {
-
         component->tick();
     }
 }

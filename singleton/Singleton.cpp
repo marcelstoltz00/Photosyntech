@@ -191,7 +191,10 @@ bool Inventory::stopTicker()
             TickerThread = nullptr;
         }
         else if (TickerThread)
+        {
             delete TickerThread;
+            TickerThread = nullptr;
+        }
 
         return true;
     }

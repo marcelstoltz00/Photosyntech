@@ -354,7 +354,7 @@ int main()
     vector<string> plantNames = nursery.getMenuString();
     vector<string> basketNames = {};
     nursery.addCustomer("Customer");
-    nursery.addStaff("Staff");
+    nursery.addStaff("Mark");
 
     string customerTerminalStr = "Your conversations go here";
     auto nameInput = Input(&userName, "Enter your name here");
@@ -474,7 +474,7 @@ int main()
     ftxui::SliderOption<int> water_slider_option;
     water_slider_option.value = &water;
     water_slider_option.min = 0;
-    water_slider_option.max = 200;
+    water_slider_option.max = 100;
     water_slider_option.increment = 1;
     water_slider_option.color_active = ftxui::Color::Blue;
     water_slider_option.color_inactive = ftxui::Color::GrayDark;
@@ -486,7 +486,7 @@ int main()
     ftxui::SliderOption<int> sun_slider_option;
     sun_slider_option.value = &sun;
     sun_slider_option.min = 0;
-    sun_slider_option.max = 200;
+    sun_slider_option.max = 100;
     sun_slider_option.increment = 1;
     sun_slider_option.color_active = ftxui::Color::Yellow;
     sun_slider_option.color_inactive = ftxui::Color::GrayDark;
@@ -497,7 +497,7 @@ int main()
     ftxui::SliderOption<int> health_Slider_option;
     health_Slider_option.value = &health;
     health_Slider_option.min = 0;
-    health_Slider_option.max = 200;
+    health_Slider_option.max = 100;
     health_Slider_option.increment = 1;
     health_Slider_option.color_active = ftxui::Color::LightGreen;
     health_Slider_option.color_inactive = ftxui::Color::GrayDark;
@@ -574,11 +574,14 @@ int main()
                                refreshPlantGroupView(nursery,plantGroupNames); });
     auto AddStaffObserver = Button("set observer", [&]
                                    { nursery.setAsObserver(currentStaffMember, currentPlantGroupStaff);
-                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully added as an observer":currentStaffMember->getName() + " could not be added as an observer"; });
+                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully added as an observer":" could nor process request"; });
+ auto removeStaffObserver = Button("detach observer", [&]
+                                   { nursery.RemoveObserver(currentStaffMember, currentPlantGroupStaff);
+                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully removed as an observer":" could not process request"; });
 
     auto staffManagement = Container::Vertical({
 
-        Container::Horizontal({AddStaffObserver, staffNameInput, addStaff}),
+        Container::Horizontal({removeStaffObserver,AddStaffObserver, staffNameInput, addStaff}),
         Container::Horizontal({staffMenu, plantGroupMenu, plantGroupContentsMenu,plantGroupObservers})
 
     });
@@ -607,7 +610,7 @@ int main()
                                  {
                                     counter++;
 
-                    if (counter == 30)
+                    if (counter == 15)
                     {
 refreshCustomerView(nursery, plantNames);
      refreshPlantGroupView(nursery,plantGroupNames);
@@ -711,9 +714,9 @@ refreshCustomerView(nursery, plantNames);
     });
     Element StaffView = vbox(
         {
-           hcenter (hbox({ filler(),AddStaffObserver->Render()| size(WIDTH,EQUAL,20),
-               window(text("Enter staff"), staffNameInput->Render()| size(WIDTH,EQUAL,40)|size(HEIGHT,EQUAL,2)) ,addStaff->Render() |size(WIDTH,EQUAL,20),filler()
-            })  |size(HEIGHT,EQUAL,3)| size(WIDTH,EQUAL,300)|border),
+           hcenter (hbox({ filler(),removeStaffObserver->Render()| size(WIDTH,EQUAL,20),filler(),
+               window(text("Enter staff"), staffNameInput->Render()| size(WIDTH,EQUAL,40)|size(HEIGHT,EQUAL,2)) ,addStaff->Render() |size(WIDTH,EQUAL,20),filler(),AddStaffObserver->Render()| size(WIDTH,EQUAL,20),
+         filler()   })  |size(HEIGHT,EQUAL,3)| size(WIDTH,EQUAL,300)|border),
             hbox({ filler(),
                 window(text("Staff members"),staffMenu->Render())|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,30), 
                 window(text("Plant groups"),plantGroupMenu->Render())|size(WIDTH,EQUAL,80)|size(HEIGHT,GREATER_THAN,30),

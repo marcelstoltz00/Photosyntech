@@ -191,6 +191,8 @@ PlantComponent* getPlantFromBasket(Customer* customer, int index);
 
     bool setAsObserver(Staff* staff,PlantGroup * PG);
 
+    bool RemoveObserver(Staff *staff, PlantGroup *PG);
+
     vector<string> getObservers(PlantGroup* pg);
     
 };

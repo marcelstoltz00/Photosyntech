@@ -437,6 +437,15 @@ bool NurseryFacade::setAsObserver(Staff *staff, PlantGroup *PG)
     }
     return false;
 }
+bool NurseryFacade::RemoveObserver(Staff *staff, PlantGroup *PG)
+{
+    if (PG)
+    {
+        PG->detach(staff);
+        return true;
+    }
+    return false;
+}
 
  vector<string> NurseryFacade::getObservers(PlantGroup* pg)
  {
