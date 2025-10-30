@@ -48,8 +48,10 @@ TEST_SRC = tests/tests_core.cpp\
             iterator/Aggregate.cpp\
             iterator/AggPlant.cpp\
             iterator/AggSeason.cpp\
+            iterator/AggPlantName.cpp\
             iterator/PlantIterator.cpp\
             iterator/SeasonIterator.cpp\
+            iterator/PlantNameIterator.cpp\
             mediator/Mediator.cpp\
             mediator/Customer.cpp\
             mediator/SalesFloor.cpp\
