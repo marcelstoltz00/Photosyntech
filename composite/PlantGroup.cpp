@@ -12,7 +12,7 @@ PlantGroup::~PlantGroup()
     std::list<PlantComponent *>::iterator itr = plants.begin();
     while (itr != plants.end())
     {
-      
+
         if ((*itr)->getDecorator() != nullptr)
             delete (*itr)->getDecorator();
         else
@@ -24,7 +24,8 @@ PlantGroup::~PlantGroup()
 }
 
 PlantGroup::PlantGroup(std::string groupName)
-    : PlantComponent(0.0, 0, 0), groupName(groupName) {
+    : PlantComponent(0.0, 0, 0), groupName(groupName)
+{
 }
 
 PlantGroup::PlantGroup(const PlantGroup &other)
@@ -93,11 +94,13 @@ PlantComponent *PlantGroup::clone()
     return new PlantGroup(*this);
 };
 
-void PlantGroup::setGroupName(std::string newGroupName){
+void PlantGroup::setGroupName(std::string newGroupName)
+{
     this->groupName = newGroupName;
 }
 
-std::string PlantGroup::getGroupName(){
+std::string PlantGroup::getGroupName()
+{
     return this->groupName;
 };
 
@@ -111,9 +114,9 @@ void PlantGroup::update()
 
         if (component->getType() != ComponentType::PLANT_GROUP)
         {
-            if (component->getSunlightValue() <= 10)
+            while (component->getWaterValue() <= 40)
                 waterNeeded(component);
-            if (component->getSunlightValue() <= 10)
+            while (component->getSunlightValue() <= 40)
                 sunlightNeeded(component);
         }
     }
@@ -167,19 +170,24 @@ void PlantGroup::addComponent(PlantComponent *component)
     plants.push_back(component);
 }
 
-bool PlantGroup::removeComponent(PlantComponent *component) {
-    std::list<PlantComponent*>::iterator it = 
+bool PlantGroup::removeComponent(PlantComponent *component)
+{
+    std::list<PlantComponent *>::iterator it =
         std::find(plants.begin(), plants.end(), component);
-    
-    if (it != plants.end()) {
+
+    if (it != plants.end())
+    {
         plants.erase(it);
         return true;
     }
 
-    for (PlantComponent* child : plants) {
-        if (child->getType() == ComponentType::PLANT_GROUP) {
-            PlantGroup* childGroup = dynamic_cast<PlantGroup*>(child);
-            if (childGroup && childGroup->removeComponent(component)) {
+    for (PlantComponent *child : plants)
+    {
+        if (child->getType() == ComponentType::PLANT_GROUP)
+        {
+            PlantGroup *childGroup = dynamic_cast<PlantGroup *>(child);
+            if (childGroup && childGroup->removeComponent(component))
+            {
                 return true;
             }
         }
@@ -327,21 +335,15 @@ int PlantGroup::getSunlightValue()
 
 void PlantGroup::tick()
 {
-
+    this->update();
     for (PlantComponent *component : plants)
     {
 
-
-        if (component->getType() != ComponentType::PLANT_GROUP)
-        {   component->update();
-            
-            if (component->getWaterValue() <= 10)
-                waterNeeded(component);
-            if (component->getSunlightValue() <= 10)
-                sunlightNeeded(component);
-        }
-
-                component->tick();
-
+        component->tick();
     }
 }
+
+	std::list<Observer *> PlantGroup::getObservers()
+    {
+        return this->observers;
+    }

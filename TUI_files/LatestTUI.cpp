@@ -474,7 +474,7 @@ int main()
     ftxui::SliderOption<int> water_slider_option;
     water_slider_option.value = &water;
     water_slider_option.min = 0;
-    water_slider_option.max = 200;
+    water_slider_option.max = 100;
     water_slider_option.increment = 1;
     water_slider_option.color_active = ftxui::Color::Blue;
     water_slider_option.color_inactive = ftxui::Color::GrayDark;
@@ -486,7 +486,7 @@ int main()
     ftxui::SliderOption<int> sun_slider_option;
     sun_slider_option.value = &sun;
     sun_slider_option.min = 0;
-    sun_slider_option.max = 200;
+    sun_slider_option.max = 100;
     sun_slider_option.increment = 1;
     sun_slider_option.color_active = ftxui::Color::Yellow;
     sun_slider_option.color_inactive = ftxui::Color::GrayDark;
@@ -497,7 +497,7 @@ int main()
     ftxui::SliderOption<int> health_Slider_option;
     health_Slider_option.value = &health;
     health_Slider_option.min = 0;
-    health_Slider_option.max = 200;
+    health_Slider_option.max = 100;
     health_Slider_option.increment = 1;
     health_Slider_option.color_active = ftxui::Color::LightGreen;
     health_Slider_option.color_inactive = ftxui::Color::GrayDark;
@@ -555,6 +555,8 @@ int main()
     int staffIndex = 0;
     int plantGroupIndex = 0;
     int internalPlantGroupIndex = 0;
+
+    
     PlantGroup *currentPlantGroupStaff = nullptr;
     auto plantGroupMenu = Menu(&plantGroupNames, &plantGroupIndex);
 

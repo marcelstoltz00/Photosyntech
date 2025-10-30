@@ -34,3 +34,14 @@ delete fac;
  
     delete Inventory::getInstance();
 }
+TEST_CASE("Testing nursery function")
+{
+    NurseryFacade *fac = new NurseryFacade;
+    PlantGroup* pg = new PlantGroup();
+    Staff* staf = new Staff("jerry");
+    pg->attach(staf);
+    fac->getObservers(pg);
+ 
+    delete fac;
+    delete Inventory::getInstance();
+}

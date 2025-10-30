@@ -9,7 +9,7 @@
 Inventory *Inventory::instance = nullptr;
 thread *Inventory::TickerThread = nullptr;
 std::atomic<bool> Inventory::on(false);
-int Inventory::timeBetweenTicks = 5;
+int Inventory::timeBetweenTicks = 2;
 
 Inventory::Inventory()
 {

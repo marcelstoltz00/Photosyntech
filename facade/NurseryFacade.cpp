@@ -437,3 +437,25 @@ bool NurseryFacade::setAsObserver(Staff *staff, PlantGroup *PG)
     }
     return false;
 }
+
+ vector<string> NurseryFacade::getObservers(PlantGroup* pg)
+ {
+    if (pg)
+    {
+        std::vector<string> names;
+    std::list<Observer *> staff = pg->getObservers();
+   auto itr = staff.begin();
+    while (itr != staff.end())
+    {
+        if (*itr)
+        names.push_back((*itr)->getNameObserver());
+
+        itr++;
+    }
+    return names;
+    }
+    else
+    {
+        return {};
+    }
+ }
