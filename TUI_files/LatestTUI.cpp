@@ -324,6 +324,7 @@ int main() {
     int customerBasketIndex = 0;
     int water = 0;
     int sun = 0;
+    int health=0;
     vector<string> plantNames = nursery.getMenuString();
     vector<string> basketNames = {};
     nursery.addCustomer("Customer");
@@ -462,8 +463,9 @@ water_slider_option.color_inactive = ftxui::Color::GrayDark;
 
     auto waterSlider = Slider(water_slider_option);
     auto waterStyled = Renderer(waterSlider, [&] {
-        return waterSlider->Render()  | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90);
+        return waterSlider->Render()  | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 65);
     });
+
 ftxui::SliderOption<int> sun_slider_option;
 sun_slider_option.value = &sun;
 sun_slider_option.min = 0;
@@ -474,8 +476,22 @@ sun_slider_option.color_inactive = ftxui::Color::GrayDark;
 
     auto sunSlider = Slider(sun_slider_option);
     auto sunStyled = Renderer(sunSlider, [&] {
-        return sunSlider->Render()  | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 90);
+        return sunSlider->Render()  | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 65);
     });
+ftxui::SliderOption<int> health_Slider_option;
+health_Slider_option.value = &health;
+health_Slider_option.min = 0;
+health_Slider_option.max = 200;
+health_Slider_option.increment = 1;
+health_Slider_option.color_active = ftxui::Color::LightGreen;
+health_Slider_option.color_inactive = ftxui::Color::GrayDark;
+
+    auto healthSlider = Slider(health_Slider_option);
+    auto healthStyled = Renderer(healthSlider, [&] {
+        return healthSlider->Render()  | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 65);
+    });
+
+
 
     auto backButton = Button("<< Back", [&] {
     tabSelected = previousTab;
@@ -544,6 +560,7 @@ sun_slider_option.color_inactive = ftxui::Color::GrayDark;
         if (currentCustomerPlant) {
             water = currentCustomerPlant->getWaterValue();
             sun = currentCustomerPlant->getSunlightValue();
+            health = currentCustomerPlant->getHealth();
         }
 
         Element Dialogue = text("");
@@ -651,15 +668,15 @@ sun_slider_option.color_inactive = ftxui::Color::GrayDark;
                 hbox({
                     
                     window (text("Water Level"),{waterStyled->Render()}),
-                    filler(),
+                     window (text("Health Level"),{healthStyled->Render()}),
                      window (text("Sun level"),{sunStyled->Render()}),
                 }),
                 filler(),
 
                 window(
                     text("Conversations") | bold | color(Color::Cyan),
-                    paragraph(customerTerminalStr) | frame | vscroll_indicator | size(HEIGHT, EQUAL, 15) | color(Color::GrayLight)
-                ),
+                    paragraph(customerTerminalStr) | frame | vscroll_indicator | size(HEIGHT, EQUAL, 15) | color(Color::GrayLight) 
+                )|size(WIDTH, EQUAL, 200),
 
                 hbox({
                 askAdvice->Render() | color(Color::Magenta) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
@@ -679,14 +696,14 @@ sun_slider_option.color_inactive = ftxui::Color::GrayDark;
 
                 }) | size(WIDTH, EQUAL, 25)
 
-        }) | border | size(WIDTH, EQUAL, 200),
+        }) | border | size(WIDTH, EQUAL,200),
                 filler()
             }))
             : vbox({
                 window(text("Enter details") | bold | color(Color::Yellow), 
                     paragraph("Please enter your name first and press login") | color(Color::GrayLight))
             })
-        });
+        }) | size(WIDTH,EQUAL ,500);
             Element tab4View = vbox({
             window(text("Plant Details") | bold | color(Color::Cyan),
                 vbox({
