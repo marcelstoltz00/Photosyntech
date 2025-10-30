@@ -110,13 +110,13 @@ public:
 	 * @brief Gets the total sunlight affection value for all plants in the group.
 	 * @return Integer representing cumulative sunlight impact.
 	 */
-	int affectSunlight() ;
+	int affectSunlight();
 
 	/**
 	 * @brief Gets group name as a formatted string.
 	 * @return String containing group name.
 	 */
-	std::string getName() ;
+	std::string getName();
 
 	/**
 	 * @brief Gets the total price of all plants in this group.
@@ -152,11 +152,11 @@ public:
 	virtual PlantComponent *correctShape(PlantComponent *);
 
 	/**
-     * @brief Removes a component from this group or its subgroups.
-     * @param component The component to remove.
-     * @return true if the component was found and removed, false otherwise.
-     */
-    bool removeComponent(PlantComponent *component);
+	 * @brief Removes a component from this group or its subgroups.
+	 * @param component The component to remove.
+	 * @return true if the component was found and removed, false otherwise.
+	 */
+	bool removeComponent(PlantComponent *component);
 
 	void checkWater();
 	void checkSunlight();
@@ -166,6 +166,9 @@ public:
 
 	virtual void tick();
 	virtual Flyweight<std::string *> *getNameFlyweight() { return nullptr; };
+
+	void setGroupName(std::string newGroupName);
+	std::string getGroupName();
 };
 
 #endif
