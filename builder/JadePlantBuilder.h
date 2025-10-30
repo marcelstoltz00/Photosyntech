@@ -26,7 +26,7 @@ public:
      * @brief Constructor for JadePlantBuilder.
      */
     JadePlantBuilder();
-
+	virtual ~JadePlantBuilder(){};
     /**
      * @brief Creates a new Succulent object as the base for the Jade plant.
      */

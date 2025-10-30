@@ -22,6 +22,8 @@ private:
 	// This is the list of observers
 	std::list<Observer *> observers;
 
+	std::string groupName = "";
+
 	/**
 	 * @brief Notifies observers that plants in this group need water.
 	 */
@@ -39,9 +41,14 @@ private:
 
 public:
 	/**
-	 * @brief Constructs a PlantGroup with 0 as attributes.
+	 * @brief Constructs a PlantGroup with 0 attributes.
 	 */
 	PlantGroup();
+
+	/**
+	 * @brief Constructs a PlantGroup with a name
+	 */
+	PlantGroup(std::string groupName);
 
 	/**
 	 * @brief Copy constructor for deep copying the group hierarchy.
@@ -144,6 +151,13 @@ public:
 	void addComponent(PlantComponent *component);
 	virtual PlantComponent *correctShape(PlantComponent *);
 
+	/**
+	 * @brief Removes a component from this group or its subgroups.
+	 * @param component The component to remove.
+	 * @return true if the component was found and removed, false otherwise.
+	 */
+	bool removeComponent(PlantComponent *component);
+
 	void checkWater();
 	void checkSunlight();
 	void checkState();
@@ -152,6 +166,9 @@ public:
 
 	virtual void tick();
 	virtual Flyweight<std::string *> *getNameFlyweight() { return nullptr; };
+
+	void setGroupName(std::string newGroupName);
+	std::string getGroupName();
 };
 
 #endif

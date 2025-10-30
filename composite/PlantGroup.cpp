@@ -2,6 +2,7 @@
 #include "../observer/Observer.h"
 #include "../prototype/LivingPlant.h"
 #include <sstream>
+#include <algorithm>
 
 PlantGroup::PlantGroup()
     : PlantComponent(0.0, 0, 0) {};
@@ -11,6 +12,7 @@ PlantGroup::~PlantGroup()
     std::list<PlantComponent *>::iterator itr = plants.begin();
     while (itr != plants.end())
     {
+      
         if ((*itr)->getDecorator() != nullptr)
             delete (*itr)->getDecorator();
         else
@@ -19,6 +21,10 @@ PlantGroup::~PlantGroup()
         itr++;
         // should work.
     }
+}
+
+PlantGroup::PlantGroup(std::string groupName)
+    : PlantComponent(0.0, 0, 0), groupName(groupName) {
 }
 
 PlantGroup::PlantGroup(const PlantGroup &other)
@@ -87,6 +93,14 @@ PlantComponent *PlantGroup::clone()
     return new PlantGroup(*this);
 };
 
+void PlantGroup::setGroupName(std::string newGroupName){
+    this->groupName = newGroupName;
+}
+
+std::string PlantGroup::getGroupName(){
+    return this->groupName;
+};
+
 void PlantGroup::update()
 {
 
@@ -151,6 +165,27 @@ void PlantGroup::addAttribute(PlantComponent *attribute)
 void PlantGroup::addComponent(PlantComponent *component)
 {
     plants.push_back(component);
+}
+
+bool PlantGroup::removeComponent(PlantComponent *component) {
+    std::list<PlantComponent*>::iterator it = 
+        std::find(plants.begin(), plants.end(), component);
+    
+    if (it != plants.end()) {
+        plants.erase(it);
+        return true;
+    }
+
+    for (PlantComponent* child : plants) {
+        if (child->getType() == ComponentType::PLANT_GROUP) {
+            PlantGroup* childGroup = dynamic_cast<PlantGroup*>(child);
+            if (childGroup && childGroup->removeComponent(component)) {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 std::string PlantGroup::getName()

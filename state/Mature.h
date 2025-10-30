@@ -46,5 +46,7 @@ public:
      * @return Integer identifier for the state
      */
     static const int getID() { return 2; }
+
+    	virtual const string getName(){return "Mature";};
 };
 #endif /* Mature_h */

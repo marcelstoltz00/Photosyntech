@@ -4,7 +4,8 @@
 #include "../state/Vegetative.h"
 #include "../state/Seed.h"
 #include "../composite/PlantGroup.h"
-
+#include "../mediator/Customer.h"
+#include "../mediator/Staff.h"
 Inventory *Inventory::instance = nullptr;
 thread *Inventory::TickerThread = nullptr;
 std::atomic<bool> Inventory::on(false);

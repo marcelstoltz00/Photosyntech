@@ -40,5 +40,7 @@ public:
      * @return Integer identifier for the state
      */
     static const int getID() { return 3; }
+
+	virtual const string getName(){return "DEAD";};
 };
 #endif /* Dead_h */

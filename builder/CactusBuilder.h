@@ -30,7 +30,7 @@ public:
      * @brief Constructor for CactusBuilder.
      */
     CactusBuilder();
-
+	virtual ~CactusBuilder(){};
     /**
      * @brief Creates a new Succulent object as the base for the Cactus.
      */

@@ -876,6 +876,7 @@ TEST_CASE("Testing SunflowerBuilder Implementation")
         director.construct();
 
         PlantComponent *sunflowerPlant = director.getPlant();
+        PlantComponent *plant = director.getPlant();
         LivingPlant *sunflowerLiving = dynamic_cast<LivingPlant *>(sunflowerPlant);
 
         if (sunflowerLiving)
@@ -887,6 +888,7 @@ TEST_CASE("Testing SunflowerBuilder Implementation")
 
         delete sunflowerPlant;
         delete sunflowerBuilder;
+        delete plant;
     }
     delete Inventory::getInstance();
 }

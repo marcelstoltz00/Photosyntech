@@ -38,11 +38,13 @@ public:
      */
     virtual std::string getImagePath(LivingPlant *plant) = 0;
 
-	// /**
-	//  * @brief Returns the identifier for this state type
-	//  *
-	//  * @return Integer identifier for the state
-	//  */
-	// static const int getID();
+	/**
+	 * @brief Returns the identifier for this state type
+	 *
+	 * @return Integer identifier for the state
+	 */
+	static const int getID();
+
+	virtual const string getName(){return "Base State";};
 };
 #endif /* MaturityState_h */

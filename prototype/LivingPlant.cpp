@@ -119,13 +119,20 @@ std::string LivingPlant::getInfo()
 {
     std::ostringstream stream;
     stream << std::fixed << std::setprecision(2);
-
+    string stateStr = "";
     std::string plantName = *name->getState();
+
+    if (this->maturityState)
+        stateStr = this->maturityState->getState()->getName();
 
     stream << "-------------------------------\n";
 
     stream << "| " << std::left << std::setw(15) << "Name:" << std::setw(13) << plantName << "|\n";
     stream << "| " << std::left << std::setw(15) << "Health:" << std::setw(13) << health << "|\n";
+    stream << "| " << std::left << std::setw(15) << "Age:" << std::setw(13) << (std::to_string(age) + " days") << "|\n";
+    if (this->maturityState)
+        stream << "| " << std::left << std::setw(15) << "State:" << std::setw(13) << stateStr << "|\n";
+
     stream << "| " << std::left << std::setw(15) << "Age:" << std::setw(13) << (std::to_string(age) + " days") << "|\n";
     stream << "| " << std::left << std::setw(15) << "Water Level:" << std::setw(13) << waterLevel << "|\n";
     stream << "| " << std::left << std::setw(15) << "Sun Exposure:" << std::setw(13) << sunExposure << "|\n";
@@ -142,7 +149,6 @@ std::string LivingPlant::getInfo()
         stream << "| " << std::left << std::setw(20) << "Water Affection:" << std::setw(8) << decorator->affectWater() << "|\n";
         stream << "| " << std::left << std::setw(20) << "Sun Affection:" << std::setw(8) << decorator->affectSunlight() << "|\n";
         stream << "-------------------------------\n";
-        stream << "Attributes:\n";
     }
 
     return stream.str();
@@ -312,6 +318,6 @@ int LivingPlant::getSunlightValue()
 }
 void LivingPlant::tick()
 {
-    
+
     this->maturityState->getState()->grow(this);
 }
