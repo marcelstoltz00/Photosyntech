@@ -25,17 +25,17 @@ private:
 	/**
 	 * @brief Notifies observers that plants in this group need water.
 	 */
-	void waterNeeded(PlantComponent *updatedPlant) ;
+	void waterNeeded(PlantComponent *updatedPlant);
 
 	/**
 	 * @brief Notifies observers that plants in this group need sunlight.
 	 */
-	void sunlightNeeded(PlantComponent *updatedPlant) ;
+	void sunlightNeeded(PlantComponent *updatedPlant);
 
 	/**
 	 * @brief Notifies observers that a plant's state has been updated.
 	 */
-	void stateUpdated(PlantComponent *updatedPlant) ;
+	void stateUpdated(PlantComponent *updatedPlant);
 
 public:
 	/**
@@ -57,71 +57,71 @@ public:
 	/**
 	 * @brief Sets all plants in this group to be outside.
 	 */
-	void setOutside() ;
+	void setOutside();
 
 	/**
 	 * @brief Waters all plants in this group.
 	 */
-	void water() ;
+	void water();
 
 	/**
 	 * @brief Gets information about all plants in this group.
 	 * @return String containing details of all plants in the group.
 	 */
-	std::string getInfo() ;
+	std::string getInfo();
 
 	/**
 	 * @brief Clones the plant group and all its contained plants.
 	 * @return Pointer to a new PlantGroup that is a copy of this one.
 	 */
-	PlantComponent *clone() ;
+	PlantComponent *clone();
 
 	/**
 	 * @brief Attaches an observer to receive notifications from this group.
 	 * @param watcher Pointer to the Observer to attach.
 	 */
-	void attach(Observer *watcher) ;
+	void attach(Observer *watcher);
 
 	/**
 	 * @brief Detaches an observer from this group.
 	 * @param watcher Pointer to the Observer to detach.
 	 */
-	void detach(Observer *watcher) ;
+	void detach(Observer *watcher);
 
 	/**
 	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
 	 */
-	void update() ;
+	void update();
 
 	/**
 	 * @brief Gets the total water affection value for all plants in the group.
 	 * @return Integer representing cumulative water impact.
 	 */
-	int affectWater() ;
+	int affectWater();
 
 	/**
 	 * @brief Gets the total sunlight affection value for all plants in the group.
 	 * @return Integer representing cumulative sunlight impact.
 	 */
-	int affectSunlight() ;
+	int affectSunlight();
 
 	/**
 	 * @brief Gets group name as a formatted string.
 	 * @return String containing group name.
 	 */
-	std::string getName() ;
+	std::string getName();
 
 	/**
 	 * @brief Gets the total price of all plants in this group.
 	 * @return Total price in currency units.
 	 */
-	double getPrice() ;
+	double getPrice();
 
 	/**
 	 * @brief Adds an attribute decorator to all plants in this group.
 	 * @param component Pointer to the PlantAttributes decorator to add.
 	 */
-	void addAttribute(PlantComponent *component) ;
+	void addAttribute(PlantComponent *component);
 
 	/**
 	 * @brief Gets the component type (PLANT_GROUP).
@@ -130,7 +130,7 @@ public:
 	 *
 	 * @return ComponentType::PLANT_GROUP
 	 */
-	ComponentType getType() const ;
+	ComponentType getType() const;
 
 	/**
 	 * @brief Gets direct access to the internal plants list.
@@ -151,6 +151,7 @@ public:
 	virtual int getSunlightValue();
 
 	virtual void tick();
+	virtual Flyweight<std::string *> *getNameFlyweight() { return nullptr; };
 };
 
 #endif

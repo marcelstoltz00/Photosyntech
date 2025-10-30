@@ -74,6 +74,9 @@ private:
 	FlyweightFactory<int, WaterStrategy *> *waterStrategies;
 	FlyweightFactory<int, SunStrategy *> *sunStrategies;
 	FlyweightFactory<int, MaturityState *> *states;
+
+	Flyweight<string *> *currentSeason;
+
 	vector<Staff *> *staffList;
 	vector<Customer *> *customerList;
 	/**
@@ -84,6 +87,7 @@ private:
 	void TickInventory();
 	static thread *TickerThread;
 	static atomic<bool> on;
+	static int timeBetweenTicks;
 	// Multithreading components
 
 public:
@@ -170,5 +174,10 @@ public:
 	 * @brief Destructor. Cleans up all managed resources.
 	 */
 	~Inventory();
+
+	Flyweight<string *> *getSeason();
+
+	void changeSeason();
+	static void updateTickerRate(int time) { timeBetweenTicks = time; }
 };
 #endif

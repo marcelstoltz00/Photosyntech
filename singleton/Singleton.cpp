@@ -8,6 +8,7 @@
 Inventory *Inventory::instance = nullptr;
 thread *Inventory::TickerThread = nullptr;
 std::atomic<bool> Inventory::on(false);
+int Inventory::timeBetweenTicks = 5;
 
 Inventory::Inventory()
 {
@@ -37,6 +38,11 @@ Inventory::Inventory()
     states->getFlyweight(Vegetative::getID(), new Vegetative());
     states->getFlyweight(Mature::getID(), new Mature());
     states->getFlyweight(Dead::getID(), new Dead());
+
+    getString("Winter Season");
+    this->currentSeason = getString("Summer Season");
+    getString("Spring Season");
+    getString("Autumn Season");
 }
 Inventory::~Inventory()
 {
@@ -172,11 +178,11 @@ bool Inventory::startTicker()
 }
 bool Inventory::stopTicker()
 {
-
+    Inventory *inv = getInstance();
     if (on.load())
     {
         on.store(false);
-        
+
         if (TickerThread && TickerThread->joinable())
         {
             TickerThread->join();
@@ -194,10 +200,42 @@ bool Inventory::stopTicker()
 
 void Inventory::TickInventory()
 {
+    int count = 0;
     while (on.load())
     {
         cout << "A tick occured" << endl;
         this->inventory->tick();
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+        std::this_thread::sleep_for(std::chrono::seconds(timeBetweenTicks));
+        if (count == 8)
+        {
+            changeSeason();
+            count = 0;
+        }
     }
+}
+
+Flyweight<string *> *Inventory::getSeason()
+{
+    return this->currentSeason;
+}
+
+void Inventory::changeSeason()
+{
+    if (currentSeason == getString("Winter Season"))
+    {
+        currentSeason = getString("Spring Season");
+    }
+    else if (currentSeason == getString("Summer Season"))
+    {
+        currentSeason = getString("Autumn Season");
+    }
+    else if (currentSeason == getString("Autumn Season"))
+    {
+        currentSeason = getString("Winter Season");
+    }
+    else if (currentSeason == getString("Spring Season"))
+    {
+        currentSeason = getString("Summer Season");
+    }
+    return;
 }
