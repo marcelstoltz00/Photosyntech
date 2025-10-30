@@ -13,7 +13,6 @@ NurseryFacade::NurseryFacade()
     director = new Director(sunflowerBuilder);
     sales = new SalesFloor();
     suggestionFloor = new SuggestionFloor();
-    
 }
 
 NurseryFacade::~NurseryFacade()
@@ -28,10 +27,8 @@ NurseryFacade::~NurseryFacade()
     delete lavenderBuilder;
     delete pineBuilder;
 
-    
     delete sales;
     delete suggestionFloor;
-    
 }
 
 PlantComponent *NurseryFacade::createPlant(const std::string &type)
@@ -57,7 +54,6 @@ PlantComponent *NurseryFacade::createPlant(const std::string &type)
     else
         return nullptr;
 
-        
     delete director;
     director = new Director(selectedBuilder);
 
@@ -389,4 +385,55 @@ std::vector<string> NurseryFacade::getAllPlantGroups()
         itr++;
     }
     return groupNames;
+}
+
+PlantGroup *NurseryFacade::findPlantGroup(int index)
+{
+
+    std::list<PlantComponent *> groups = *Inventory::getInstance()->getInventory()->getPlants();
+    int count = 0;
+    auto itr = groups.begin();
+    while (itr != groups.end() && count < index)
+    {
+        if ((*itr)->getType() == ComponentType::PLANT_GROUP)
+        {
+            count++;
+        }
+        itr++;
+    }
+    if (*itr && (*itr)->getType() == ComponentType::PLANT_GROUP)
+    {
+        return static_cast<PlantGroup *>(*itr);
+    }
+    else
+        return nullptr;
+}
+vector<string> NurseryFacade::getPlantGroupContents(PlantGroup *PlantGroup)
+{
+    if (PlantGroup == nullptr)
+        return {};
+
+    vector<string> names;
+    AggPlant *agg = new AggPlant(PlantGroup->getPlants());
+    Iterator *itr = agg->createIterator();
+
+    while (!itr->isDone())
+    {
+        names.push_back(itr->currentItem()->getName());
+        itr->next();
+    }
+
+    delete agg;
+    delete itr;
+    return names;
+}
+
+bool NurseryFacade::setAsObserver(Staff *staff, PlantGroup *PG)
+{
+    if (PG)
+    {
+        PG->attach(staff);
+        return true;
+    }
+    return false;
 }

@@ -204,7 +204,7 @@ void Inventory::TickInventory()
     int count = 0;
     while (on.load())
     {
-        cout << "A tick occured" << endl;
+
         this->inventory->tick();
         std::this_thread::sleep_for(std::chrono::seconds(timeBetweenTicks));
         if (count == 8)

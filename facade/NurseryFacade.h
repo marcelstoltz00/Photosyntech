@@ -186,6 +186,11 @@ PlantComponent* getPlantFromBasket(Customer* customer, int index);
 
     std::vector<string> getAllPlantGroups();
 
+    PlantGroup* findPlantGroup(int index);
+    vector<string> getPlantGroupContents(PlantGroup* PlantGroup);
+
+    bool setAsObserver(Staff* staff,PlantGroup * PG);
+    
 };
 
 #endif

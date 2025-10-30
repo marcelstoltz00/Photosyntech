@@ -551,21 +551,29 @@ int main()
     auto staffNameInput = Input(&staffName);
     auto staffNames = nursery.getAllStaffMembers();
     auto plantGroupNames = nursery.getAllPlantGroups();
+    auto plantGroupContents = nursery.getPlantGroupContents(nullptr);
     int staffIndex = 0;
     int plantGroupIndex = 0;
+    int internalPlantGroupIndex = 0;
+    PlantGroup *currentPlantGroupStaff = nullptr;
     auto plantGroupMenu = Menu(&plantGroupNames, &plantGroupIndex);
-    auto staffMenu = Menu(&staffNames, &staffIndex);
 
+    auto staffMenu = Menu(&staffNames, &staffIndex);
+    auto plantGroupContentsMenu = Menu(&plantGroupContents, &internalPlantGroupIndex);
+    Staff *currentStaffMember = nullptr;
     auto addStaff = Button("Add Staff", [&]
                            {
-                               Staff *currentStaff = nursery.addStaff(staffName);
-                               statusText = currentStaff ? "Staff Member added " : "Staff member could not be added";
+                               currentStaffMember= nursery.addStaff(staffName);
+                               statusText = currentStaffMember ? "Staff Member added " : "Staff member could not be added";
                                refreshStaffView(nursery,staffNames);
                                refreshPlantGroupView(nursery,plantGroupNames); });
+    auto AddStaffObserver = Button("set observer", [&]
+                                   { nursery.setAsObserver(currentStaffMember, currentPlantGroupStaff); });
+
     auto staffManagement = Container::Vertical({
 
-        Container::Horizontal({staffNameInput, addStaff}),
-        Container::Horizontal({staffMenu, plantGroupMenu})
+        Container::Horizontal({AddStaffObserver,staffNameInput, addStaff}),
+        Container::Horizontal({staffMenu, plantGroupMenu, plantGroupContentsMenu})
 
     });
     // ########################### staff additions
@@ -596,17 +604,20 @@ int main()
                     if (counter == 30)
                     {
 refreshCustomerView(nursery, plantNames);
-     
+     refreshPlantGroupView(nursery,plantGroupNames);
         currentCustomerPlant = nursery.findPlant(customerTreeIndex);
-         
-
+        currentStaffMember = nursery.findStaff(staffIndex);
+        currentPlantGroupStaff = nursery.findPlantGroup(plantGroupIndex);
+                        
+        plantGroupContents = nursery.getPlantGroupContents(currentPlantGroupStaff);
+        
         if (currentCustomerPlant) {
             water = currentCustomerPlant->getWaterValue();
             sun = currentCustomerPlant->getSunlightValue();
             health = currentCustomerPlant->getHealth();
         }
     counter =0;}
-    statusText = to_string(counter);
+
 
                 Element Dialogue = text("");
 
@@ -693,13 +704,14 @@ refreshCustomerView(nursery, plantNames);
     });
     Element StaffView = vbox(
         {
-            hbox({
-                staffNameInput->Render(),addStaff->Render()
-            }) |border,
-            hbox({
-                staffMenu->Render(),
-                plantGroupMenu->Render(),
-            })| border
+           hcenter (hbox({ AddStaffObserver->Render(),
+               window(text("Enter staff"), staffNameInput->Render()| size(WIDTH,EQUAL,80)|size(HEIGHT,EQUAL,2)) ,addStaff->Render() 
+            })  | size(WIDTH,EQUAL,150))|size(HEIGHT,EQUAL,3),
+            hbox({ 
+                window(text("Staff members"),staffMenu->Render())|size(WIDTH,EQUAL,65)|size(HEIGHT,EQUAL,15), filler(),
+                window(text("Plant groups"),plantGroupMenu->Render())|size(WIDTH,EQUAL,65)|size(HEIGHT,EQUAL,15),filler(),
+                window(text("Plant group contents"),plantGroupContentsMenu->Render())|size(WIDTH,EQUAL,65)|size(HEIGHT,EQUAL,15),
+                                 })| border
         }
     );
 
