@@ -309,7 +309,7 @@ int main()
 
     auto treeMenu = Menu(&treeEntries, &selectedTreeIndex, menuOption);
 
-    string userName = "";
+        string userName = "";
     Customer *currentCustomer = nullptr;
     PlantComponent *currentCustomerPlant = nursery.findPlant(0);
     int customerTreeIndex = 0;
@@ -320,7 +320,7 @@ int main()
     vector<string> plantNames = nursery.getMenuString();
     vector<string> basketNames = {};
     nursery.addCustomer("Customer");
-    nursery.addStaff("Staff");
+    nursery.addStaff("Mark");
 
     string customerTerminalStr = "Your conversations go here";
     auto nameInput = Input(&userName, "Enter your name here");
@@ -356,6 +356,7 @@ int main()
                                    {
         nursery.removeFromCustomer(currentCustomer, customerBasketIndex);
         refreshCustomerBasket(nursery, basketNames, currentCustomer); });
+
 
     auto viewInventoryPlantButton = Button("View Plant", [&]
                                            {
@@ -534,7 +535,7 @@ int main()
         tabContainer,
     });
   int counter = 0;
-    auto mainRenderer = Renderer(mainContainer, [&]
+    auto mainRenderer = Renderer(main_ui, [&]
                                  {
                                     counter++;
 

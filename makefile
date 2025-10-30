@@ -211,3 +211,7 @@ tui-full: tui-clone tui-deps tui-configure-raw tui-build-raw
 
 tui-manager: tui
 	cd TUI/TUIKit/build && ./TUI
+
+
+tui-manager-v: tui
+	cd TUI/TUIKit/build && valgrind --leak-check=full --show-leak-kinds=all -s --track-origins=yes ./TUI
