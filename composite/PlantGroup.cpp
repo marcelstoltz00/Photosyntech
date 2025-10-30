@@ -114,9 +114,9 @@ void PlantGroup::update()
 
         if (component->getType() != ComponentType::PLANT_GROUP)
         {
-            while (component->getWaterValue() <= 40)
+            if (component->getWaterValue() <= 50)
                 waterNeeded(component);
-            while (component->getSunlightValue() <= 40)
+            if (component->getSunlightValue() <= 50)
                 sunlightNeeded(component);
         }
     }
@@ -185,7 +185,7 @@ bool PlantGroup::removeComponent(PlantComponent *component)
     {
         if (child->getType() == ComponentType::PLANT_GROUP)
         {
-            PlantGroup *childGroup = dynamic_cast<PlantGroup *>(child);
+            PlantGroup *childGroup = static_cast<PlantGroup *>(child);
             if (childGroup && childGroup->removeComponent(component))
             {
                 return true;

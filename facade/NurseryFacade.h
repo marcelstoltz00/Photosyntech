@@ -90,14 +90,6 @@ class NurseryFacade
 {
 private:
     Director *director;
-    Builder *sunflowerBuilder;
-    Builder *roseBuilder;
-    Builder *jadePlantBuilder;
-    Builder *mapleBuilder;
-    Builder *cactusBuilder;
-    Builder *cherryBlossomBuilder;
-    Builder *lavenderBuilder;
-    Builder *pineBuilder;
     std::vector<PlantComponent *> plants;
     SalesFloor *sales;
     SuggestionFloor *suggestionFloor;

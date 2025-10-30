@@ -42,6 +42,8 @@ TEST_CASE("Testing nursery function")
     pg->attach(staf);
     fac->getObservers(pg);
  
+    delete pg;
+    delete staf;
     delete fac;
     delete Inventory::getInstance();
 }

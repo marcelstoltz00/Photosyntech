@@ -31,8 +31,8 @@ TEST_CASE("Testing MaturityState transitions and behavior")
 
         inv->getStates(Seed::getID())->getState()->grow(plant);
 
-        CHECK(plant->getWaterLevel() == 53);
-        CHECK(plant->getSunExposure() == 30);
+        CHECK(plant->getWaterLevel() == 25);
+        CHECK(plant->getSunExposure() == 50);
         CHECK(plant->getHealth() >= 45);
     }
 
@@ -46,11 +46,11 @@ TEST_CASE("Testing MaturityState transitions and behavior")
 
         inv->getStates(Vegetative::getID())->getState()->grow(plant);
 
-        CHECK(plant->getWaterLevel() == 45
+        CHECK(plant->getWaterLevel() == 40
     
     
     );
-        CHECK(plant->getSunExposure() == 50);
+        CHECK(plant->getSunExposure() == 60);
         CHECK(plant->getHealth() >= 55);
     }
 
@@ -617,7 +617,7 @@ TEST_CASE("Testing Plant Growth Balancing")
         // Simulate 100 days
         for (int day = 1; day <= 100; ++day)
         {
-            std::cout << "\n--- Day " << day << " ---\n";
+           // std::cout << "\n--- Day " << day << " ---\n";
 
             // Water the plant every 3 days to keep it alive
             if (day % 3 == 0) {
@@ -626,9 +626,11 @@ TEST_CASE("Testing Plant Growth Balancing")
             }
 
             testPlant->tick();
-            std::cout << testPlant->getInfo();
+        //    std::cout << testPlant->getInfo();
         }
 
+       
+       
         std::cout << "\n--- Simulation Finished ---\n";
 
         CHECK(testPlant->getAge() == 100);

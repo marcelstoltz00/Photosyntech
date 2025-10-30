@@ -14,7 +14,6 @@
 #include "../TUI/TUIKit/include/tuikit.h"
 using namespace ftxui;
 
-
 std::map<int, PlantComponent *> treeIndexToComponent;
 std::vector<std::string> treeEntries;
 int selectedTreeIndex = -1;
@@ -613,40 +612,59 @@ refreshCustomerView(nursery, plantNames);
     });
     Element StaffView = vbox(
         {
-           hcenter (hbox({ filler(),removeStaffObserver->Render()| size(WIDTH,EQUAL,20),filler(),
-               window(text("Enter staff"), staffNameInput->Render()| size(WIDTH,EQUAL,40)|size(HEIGHT,EQUAL,2)) ,addStaff->Render() |size(WIDTH,EQUAL,20),filler(),AddStaffObserver->Render()| size(WIDTH,EQUAL,20),
+           hcenter (hbox({ filler(),removeStaffObserver->Render()|center| size(WIDTH,EQUAL,20),filler(),
+               window(text("Enter staff"), staffNameInput->Render()| size(WIDTH,EQUAL,40)|size(HEIGHT,EQUAL,2)) ,addStaff->Render() |center |size(WIDTH,LESS_THAN,13),filler(),
+               AddStaffObserver->Render()|center| size(WIDTH,EQUAL,20),
          filler()   })  |size(HEIGHT,EQUAL,3)| size(WIDTH,EQUAL,300)|border),
-            hbox({ filler(),
-                window(text("Staff members"),staffMenu->Render())|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,30), 
-                window(text("Plant groups"),plantGroupMenu->Render())|size(WIDTH,EQUAL,80)|size(HEIGHT,GREATER_THAN,30),
-               vbox({ window(text("Plant group contents"),plantGroupContentsMenu->Render())|size(WIDTH,GREATER_THAN,32)|size(HEIGHT,GREATER_THAN,15),
-                    window(text("Observers for current group"),plantGroupObservers->Render())|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,15)
-                                 }),filler()})| border 
+            hbox({
+
+             filler(),
+            window(text("Staff members"),staffMenu->Render())|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,30), 
+            window(text("Plant groups"),plantGroupMenu->Render())|size(WIDTH,EQUAL,80)|size(HEIGHT,GREATER_THAN,30),
+
+            vbox({
+            window(text("Plant group contents"),plantGroupContentsMenu->Render())|size(WIDTH,GREATER_THAN,32)|size(HEIGHT,GREATER_THAN,15),
+            window(text("Observers for current group"),plantGroupObservers->Render())|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,15)               
+            }),
+            filler()
+        
+        })| border 
 
         }
     ) ;
 
-             Element customerView = vbox({
-            hcenter(hbox({
-                window(text("Enter username") | bold | color(Color::Cyan), nameInput->Render() | frame | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 40)),
+             Element customerView =  vbox({
+            hbox({ 
                 filler(),
-                addCustomerButton->Render() | color(Color::Green) | size(HEIGHT, EQUAL, 2) | size(WIDTH, EQUAL, 10)
-            })) | size(HEIGHT, EQUAL, 3),
+                currentCustomer?  
+                hbox({
+                filler(),
+                askAdvice->Render()|center | color(Color::Magenta) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
+                filler(),               
+                basketAddBtn->Render()|center | color(Color::Green) | size(WIDTH, EQUAL, 25),
+                filler()
+                }): filler(),
+                filler(),
+                window(text("Enter username") | bold | color(Color::Cyan), nameInput->Render() | frame | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 40)),
+                
+                addCustomerButton->Render() |center| color(Color::Green) | size(HEIGHT, EQUAL, 2) | size(WIDTH, EQUAL, 10),
+                filler(),
+
+                currentCustomer? 
+                hbox({
+                filler(),
+                purchaseBtn->Render()|center | color(Color::Yellow) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 25),
+                filler(),          
+                removeFromBasket->Render() |center| color(Color::Red) | size(WIDTH, EQUAL, 25),
+
+                }): filler() ,
+            filler(),
+            }) |size(HEIGHT, EQUAL, 3) |size(WIDTH, GREATER_THAN, 200) ,
 
             currentCustomer
             ? hcenter(vbox({
 
-                                hbox({
-                askAdvice->Render() | color(Color::Magenta) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
-                filler(),               
-                    basketAddBtn->Render() | color(Color::Green) | size(WIDTH, EQUAL, 25),
-
-                filler(),
-                purchaseBtn->Render() | color(Color::Yellow) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 25),
-                filler(),          
-                    removeFromBasket->Render() | color(Color::Red) | size(WIDTH, EQUAL, 25)
-
-        }) | border | size(WIDTH, EQUAL,200),
+                  
                 hbox({
                     window(text("Available Plants") | bold | color(Color::Cyan), customerMenu->Render())
                     | size(WIDTH, GREATER_THAN, 100)
@@ -676,7 +694,7 @@ refreshCustomerView(nursery, plantNames);
                 window(text("Enter details") | bold | color(Color::Yellow), 
                     paragraph("Please enter your name first and press login") | color(Color::GrayLight))
             })
-        }) | size(WIDTH,EQUAL ,500);
+        }) | size(WIDTH,EQUAL ,500) |border|hcenter;
             Element tab4View = vbox({
             window(text("Plant Details") | bold | color(Color::Cyan),
                 vbox({
