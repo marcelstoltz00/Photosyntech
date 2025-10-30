@@ -8,22 +8,27 @@ void Seed::grow(LivingPlant *plant) {
   plant->setAge(plant->getAge() + 1);
   double waterusage = 3.0;
 
-  std::string *currentSeason =
-      Inventory::getInstance()->getSeason()->getState();
-  std::string *plantSeason = plant->getSeason()->getState();
-
-  if (*currentSeason == *plantSeason) {
-    waterusage *= 1.0;
-  } else {
-
-    if (*currentSeason == "Spring Season")
-      waterusage *= 0.9;
-    else if (*currentSeason == "Summer Season")
-      waterusage *= 1.3;
-    else if (*currentSeason == "Autumn Season")
-      waterusage *= 1.0;
-    else if (*currentSeason == "Winter Season")
-      waterusage *= 0.8;
+  Flyweight<std::string*>* currentSeasonFly = Inventory::getInstance()->getSeason();
+  Flyweight<std::string*>* plantSeasonFly = plant->getSeason();
+  
+  if (currentSeasonFly != nullptr && plantSeasonFly != nullptr) {
+    std::string *currentSeason = currentSeasonFly->getState();
+    std::string *plantSeason = plantSeasonFly->getState();
+    
+    if (currentSeason != nullptr && plantSeason != nullptr) {
+      if (*currentSeason == *plantSeason) {
+        waterusage *= 1.0;
+      } else {
+        if (*currentSeason == "Spring Season")
+          waterusage *= 0.9;
+        else if (*currentSeason == "Summer Season")
+          waterusage *= 1.3;
+        else if (*currentSeason == "Autumn Season")
+          waterusage *= 1.0;
+        else if (*currentSeason == "Winter Season")
+          waterusage *= 0.8;
+      }
+    }
   }
 
   plant->setWaterLevel(plant->getWaterLevel() - waterusage);

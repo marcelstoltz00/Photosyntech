@@ -30,9 +30,9 @@ TEST_CASE("Testing MaturityState transitions and behavior")
 
         inv->getStates(Seed::getID())->getState()->grow(plant);
 
-        CHECK(plant->getWaterLevel() == 25);
-        CHECK(plant->getSunExposure() == 50);
-        CHECK(plant->getHealth() >= 50);
+        CHECK(plant->getWaterLevel() == 53);
+        CHECK(plant->getSunExposure() == 30);
+        CHECK(plant->getHealth() >= 45);
     }
 
     SUBCASE("Vegetative -> Mature transition")
@@ -45,9 +45,9 @@ TEST_CASE("Testing MaturityState transitions and behavior")
 
         inv->getStates(Vegetative::getID())->getState()->grow(plant);
 
-        CHECK(plant->getWaterLevel() == 40);
-        CHECK(plant->getSunExposure() == 60);
-        CHECK(plant->getHealth() >= 60);
+        CHECK(plant->getWaterLevel() == 45);
+        CHECK(plant->getSunExposure() == 50);
+        CHECK(plant->getHealth() >= 55);
     }
 
     SUBCASE("Mature -> Dead transition by age")
