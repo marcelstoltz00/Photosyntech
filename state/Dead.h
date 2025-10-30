@@ -41,6 +41,6 @@ public:
      */
     static const int getID() { return 3; }
 
-	virtual const string getName(){return "DEAD";};
+	virtual const string getName(){return "Dead";};
 };
 #endif /* Dead_h */
