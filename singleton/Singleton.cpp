@@ -79,6 +79,7 @@ Inventory::~Inventory()
     }
     delete staffList;
     delete customerList;
+    TickerThread = NULL;
     instance = NULL;
 }
 Inventory *Inventory::getInstance()
@@ -163,12 +164,13 @@ void Inventory::addCustomer(Customer *customer)
     customerList->push_back(customer);
 }
 bool Inventory::startTicker()
-{
+{  
     Inventory *inv = getInstance();
 
     if (!on.load())
     {
         on.store(true);
+
         if (!TickerThread)
             TickerThread = new thread(&Inventory::TickInventory, inv);
 
@@ -179,24 +181,31 @@ bool Inventory::startTicker()
 }
 bool Inventory::stopTicker()
 {
-    Inventory *inv = getInstance();
+  getInstance();
+
     if (on.load())
     {
         on.store(false);
 
-        if (TickerThread && TickerThread->joinable())
-        {
-            TickerThread->join();
-            delete TickerThread;
-            TickerThread = nullptr;
-        }
-        else if (TickerThread)
-        {
-            delete TickerThread;
-            TickerThread = nullptr;
-        }
-
+        if(!TickerThread)
         return true;
+
+    if (TickerThread->get_id() == std::this_thread::get_id()) {
+        if (TickerThread->joinable())
+            TickerThread->detach();
+        delete TickerThread;
+        TickerThread = nullptr;
+        return true;
+    }
+
+    if (TickerThread->joinable()) {
+        TickerThread->join();
+    }
+
+    delete TickerThread;
+    TickerThread = nullptr;
+
+    return true;
     }
     else
         return false;
@@ -205,16 +214,18 @@ bool Inventory::stopTicker()
 void Inventory::TickInventory()
 {
     int count = 0;
+    
     while (on.load())
     {
-
+        
         this->inventory->tick();
         std::this_thread::sleep_for(std::chrono::seconds(timeBetweenTicks));
         if (count == 8)
         {
             changeSeason();
             count = 0;
-        }
+       
+        }     count++;
     }
 }
 

@@ -110,7 +110,7 @@ void PlantGroup::update()
     for (PlantComponent *component : plants)
     {
 
-        component->update();
+     
 
         if (component->getType() != ComponentType::PLANT_GROUP)
         {
@@ -336,6 +336,7 @@ int PlantGroup::getSunlightValue()
 void PlantGroup::tick()
 {
     this->update();
+    
     for (PlantComponent *component : plants)
     {
         component->tick();
