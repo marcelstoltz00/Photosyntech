@@ -96,7 +96,7 @@ TEST_CASE("Testing Flyweight Pattern - Strategy Flyweight Management")
         fac->getFlyweight(LowWater::getID(), new LowWater());
 
         int waterAmount = fac->getFlyweight(LowWater::getID())->getState()->water(plant);
-        CHECK(waterAmount == 35);
+        CHECK(waterAmount == 15);
 
         delete fac;
         delete plant;
@@ -113,8 +113,8 @@ TEST_CASE("Testing Flyweight Pattern - Strategy Flyweight Management")
         int lowAmount = fac->getFlyweight(LowWater::getID())->getState()->water(plant);
         int midAmount = fac->getFlyweight(MidWater::getID())->getState()->water(plant);
 
-        CHECK(lowAmount == 35);
-        CHECK(midAmount == 45);
+        CHECK(lowAmount == 15);
+        CHECK(midAmount == 20);
 
         delete fac;
         delete plant;

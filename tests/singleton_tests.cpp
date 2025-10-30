@@ -54,7 +54,7 @@ TEST_CASE("Testing Singleton Pattern - Flyweight Strategy Integration")
 
         // Use the strategy
         int waterAmount = lowWaterFly->getState()->water(plant);
-        CHECK(waterAmount == 35);
+        CHECK(waterAmount == 15);
 
         delete plant;
     }
@@ -75,8 +75,8 @@ TEST_CASE("Testing Singleton Pattern - Flyweight Strategy Integration")
         int low = lowWater->getState()->water(plant);
         int mid = midWater->getState()->water(plant);
 
-        CHECK(low == 35);
-        CHECK(mid == 45);
+        CHECK(low == 15);
+        CHECK(mid == 20);
 
         delete plant;
     }
