@@ -2,8 +2,13 @@
 #define PlantComponent_h
 
 #include <string>
+
 #include <list>
 class PlantAttributes;
+
+template <typename T>
+class Flyweight;
+
 
 /**
  * @brief Enum identifying the type of PlantComponent.
@@ -155,6 +160,8 @@ public:
 	virtual int getSunlightValue() = 0;
 
 	virtual void tick() = 0;
+
+	virtual Flyweight<std::string*> * getNameFlyweight() = 0;
 };
 
 #endif

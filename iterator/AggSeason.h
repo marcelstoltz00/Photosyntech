@@ -9,34 +9,37 @@
 #include "../flyweight/Flyweight.h"
 
 /**
- * @brief Generic concrete aggregate for creating season-filtered plant iterators.
+ * @brief Generic concrete aggregate for creating season-filtered bidirectional plant iterators.
  *
  * Creates SeasonIterator instances that filter and return only plants matching
- * the specified target season. Stores the plant collection and provides access
- * to SeasonIterator through friend relationship.
+ * the specified target season, supporting both forward and backward navigation.
+ * Stores the plant collection and provides access to SeasonIterator through
+ * friend relationship.
  *
  * **System Role:**
- * Factory for season-specific inventory iteration. Produces SeasonIterator for browsing
- * plants suitable for any season (Spring, Summer, Autumn, Winter). Enables seasonal
- * browsing and category-specific customer shopping experiences.
+ * Factory for season-specific inventory iteration. Produces bidirectional SeasonIterator
+ * for browsing plants suitable for any season (Spring, Summer, Autumn, Winter). Enables
+ * seasonal browsing with full navigation control and category-specific customer shopping
+ * experiences.
  *
- * **Pattern Role:** Concrete Aggregate (seasonal iterator factory)
+ * **Pattern Role:** Concrete Aggregate (bidirectional seasonal iterator factory)
  *
  * **Related Patterns:**
- * - Aggregate: Implements iterator factory interface
- * - Iterator: Creates SeasonIterator instances (declared as friend)
+ * - Aggregate: Implements bidirectional iterator factory interface
+ * - Iterator: Creates bidirectional SeasonIterator instances (declared as friend)
  * - Decorator: Works with seasonal decorators for filtering
+ * - Flyweight: Uses Flyweight season pointers for O(1) filtering comparisons
  * - Facade: Enables seasonal browsing through system
  *
  * **System Interactions:**
  * - Constructor stores reference to plant collection and target season
- * - createIterator() creates SeasonIterator
- * - Returns iterator pre-configured for seasonal filtering
+ * - createIterator() creates bidirectional SeasonIterator
+ * - Returns iterator pre-configured for seasonal filtering with next()/back()
  * - Used by seasonal browsing commands
  * - Replaces season-specific aggregate classes (AggSpring, AggSummer, etc.)
  *
  * @see Aggregate (abstract factory)
- * @see SeasonIterator (concrete iterator created, has friend access)
+ * @see SeasonIterator (concrete bidirectional iterator created, has friend access)
  */
 class AggSeason : public Aggregate
 {
@@ -66,8 +69,8 @@ class AggSeason : public Aggregate
 		AggSeason(std::list<PlantComponent*>* plants, Flyweight<std::string*>* season);
 
 		/**
-		 * @brief Creates a season-filtered iterator for this aggregate's plant collection.
-		 * @return Pointer to a SeasonIterator for season-filtered traversal.
+		 * @brief Creates a season-filtered bidirectional iterator for this aggregate's plant collection.
+		 * @return Pointer to a SeasonIterator for season-filtered bidirectional traversal (supports next() and back()).
 		 */
 		Iterator* createIterator();
 

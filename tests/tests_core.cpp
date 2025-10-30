@@ -5,13 +5,13 @@
 // As tests are migrated, their files will be included here.
 
 #include "builder_tests.cpp" //Passing
-//#include "composite_tests.cpp" //Passing - removed for merge
+#include "composite_tests.cpp" //Passing - removed for merge
 #include "decorator_tests.cpp" //Passing
 //#include "facade_tests.cpp" //Passing - finally - removed for merge
 #include "flyweight_tests.cpp" //Passing
 #include "iterator_tests.cpp" //Passing
 #include "mediator_tests.cpp" //Passing
-//#include "observer_tests.cpp" //Passing - removed for merge
+#include "observer_tests.cpp" //Passing
 #include "prototype_tests.cpp" //Passing
 #include "singleton_tests.cpp" //Passing
 #include "strategy_tests.cpp" //Passing

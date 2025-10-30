@@ -40,6 +40,7 @@ TEST_CASE("Testing Decorator Pattern - Basic Decoration")
         CHECK(plant->getDecorator() == nullptr);
         delete plant;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Plant Type Decoration")
@@ -67,6 +68,7 @@ TEST_CASE("Testing Decorator Pattern - Plant Type Decoration")
         CHECK(succulent->getDecorator() != nullptr);
         delete succulent;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Decorator Modification")
@@ -82,6 +84,7 @@ TEST_CASE("Testing Decorator Pattern - Decorator Modification")
 
         delete plant;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Multiple Decorations")
@@ -96,6 +99,7 @@ TEST_CASE("Testing Decorator Pattern - Multiple Decorations")
 
         delete plant;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Decorator Functionality")
@@ -128,6 +132,7 @@ TEST_CASE("Testing Decorator Pattern - Decorator Functionality")
 
         delete plant;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Decorator and Plant Information")
@@ -142,6 +147,7 @@ TEST_CASE("Testing Decorator Pattern - Decorator and Plant Information")
 
         delete plant;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Decorator Memory Management")
@@ -170,6 +176,7 @@ TEST_CASE("Testing Decorator Pattern - Decorator Memory Management")
         delete plant1;  // Plant destructor will handle decorator cleanup
         delete plant2;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Component Interface")
@@ -188,6 +195,7 @@ TEST_CASE("Testing Decorator Pattern - Component Interface")
 
         delete plant;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 // ============================================================================
@@ -239,6 +247,7 @@ TEST_CASE("Testing Decorator Pattern - Season Decorators")
         delete shrub;  // Plant destructor will handle decorator cleanup
         delete succulent;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Leaf Decorators")
@@ -280,6 +289,7 @@ TEST_CASE("Testing Decorator Pattern - Leaf Decorators")
             delete p;  // Plant destructor will handle decorator cleanup
         }
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Flower Decorators")
@@ -324,6 +334,7 @@ TEST_CASE("Testing Decorator Pattern - Flower Decorators")
         delete succulent;  // Plant destructor will handle decorator cleanup
         delete herb;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Stem Decorators")
@@ -358,6 +369,7 @@ TEST_CASE("Testing Decorator Pattern - Stem Decorators")
         delete plant1;  // Plant destructor will handle decorator cleanup
         delete plant2;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Special Decorators")
@@ -384,6 +396,7 @@ TEST_CASE("Testing Decorator Pattern - Special Decorators")
         delete succulent;  // Plant destructor will handle decorator cleanup
         delete tree;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Pot Decorators")
@@ -423,6 +436,7 @@ TEST_CASE("Testing Decorator Pattern - Pot Decorators")
             delete p;  // Plant destructor will handle decorator cleanup
         }
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Charm Decorators")
@@ -449,6 +463,7 @@ TEST_CASE("Testing Decorator Pattern - Charm Decorators")
         delete plant1;  // Plant destructor will handle decorator cleanup
         delete plant2;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Chained/Nested Decorators")
@@ -516,7 +531,9 @@ TEST_CASE("Testing Decorator Pattern - Chained/Nested Decorators")
         CHECK(plant2->getDecorator() != nullptr);
         delete plant2;  // This properly cleans up both plant and decorator
     }
+    delete Inventory::getInstance();
 }
+
 
 TEST_CASE("Testing Decorator Pattern - Complex Scenarios")
 {
@@ -581,6 +598,7 @@ TEST_CASE("Testing Decorator Pattern - Complex Scenarios")
 
         delete plant;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - Decorator Functionality")
@@ -632,6 +650,7 @@ TEST_CASE("Testing Decorator Pattern - Decorator Functionality")
 
         delete plant;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Decorator Pattern - getInfo() with Decorators")
@@ -678,4 +697,5 @@ TEST_CASE("Testing Decorator Pattern - getInfo() with Decorators")
         delete plant1;  // Plant destructor will handle decorator cleanup
         delete plant2;  // Plant destructor will handle decorator cleanup
     }
+    delete Inventory::getInstance();
 }

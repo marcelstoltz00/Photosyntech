@@ -49,6 +49,7 @@ TEST_CASE("Testing WaterStrategy implementations")
     }
 
     delete plant;
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing SunStrategy implementations")
@@ -88,6 +89,7 @@ TEST_CASE("Testing SunStrategy implementations")
     }
 
     delete plant;
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing strategy switching in LivingPlant")
@@ -132,4 +134,5 @@ TEST_CASE("Testing strategy switching in LivingPlant")
     }
 
     delete plant;
+    delete Inventory::getInstance();
 }

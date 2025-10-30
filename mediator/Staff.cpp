@@ -145,9 +145,7 @@ string Staff::assistPurchases(PlantGroup *basket)
     receipt << basket->getInfo();
     receipt << "Total price: " << basket->getPrice() << "\n";
     delete basket;
-    // std::cout << receipt.str() << std::endl;
     return receipt.str();
-    // Remove purchased plants from system scope
 }
 
 /**

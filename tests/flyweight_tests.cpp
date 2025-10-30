@@ -76,6 +76,7 @@ TEST_CASE("Testing Flyweight Pattern - String Flyweight Storage")
 
         delete fac;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Flyweight Pattern - Strategy Flyweight Management")
@@ -148,6 +149,7 @@ TEST_CASE("Testing Flyweight Pattern - Strategy Flyweight Management")
 
         delete fac;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Flyweight Pattern - Flyweight Characteristics")
@@ -186,6 +188,7 @@ TEST_CASE("Testing Flyweight Pattern - Flyweight Characteristics")
 
         delete fac;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Flyweight Pattern - Memory Efficiency Demonstration")
@@ -231,6 +234,7 @@ TEST_CASE("Testing Flyweight Pattern - Memory Efficiency Demonstration")
         delete fac;
         delete plant;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Flyweight Pattern - Error Handling")
@@ -251,6 +255,7 @@ TEST_CASE("Testing Flyweight Pattern - Error Handling")
 
         delete fac;
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Flyweight Pattern - Singleton Integration")
@@ -285,6 +290,7 @@ TEST_CASE("Testing Flyweight Pattern - Singleton Integration")
         CHECK(summer == inv->getString("Summer"));
         CHECK(autumn == inv->getString("Autumn"));
     }
+    delete Inventory::getInstance();
 }
 
 TEST_CASE("Testing Flyweight Pattern - Factory Method Pattern")
@@ -323,4 +329,5 @@ TEST_CASE("Testing Flyweight Pattern - Factory Method Pattern")
 
         delete fac;
     }
+    delete Inventory::getInstance();
 }
