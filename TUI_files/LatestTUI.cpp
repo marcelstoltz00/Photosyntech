@@ -26,7 +26,7 @@ PlantComponent *plantToView = nullptr;
 std::string plantDetailText = "No plant selected to view.";
 int previousTab = 0;
 int tabSelected = 0;
-
+bool changed = false;
 std::string inventoryStatusText = "Inventory: Initialising...";
 std::string selectedInfoText = "Component details will appear here.";
 bool showCreateGroupDialogue = false;
@@ -113,7 +113,10 @@ void refreshStaffView(NurseryFacade &nursery, vector<string> &staffNames)
 {
     staffNames = nursery.getAllStaffMembers();
 }
-
+void refreshPlantGroupView(NurseryFacade &nursery, vector<string> &PGnames)
+{
+    PGnames = nursery.getAllPlantGroups();
+}
 
 void refreshCustomerBasket(NurseryFacade &nursery, vector<string> &plantNames, Customer *customer)
 {
@@ -406,8 +409,11 @@ int main()
     int tabSelected = 0;
     std::vector<std::string> tabTitles = {
         "Manager and Inventory",
-       
-        "Plant Details","Staff management" ,"Customer",};
+
+        "Plant Details",
+        "Staff management",
+        "Customer",
+    };
 
     auto tabToggle = Toggle(&tabTitles, &tabSelected);
 
@@ -546,8 +552,8 @@ int main()
     auto staffNames = nursery.getAllStaffMembers();
     auto plantGroupNames = nursery.getAllPlantGroups();
     int staffIndex = 0;
-
-
+    int plantGroupIndex = 0;
+    auto plantGroupMenu = Menu(&plantGroupNames, &plantGroupIndex);
     auto staffMenu = Menu(&staffNames, &staffIndex);
 
     auto addStaff = Button("Add Staff", [&]
@@ -555,11 +561,11 @@ int main()
                                Staff *currentStaff = nursery.addStaff(staffName);
                                statusText = currentStaff ? "Staff Member added " : "Staff member could not be added";
                                refreshStaffView(nursery,staffNames);
-                           });
+                               refreshPlantGroupView(nursery,plantGroupNames); });
     auto staffManagement = Container::Vertical({
 
         Container::Horizontal({staffNameInput, addStaff}),
-        Container::Horizontal({staffMenu})
+        Container::Horizontal({staffMenu, plantGroupMenu})
 
     });
     // ########################### staff additions
@@ -582,19 +588,27 @@ int main()
         groupDialogueContainer,
         moveDialogueContainer,
     });
-
+    int counter = 0;
     auto mainRenderer = Renderer(mainContainer, [&]
                                  {
-        refreshCustomerView(nursery, plantNames);
+                                    counter++;
+
+                    if (counter == 30)
+                    {
+refreshCustomerView(nursery, plantNames);
+     
         currentCustomerPlant = nursery.findPlant(customerTreeIndex);
+         
 
         if (currentCustomerPlant) {
             water = currentCustomerPlant->getWaterValue();
             sun = currentCustomerPlant->getSunlightValue();
             health = currentCustomerPlant->getHealth();
         }
+    counter =0;}
+    statusText = to_string(counter);
 
-        Element Dialogue = text("");
+                Element Dialogue = text("");
 
         if (showCreateGroupDialogue) {
             Dialogue = dbox({
@@ -683,7 +697,8 @@ int main()
                 staffNameInput->Render(),addStaff->Render()
             }) |border,
             hbox({
-                staffMenu->Render()
+                staffMenu->Render(),
+                plantGroupMenu->Render(),
             })| border
         }
     );
@@ -805,6 +820,8 @@ int main()
             }) | vcenter | size(HEIGHT, EQUAL, 3),
             separator(),
             backButton->Render() | color(Color::RedLight) | center
+
+        
         });
 
         Element main = vbox({
@@ -820,6 +837,7 @@ int main()
 
         separator(),
         text(statusText) | border | color(Color::Cyan),
+
     });
 
         if (showCreateGroupDialogue || showMoveDialogue) {

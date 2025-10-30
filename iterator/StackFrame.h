@@ -46,6 +46,13 @@ struct StackFrame {
 	 * @brief End position of the list (std::list::iterator).
 	 */
 	std::list<PlantComponent*>::iterator end;
+
+	/**
+	 * @brief Flag indicating this frame was just descended into for backward traversal.
+	 * Prevents immediate decrement of current pointer in backward iteration.
+	 * Used to check the element we descended to before moving backward.
+	 */
+	bool justDescended = false;
 };
 
 #endif // STACKFRAME_H

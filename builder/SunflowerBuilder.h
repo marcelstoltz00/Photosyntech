@@ -29,7 +29,7 @@ public:
      * @brief Constructor for SunflowerBuilder.
      */
     SunflowerBuilder();
-
+	virtual ~SunflowerBuilder(){};
     /**
      * @brief Creates a new Herb object as the base for the Sunflower.
      */

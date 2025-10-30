@@ -144,8 +144,15 @@ void PlantIterator::moveToPreviousPlant()
 			continue;
 		}
 
-		// Move back one position
-		frame.current--;
+		// Handle position movement: only move back if not just descended
+		if (frame.justDescended) {
+			// We just descended into this frame, so current is already at the last element
+			// Clear the flag and check this element first before moving back
+			frame.justDescended = false;
+		} else {
+			// Normal backward movement
+			frame.current--;
+		}
 
 		PlantComponent* component = *frame.current;
 		ComponentType type = component->getType();
@@ -172,6 +179,7 @@ void PlantIterator::moveToPreviousPlant()
 			childFrame.current = children->end();
 			childFrame.end = children->end();
 			childFrame.current--;  // Move to last element
+			childFrame.justDescended = true;  // Mark that we just descended
 			traversalStack.push(childFrame);
 			inComposite = true;
 

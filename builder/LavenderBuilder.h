@@ -27,7 +27,7 @@ public:
      * @brief Constructor for LavenderBuilder.
      */
     LavenderBuilder();
-
+	virtual ~LavenderBuilder(){};
     /**
      * @brief Creates a new Herb object as the base for the Lavender.
      */

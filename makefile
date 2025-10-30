@@ -48,15 +48,18 @@ TEST_SRC = tests/tests_core.cpp\
             iterator/Aggregate.cpp\
             iterator/AggPlant.cpp\
             iterator/AggSeason.cpp\
+            iterator/AggPlantName.cpp\
             iterator/PlantIterator.cpp\
             iterator/SeasonIterator.cpp\
+            iterator/PlantNameIterator.cpp\
             mediator/Mediator.cpp\
             mediator/Customer.cpp\
             mediator/SalesFloor.cpp\
             mediator/Staff.cpp\
             mediator/SuggestionFloor.cpp\
             observer/Observer.cpp\
-            observer/Subject.cpp
+            observer/Subject.cpp\
+			facade/NurseryFacade.cpp
 
 SRC = $(TEST_SRC)
 OBJ := $(SRC:.cpp=.o)
