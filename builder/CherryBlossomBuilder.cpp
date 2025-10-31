@@ -8,12 +8,12 @@
 #include "../decorator/plantDecorator/Spring.h"
 #include "../state/Seed.h"
 
-CherryBlossomBuilder::CherryBlossomBuilder() : plant(nullptr) {
+CherryBlossomBuilder::CherryBlossomBuilder() : Builder() {
 }
 
 void CherryBlossomBuilder::createObject() {
     if (!plant) {
-        plant = new Tree();
+        plant = new Tree("Cherry Blossom");
     }
 }
 
@@ -35,9 +35,7 @@ void CherryBlossomBuilder::assignMaturityState() {
     }
 }
 
-PlantComponent* CherryBlossomBuilder::getResult() {
-      return plant->getDecorator()->clone();
-}
+
 
 void CherryBlossomBuilder::addDecorators() {
     if (plant) {
@@ -59,10 +57,3 @@ void CherryBlossomBuilder::setUp() {
     }
 }
 
-CherryBlossomBuilder::~CherryBlossomBuilder() {
-     if (plant)
-    {
-        delete plant->getDecorator();
-        plant = nullptr;
-    }
-}

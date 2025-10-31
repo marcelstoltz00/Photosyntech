@@ -30,6 +30,13 @@ public:
 	 * @brief Virtual destructor
 	 */
 	virtual ~MaturityState() = default;
+	   /**
+     * @brief Returns the image path for the Seed state
+     *
+     * @param plant Pointer to the LivingPlant
+     * @return Image file path as a string
+     */
+    virtual std::string getImagePath(LivingPlant *plant) = 0;
 
 	/**
 	 * @brief Returns the identifier for this state type
@@ -37,5 +44,7 @@ public:
 	 * @return Integer identifier for the state
 	 */
 	static const int getID();
+
+	virtual const string getName(){return "Base State";};
 };
 #endif /* MaturityState_h */

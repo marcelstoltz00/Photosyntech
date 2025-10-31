@@ -19,34 +19,22 @@ SuggestionFloor::SuggestionFloor()
  * @brief Routes customer suggestion requests to available staff.
  * @param customer Pointer to the User requesting suggestions.
  */
-void SuggestionFloor::getAssistance(User *customer)
+string SuggestionFloor::getAssistance(User *customer)
 {
-    Customer *cust = dynamic_cast<Customer *>(customer);
-    if (cust == nullptr)
-    {
-        std::cout << "SuggestionFloor: Invalid customer type for suggestion assistance" << std::endl;
-        return;
-    }
-
-    std::cout << "SuggestionFloor: Routing suggestion request from customer" << std::endl;
-
     // Get staff list directly from Singleton
     std::vector<Staff *> &staffList = *(Inventory::getInstance()->getStaff());
 
     if (staffList.empty())
     {
-        std::cout << "SuggestionFloor: No staff available for suggestions, customer must wait" << std::endl;
-        return;
+        return "SuggestionFloor: No staff available for suggestions, customer must wait";
     }
 
     // Random staff selection
     int randomIndex = std::rand() % staffList.size();
     Staff *availableStaff = staffList[randomIndex];
 
-    std::cout << "SuggestionFloor: Assigning customer to staff member " << randomIndex << " for suggestions" << std::endl;
-
     // Use the existing assistSuggestion() method
-    availableStaff->assistSuggestion();
+   return  availableStaff->assistSuggestion();
 }
 
 /**
@@ -54,14 +42,13 @@ void SuggestionFloor::getAssistance(User *customer)
  */
 void SuggestionFloor::assist()
 {
-    std::cout << "SuggestionFloor: Coordinating ongoing suggestion operations" << std::endl;
 
     // Get lists directly from Singleton
     std::vector<Staff *> &staffList = *(Inventory::getInstance()->getStaff());
     std::vector<Customer *> &customerList = *(Inventory::getInstance()->getCustomers());
 
     // Reports the current system status
-    //STAFF
+    // STAFF
     if (staffList.empty())
     {
         std::cout << "SuggestionFloor: No suggestion staff available" << std::endl;
@@ -70,7 +57,7 @@ void SuggestionFloor::assist()
     {
         std::cout << "SuggestionFloor: " << staffList.size() << " suggestion staff members available" << std::endl;
     }
-    //CUSTOMER
+    // CUSTOMER
     if (customerList.empty())
     {
         std::cout << "SuggestionFloor: No customers currently seeking suggestions" << std::endl;

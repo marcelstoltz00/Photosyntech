@@ -2,8 +2,12 @@
 #define PlantComponent_h
 
 #include <string>
+
 #include <list>
 class PlantAttributes;
+
+template <typename T>
+class Flyweight;
 
 /**
  * @brief Enum identifying the type of PlantComponent.
@@ -11,10 +15,11 @@ class PlantAttributes;
  * Used to avoid dynamic_cast by providing compile-time type information.
  * Enables efficient type checking in iterators and other traversal operations.
  */
-enum class ComponentType {
-    LIVING_PLANT,    ///< Individual plant instances (Succulent, Shrub, Tree, Herb)
-    PLANT_GROUP,     ///< Composite group containing multiple plants
-    PLANT_COMPONENT  ///< Generic component (typically decorators)
+enum class ComponentType
+{
+	LIVING_PLANT,	///< Individual plant instances (Succulent, Shrub, Tree, Herb)
+	PLANT_GROUP,	///< Composite group containing multiple plants
+	PLANT_COMPONENT ///< Generic component (typically decorators)
 };
 
 /**
@@ -58,6 +63,7 @@ protected:
 	double price;
 	int affectWaterValue;
 	int affectSunValue;
+	bool deleted = false;
 
 public:
 	/**
@@ -145,7 +151,17 @@ public:
 	 * @param other Pointer to the decorator.
 	 */
 	virtual PlantComponent *getDecorator() { return this; };
-		virtual PlantComponent *correctShape(PlantComponent *) = 0;
+	virtual PlantComponent *correctShape(PlantComponent *) = 0;
+	virtual void markDeletion() { deleted = true; }
+	virtual bool isDeleted() { return deleted; };
+
+	virtual int getWaterValue() = 0;
+	virtual int getSunlightValue() = 0;
+
+	virtual void tick() = 0;
+
+	virtual Flyweight<std::string *> *getNameFlyweight() = 0;
+	virtual int getHealth() { return 0; };
 };
 
 #endif

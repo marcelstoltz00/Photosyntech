@@ -22,8 +22,7 @@
  */
 class CactusBuilder : public Builder
 {
-private:
-    LivingPlant *plant = nullptr;
+
  
 
 public:
@@ -31,31 +30,31 @@ public:
      * @brief Constructor for CactusBuilder.
      */
     CactusBuilder();
-
+	virtual ~CactusBuilder(){};
     /**
      * @brief Creates a new Succulent object as the base for the Cactus.
      */
-    void createObject() override;
+    void createObject();
 
     /**
      * @brief Assigns LowWater strategy to the Cactus plant.
      */
-    void assignWaterStrategy() override;
+    void assignWaterStrategy();
 
     /**
      * @brief Assigns HighSun strategy to the Cactus plant.
      */
-    void assignSunStrategy() override;
+    void assignSunStrategy();
 
     /**
      * @brief Assigns initial Seed state to the Cactus plant.
      */
-    void assignMaturityState() override;
+    void assignMaturityState();
 
     /**
      * @brief Sets up the initial health, water, and sun levels for the Cactus plant.
      */
-    void setUp() override;
+    void setUp();
     /**
      * @brief Adds decorators to the PlantComponent.
      * 
@@ -65,17 +64,8 @@ public:
      * - Large Stem
      * - Thorns
      */
-    void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Cactus plant.
-     * @return Pointer to the constructed Cactus plant.
-     */
-    PlantComponent *getResult() override;
+    void addDecorators();
 
-    /**
-     * @brief Destructor for CactusBuilder.
-     */
-    ~CactusBuilder();
 };
 
 #endif // CACTUSBUILDER_H

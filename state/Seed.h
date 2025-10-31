@@ -3,11 +3,11 @@
 
 #include "MaturityState.h"
 
-class LivingPlant; 
+class LivingPlant;
 
 /**
  * @brief Represents the Seed state of a plant
- * 
+ *
  * Age range: 0-6 days
  * Health range: 30-100
  * Water range: 40-100
@@ -16,11 +16,12 @@ class LivingPlant;
  * Health gain when conditions met: +4 units/day
  */
 
-class Seed : public MaturityState {
+class Seed : public MaturityState
+{
 public:
     /**
      * @brief Handles daily growth in Seed state
-     * 
+     *
      * Process:
      * 1. Increment age by 1 day
      * 2. Apply water usage (6 units * season multiplier)
@@ -28,16 +29,24 @@ public:
      * 4. Check transition to Vegetative if:
      *    - age ≥ 7 AND health ≥ 50 AND water ≥ 50 AND sun ≥ 30
      *    - On transition: water = 25, health = max(health,50), sun = 50
-     * 
+     *
      * @param plant The plant to update
      */
-    void grow(LivingPlant* plant);
-    
+    void grow(LivingPlant *plant);
+    /**
+     * @brief Returns the image path for the Seed state
+     *
+     * @param plant Pointer to the LivingPlant
+     * @return Image file path as a string
+     */
+    std::string getImagePath(LivingPlant *plant);
+
     /**
      * @brief Returns the identifier for the Seed state
-     * 
+     *
      * @return Integer identifier for the state
      */
     static const int getID() { return 0; }
+    virtual const string getName() { return "Seed"; };
 };
 #endif /* Seed_h */

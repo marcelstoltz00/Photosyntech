@@ -10,15 +10,16 @@
  * - Base Type: Herb
  * - Sun Strategy: HighSun
  * - Water Strategy: LowWater
+ * - Initial Health: 100%
  * - Decorators: Small Flowers, Small Leaves, Medium Stem, No Thorns
+ * - Initial State: Seed
  *
  * @see Builder
  * @see Herb
  */
 class LavenderBuilder : public Builder
 {
-private:
-    LivingPlant *plant = nullptr;
+
  
 
 public:
@@ -26,45 +27,36 @@ public:
      * @brief Constructor for LavenderBuilder.
      */
     LavenderBuilder();
-
+	virtual ~LavenderBuilder(){};
     /**
      * @brief Creates a new Herb object as the base for the Lavender.
      */
-    void createObject() override;
+    void createObject() ;
 
     /**
      * @brief Assigns LowWater strategy to the Lavender plant.
      */
-    void assignWaterStrategy() override;
+    void assignWaterStrategy() ;
 
     /**
      * @brief Assigns HighSun strategy to the Lavender plant.
      */
-    void assignSunStrategy() override;
+    void assignSunStrategy() ;
 
     /**
      * @brief Assigns initial Seed state to the Lavender plant.
      */
-    void assignMaturityState() override;
+    void assignMaturityState() ;
 
     /**
      * @brief Sets up the initial health, water, and sun levels for the Lavender plant.
      */
-    void setUp() override;
+    void setUp() ;
     /**
-     * @brief Adds decorators to the LivingPlant.
+     * @brief Adds decorators to the PlantComponent.
      */
-    void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Lavender plant.
-     * @return Pointer to the constructed Lavender plant.
-     */
-    PlantComponent *getResult() override;
+    void addDecorators() ;
 
-    /**
-     * @brief Destructor for LavenderBuilder.
-     */
-    ~LavenderBuilder();
 };
 
 #endif // LAVENDERBUILDER_H

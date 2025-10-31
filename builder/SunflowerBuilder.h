@@ -22,42 +22,40 @@
  */
 class SunflowerBuilder : public Builder
 {
-private:
-    LivingPlant *plant = nullptr;
-  
+
 
 public:
     /**
      * @brief Constructor for SunflowerBuilder.
      */
     SunflowerBuilder();
-
+	virtual ~SunflowerBuilder(){};
     /**
      * @brief Creates a new Herb object as the base for the Sunflower.
      */
-    void createObject() override;
+    void createObject() ;
 
     /**
      * @brief Assigns MidWater strategy to the Sunflower plant.
      */
-    void assignWaterStrategy() override;
+    void assignWaterStrategy() ;
 
     /**
      * @brief Assigns HighSun strategy to the Sunflower plant.
      */
-    void assignSunStrategy() override;
+    void assignSunStrategy() ;
 
     /**
      * @brief Assigns initial Seed state to the Sunflower plant.
      */
-    void assignMaturityState() override;
+    void assignMaturityState() ;
 
     /**
      * @brief Sets up the initial health, water, and sun levels for the Sunflower plant.
      */
-    void setUp() override;
+    void setUp() ;
     /**
-     * @brief Adds decorators to the LivingPlant.
+     * @brief Adds decorators to the PlantComponent.
      * 
      * Applies the following decorators in sequence:
      * - Summer season
@@ -65,17 +63,8 @@ public:
      * - Large Leaves
      * - Large Stem
      */
-    void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Sunflower plant.
-     * @return Pointer to the constructed Sunflower plant.
-     */
-   PlantComponent *getResult() override;
+    void addDecorators() ;
 
-    /**
-     * @brief Destructor for SunflowerBuilder.
-     */
-    ~SunflowerBuilder();
 };
 
 #endif // SUNFLOWERBUILDER_H

@@ -21,7 +21,7 @@
  *
  * **Related Patterns:**
  * - Director: Orchestrates the construction steps defined in this interface
- * - Concrete Builders: RoseBuilder, SunflowerBuilder, PlantComponent3Builder implement this
+ * - Concrete Builders: RoseBuilder, SunflowerBuilder implement this
  * - Strategy: Builder assigns water/sun strategy instances to PlantComponents
  * - State: Builder initializes PlantComponents in Seed maturity state
  * - Prototype: Builder creates templates that are cloned for inventory
@@ -40,8 +40,8 @@
  */
 class Builder
 {
-private:
-	LivingPlant *plant = nullptr;
+protected:
+	LivingPlant *plant = NULL;
 	
 
 public:
@@ -79,12 +79,12 @@ public:
 	 * @brief Returns the fully constructed PlantComponent object.
 	 * @return Pointer to the constructed PlantComponent object.
 	 */
-	virtual PlantComponent *getResult() = 0;
+	virtual PlantComponent *getResult() ;
 
 	/**
 	 * @brief Virtual destructor for the Builder class.
 	 */
-	virtual ~Builder() = default;
+	virtual ~Builder();
 };
 
 #endif

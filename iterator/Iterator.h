@@ -7,18 +7,20 @@
 
 
 /**
- * @brief Abstract iterator interface for traversing plant collections.
+ * @brief Abstract iterator interface for bidirectional traversal of plant collections.
  *
- * Defines the interface for sequential access to plant collections with
- * optional filtering capabilities. Concrete iterators apply specific
- * filtering logic (e.g., by season) without exposing collection structure.
+ * Defines the interface for sequential and bidirectional access to plant collections
+ * with optional filtering capabilities. Concrete iterators apply specific filtering
+ * logic (e.g., by season) without exposing collection structure. Supports forward
+ * and backward traversal via next() and back() methods.
  *
  * **System Role:**
- * Defines contract for all collection traversal algorithms. Enables filtering
- * and sequential access to plant inventory without exposing internal structure.
- * Key to inventory browsing operations and filtering by season/criteria.
+ * Defines contract for all collection traversal algorithms. Enables filtering,
+ * bidirectional navigation, and sequential access to plant inventory without
+ * exposing internal structure. Key to inventory browsing operations and filtering
+ * by season/criteria.
  *
- * **Pattern Role:** Abstract Iterator (defines traversal interface)
+ * **Pattern Role:** Abstract Iterator (defines bidirectional traversal interface)
  *
  * **Related Patterns:**
  * - Aggregate: Creates concrete iterators
@@ -30,12 +32,14 @@
  * - Aggregate creates concrete iterator instances
  * - first() initializes iteration at beginning
  * - next() advances to next filtered element
+ * - back() moves to previous filtered element
  * - isDone() determines iteration completion
  * - currentItem() returns current plant
  * - Concrete iterators implement filtering logic
+ * - Supports bidirectional navigation for flexible browsing
  *
  * @see Aggregate (creates iterators)
- * @see Concrete iterators: PlantIterator, SpringIterator, etc.
+ * @see Concrete iterators: PlantIterator, SeasonIterator
  */
 class Aggregate;
 
@@ -54,6 +58,11 @@ class Iterator
 		 * @brief Advances the iterator to the next element.
 		 */
 		virtual void next() = 0;
+
+		/**
+		 * @brief Moves the iterator back to the previous element.
+		 */
+		virtual void back() = 0;
 
 		/**
 		 * @brief Checks if iteration is complete.

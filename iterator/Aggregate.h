@@ -7,33 +7,34 @@
 
 
 /**
- * @brief Abstract aggregate interface for creating iterators.
+ * @brief Abstract aggregate interface for creating bidirectional iterators.
  *
- * Declares the interface for creating iterator objects that traverse
- * plant collections. Concrete aggregates store a collection and create
- * specific iterator types with appropriate filtering logic.
+ * Declares the interface for creating bidirectional iterator objects that
+ * traverse plant collections. Concrete aggregates store a collection and
+ * create specific iterator types with appropriate filtering logic, supporting
+ * both forward and backward navigation.
  *
  * **System Role:**
- * Factory interface for iterator creation. Different aggregates create
- * different iterator types (all plants vs. seasonal). Stores the collection
- * and provides access to iterators that traverse it.
+ * Factory interface for bidirectional iterator creation. Different aggregates
+ * create different iterator types (all plants vs. seasonal). Stores the collection
+ * and provides access to bidirectional iterators that traverse it.
  *
- * **Pattern Role:** Abstract Aggregate (iterator factory interface)
+ * **Pattern Role:** Abstract Aggregate (bidirectional iterator factory interface)
  *
  * **Related Patterns:**
- * - Iterator: Creates concrete instances of iterators (declared as friend)
+ * - Iterator: Creates concrete instances of bidirectional iterators (declared as friend)
  * - Composite: Aggregates operate on plant hierarchies
  * - Facade: Facade may use aggregates for convenient iteration
  *
  * **System Interactions:**
  * - Stores reference to plant collection
- * - createIterator() creates appropriate iterator type
+ * - createIterator() creates appropriate bidirectional iterator type
  * - Concrete aggregates implement filtering-specific iterators
- * - Returns new Iterator configured with filtering logic
- * - Enables polymorphic iterator creation
+ * - Returns new Iterator configured with filtering logic and bidirectional support
+ * - Enables polymorphic bidirectional iterator creation
  *
  * @see Iterator (created by aggregate, has friend access)
- * @see Concrete aggregates: AggPlant, AggSpring, AggSummer, etc.
+ * @see Concrete aggregates: AggPlant, AggSeason
  */
 class Aggregate
 {
@@ -53,8 +54,8 @@ class Aggregate
 
 	public:
 		/**
-		 * @brief Creates an iterator for this aggregate's plant collection.
-		 * @return Pointer to a new Iterator configured for this aggregate type.
+		 * @brief Creates a bidirectional iterator for this aggregate's plant collection.
+		 * @return Pointer to a new bidirectional Iterator configured for this aggregate type.
 		 */
 		virtual Iterator* createIterator() = 0;
 

@@ -2,7 +2,7 @@
 #define User_h
 
 #include <string>
-//Added a forward declaration
+// Added a forward declaration
 class Mediator;
 
 /**
@@ -36,31 +36,33 @@ class Mediator;
  */
 class User
 {
-	protected:
-		std::string name;
-		Mediator* salesFloor;
-		Mediator* suggestionFloor;
+protected:
+	std::string name;
+	Mediator *salesFloor;
+	Mediator *suggestionFloor;
 
-	public:
-		/**
-		 * @brief Constructs a User with initialized mediator pointers.
-		 */
-		User() : salesFloor(nullptr), suggestionFloor(nullptr) {}
-		
-		/**
-		 * @brief Virtual destructor for proper cleanup of derived classes.
-		 */
-		virtual ~User() {}
-		
-		/**
-		 * @brief Sets the sales floor mediator.
-		 */
-		void setSalesFloor(Mediator* mediator) { salesFloor = mediator; }
-		
-		/**
-		 * @brief Sets the suggestion floor mediator.
-		 */
-		void setSuggestionFloor(Mediator* mediator) { suggestionFloor = mediator; }
+public:
+	/**
+	 * @brief Constructs a User with initialized mediator pointers.
+	 */
+	User() : salesFloor(nullptr), suggestionFloor(nullptr) {}
+	User(std::string name) : name(name), salesFloor(nullptr), suggestionFloor(nullptr) {}
+	/**
+	 * @brief Virtual destructor for proper cleanup of derived classes.
+	 */
+	virtual ~User() {}
+
+	/**
+	 * @brief Sets the sales floor mediator.
+	 */
+	void setSalesFloor(Mediator *mediator) { salesFloor = mediator; }
+
+	/**
+	 * @brief Sets the suggestion floor mediator.
+	 */
+	void setSuggestionFloor(Mediator *mediator) { suggestionFloor = mediator; }
+
+	std::string getName() { return this->name; }
 };
 
 #endif

@@ -26,6 +26,13 @@ public:
      * @param plant The plant instance
      */
     void grow(LivingPlant* plant);
+       /**
+     * @brief Returns the image path for the Seed state
+     *
+     * @param plant Pointer to the LivingPlant
+     * @return Image file path as a string
+     */
+    std::string getImagePath(LivingPlant *plant);
     
     /**
      * @brief Returns the identifier for the Dead state
@@ -33,5 +40,7 @@ public:
      * @return Integer identifier for the state
      */
     static const int getID() { return 3; }
+
+	virtual const string getName(){return "Dead";};
 };
 #endif /* Dead_h */

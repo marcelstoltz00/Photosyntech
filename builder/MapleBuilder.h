@@ -10,61 +10,52 @@
  * - Base Type: Tree
  * - Sun Strategy: MidSun
  * - Water Strategy: MidWater
+ * - Initial Health: 100%
  * - Decorators: No Flowers, Large Leaves, Large Stem, No Thorns
+ * - Initial State: Seed
  *
  * @see Builder
  * @see Tree
  */
 class MapleBuilder : public Builder
 {
-private:
-    LivingPlant *plant = nullptr;
-   
+
 
 public:
     /**
      * @brief Constructor for MapleBuilder.
      */
     MapleBuilder();
-
+	virtual ~MapleBuilder(){};
     /**
      * @brief Creates a new Tree object as the base for the Maple.
      */
-    void createObject() override;
+    void createObject() ;
 
     /**
      * @brief Assigns MidWater strategy to the Maple tree.
      */
-    void assignWaterStrategy() override;
+    void assignWaterStrategy() ;
 
     /**
      * @brief Assigns MidSun strategy to the Maple tree.
      */
-    void assignSunStrategy() override;
+    void assignSunStrategy() ;
 
     /**
      * @brief Assigns initial Seed state to the Maple tree.
      */
-    void assignMaturityState() override;
+    void assignMaturityState() ;
 
     /**
      * @brief Sets up the initial health, water, and sun levels for the Maple tree.
      */
-    void setUp() override;
+    void setUp() ;
     /**
-     * @brief Adds decorators to the LivingPlant.
+     * @brief Adds decorators to the PlantComponent.
      */
-    void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Maple tree.
-     * @return Pointer to the constructed Maple tree.
-     */
-   PlantComponent *getResult() override;
+    void addDecorators() ;
 
-    /**
-     * @brief Destructor for MapleBuilder.
-     */
-    ~MapleBuilder();
 };
 
 #endif // MAPLEBUILDER_H

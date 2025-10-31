@@ -2,6 +2,7 @@
 #include "../observer/Observer.h"
 #include "../prototype/LivingPlant.h"
 #include <sstream>
+#include <algorithm>
 
 PlantGroup::PlantGroup()
     : PlantComponent(0.0, 0, 0) {};
@@ -11,6 +12,7 @@ PlantGroup::~PlantGroup()
     std::list<PlantComponent *>::iterator itr = plants.begin();
     while (itr != plants.end())
     {
+
         if ((*itr)->getDecorator() != nullptr)
             delete (*itr)->getDecorator();
         else
@@ -19,6 +21,11 @@ PlantGroup::~PlantGroup()
         itr++;
         // should work.
     }
+}
+
+PlantGroup::PlantGroup(std::string groupName)
+    : PlantComponent(0.0, 0, 0), groupName(groupName)
+{
 }
 
 PlantGroup::PlantGroup(const PlantGroup &other)
@@ -64,7 +71,7 @@ std::string PlantGroup::getInfo()
     for (PlantComponent *component : plants)
     {
         counter++;
-        ss << component->getInfo();
+        ss << component->getDecorator()->getInfo();
 
         ss << "\n--- End of Component" + std::to_string(counter) + " ---\n";
     }
@@ -87,11 +94,31 @@ PlantComponent *PlantGroup::clone()
     return new PlantGroup(*this);
 };
 
+void PlantGroup::setGroupName(std::string newGroupName)
+{
+    this->groupName = newGroupName;
+}
+
+std::string PlantGroup::getGroupName()
+{
+    return this->groupName;
+};
+
 void PlantGroup::update()
 {
+
     for (PlantComponent *component : plants)
     {
-        component->update();
+
+     
+
+        if (component->getType() != ComponentType::PLANT_GROUP)
+        {
+            if (component->getWaterValue() <= 50)
+                waterNeeded(component);
+            if (component->getSunlightValue() <= 50)
+                sunlightNeeded(component);
+        }
     }
 };
 
@@ -141,6 +168,32 @@ void PlantGroup::addAttribute(PlantComponent *attribute)
 void PlantGroup::addComponent(PlantComponent *component)
 {
     plants.push_back(component);
+}
+
+bool PlantGroup::removeComponent(PlantComponent *component)
+{
+    std::list<PlantComponent *>::iterator it =
+        std::find(plants.begin(), plants.end(), component);
+
+    if (it != plants.end())
+    {
+        plants.erase(it);
+        return true;
+    }
+
+    for (PlantComponent *child : plants)
+    {
+        if (child->getType() == ComponentType::PLANT_GROUP)
+        {
+            PlantGroup *childGroup = static_cast<PlantGroup *>(child);
+            if (childGroup && childGroup->removeComponent(component))
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 std::string PlantGroup::getName()
@@ -204,56 +257,93 @@ void PlantGroup::detach(Observer *careTaker)
 /**
  * @brief Notifies observers that all plants need water.
  */
-void PlantGroup::waterNeeded()
+void PlantGroup::waterNeeded(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
-        for (PlantComponent *plant : plants)
-        {
-            plant->water();
-            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
-            if (lp)
-            {
-                obs->getWaterUpdate(lp);
-            }
-        }
+        obs->getWaterUpdate(updatedPlant);
     }
 }
 
 /**
  * @brief Notifies observers that all plants need sunlight.
  */
-void PlantGroup::sunlightNeeded()
+void PlantGroup::sunlightNeeded(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
-        for (PlantComponent *plant : plants)
-        {
-            plant->setOutside();
-            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
-            if (lp)
-            {
-                obs->getSunUpdate(lp);
-            }
-        }
+        obs->getSunUpdate(updatedPlant);
     }
 }
 
 /**
  * @brief Notifies observers that all plants have updated states.
  */
-void PlantGroup::stateUpdated()
+void PlantGroup::stateUpdated(PlantComponent *updatedPlant)
 {
     for (Observer *obs : observers)
     {
-        for (PlantComponent *plant : plants)
-        {
-            plant->update();
-            LivingPlant *lp = dynamic_cast<LivingPlant *>(plant);
-            if (lp)
-            {
-                obs->getStateUpdate(lp);
-            }
-        }
+        obs->getStateUpdate(updatedPlant);
     }
 }
+
+void PlantGroup::checkWater()
+{
+    for (PlantComponent *plant : plants)
+    {
+        if (plant->getWaterValue() <= 20)
+            waterNeeded(plant);
+    }
+}
+void PlantGroup::checkSunlight()
+{
+    for (PlantComponent *plant : plants)
+    {
+
+        if (plant->getSunlightValue() <= 20)
+            waterNeeded(plant);
+    }
+}
+void PlantGroup::checkState()
+{
+    for (PlantComponent *plant : plants)
+    {
+        stateUpdated(plant);
+    }
+}
+
+int PlantGroup::getWaterValue()
+{
+    int sum = 0;
+
+    for (PlantComponent *plant : plants)
+    {
+        sum += plant->getWaterValue();
+    }
+    return sum;
+};
+int PlantGroup::getSunlightValue()
+{
+    int sum = 0;
+
+    for (PlantComponent *plant : plants)
+    {
+        sum += plant->getSunlightValue();
+    }
+    return sum;
+}
+
+void PlantGroup::tick()
+{
+    this->update();
+    
+    for (PlantComponent *component : plants)
+    {
+        component->tick();
+    }
+}
+
+	std::list<Observer *> PlantGroup::getObservers()
+    {
+        return this->observers;
+    }

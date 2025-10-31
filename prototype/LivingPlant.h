@@ -5,6 +5,8 @@
 #include "../composite/PlantComponent.h"
 #include "../flyweight/Flyweight.h"
 
+#include <sstream>
+#include <iomanip>
 #include "../strategy/WaterStrategy.h"
 #include "../strategy/SunStrategy.h"
 #include "../decorator/PlantAttributes.h"
@@ -49,7 +51,8 @@
  * @see Flyweight pattern (shared strategy/state references)
  * @see Decorator pattern (attributes wrap LivingPlant)
  */
-class MaturityState;
+
+
 class LivingPlant : public PlantComponent
 {
 protected:
@@ -72,6 +75,7 @@ protected:
 	Flyweight<MaturityState *> *maturityState;
 	Flyweight<WaterStrategy *> *waterStrategy;
 	Flyweight<SunStrategy *> *sunStrategy;
+    
 
 public:
 	/**
@@ -106,8 +110,8 @@ public:
 	void setHealth(int health);
 
 	/**
-	 * @brief Sets the waterLevel for this plant.
-	 * @param waterLevel Integer waterLevel for the new waterLevel of the plant.
+	 * @brief Sets the season for this plant.
+	 * @param season Flyweight pointer to the season string.
 	 */
 	void setSeason(Flyweight<std::string *> *season);
 
@@ -146,7 +150,7 @@ public:
 	 * @brief Adds a decorator attribute to this plant.
 	 * @param attribute Pointer to the PlantAttributes decorator to add.
 	 */
-	void addAttribute(PlantComponent *attribute) override;
+	void addAttribute(PlantComponent *attribute) ;
 
 	/**
 	 * @brief Gets the season of the plant.
@@ -161,7 +165,7 @@ public:
 	 *
 	 * @return ComponentType::LIVING_PLANT
 	 */
-	ComponentType getType() const override;
+	ComponentType getType() const ;
 
 	/**
 	 * @brief Gets the age of the plant in months.
@@ -173,7 +177,7 @@ public:
 	 * @brief Gets plant name as a formatted string.
 	 * @return String containing plant name.
 	 */
-	std::string getName() override;
+	std::string getName() ;
 
 	/**
 	 * @brief Gets plant health as an Integer.
@@ -197,63 +201,103 @@ public:
 	 * @brief Gets the sunlight affection value.
 	 * @return Integer representing sunlight impact.
 	 */
+	int affectSunlight() ;
 
 	/**
 	 * @brief Gets the water affection value.
 	 * @return Integer representing water impact.
 	 */
+	int affectWater() ;
 
 	/**
 	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
 	 */
-	void update() override;
-
-	/**
-	 * @brief Gets the sunlight affection value including decorator modifications.
-	 * @return Integer representing total sunlight impact.
-	 */
-	int affectSunlight() override;
-
-	/**
-	 * @brief Gets the water affection value including decorator modifications.
-	 * @return Integer representing total water impact.
-	 */
-	int affectWater() override;
+	void update() ;
 
 	/**
 	 * @brief Gets the price of this plant.
 	 * @return Price in currency units.
 	 */
-	double getPrice() override;
+	double getPrice() ;
 
 	/**
 	 * @brief Gets plant information as a string.
 	 * @return String containing plant details.
 	 */
-	std::string getInfo() override;
+	std::string getInfo() ;
 
 	/**
 	 * @brief Clones the plant creating a deep copy (Prototype pattern).
 	 * @return Pointer to a new plant object that is a copy of this one.
 	 */
-	virtual PlantComponent *clone() override;
+	virtual PlantComponent *clone() ;
 
 	/**
 	 * @brief Waters the plant component.
 	 */
-	void water() override;
+	void water() ;
 
 	/**
 	 * @brief Sets the plant component to be outside. (Calls Sun Strategy)
 	 */
-	void setOutside() override;
+	void setOutside() ;
 
 	/**
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
-	virtual PlantComponent *getDecorator() override;
-	virtual ~LivingPlant() {};
-	PlantComponent *correctShape(PlantComponent *mainDecorator);
+	virtual PlantComponent *getDecorator() ;
+
+/**
+ * @brief Virtual destructor for LivingPlant.
+ *
+ * Ensures proper cleanup of derived plant components and decorators.
+ * Enables polymorphic deletion when using base class pointers.
+ */
+virtual ~LivingPlant();
+
+/**
+ * @brief Validates or adjusts the decorator chain for a plant component.
+ *
+ * Stub of the decorator, brought to the head of the clone
+ *
+ * @param mainDecorator Expected to be a season attribute 
+ * @return Pointer to the corrected or validated PlantComponent.
+ */
+PlantComponent *correctShape(PlantComponent *mainDecorator);
+
+/**
+ * @brief Retrieves the water requirement value of the plant.
+ *
+ * Returns the hydration level needed by this plant component, which may be
+ * influenced by strategy, maturity, or decoration layers.
+ *
+ * @return Integer representing water value.
+ */
+virtual int getWaterValue();
+
+/**
+ * @brief Retrieves the sunlight requirement value of the plant.
+ *
+ * Returns the sunlight exposure level required by this plant component,
+ * potentially influenced by strategy, maturity, or decoration layers.
+ *
+ * @return Integer representing sunlight value.
+ */
+virtual int getSunlightValue();
+
+/**
+ * @brief Advances the internal state of the plant component by one tick.
+ *
+ * This method simulates time progression, allowing the plant to update
+ * its maturity
+ * 
+ */
+virtual void tick();
+
+	virtual Flyweight<std::string *> *getNameFlyweight() { return this->name; };
+
+
+
 };
 
 #endif

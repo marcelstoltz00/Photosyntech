@@ -22,12 +22,12 @@ public:
      * @brief Routes customer assistance requests to available sales staff.
      * @param customer Pointer to the User requesting sales assistance.
      */
-    virtual void getAssistance(User* customer) override;
+    virtual string getAssistance(User* customer) ;
 
     /**
      * @brief Coordinates staff assistance for sales operations.
      */
-    virtual void assist() override;
+    virtual void assist() ;
 };
 
 #endif

@@ -22,8 +22,6 @@
  */
 class CherryBlossomBuilder : public Builder
 {
-private:
-	LivingPlant *plant = nullptr;
 
 
 public:
@@ -31,34 +29,34 @@ public:
      * @brief Constructor for CherryBlossomBuilder.
      */
     CherryBlossomBuilder();
-
+	virtual ~CherryBlossomBuilder(){};
     /**
      * @brief Creates a new Tree object as the base for the Cherry Blossom.
      */
-    void createObject() override;
+    void createObject() ;
 
     /**
      * @brief Assigns MidWater strategy to the Cherry Blossom tree.
      */
-    void assignWaterStrategy() override;
+    void assignWaterStrategy() ;
 
     /**
      * @brief Assigns MidSun strategy to the Cherry Blossom tree.
      */
-    void assignSunStrategy() override;
+    void assignSunStrategy() ;
 
     /**
      * @brief Assigns initial Seed state to the Cherry Blossom tree.
      */
-    void assignMaturityState() override;
+    void assignMaturityState() ;
 
     /**
      * @brief Sets up the initial health, water, and sun levels for the Cherry Blossom tree.
      */
-    void setUp() override;
+    void setUp() ;
 
     /**
-     * @brief Adds decorators to the LivingPlant.
+     * @brief Adds decorators to the PlantComponent.
      * 
      * Applies the following decorators in sequence:
      * - Spring season
@@ -66,17 +64,10 @@ public:
      * - Small Leaves
      * - Large Stem
      */
-    void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Cherry Blossom tree.
-     * @return Pointer to the constructed Cherry Blossom tree.
-     */
-      PlantComponent *getResult() override;
+    void addDecorators() ;
 
-    /**
-     * @brief Destructor for CherryBlossomBuilder.
-     */
-    ~CherryBlossomBuilder();
+
+
 };
 
 #endif // CHERRYBLOSSOMBUILDER_H

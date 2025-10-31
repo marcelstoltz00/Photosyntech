@@ -17,16 +17,38 @@
  */
 class PlantGroup : public PlantComponent, public Subject
 {
-	private:
-		std::list<PlantComponent*> plants;
-		// This is the list of observers
-		std::list<Observer *> observers;
+private:
+	std::list<PlantComponent *> plants;
+	// This is the list of observers
+	std::list<Observer *> observers;
+
+	std::string groupName = "";
+
+	/**
+	 * @brief Notifies observers that plants in this group need water.
+	 */
+	void waterNeeded(PlantComponent *updatedPlant);
+
+	/**
+	 * @brief Notifies observers that plants in this group need sunlight.
+	 */
+	void sunlightNeeded(PlantComponent *updatedPlant);
+
+	/**
+	 * @brief Notifies observers that a plant's state has been updated.
+	 */
+	void stateUpdated(PlantComponent *updatedPlant);
 
 public:
 	/**
-	 * @brief Constructs a PlantGroup with 0 as attributes.
+	 * @brief Constructs a PlantGroup with 0 attributes.
 	 */
 	PlantGroup();
+
+	/**
+	 * @brief Constructs a PlantGroup with a name
+	 */
+	PlantGroup(std::string groupName);
 
 	/**
 	 * @brief Copy constructor for deep copying the group hierarchy.
@@ -42,92 +64,71 @@ public:
 	/**
 	 * @brief Sets all plants in this group to be outside.
 	 */
-	void setOutside() override;
+	void setOutside();
 
 	/**
 	 * @brief Waters all plants in this group.
 	 */
-	void water() override;
+	void water();
 
 	/**
 	 * @brief Gets information about all plants in this group.
 	 * @return String containing details of all plants in the group.
 	 */
-	std::string getInfo() override;
+	std::string getInfo();
 
 	/**
 	 * @brief Clones the plant group and all its contained plants.
 	 * @return Pointer to a new PlantGroup that is a copy of this one.
 	 */
-	PlantComponent *clone() override;
+	PlantComponent *clone();
 
 	/**
 	 * @brief Attaches an observer to receive notifications from this group.
 	 * @param watcher Pointer to the Observer to attach.
 	 */
-	void attach(Observer *watcher) override;
+	void attach(Observer *watcher);
 
 	/**
 	 * @brief Detaches an observer from this group.
 	 * @param watcher Pointer to the Observer to detach.
 	 */
-	void detach(Observer *watcher) override;
+	void detach(Observer *watcher);
 
 	/**
 	 * @brief Subtracts waterAffect and sunAffect from waterLevel and sunExposure.
 	 */
-	void update() override;
+	void update();
 
 	/**
 	 * @brief Gets the total water affection value for all plants in the group.
 	 * @return Integer representing cumulative water impact.
 	 */
-	int affectWater() override;
+	int affectWater();
 
 	/**
 	 * @brief Gets the total sunlight affection value for all plants in the group.
 	 * @return Integer representing cumulative sunlight impact.
 	 */
-	int affectSunlight() override;
+	int affectSunlight();
 
 	/**
 	 * @brief Gets group name as a formatted string.
 	 * @return String containing group name.
 	 */
-	std::string getName() override;
-
-	/**
-	 * @brief Notifies observers that plants in this group need water.
-	 */
-	void waterNeeded() override;
-
-	/**
-	 * @brief Notifies observers that plants in this group need sunlight.
-	 */
-	void sunlightNeeded() override;
-
-	/**
-	 * @brief Notifies observers that a plant's state has been updated.
-	 */
-	void stateUpdated() override;
+	std::string getName();
 
 	/**
 	 * @brief Gets the total price of all plants in this group.
 	 * @return Total price in currency units.
 	 */
-	double getPrice() override;
+	double getPrice();
 
 	/**
 	 * @brief Adds an attribute decorator to all plants in this group.
 	 * @param component Pointer to the PlantAttributes decorator to add.
 	 */
-	void addAttribute(PlantComponent *component) override;
-
-	/**
-	 * @brief Adds a component to the list of plants.
-	 * @param component Pointer to the component to add.
-	 */
-	void addAttribute(PlantAttributes *attribute);
+	void addAttribute(PlantComponent *component);
 
 	/**
 	 * @brief Gets the component type (PLANT_GROUP).
@@ -136,7 +137,7 @@ public:
 	 *
 	 * @return ComponentType::PLANT_GROUP
 	 */
-	ComponentType getType() const override;
+	ComponentType getType() const;
 
 	/**
 	 * @brief Gets direct access to the internal plants list.
@@ -149,6 +150,26 @@ public:
 	std::list<PlantComponent *> *getPlants();
 	void addComponent(PlantComponent *component);
 	virtual PlantComponent *correctShape(PlantComponent *);
+
+	/**
+	 * @brief Removes a component from this group or its subgroups.
+	 * @param component The component to remove.
+	 * @return true if the component was found and removed, false otherwise.
+	 */
+	bool removeComponent(PlantComponent *component);
+
+	void checkWater();
+	void checkSunlight();
+	void checkState();
+	virtual int getWaterValue();
+	virtual int getSunlightValue();
+
+	virtual void tick();
+	virtual Flyweight<std::string *> *getNameFlyweight() { return nullptr; };
+
+	void setGroupName(std::string newGroupName);
+	std::string getGroupName();
+	std::list<Observer *> getObservers();
 };
 
 #endif

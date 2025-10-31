@@ -10,15 +10,15 @@
  * - Base Type: Succulent
  * - Sun Strategy: MidSun
  * - Water Strategy: LowWater
+ * - Initial Health: 100%
  * - Decorators: Small Flowers, Small Leaves, Medium Stem, No Thorns
+ * - Initial State: Seed
  *
  * @see Builder
  * @see Succulent
  */
 class JadePlantBuilder : public Builder
 {
-private:
-	LivingPlant *plant = nullptr;
 
 
 public:
@@ -26,46 +26,38 @@ public:
      * @brief Constructor for JadePlantBuilder.
      */
     JadePlantBuilder();
-
+	virtual ~JadePlantBuilder(){};
     /**
      * @brief Creates a new Succulent object as the base for the Jade plant.
      */
-    void createObject() override;
+    void createObject() ;
 
     /**
      * @brief Assigns LowWater strategy to the Jade plant.
      */
-    void assignWaterStrategy() override;
+    void assignWaterStrategy() ;
 
     /**
      * @brief Assigns MidSun strategy to the Jade plant.
      */
-    void assignSunStrategy() override;
+    void assignSunStrategy() ;
 
     /**
      * @brief Assigns initial Seed state to the Jade plant.
      */
-    void assignMaturityState() override;
+    void assignMaturityState() ;
 
     /**
      * @brief Sets up the initial health, water, and sun levels for the Jade plant.
      */
-    void setUp() override;
+    void setUp() ;
 
     /**
      * @brief Adds decorators to the LivingPlant.
      */
-    void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Jade plant.
-     * @return Pointer to the constructed Jade plant.
-     */
-    PlantComponent *getResult() override;
+    void addDecorators() ;
 
-    /**
-     * @brief Destructor for JadePlantBuilder.
-     */
-    ~JadePlantBuilder();
+
 };
 
 #endif // JADEPLANTBUILDER_H

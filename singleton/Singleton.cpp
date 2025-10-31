@@ -4,14 +4,17 @@
 #include "../state/Vegetative.h"
 #include "../state/Seed.h"
 #include "../composite/PlantGroup.h"
-
+#include "../mediator/Customer.h"
+#include "../mediator/Staff.h"
 Inventory *Inventory::instance = nullptr;
+thread *Inventory::TickerThread = nullptr;
+std::atomic<bool> Inventory::on(false);
+int Inventory::timeBetweenTicks = 2;
 
 Inventory::Inventory()
 {
-
+    on.store(false);
     inventory = new PlantGroup();
-  
 
     stringFactory = new FlyweightFactory<string, string *>();
     waterStrategies = new FlyweightFactory<int, WaterStrategy *>();
@@ -36,9 +39,17 @@ Inventory::Inventory()
     states->getFlyweight(Vegetative::getID(), new Vegetative());
     states->getFlyweight(Mature::getID(), new Mature());
     states->getFlyweight(Dead::getID(), new Dead());
+
+    getString("Winter Season");
+    this->currentSeason = getString("Summer Season");
+    getString("Spring Season");
+    getString("Autumn Season");
 }
 Inventory::~Inventory()
 {
+
+    stopTicker();
+
     if (inventory)
         delete inventory;
 
@@ -68,6 +79,7 @@ Inventory::~Inventory()
     }
     delete staffList;
     delete customerList;
+    TickerThread = NULL;
     instance = NULL;
 }
 Inventory *Inventory::getInstance()
@@ -150,4 +162,95 @@ void Inventory::addStaff(Staff *staff)
 void Inventory::addCustomer(Customer *customer)
 {
     customerList->push_back(customer);
+}
+bool Inventory::startTicker()
+{  
+    Inventory *inv = getInstance();
+
+    if (!on.load())
+    {
+        on.store(true);
+
+        if (!TickerThread)
+            TickerThread = new thread(&Inventory::TickInventory, inv);
+
+        return true;
+    }
+    else
+        return false;
+}
+bool Inventory::stopTicker()
+{
+  getInstance();
+
+    if (on.load())
+    {
+        on.store(false);
+
+        if(!TickerThread)
+        return true;
+
+    if (TickerThread->get_id() == std::this_thread::get_id()) {
+        if (TickerThread->joinable())
+            TickerThread->detach();
+        delete TickerThread;
+        TickerThread = nullptr;
+        return true;
+    }
+
+    if (TickerThread->joinable()) {
+        TickerThread->join();
+    }
+
+    delete TickerThread;
+    TickerThread = nullptr;
+
+    return true;
+    }
+    else
+        return false;
+}
+
+void Inventory::TickInventory()
+{
+    int count = 0;
+    
+    while (on.load())
+    {
+        
+        this->inventory->tick();
+        std::this_thread::sleep_for(std::chrono::seconds(timeBetweenTicks));
+        if (count == 8)
+        {
+            changeSeason();
+            count = 0;
+       
+        }     count++;
+    }
+}
+
+Flyweight<string *> *Inventory::getSeason()
+{
+    return this->currentSeason;
+}
+
+void Inventory::changeSeason()
+{
+    if (currentSeason == getString("Winter Season"))
+    {
+        currentSeason = getString("Spring Season");
+    }
+    else if (currentSeason == getString("Summer Season"))
+    {
+        currentSeason = getString("Autumn Season");
+    }
+    else if (currentSeason == getString("Autumn Season"))
+    {
+        currentSeason = getString("Winter Season");
+    }
+    else if (currentSeason == getString("Spring Season"))
+    {
+        currentSeason = getString("Summer Season");
+    }
+    return;
 }

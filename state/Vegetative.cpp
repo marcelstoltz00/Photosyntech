@@ -1,43 +1,57 @@
 #include "Vegetative.h"
 
+#include "../singleton/Singleton.h"
 #include "Mature.h"
 #include <algorithm>
 
-void Vegetative::grow(LivingPlant* plant) {
-    plant->setAge(plant->getAge() + 1);
-    double waterusage = 10.0;
-//    switch (plant->getSeason()) {
-//         case Season::SPRING:
-//             waterusage *= 0.9;
-//             break;
-//         case Season::SUMMER:
-//             waterusage *= 1.3f;
-//             break;
-//         case Season::AUTUMN:
-//             waterusage *= 1.0f;
-//             break;
-//         case Season::WINTER:
-//             waterusage *= 0.7f;
-//             break;
-//         default:
-//             waterusage *= 1.0f;
-//     }
+void Vegetative::grow(LivingPlant *plant) {
+  plant->setAge(plant->getAge() + 1);
+  double waterusage = 2.0;
 
-    plant->setWaterLevel(plant->getWaterLevel() - waterusage);
-
-    if (plant->getAge() >= 30 && plant->getSunExposure() >= 40) {
-        plant->setHealth(plant->getHealth() + 3);
-    }
+  Flyweight<std::string*>* currentSeasonFly = Inventory::getInstance()->getSeason();
+  Flyweight<std::string*>* plantSeasonFly = plant->getSeason();
+  
+  if (currentSeasonFly != nullptr && plantSeasonFly != nullptr) {
+    std::string *currentSeason = currentSeasonFly->getState();
+    std::string *plantSeason = plantSeasonFly->getState();
     
-    if (plant->getAge() >= 30 && 
-        plant->getHealth() >= 60 && 
-        plant->getWaterLevel() >= 40 && 
-        plant->getSunExposure() >= 50) {
-        
-        plant->setWaterLevel(40);
-        plant->setHealth(std::max(plant->getHealth(), 60));
-        plant->setSunExposure(60);
-
-        plant->setMaturity(Mature::getID()); 
+    if (currentSeason != nullptr && plantSeason != nullptr) {
+      if (*currentSeason == *plantSeason) {
+        waterusage *= 1.0;
+      } else {
+        if (*currentSeason == "Spring Season")
+          waterusage *= 0.9;
+        else if (*currentSeason == "Summer Season")
+          waterusage *= 1.3;
+        else if (*currentSeason == "Autumn Season")
+          waterusage *= 1.0;
+        else if (*currentSeason == "Winter Season")
+          waterusage *= 0.8;
+      }
     }
+  }
+
+  plant->setWaterLevel(plant->getWaterLevel() - waterusage);
+
+  if (plant->getWaterLevel() >= 30 && plant->getSunExposure() >= 40) {
+    plant->setHealth(plant->getHealth() + 1);
+  }
+
+  if (plant->getAge() >= 30 && plant->getHealth() >= 60 &&
+      plant->getWaterLevel() >= 40 && plant->getSunExposure() >= 50) {
+
+    plant->setWaterLevel(40);
+    plant->setHealth(std::max(plant->getHealth(), 60));
+    plant->setSunExposure(60);
+
+    plant->setMaturity(Mature::getID());
+  }
 }
+
+std::string Vegetative::getImagePath(LivingPlant *plant) {
+  std::string plantName = plant->getName();
+  plantName.erase(std::remove(plantName.begin(), plantName.end(), ' '),
+                  plantName.end());
+  return "docs/images/" + plantName + std::to_string(getID()) + ".png";
+}
+

@@ -4,22 +4,53 @@
 #include "../builder/Director.h"
 #include "../singleton/Singleton.h"
 #include "../mediator/Mediator.h"
-#include "../command/Command.h"
 #include "../iterator/Aggregate.h"
 #include "../composite/PlantComponent.h"
-
+#include <string>
+#include <vector>
+#include "../builder/Director.h"
+#include "../builder/SunflowerBuilder.h"
+#include "../builder/RoseBuilder.h"
+#include "../builder/JadePlantBuilder.h"
+#include "../builder/MapleBuilder.h"
+#include "../builder/CactusBuilder.h"
+#include "../builder/CherryBlossomBuilder.h"
+#include "../builder/LavenderBuilder.h"
+#include "../builder/PineBuilder.h"
+#include "../composite/PlantGroup.h"
+#include "../decorator/plantDecorator/PlantAttributesHeader.h"
+#include "../decorator/plantDecorator/LargeStem.h"
+#include "../decorator/plantDecorator/LargeLeaf.h"
+#include "../decorator/plantDecorator/LargeFlowers.h"
+#include "../decorator/plantDecorator/SmallStem.h"
+#include "../decorator/plantDecorator/SmallLeaf.h"
+#include "../decorator/plantDecorator/SmallFlowers.h"
+#include "../decorator/plantDecorator/Thorns.h"
+#include "../decorator/plantDecorator/Spring.h"
+#include "../decorator/plantDecorator/Summer.h"
+#include "../decorator/plantDecorator/Autumn.h"
+#include "../decorator/plantDecorator/Winter.h"
+#include "../prototype/LivingPlant.h"
+#include "../prototype/Herb.h"
+#include "../prototype/Shrub.h"
+#include "../prototype/Succulent.h"
+#include "../prototype/Tree.h"
+#include "../mediator/Customer.h"
+#include "../mediator/SalesFloor.h"
+#include "../mediator/SuggestionFloor.h"
+#include "../iterator/AggPlant.h"
 
 /**
  * @brief Unified facade interface for the nursery management system.
  *
  * Provides simplified, high-level methods for common operations by
  * coordinating multiple subsystems (plant creation via Builder/Director,
- * inventory management via Singleton, sales via Mediator, operations via Command,
- * and filtering via Iterator). Hides system complexity from GUI and external clients.
+ * inventory management via Singleton, sales via Mediator,
+ * and filtering via Iterator). Hides system complexity from TUI and external clients.
  *
  * **System Role:**
  * This class serves as the single integration point for the entire Photosyntech system.
- * It is the only interface that GUI, CLI, and external systems need to know about.
+ * It is the only interface that TUI, CLI, and external systems need to know about.
  * All system operations are coordinated through this facade:
  * - Plant creation and inventory management
  * - Sales transactions and customer interactions
@@ -32,7 +63,6 @@
  * - Builder/Director: Delegates plant creation requests
  * - Singleton: Accesses centralized inventory and resources
  * - Mediator: Routes customer/staff interactions through floor mediators
- * - Command: Encapsulates operations with undo/redo capability
  * - Iterator: Provides filtered plant collection access
  * - Composite: Works with plant hierarchies for bulk operations
  * - Observer: Coordinates staff monitoring setup
@@ -43,9 +73,9 @@
  * - Strategy: Executes plant care algorithms
  *
  * **System Interactions:**
- * - External interfaces (GUI/CLI) call methods on facade only
+ * - External interfaces (TUI/CLI) call methods on facade only
  * - Facade delegates to appropriate subsystem implementations
- * - Commands queued through facade for operation history
+ * - Operations are executed directly through facade methods
  * - All resource access goes through singleton instance
  * - Staff-customer interactions coordinated via mediators
  * - Plant filtering delegated to iterator factories
@@ -53,53 +83,110 @@
  * @see Singleton (resource hub accessed by facade)
  * @see Builder (plant creation via director)
  * @see Mediator (sales and suggestion floor coordination)
- * @see Command (operation encapsulation)
  * @see Iterator (plant filtering and browsing)
  */
+
 class NurseryFacade
 {
-	private:
-		Director* director;
-		Singleton* inventory;
-		Mediator* salesFloor;
-		Mediator* suggestionFloor;
+private:
+    Director *director;
+    std::vector<PlantComponent *> plants;
+    SalesFloor *sales;
+    SuggestionFloor *suggestionFloor;
 
-	public:
-		/**
-		 * @brief Creates a new plant using the builder pattern.
-		 * @param species String identifying the plant species to create.
-		 * @return Pointer to the newly created PlantComponent.
-		 */
-		PlantComponent* createPlant(const char* species);
+public:
+    NurseryFacade();
+    ~NurseryFacade();
 
-		/**
-		 * @brief Adds a plant to the global inventory.
-		 * @param plant Pointer to the PlantComponent to add.
-		 */
-		void addToInventory(PlantComponent* plant);
+    PlantComponent *createPlant(const std::string &type);
 
-		/**
-		 * @brief Browses available plants, optionally filtered by criteria.
-		 * @param filter Optional filter string (e.g., season name).
-		 */
-		void browsePlants(const char* filter);
+    void waterPlant(PlantComponent *plant);
 
-		/**
-		 * @brief Initiates a plant purchase transaction.
-		 * @param plant Pointer to the PlantComponent being purchased.
-		 */
-		void purchasePlant(PlantComponent* plant);
+    void addSunlight(PlantComponent *plant);
 
-		/**
-		 * @brief Waters a specific plant.
-		 * @param plant Pointer to the PlantComponent to water.
-		 */
-		void waterPlant(PlantComponent* plant);
+    std::string getPlantInfo(PlantComponent *plant);
 
-		/**
-		 * @brief Requests plant care suggestions from staff.
-		 */
-		void getSuggestions();
+    std::vector<std::string> getAvailablePlantTypes();
+
+    PlantComponent *getInventoryRoot();
+
+    std::list<PlantComponent *> getGroupContents(PlantComponent *group);
+
+    PlantGroup *createPlantGroup();
+
+    PlantGroup *createPlantGroup(const std::string& name);
+
+    void addComponentToGroup(PlantComponent *parent, PlantComponent *child);
+
+    bool startNurseryTick();
+
+    bool stopNurseryTick();
+
+    /**
+     * @brief adds a customer to singleton for memory management
+     */
+    Customer *addCustomer(string);
+
+    /**
+     * @brief Removes a component from anywhere in the inventory tree.
+     * @param component The component to remove.
+     */
+    void removeComponentFromInventory(PlantComponent *component); // <-- ADD THIS
+
+    /**
+     * @brief performs the communication of customer to staff member
+     */
+    string askForSuggestion(Customer *);
+
+    /**
+     * @brief adds a plant to a customers basket
+     */
+    bool addToCustomerBasket(Customer *, PlantComponent *);
+
+    /**
+     * @brief adds a plant to a customers basket
+     */
+    string customerPurchase(Customer *);
+
+    /**
+     * @brief adds a Staff member singleton for memory management
+     */
+    Staff *addStaff(string);
+
+    /**
+     * @brief adds staff as an observer to plantGroup
+     */
+    void setObserver(Staff *staff, PlantGroup *);
+
+    /**
+ * @brief Gets a plant from the customer's basket by index.
+ */
+PlantComponent* getPlantFromBasket(Customer* customer, int index);
+
+    std::list<PlantComponent *> getCustomerPlants(Customer *);
+
+    std::vector<string> getMenuString();
+
+    PlantComponent*findPlant(int index);
+
+    std::vector<string> getCustomerBasketString(Customer* customer);
+
+    PlantComponent * removeFromCustomer(Customer *,int index);
+
+       std::vector<string> getAllStaffMembers();
+        Staff* findStaff(int i);
+
+    std::vector<string> getAllPlantGroups();
+
+    PlantGroup* findPlantGroup(int index);
+    vector<string> getPlantGroupContents(PlantGroup* PlantGroup);
+
+    bool setAsObserver(Staff* staff,PlantGroup * PG);
+
+    bool RemoveObserver(Staff *staff, PlantGroup *PG);
+
+    vector<string> getObservers(PlantGroup* pg);
+    
 };
 
 #endif

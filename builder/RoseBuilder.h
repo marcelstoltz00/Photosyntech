@@ -22,62 +22,51 @@
  */
 class RoseBuilder : public Builder
 {
-private:
-	LivingPlant *plant = nullptr;
 
 
 public:
-    /**
-     * @brief Constructor for RoseBuilder.
-     */
-    RoseBuilder();
+  /**
+   * @brief Constructor for RoseBuilder.
+   */
+  RoseBuilder();
+	virtual ~RoseBuilder(){};
+  /**
+   * @brief Creates a new Shrub object as the base for the Rose.
+   */
+  void createObject() ;
 
-    /**
-     * @brief Creates a new Shrub object as the base for the Rose.
-     */
-    void createObject() override;
+  /**
+   * @brief Assigns MidWater strategy to the Rose plant.
+   */
+  void assignWaterStrategy() ;
 
-    /**
-     * @brief Assigns MidWater strategy to the Rose plant.
-     */
-    void assignWaterStrategy() override;
+  /**
+   * @brief Assigns MidSun strategy to the Rose plant.
+   */
+  void assignSunStrategy() ;
 
-    /**
-     * @brief Assigns MidSun strategy to the Rose plant.
-     */
-    void assignSunStrategy() override;
+  /**
+   * @brief Assigns initial Seed state to the Rose plant.
+   */
+  void assignMaturityState() ;
 
-    /**
-     * @brief Assigns initial Seed state to the Rose plant.
-     */
-    void assignMaturityState() override;
+  /**
+   * @brief Sets up the initial health, water, and sun levels for the Rose plant.
+   */
+  void setUp() ;
 
-    /**
-     * @brief Sets up the initial health, water, and sun levels for the Rose plant.
-     */
-    void setUp() override;
+  /**
+   * @brief Adds decorators to the PlantComponent.
+   *
+   * Applies the following decorators in sequence:
+   * - Spring season
+   * - Large Flowers
+   * - Small Leaves
+   * - Large Stem
+   * - Thorns
+   */
+  void addDecorators() ;
 
-    /**
-     * @brief Adds decorators to the LivingPlant.
-     * 
-     * Applies the following decorators in sequence:
-     * - Spring season
-     * - Large Flowers
-     * - Small Leaves
-     * - Large Stem
-     * - Thorns
-     */
-    void addDecorators() override;
-    /**
-     * @brief Returns the fully constructed Rose plant.
-     * @return Pointer to the constructed Rose plant.
-     */
-   PlantComponent *getResult() override;
-
-    /**
-     * @brief Destructor for RoseBuilder.
-     */
-    ~RoseBuilder();
 };
 
 #endif // ROSEBUILDER_H

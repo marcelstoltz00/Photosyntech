@@ -1,25 +1,62 @@
-name: Generate Documentation
+name: Generate and Deploy Documentation
+
+permissions:
+  contents: read      # Read permission for checkout
+  pages: write       # Permission to write to GitHub Pages
+  id-token: write    # Permission to use OIDC token for deployment
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, master, devBranch, TUI , devTestFix]
   workflow_dispatch:
 
 jobs:
+  # ----------------------------------------------------
+  # 1. BUILD JOB: Generate the Doxygen HTML files
+  # ----------------------------------------------------
   build-documentation:
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v4
-      
-    - name: Install Doxygen
-      run: sudo apt-get install -y doxygen graphviz
-      
-    - name: Generate Documentation
-      run: doxygen Doxyfile
-      
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Checkout code
+      uses: actions/checkout@v4
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./html
+        submodules: 'recursive'
+
+    - name: Install Doxygen and Graphviz
+      run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
+
+    - name: Create output directory
+      run: mkdir -p docs/doxygen/html
+
+    - name: Run Doxygen
+      run: doxygen Doxyfile # This runs Doxygen and creates the HTML files
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        # This path MUST match the 'OUTPUT_DIRECTORY' + 'HTML_OUTPUT'
+        # from your Doxyfile.
+        #
+        # Current Doxyfile configuration:
+        # OUTPUT_DIRECTORY = docs/doxygen
+        # HTML_OUTPUT      = html
+        # Result path: "docs/doxygen/html"
+        path: 'docs/doxygen/html'
+
+  # ----------------------------------------------------
+  # 2. DEPLOY JOB: Deploy the artifact to Pages
+  # ----------------------------------------------------
+  deploy:
+    # This job must wait for the build job to finish
+    needs: build-documentation
+
+    # Use the same environment as your first working log
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+      
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4 # The action from your working log

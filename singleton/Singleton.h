@@ -15,42 +15,47 @@ using namespace std;
 #include "../strategy/MidWater.h"
 #include "../strategy/HighWater.h"
 #include "../strategy/AlternatingWater.h"
+#include <thread>
+#include <atomic>
 
 /**
- * @brief Singleton class managing global inventory and flyweight factories.
+ * @class Inventory
+ * @brief Singleton class managing global plant inventory and flyweight factories.
  *
- * Ensures only one instance exists and provides global access point through
- * getInstance(). Manages the shared inventory and flyweight factories for
- * efficient memory usage of shared immutable data (seasons, strategies).
+ * The Inventory class serves as the centralized resource manager for the Photosyntech system.
+ * It ensures a single instance exists and provides global access to shared resources such as
+ * strategy flyweights, season strings, maturity states, and hierarchical plant inventory.
  *
- * **System Role:**
- * This class serves as the central resource hub for the entire Photosyntech system.
- * It is responsible for:
- * - Maintaining the single global plant inventory (PlantGroup)
- * - Managing three flyweight factories for memory optimization
- * - Providing consistent access to shared resources throughout the application
+ * ### Responsibilities:
+ * - Maintain the global plant inventory (root PlantGroup)
+ * - Manage flyweight factories for memory-efficient reuse of:
+ *   - Season strings
+ *   - Water strategies
+ *   - Sun strategies
+ *   - Maturity states
+ * - Track system-wide staff and customer lists
+ * - Provide thread-safe ticking mechanism for inventory updates
  *
- * **Pattern Role:** Singleton (ensures single instance, provides global access point)
+ * ### Design Patterns:
+ * - **Singleton**: Guarantees a single instance via `getInstance()`
+ * - **Flyweight**: Caches reusable strategy/state objects
+ * - **Composite**: Inventory is a tree of PlantGroup nodes
+ * - **Builder**: Strategy instances retrieved from flyweight factories
+ * - **Facade**: Centralized access to system resources
+ * - **Command**: Inventory-modifying commands use singleton reference
+ * - **Observer**: Inventory broadcasts updates to observers
+ * - **Iterator**: Inventory provides iterable plant collections
  *
- * **Related Patterns:**
- * - Flyweight: Manages three flyweight factories (strategy and season caches)
- * - Composite: Owns the root PlantGroup representing the inventory
- * - Builder: Director obtains strategy instances from singleton
- * - Facade: Accesses inventory and resources through singleton instance
- * - Command: Commands modify inventory state via singleton reference
- * - Observer: Plant group (managed by singleton) broadcasts notifications
- * - Iterator: Iterator factories obtain inventory collection from singleton
+ * ### Multithreading:
+ * - Background thread (`TickerThread`) periodically invokes `TickInventory()`
+ * - Controlled via `startTicker()` and `stopTicker()` methods
+ * - Thread-safe flag `on` governs lifecycle
  *
- * **System Interactions:**
- * - All subsystems access singleton via getInstance() for shared resources
- * - Flyweight factories accessed for strategy and season object pooling
- * - Inventory (root PlantGroup) serves as hierarchical plant collection
- * - Resource lifetime managed by singleton until application termination
- *
- * @see PlantGroup (managed inventory root)
- * @see FlyweightFactory (template used for resource caching)
- * @see Builder (obtains strategies from singleton)
- * @see Facade (primary access point for singleton)
+ * ### Related Components:
+ * @see PlantGroup
+ * @see FlyweightFactory
+ * @see WaterStrategy, SunStrategy, MaturityState
+ * @see Staff, Customer
  */
 
 class Customer;
@@ -59,7 +64,6 @@ class SunStrategy;
 class MaturityState;
 class PlantGroup;
 class Staff;
-class Customer;
 class Inventory
 
 {
@@ -70,87 +74,110 @@ private:
 	FlyweightFactory<int, WaterStrategy *> *waterStrategies;
 	FlyweightFactory<int, SunStrategy *> *sunStrategies;
 	FlyweightFactory<int, MaturityState *> *states;
+
+	Flyweight<string *> *currentSeason;
+
 	vector<Staff *> *staffList;
 	vector<Customer *> *customerList;
 	/**
 	 * @brief Private constructor to prevent direct instantiation.
 	 */
 	Inventory();
+	// Multithreading components
+	void TickInventory();
+	static thread *TickerThread;
+	static atomic<bool> on;
+	static int timeBetweenTicks;
+	// Multithreading components
 
 public:
 	/**
-	 * @brief Gets the singleton instance.
-	 * @return Pointer to the single Singleton instance.
+	 * @brief Retrieves the singleton instance of Inventory.
+	 * @return Pointer to the single Inventory instance.
 	 */
 	static Inventory *getInstance();
 
 	/**
-	 * @brief Gets a flyweight for a season name.
+	 * @brief Retrieves a flyweight for a season name.
 	 * @param season Season name string.
-	 * @return Const pointer to the Flyweight wrapping the season string.
+	 * @return Flyweight wrapping the season string.
 	 */
 	Flyweight<std::string *> *getString(std::string season);
 
 	/**
-	 * @brief Gets a flyweight for a water strategy.
-	 * @param level Integer identifier for the water strategy level.
-	 * @return Const pointer to the Flyweight wrapping the WaterStrategy.
+	 * @brief Retrieves a flyweight for a water strategy level.
+	 * @param level Integer identifier for water strategy.
+	 * @return Flyweight wrapping the WaterStrategy instance.
 	 */
 	Flyweight<WaterStrategy *> *getWaterFly(int level);
 
 	/**
-	 * @brief Gets a flyweight for a sun strategy.
-	 * @param level Integer identifier for the sun strategy level.
-	 * @return Const pointer to the Flyweight wrapping the SunStrategy.
+	 * @brief Retrieves a flyweight for a sun strategy level.
+	 * @param level Integer identifier for sun strategy.
+	 * @return Flyweight wrapping the SunStrategy instance.
 	 */
 	Flyweight<SunStrategy *> *getSunFly(int level);
 
 	/**
-	 * @brief Gets the global plant inventory.
-	 * @return Const pointer to the PlantGroup representing the inventory.
-	 */
-	PlantGroup *getInventory();
-
-	/**
-	 * @brief Deleted copy constructor to prevent copying.
-	 */
-	Inventory(const Inventory &) = delete;
-
-	/**
-	 * @brief Deleted assignment operator to prevent assignment.
-	 */
-	Inventory &operator=(const Inventory &) = delete;
-
-	/**
-	 * @brief to get a flyweight based on a specific id.
-	 * @throws exception if there is an id given but no data aswell as no item in the factory to give.
+	 * @brief Retrieves a flyweight for a maturity state.
+	 * @param id Integer identifier for maturity state.
+	 * @return Flyweight wrapping the MaturityState instance.
+	 * @throws std::runtime_error if id is invalid or not cached.
 	 */
 	Flyweight<MaturityState *> *getStates(int id);
 
 	/**
-	 * @brief a getter for the customer list used in the system
+	 * @brief Gets the root plant inventory group.
+	 * @return Pointer to the root PlantGroup.
+	 */
+	PlantGroup *getInventory();
+
+	/**
+	 * @brief Retrieves the list of registered customers.
+	 * @return Pointer to vector of Customer pointers.
 	 */
 	vector<Customer *> *getCustomers();
+
 	/**
-	 * @brief a getter for the Staff list used in the system
+	 * @brief Retrieves the list of registered staff members.
+	 * @return Pointer to vector of Staff pointers.
 	 */
 	vector<Staff *> *getStaff();
 
-
 	/**
-	 * @brief adds a staff member to the system
+	 * @brief Adds a staff member to the system.
+	 * @param staff Pointer to Staff instance.
 	 */
 	void addStaff(Staff *staff);
 
 	/**
-	 * @brief adds a customer to the system
+	 * @brief Adds a customer to the system.
+	 * @param customer Pointer to Customer instance.
 	 */
-	void addCustomer(Customer *Customer);
+	void addCustomer(Customer *customer);
 
 	/**
-	 * @brief the destructor for the inventory Last thing to be deleted in the main system.
+	 * @brief Starts the background ticker thread.
+	 * @return True if on was false false if otherwise
+	 * @note Creates the thread if it does not yet exist
+	 */
+	static bool startTicker();
+
+	/**
+	 * @brief Stops the background ticker thread.
+	 * @return True if it on was true, false if otherwise
+	 * @note deletes the thread pointer
+	 */
+	static bool stopTicker();
+
+	/**
+	 * @brief Destructor. Cleans up all managed resources.
 	 */
 	~Inventory();
-};
 
+	Flyweight<string *> *getSeason();
+
+	void changeSeason();
+	static void updateTickerRate(int time) { timeBetweenTicks = time; }
+};
 #endif

@@ -24,7 +24,7 @@ class LivingPlant; // Forward declaration
  * - Concrete Strategies: LowWater, MidWater, HighWater, AlternatingWater
  * - Flyweight: Shared via singleton factories
  * - Builder: Assigns appropriate strategy during construction
- * - Command: WaterPlantCommand executes strategy
+ * - Facade: Triggers strategy execution through plant care operations
  * - Composite: Strategy applied uniformly to plant groups
  *
  * **System Interactions:**
