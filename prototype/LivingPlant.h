@@ -75,6 +75,7 @@ protected:
 	Flyweight<MaturityState *> *maturityState;
 	Flyweight<WaterStrategy *> *waterStrategy;
 	Flyweight<SunStrategy *> *sunStrategy;
+    
 
 public:
 	/**

@@ -16,5 +16,5 @@ int LowWater::getID()
 
 LowWater::LowWater()
 {
-    waterAmount = 35;
+    waterAmount = 15;
 }

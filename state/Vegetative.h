@@ -46,6 +46,6 @@ public:
    * @return Integer identifier for the state
    */
   static const int getID() { return 1; }
-  virtual const string getName() { return "Vegatative"; };
+  virtual const string getName() { return "Vegetative"; };
 };
 #endif /* Vegetative_h */
