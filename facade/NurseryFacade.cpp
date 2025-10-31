@@ -2,36 +2,18 @@
 
 NurseryFacade::NurseryFacade()
 {
-    sunflowerBuilder = new SunflowerBuilder();
-    roseBuilder = new RoseBuilder();
-    jadePlantBuilder = new JadePlantBuilder();
-    mapleBuilder = new MapleBuilder();
-    cactusBuilder = new CactusBuilder();
-    cherryBlossomBuilder = new CherryBlossomBuilder();
-    lavenderBuilder = new LavenderBuilder();
-    pineBuilder = new PineBuilder();
-    director = new Director(sunflowerBuilder);
+
+    director = nullptr;
     sales = new SalesFloor();
     suggestionFloor = new SuggestionFloor();
-    
 }
 
 NurseryFacade::~NurseryFacade()
 {
     delete director;
-    delete sunflowerBuilder;
-    delete roseBuilder;
-    delete jadePlantBuilder;
-    delete mapleBuilder;
-    delete cactusBuilder;
-    delete cherryBlossomBuilder;
-    delete lavenderBuilder;
-    delete pineBuilder;
 
-    
     delete sales;
     delete suggestionFloor;
-    
 }
 
 PlantComponent *NurseryFacade::createPlant(const std::string &type)
@@ -39,36 +21,36 @@ PlantComponent *NurseryFacade::createPlant(const std::string &type)
     Builder *selectedBuilder = nullptr;
 
     if (type == "Sunflower")
-        selectedBuilder = sunflowerBuilder;
+        selectedBuilder = new SunflowerBuilder();
     else if (type == "Rose")
-        selectedBuilder = roseBuilder;
+        selectedBuilder = new RoseBuilder;
     else if (type == "Jade Plant")
-        selectedBuilder = jadePlantBuilder;
+        selectedBuilder = new JadePlantBuilder;
     else if (type == "Maple")
-        selectedBuilder = mapleBuilder;
+        selectedBuilder = new MapleBuilder;
     else if (type == "Cactus")
-        selectedBuilder = cactusBuilder;
+        selectedBuilder = new CactusBuilder;
     else if (type == "Cherry Blossom")
-        selectedBuilder = cherryBlossomBuilder;
+        selectedBuilder = new CherryBlossomBuilder;
     else if (type == "Lavender")
-        selectedBuilder = lavenderBuilder;
+        selectedBuilder = new LavenderBuilder;
     else if (type == "Pine")
-        selectedBuilder = pineBuilder;
+        selectedBuilder = new PineBuilder;
     else
         return nullptr;
-
-        
+    if (director)
     delete director;
-    director = new Director(selectedBuilder);
+    Builder* builder = selectedBuilder;
+    director = new Director(builder);
 
     director->construct();
 
-    PlantComponent *plant = selectedBuilder->getResult();
+    PlantComponent *plant = director->getPlant();
 
     plants.push_back(plant);
 
     Inventory::getInstance()->getInventory()->addComponent(plant);
-
+    delete selectedBuilder;
     return plant;
 }
 
@@ -219,7 +201,7 @@ bool NurseryFacade::addToCustomerBasket(Customer *customer, PlantComponent *nPla
     if (customer && nPlant)
     {
         customer->addPlant(nPlant);
-        Inventory::getInstance()->getInventory()->getPlants()->remove(nPlant);
+        Inventory::getInstance()->getInventory()->removeComponent(nPlant);
         return true;
     }
     return false;
@@ -390,3 +372,85 @@ std::vector<string> NurseryFacade::getAllPlantGroups()
     }
     return groupNames;
 }
+
+PlantGroup *NurseryFacade::findPlantGroup(int index)
+{
+
+    std::list<PlantComponent *> groups = *Inventory::getInstance()->getInventory()->getPlants();
+    int count = 0;
+    auto itr = groups.begin();
+    while (itr != groups.end() && count < index)
+    {
+        if ((*itr)->getType() == ComponentType::PLANT_GROUP)
+        {
+            count++;
+        }
+        itr++;
+    }
+    if (*itr && (*itr)->getType() == ComponentType::PLANT_GROUP)
+    {
+        return static_cast<PlantGroup *>(*itr);
+    }
+    else
+        return nullptr;
+}
+vector<string> NurseryFacade::getPlantGroupContents(PlantGroup *PlantGroup)
+{
+    if (PlantGroup == nullptr)
+        return {};
+
+    vector<string> names;
+    AggPlant *agg = new AggPlant(PlantGroup->getPlants());
+    Iterator *itr = agg->createIterator();
+
+    while (!itr->isDone())
+    {
+        names.push_back(itr->currentItem()->getName());
+        itr->next();
+    }
+
+    delete agg;
+    delete itr;
+    return names;
+}
+
+bool NurseryFacade::setAsObserver(Staff *staff, PlantGroup *PG)
+{
+    if (PG)
+    {
+        PG->attach(staff);
+        return true;
+    }
+    return false;
+}
+bool NurseryFacade::RemoveObserver(Staff *staff, PlantGroup *PG)
+{
+    if (PG)
+    {
+        PG->detach(staff);
+        return true;
+    }
+    return false;
+}
+
+ vector<string> NurseryFacade::getObservers(PlantGroup* pg)
+ {
+    if (pg)
+    {
+        std::vector<string> names;
+    std::list<Observer *> staff = pg->getObservers();
+   auto itr = staff.begin();
+    while (itr != staff.end())
+    {
+        if (*itr)
+        names.push_back((*itr)->getNameObserver());
+
+        itr++;
+    }
+    return names;
+    }
+    else
+    {
+        return {};
+    }
+ }

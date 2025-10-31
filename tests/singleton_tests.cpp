@@ -336,6 +336,10 @@ TEST_CASE("Testing Singleton Pattern - Memory Efficiency Verification")
         // All should point to the same strategy (flyweight reuse)
         CHECK(strat1 == strat2);
         CHECK(strat2 == strat3);
+      
+
+       
+
         delete Inventory::getInstance();
     }
     delete Inventory::getInstance();

@@ -5,7 +5,7 @@
 // Remove: #include "../prototype/PlantComponent.h" - only forward declared it below
 
 // Forward declarations instead
-
+#include<string>
 class PlantComponent;
 
 /**
@@ -67,7 +67,9 @@ public:
 	/**
 	 * @brief Virtual destructor for proper cleanup of derived classes.
 	 */
-	virtual ~Observer() {}
+	virtual ~Observer() {};
+
+	virtual std::string getNameObserver()=0;
 };
 
 #endif

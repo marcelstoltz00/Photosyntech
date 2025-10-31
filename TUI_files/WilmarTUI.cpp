@@ -354,7 +354,7 @@ int main()
     vector<string> plantNames = nursery.getMenuString();
     vector<string> basketNames = {};
     nursery.addCustomer("Customer");
-    nursery.addStaff("Staff");
+    nursery.addStaff("Mark");
 
     string customerTerminalStr = "Your conversations go here";
     auto nameInput = Input(&userName, "Enter your name here");
@@ -551,14 +551,17 @@ int main()
     auto staffNameInput = Input(&staffName);
     auto staffNames = nursery.getAllStaffMembers();
     auto plantGroupNames = nursery.getAllPlantGroups();
-    auto plantGroupContents = nursery.getPlantGroupContents(nullptr);
+    vector<string> plantGroupContents ;
+    vector<string> observerNames ;
+
     int staffIndex = 0;
     int plantGroupIndex = 0;
     int internalPlantGroupIndex = 0;
-
-    
+    int currentObserverIndex= 0;
     PlantGroup *currentPlantGroupStaff = nullptr;
     auto plantGroupMenu = Menu(&plantGroupNames, &plantGroupIndex);
+
+    auto plantGroupObservers =  Menu(&observerNames, &currentObserverIndex);
 
     auto staffMenu = Menu(&staffNames, &staffIndex);
     auto plantGroupContentsMenu = Menu(&plantGroupContents, &internalPlantGroupIndex);
@@ -570,12 +573,16 @@ int main()
                                refreshStaffView(nursery,staffNames);
                                refreshPlantGroupView(nursery,plantGroupNames); });
     auto AddStaffObserver = Button("set observer", [&]
-                                   { nursery.setAsObserver(currentStaffMember, currentPlantGroupStaff); });
+                                   { nursery.setAsObserver(currentStaffMember, currentPlantGroupStaff);
+                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully added as an observer":" could nor process request"; });
+ auto removeStaffObserver = Button("detach observer", [&]
+                                   { nursery.RemoveObserver(currentStaffMember, currentPlantGroupStaff);
+                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully removed as an observer":" could not process request"; });
 
     auto staffManagement = Container::Vertical({
 
-        Container::Horizontal({AddStaffObserver,staffNameInput, addStaff}),
-        Container::Horizontal({staffMenu, plantGroupMenu, plantGroupContentsMenu})
+        Container::Horizontal({removeStaffObserver,AddStaffObserver, staffNameInput, addStaff}),
+        Container::Horizontal({staffMenu, plantGroupMenu, plantGroupContentsMenu,plantGroupObservers})
 
     });
     // ########################### staff additions
@@ -603,7 +610,7 @@ int main()
                                  {
                                     counter++;
 
-                    if (counter == 30)
+                    if (counter == 15)
                     {
 refreshCustomerView(nursery, plantNames);
      refreshPlantGroupView(nursery,plantGroupNames);
@@ -612,6 +619,7 @@ refreshCustomerView(nursery, plantNames);
         currentPlantGroupStaff = nursery.findPlantGroup(plantGroupIndex);
                         
         plantGroupContents = nursery.getPlantGroupContents(currentPlantGroupStaff);
+        observerNames = nursery.getObservers(currentPlantGroupStaff);
         
         if (currentCustomerPlant) {
             water = currentCustomerPlant->getWaterValue();
@@ -706,26 +714,40 @@ refreshCustomerView(nursery, plantNames);
     });
     Element StaffView = vbox(
         {
-           hcenter (hbox({ AddStaffObserver->Render(),
-               window(text("Enter staff"), staffNameInput->Render()| size(WIDTH,EQUAL,80)|size(HEIGHT,EQUAL,2)) ,addStaff->Render() 
-            })  | size(WIDTH,EQUAL,150))|size(HEIGHT,EQUAL,3),
-            hbox({ 
-                window(text("Staff members"),staffMenu->Render())|size(WIDTH,EQUAL,65)|size(HEIGHT,EQUAL,15), filler(),
-                window(text("Plant groups"),plantGroupMenu->Render())|size(WIDTH,EQUAL,65)|size(HEIGHT,EQUAL,15),filler(),
-                window(text("Plant group contents"),plantGroupContentsMenu->Render())|size(WIDTH,EQUAL,65)|size(HEIGHT,EQUAL,15),
-                                 })| border
+           hcenter (hbox({ filler(),removeStaffObserver->Render()| size(WIDTH,EQUAL,20),filler(),
+               window(text("Enter staff"), staffNameInput->Render()| size(WIDTH,EQUAL,40)|size(HEIGHT,EQUAL,2)) ,addStaff->Render() |size(WIDTH,EQUAL,20),filler(),AddStaffObserver->Render()| size(WIDTH,EQUAL,20),
+         filler()   })  |size(HEIGHT,EQUAL,3)| size(WIDTH,EQUAL,300)|border),
+            hbox({ filler(),
+                window(text("Staff members"),staffMenu->Render())|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,30), 
+                window(text("Plant groups"),plantGroupMenu->Render())|size(WIDTH,EQUAL,80)|size(HEIGHT,GREATER_THAN,30),
+               vbox({ window(text("Plant group contents"),plantGroupContentsMenu->Render())|size(WIDTH,GREATER_THAN,32)|size(HEIGHT,GREATER_THAN,15),
+                    window(text("Observers for current group"),plantGroupObservers->Render())|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,15)
+                                 }),filler()})| border 
+
         }
-    );
+    ) ;
 
         Element customerView = vbox({
             hcenter(hbox({
-                window(text("Enter username") | bold | color(Color::Cyan), nameInput->Render() | frame | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 100)),
+                window(text("Enter username") | bold | color(Color::Cyan), nameInput->Render() | frame | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 40)),
                 filler(),
-                addCustomerButton->Render() | color(Color::Green) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 10)
+                addCustomerButton->Render() | color(Color::Green) | size(HEIGHT, EQUAL, 2) | size(WIDTH, EQUAL, 10)
             })) | size(HEIGHT, EQUAL, 3),
 
             currentCustomer
             ? hcenter(vbox({
+
+                                hbox({
+                askAdvice->Render() | color(Color::Magenta) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
+                filler(),               
+                    basketAddBtn->Render() | color(Color::Green) | size(WIDTH, EQUAL, 25),
+
+                filler(),
+                purchaseBtn->Render() | color(Color::Yellow) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 25),
+                filler(),          
+                    removeFromBasket->Render() | color(Color::Red) | size(WIDTH, EQUAL, 25)
+
+        }) | border | size(WIDTH, EQUAL,200),
                 hbox({
                     window(text("Available Plants") | bold | color(Color::Cyan), customerMenu->Render())
                     | size(WIDTH, GREATER_THAN, 100)
@@ -748,25 +770,7 @@ refreshCustomerView(nursery, plantNames);
                     paragraph(customerTerminalStr) | frame | vscroll_indicator | size(HEIGHT, EQUAL, 15) | color(Color::GrayLight) 
                 )|size(WIDTH, EQUAL, 200),
 
-                hbox({
-                askAdvice->Render() | color(Color::Magenta) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
-                filler(),
 
-                vbox({
-                    basketAddBtn->Render() | color(Color::Green),
-            
-                }) | size(WIDTH, EQUAL, 25),
-
-                filler(),
-                purchaseBtn->Render() | color(Color::Yellow) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 25),
-                filler(),
-
-                vbox({
-                    removeFromBasket->Render() | color(Color::Red),
-
-                }) | size(WIDTH, EQUAL, 25)
-
-        }) | border | size(WIDTH, EQUAL,200),
                 filler()
             }))
             : vbox({

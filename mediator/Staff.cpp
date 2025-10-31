@@ -162,8 +162,8 @@ void Staff::getWaterUpdate(PlantComponent *plant)
     {
         int oldWater = plant->getWaterValue();
         plant->water();
-        cout << "Plant [" << plant->getName() << "] has had its water updated by " << this->name << endl;
-        cout << "The water level was " << oldWater << " and is now " << plant->getWaterValue() << endl;
+      //  cout << "Plant [" << plant->getName() << "] has had its water updated by " << this->name << endl;
+      //  cout << "The water level was " << oldWater << " and is now " << plant->getWaterValue() << endl;
     }
 }
 
@@ -180,8 +180,8 @@ void Staff::getSunUpdate(PlantComponent *plant)
     {
         int oldSun = plant->getSunlightValue();
         plant->setOutside();
-        cout << "Plant [" << plant->getName() << "] has had its sunlight updated by " << this->name << endl;
-        cout << "The sun level was " << oldSun << " and is now " << plant->getSunlightValue() << endl;
+      //  cout << "Plant [" << plant->getName() << "] has had its sunlight updated by " << this->name << endl;
+      //  cout << "The sun level was " << oldSun << " and is now " << plant->getSunlightValue() << endl;
     }
 }
 

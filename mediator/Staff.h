@@ -72,6 +72,8 @@ class Staff : public User, public Observer
 		 * @param plant Pointer to the LivingPlant with updated state.
 		 */
 		void getStateUpdate(PlantComponent* plant);
+
+		virtual string getNameObserver() {return this->getName();};
 };
 
 #endif

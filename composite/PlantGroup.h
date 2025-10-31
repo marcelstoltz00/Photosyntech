@@ -169,6 +169,7 @@ public:
 
 	void setGroupName(std::string newGroupName);
 	std::string getGroupName();
+	std::list<Observer *> getObservers();
 };
 
 #endif
