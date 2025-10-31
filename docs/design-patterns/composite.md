@@ -1,7 +1,8 @@
 # Composite Pattern
 
 ## Responsibility
-Organizes plants into hierarchical tree structures where individual plants and groups of plants are treated uniformly, enabling operations to traverse and manipulate entire plant collections.
+
+Composes plant objects into tree structures to represent part-whole hierarchies, allowing clients to treat individual plants and groups of plants uniformly through a common interface. Enables hierarchical organization of inventory with operations that traverse and manipulate entire collections transparently.
 
 ## Participant Mapping
 
@@ -25,7 +26,6 @@ Organizes plants into hierarchical tree structures where individual plants and g
 ## System Role & Integration
 
 ### Pattern Integration
-The **Composite** pattern enables **hierarchical plant organization** through these key relationships:
 
 - **Observer Pattern**: `PlantGroup` acts as a `Subject`, notifying registered `Observer`s (e.g., `Staff`) of significant events occurring within the group, such as a plant needing water or sunlight.
 - **Iterator Pattern**: Iterators are used to traverse the `PlantComponent` structures, allowing for filtering by season or other criteria.
@@ -49,7 +49,7 @@ The Composite pattern was chosen because:
 4. **Mass Operations**: It simplifies the application of operations to entire groups of plants.
 5. **Observer Integration**: It allows for group-level notifications, which can be more efficient than observing every single plant.
 
-## Extension Points
+**Scenario**: Staff waters all spring plants through inventory system
 
 **Creating Plant Hierarchies:**
 1. Use the `PlantComponent` interface for all plant and group operations.
