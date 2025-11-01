@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
-<tagfile doxygen_version="1.14.0">
+<tagfile doxygen_version="1.15.0">
   <compound kind="file">
     <name>Builder.cpp</name>
     <path>builder/</path>
@@ -194,40 +194,6 @@
     <filename>_sunflower_builder_8h.html</filename>
     <includes id="_builder_8h" name="Builder.h" local="yes" import="no" module="no" objc="no">Builder.h</includes>
     <class kind="class">SunflowerBuilder</class>
-  </compound>
-  <compound kind="file">
-    <name>AddToInventoryCommand.h</name>
-    <path>command/</path>
-    <filename>_add_to_inventory_command_8h.html</filename>
-    <includes id="_command_8h" name="Command.h" local="yes" import="no" module="no" objc="no">Command.h</includes>
-    <class kind="class">AddToInventoryCommand</class>
-  </compound>
-  <compound kind="file">
-    <name>BrowsePlantsCommand.h</name>
-    <path>command/</path>
-    <filename>_browse_plants_command_8h.html</filename>
-    <includes id="_command_8h" name="Command.h" local="yes" import="no" module="no" objc="no">Command.h</includes>
-    <class kind="class">BrowsePlantsCommand</class>
-  </compound>
-  <compound kind="file">
-    <name>Command.h</name>
-    <path>command/</path>
-    <filename>_command_8h.html</filename>
-    <class kind="class">Command</class>
-  </compound>
-  <compound kind="file">
-    <name>PurchasePlantCommand.h</name>
-    <path>command/</path>
-    <filename>_purchase_plant_command_8h.html</filename>
-    <includes id="_command_8h" name="Command.h" local="yes" import="no" module="no" objc="no">Command.h</includes>
-    <class kind="class">PurchasePlantCommand</class>
-  </compound>
-  <compound kind="file">
-    <name>WaterPlantCommand.h</name>
-    <path>command/</path>
-    <filename>_water_plant_command_8h.html</filename>
-    <includes id="_command_8h" name="Command.h" local="yes" import="no" module="no" objc="no">Command.h</includes>
-    <class kind="class">WaterPlantCommand</class>
   </compound>
   <compound kind="file">
     <name>PlantComponent.cpp</name>
@@ -439,11 +405,6 @@
     <filename>builder_8md.html</filename>
   </compound>
   <compound kind="file">
-    <name>command.md</name>
-    <path>docs/design-patterns/</path>
-    <filename>command_8md.html</filename>
-  </compound>
-  <compound kind="file">
     <name>composite.md</name>
     <path>docs/design-patterns/</path>
     <filename>composite_8md.html</filename>
@@ -504,15 +465,50 @@
     <filename>strategy_8md.html</filename>
   </compound>
   <compound kind="file">
+    <name>NurseryFacade.cpp</name>
+    <path>facade/</path>
+    <filename>_nursery_facade_8cpp.html</filename>
+    <includes id="_nursery_facade_8h" name="NurseryFacade.h" local="yes" import="no" module="no" objc="no">NurseryFacade.h</includes>
+  </compound>
+  <compound kind="file">
     <name>NurseryFacade.h</name>
     <path>facade/</path>
     <filename>_nursery_facade_8h.html</filename>
     <includes id="_director_8h" name="Director.h" local="yes" import="no" module="no" objc="no">../builder/Director.h</includes>
     <includes id="_singleton_8h" name="Singleton.h" local="yes" import="no" module="no" objc="no">../singleton/Singleton.h</includes>
     <includes id="_mediator_8h" name="Mediator.h" local="yes" import="no" module="no" objc="no">../mediator/Mediator.h</includes>
-    <includes id="_command_8h" name="Command.h" local="yes" import="no" module="no" objc="no">../command/Command.h</includes>
     <includes id="_aggregate_8h" name="Aggregate.h" local="yes" import="no" module="no" objc="no">../iterator/Aggregate.h</includes>
     <includes id="_plant_component_8h" name="PlantComponent.h" local="yes" import="no" module="no" objc="no">../composite/PlantComponent.h</includes>
+    <includes id="_sunflower_builder_8h" name="SunflowerBuilder.h" local="yes" import="no" module="no" objc="no">../builder/SunflowerBuilder.h</includes>
+    <includes id="_rose_builder_8h" name="RoseBuilder.h" local="yes" import="no" module="no" objc="no">../builder/RoseBuilder.h</includes>
+    <includes id="_jade_plant_builder_8h" name="JadePlantBuilder.h" local="yes" import="no" module="no" objc="no">../builder/JadePlantBuilder.h</includes>
+    <includes id="_maple_builder_8h" name="MapleBuilder.h" local="yes" import="no" module="no" objc="no">../builder/MapleBuilder.h</includes>
+    <includes id="_cactus_builder_8h" name="CactusBuilder.h" local="yes" import="no" module="no" objc="no">../builder/CactusBuilder.h</includes>
+    <includes id="_cherry_blossom_builder_8h" name="CherryBlossomBuilder.h" local="yes" import="no" module="no" objc="no">../builder/CherryBlossomBuilder.h</includes>
+    <includes id="_lavender_builder_8h" name="LavenderBuilder.h" local="yes" import="no" module="no" objc="no">../builder/LavenderBuilder.h</includes>
+    <includes id="_pine_builder_8h" name="PineBuilder.h" local="yes" import="no" module="no" objc="no">../builder/PineBuilder.h</includes>
+    <includes id="_plant_group_8h" name="PlantGroup.h" local="yes" import="no" module="no" objc="no">../composite/PlantGroup.h</includes>
+    <includes id="_plant_attributes_header_8h" name="PlantAttributesHeader.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/PlantAttributesHeader.h</includes>
+    <includes id="_large_stem_8h" name="LargeStem.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/LargeStem.h</includes>
+    <includes id="_large_leaf_8h" name="LargeLeaf.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/LargeLeaf.h</includes>
+    <includes id="_large_flowers_8h" name="LargeFlowers.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/LargeFlowers.h</includes>
+    <includes id="_small_stem_8h" name="SmallStem.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/SmallStem.h</includes>
+    <includes id="_small_leaf_8h" name="SmallLeaf.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/SmallLeaf.h</includes>
+    <includes id="_small_flowers_8h" name="SmallFlowers.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/SmallFlowers.h</includes>
+    <includes id="_thorns_8h" name="Thorns.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/Thorns.h</includes>
+    <includes id="_spring_8h" name="Spring.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/Spring.h</includes>
+    <includes id="_summer_8h" name="Summer.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/Summer.h</includes>
+    <includes id="_autumn_8h" name="Autumn.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/Autumn.h</includes>
+    <includes id="_winter_8h" name="Winter.h" local="yes" import="no" module="no" objc="no">../decorator/plantDecorator/Winter.h</includes>
+    <includes id="_living_plant_8h" name="LivingPlant.h" local="yes" import="no" module="no" objc="no">../prototype/LivingPlant.h</includes>
+    <includes id="_herb_8h" name="Herb.h" local="yes" import="no" module="no" objc="no">../prototype/Herb.h</includes>
+    <includes id="_shrub_8h" name="Shrub.h" local="yes" import="no" module="no" objc="no">../prototype/Shrub.h</includes>
+    <includes id="_succulent_8h" name="Succulent.h" local="yes" import="no" module="no" objc="no">../prototype/Succulent.h</includes>
+    <includes id="_tree_8h" name="Tree.h" local="yes" import="no" module="no" objc="no">../prototype/Tree.h</includes>
+    <includes id="_customer_8h" name="Customer.h" local="yes" import="no" module="no" objc="no">../mediator/Customer.h</includes>
+    <includes id="_sales_floor_8h" name="SalesFloor.h" local="yes" import="no" module="no" objc="no">../mediator/SalesFloor.h</includes>
+    <includes id="_suggestion_floor_8h" name="SuggestionFloor.h" local="yes" import="no" module="no" objc="no">../mediator/SuggestionFloor.h</includes>
+    <includes id="_agg_plant_8h" name="AggPlant.h" local="yes" import="no" module="no" objc="no">../iterator/AggPlant.h</includes>
     <class kind="class">NurseryFacade</class>
   </compound>
   <compound kind="file">
@@ -556,6 +552,23 @@
     <includes id="_plant_iterator_8h" name="PlantIterator.h" local="yes" import="no" module="no" objc="no">PlantIterator.h</includes>
     <includes id="_plant_component_8h" name="PlantComponent.h" local="yes" import="no" module="no" objc="no">../composite/PlantComponent.h</includes>
     <class kind="class">AggPlant</class>
+  </compound>
+  <compound kind="file">
+    <name>AggPlantName.cpp</name>
+    <path>iterator/</path>
+    <filename>_agg_plant_name_8cpp.html</filename>
+    <includes id="_agg_plant_name_8h" name="AggPlantName.h" local="yes" import="no" module="no" objc="no">AggPlantName.h</includes>
+    <includes id="_singleton_8h" name="Singleton.h" local="yes" import="no" module="no" objc="no">../singleton/Singleton.h</includes>
+  </compound>
+  <compound kind="file">
+    <name>AggPlantName.h</name>
+    <path>iterator/</path>
+    <filename>_agg_plant_name_8h.html</filename>
+    <includes id="_aggregate_8h" name="Aggregate.h" local="yes" import="no" module="no" objc="no">Aggregate.h</includes>
+    <includes id="_plant_name_iterator_8h" name="PlantNameIterator.h" local="yes" import="no" module="no" objc="no">PlantNameIterator.h</includes>
+    <includes id="_plant_component_8h" name="PlantComponent.h" local="yes" import="no" module="no" objc="no">../composite/PlantComponent.h</includes>
+    <includes id="_flyweight_8h" name="Flyweight.h" local="yes" import="no" module="no" objc="no">../flyweight/Flyweight.h</includes>
+    <class kind="class">AggPlantName</class>
   </compound>
   <compound kind="file">
     <name>Aggregate.cpp</name>
@@ -608,11 +621,29 @@
     <path>iterator/</path>
     <filename>_plant_iterator_8h.html</filename>
     <includes id="_iterator_8h" name="Iterator.h" local="yes" import="no" module="no" objc="no">Iterator.h</includes>
+    <includes id="_stack_frame_8h" name="StackFrame.h" local="yes" import="no" module="no" objc="no">StackFrame.h</includes>
     <includes id="_living_plant_8h" name="LivingPlant.h" local="yes" import="no" module="no" objc="no">../prototype/LivingPlant.h</includes>
     <includes id="_plant_component_8h" name="PlantComponent.h" local="yes" import="no" module="no" objc="no">../composite/PlantComponent.h</includes>
     <includes id="_plant_group_8h" name="PlantGroup.h" local="yes" import="no" module="no" objc="no">../composite/PlantGroup.h</includes>
     <class kind="class">PlantIterator</class>
-    <class kind="struct">PlantIterator::StackFrame</class>
+  </compound>
+  <compound kind="file">
+    <name>PlantNameIterator.cpp</name>
+    <path>iterator/</path>
+    <filename>_plant_name_iterator_8cpp.html</filename>
+    <includes id="_plant_name_iterator_8h" name="PlantNameIterator.h" local="yes" import="no" module="no" objc="no">PlantNameIterator.h</includes>
+    <includes id="_agg_plant_name_8h" name="AggPlantName.h" local="yes" import="no" module="no" objc="no">AggPlantName.h</includes>
+  </compound>
+  <compound kind="file">
+    <name>PlantNameIterator.h</name>
+    <path>iterator/</path>
+    <filename>_plant_name_iterator_8h.html</filename>
+    <includes id="_iterator_8h" name="Iterator.h" local="yes" import="no" module="no" objc="no">Iterator.h</includes>
+    <includes id="_stack_frame_8h" name="StackFrame.h" local="yes" import="no" module="no" objc="no">StackFrame.h</includes>
+    <includes id="_living_plant_8h" name="LivingPlant.h" local="yes" import="no" module="no" objc="no">../prototype/LivingPlant.h</includes>
+    <includes id="_plant_component_8h" name="PlantComponent.h" local="yes" import="no" module="no" objc="no">../composite/PlantComponent.h</includes>
+    <includes id="_plant_group_8h" name="PlantGroup.h" local="yes" import="no" module="no" objc="no">../composite/PlantGroup.h</includes>
+    <class kind="class">PlantNameIterator</class>
   </compound>
   <compound kind="file">
     <name>SeasonIterator.cpp</name>
@@ -626,11 +657,18 @@
     <path>iterator/</path>
     <filename>_season_iterator_8h.html</filename>
     <includes id="_iterator_8h" name="Iterator.h" local="yes" import="no" module="no" objc="no">Iterator.h</includes>
+    <includes id="_stack_frame_8h" name="StackFrame.h" local="yes" import="no" module="no" objc="no">StackFrame.h</includes>
     <includes id="_living_plant_8h" name="LivingPlant.h" local="yes" import="no" module="no" objc="no">../prototype/LivingPlant.h</includes>
     <includes id="_plant_component_8h" name="PlantComponent.h" local="yes" import="no" module="no" objc="no">../composite/PlantComponent.h</includes>
     <includes id="_plant_group_8h" name="PlantGroup.h" local="yes" import="no" module="no" objc="no">../composite/PlantGroup.h</includes>
     <class kind="class">SeasonIterator</class>
-    <class kind="struct">SeasonIterator::StackFrame</class>
+  </compound>
+  <compound kind="file">
+    <name>StackFrame.h</name>
+    <path>iterator/</path>
+    <filename>_stack_frame_8h.html</filename>
+    <includes id="_plant_component_8h" name="PlantComponent.h" local="yes" import="no" module="no" objc="no">../composite/PlantComponent.h</includes>
+    <class kind="struct">StackFrame</class>
   </compound>
   <compound kind="file">
     <name>Customer.cpp</name>
@@ -812,6 +850,8 @@
     <includes id="_vegetative_8h" name="Vegetative.h" local="yes" import="no" module="no" objc="no">../state/Vegetative.h</includes>
     <includes id="_seed_8h" name="Seed.h" local="yes" import="no" module="no" objc="no">../state/Seed.h</includes>
     <includes id="_plant_group_8h" name="PlantGroup.h" local="yes" import="no" module="no" objc="no">../composite/PlantGroup.h</includes>
+    <includes id="_customer_8h" name="Customer.h" local="yes" import="no" module="no" objc="no">../mediator/Customer.h</includes>
+    <includes id="_staff_8h" name="Staff.h" local="yes" import="no" module="no" objc="no">../mediator/Staff.h</includes>
   </compound>
   <compound kind="file">
     <name>Singleton.h</name>
@@ -847,6 +887,7 @@
     <path>state/</path>
     <filename>_mature_8cpp.html</filename>
     <includes id="_mature_8h" name="Mature.h" local="yes" import="no" module="no" objc="no">Mature.h</includes>
+    <includes id="_singleton_8h" name="Singleton.h" local="yes" import="no" module="no" objc="no">../singleton/Singleton.h</includes>
     <includes id="_dead_8h" name="Dead.h" local="yes" import="no" module="no" objc="no">Dead.h</includes>
   </compound>
   <compound kind="file">
@@ -875,6 +916,7 @@
     <path>state/</path>
     <filename>_seed_8cpp.html</filename>
     <includes id="_seed_8h" name="Seed.h" local="yes" import="no" module="no" objc="no">Seed.h</includes>
+    <includes id="_singleton_8h" name="Singleton.h" local="yes" import="no" module="no" objc="no">../singleton/Singleton.h</includes>
     <includes id="_vegetative_8h" name="Vegetative.h" local="yes" import="no" module="no" objc="no">Vegetative.h</includes>
   </compound>
   <compound kind="file">
@@ -889,6 +931,7 @@
     <path>state/</path>
     <filename>_vegetative_8cpp.html</filename>
     <includes id="_vegetative_8h" name="Vegetative.h" local="yes" import="no" module="no" objc="no">Vegetative.h</includes>
+    <includes id="_singleton_8h" name="Singleton.h" local="yes" import="no" module="no" objc="no">../singleton/Singleton.h</includes>
     <includes id="_mature_8h" name="Mature.h" local="yes" import="no" module="no" objc="no">Mature.h</includes>
   </compound>
   <compound kind="file">
@@ -1023,25 +1066,6 @@
     <class kind="class">WaterStrategy</class>
   </compound>
   <compound kind="class">
-    <name>AddToInventoryCommand</name>
-    <filename>class_add_to_inventory_command.html</filename>
-    <base>Command</base>
-    <member kind="function">
-      <type>void</type>
-      <name>execute</name>
-      <anchorfile>class_add_to_inventory_command.html</anchorfile>
-      <anchor>a99388e8aa62a5f5a3317b12e897bbf02</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>undo</name>
-      <anchorfile>class_add_to_inventory_command.html</anchorfile>
-      <anchor>a1fc4ee16feb0207fa0abf5eb6218c500</anchor>
-      <arglist>()</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>AggPlant</name>
     <filename>class_agg_plant.html</filename>
     <base>Aggregate</base>
@@ -1071,6 +1095,53 @@
       <name>PlantIterator</name>
       <anchorfile>class_agg_plant.html</anchorfile>
       <anchor>a6030e7b7a1c61de060aa2b2051ded5a0</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>AggPlantName</name>
+    <filename>class_agg_plant_name.html</filename>
+    <base>Aggregate</base>
+    <member kind="function">
+      <type></type>
+      <name>AggPlantName</name>
+      <anchorfile>class_agg_plant_name.html</anchorfile>
+      <anchor>a75dd5c7fce0fde1d55f865d98ce1bf09</anchor>
+      <arglist>(std::list&lt; PlantComponent * &gt; *plants, const std::string &amp;name)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>AggPlantName</name>
+      <anchorfile>class_agg_plant_name.html</anchorfile>
+      <anchor>acec486d2a891662972f54efbc27b43a9</anchor>
+      <arglist>(std::list&lt; PlantComponent * &gt; *plants, Flyweight&lt; std::string * &gt; *name)</arglist>
+    </member>
+    <member kind="function">
+      <type>Iterator *</type>
+      <name>createIterator</name>
+      <anchorfile>class_agg_plant_name.html</anchorfile>
+      <anchor>a60142713796782ce29a353cffe8420a9</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~AggPlantName</name>
+      <anchorfile>class_agg_plant_name.html</anchorfile>
+      <anchor>a80428231ba3957d2ab945cf6a275aa4f</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>Flyweight&lt; std::string * &gt; *</type>
+      <name>targetName</name>
+      <anchorfile>class_agg_plant_name.html</anchorfile>
+      <anchor>a79a19b0ffb727322be2086ee95e85f2e</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend" protection="private">
+      <type>friend class</type>
+      <name>PlantNameIterator</name>
+      <anchorfile>class_agg_plant_name.html</anchorfile>
+      <anchor>a2c3e117a023bd50d4377c3ecafce2b5e</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -1246,25 +1317,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>BrowsePlantsCommand</name>
-    <filename>class_browse_plants_command.html</filename>
-    <base>Command</base>
-    <member kind="function">
-      <type>void</type>
-      <name>execute</name>
-      <anchorfile>class_browse_plants_command.html</anchorfile>
-      <anchor>ac783eb76a2107b33573d6772530500f3</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>undo</name>
-      <anchorfile>class_browse_plants_command.html</anchorfile>
-      <anchor>a7e69c55f7e4072a6b942bf8b626ef806</anchor>
-      <arglist>()</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>Builder</name>
     <filename>class_builder.html</filename>
     <member kind="function" virtualness="pure">
@@ -1342,6 +1394,13 @@
       <anchor>ada86a83f5b7cf9eff8864bc179826514</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~CactusBuilder</name>
+      <anchorfile>class_cactus_builder.html</anchorfile>
+      <anchor>a5963f32a0024545f1248378d48cdc3bb</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function">
       <type>void</type>
       <name>createObject</name>
@@ -1396,6 +1455,13 @@
       <anchor>a15612659061defad78ca091c6fa4712d</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~CherryBlossomBuilder</name>
+      <anchorfile>class_cherry_blossom_builder.html</anchorfile>
+      <anchor>aeb774d694d99ee859826dc2b64fc1d07</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function">
       <type>void</type>
       <name>createObject</name>
@@ -1440,31 +1506,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>Command</name>
-    <filename>class_command.html</filename>
-    <member kind="function" virtualness="pure">
-      <type>virtual void</type>
-      <name>execute</name>
-      <anchorfile>class_command.html</anchorfile>
-      <anchor>a6fd7d9bd8df8bfc881e4d6c7cd1878b7</anchor>
-      <arglist>()=0</arglist>
-    </member>
-    <member kind="function" virtualness="pure">
-      <type>virtual void</type>
-      <name>undo</name>
-      <anchorfile>class_command.html</anchorfile>
-      <anchor>ad5eccd34dc85abda2cd0c21d819c17dc</anchor>
-      <arglist>()=0</arglist>
-    </member>
-    <member kind="function" virtualness="virtual">
-      <type>virtual</type>
-      <name>~Command</name>
-      <anchorfile>class_command.html</anchorfile>
-      <anchor>a641c23ef533dd6f77d0a4ef0311598b2</anchor>
-      <arglist>()</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>Customer</name>
     <filename>class_customer.html</filename>
     <base>User</base>
@@ -1475,6 +1516,13 @@
       <anchor>abcc8fae9701e5ba9d7d6fe44498b34e3</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function">
+      <type></type>
+      <name>Customer</name>
+      <anchorfile>class_customer.html</anchorfile>
+      <anchor>a4601c72c86f4b9973b7e156e35e44d28</anchor>
+      <arglist>(std::string name)</arglist>
+    </member>
     <member kind="function" virtualness="virtual">
       <type>virtual</type>
       <name>~Customer</name>
@@ -1483,17 +1531,17 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>string</type>
       <name>askForSuggestion</name>
       <anchorfile>class_customer.html</anchorfile>
-      <anchor>a06c715c17bec0afba2cbb17eb5a4886c</anchor>
+      <anchor>aa62f2e1c4ba842f769e69dc9ee158949</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>string</type>
       <name>purchasePlants</name>
       <anchorfile>class_customer.html</anchorfile>
-      <anchor>a50721faa33b71094c10e0deb97ca1dc4</anchor>
+      <anchor>ab09f310cc5464ec26d73226c067fc386</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -1502,13 +1550,6 @@
       <anchorfile>class_customer.html</anchorfile>
       <anchor>af1107289145d81c94bb89a7f33ba03d5</anchor>
       <arglist>(PlantComponent *plant)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>operation</name>
-      <anchorfile>class_customer.html</anchorfile>
-      <anchor>aa221c81116d415fac214150ec4a7831f</anchor>
-      <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>PlantGroup *</type>
@@ -1549,6 +1590,13 @@
       <anchorfile>class_dead.html</anchorfile>
       <anchor>abdad48622132651a42b5e9140604bcfe</anchor>
       <arglist>(LivingPlant *plant)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const string</type>
+      <name>getName</name>
+      <anchorfile>class_dead.html</anchorfile>
+      <anchor>a22940e6a0ebb469846339eda8f6077f3</anchor>
+      <arglist>()</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static const int</type>
@@ -1815,6 +1863,20 @@
       <anchor>a6c6dfcb6d977c74a7abf46809e892e3d</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function">
+      <type>Flyweight&lt; string * &gt; *</type>
+      <name>getSeason</name>
+      <anchorfile>class_inventory.html</anchorfile>
+      <anchor>a4fd7e56854e2e6ffc2cdbc029a036ab3</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>changeSeason</name>
+      <anchorfile>class_inventory.html</anchorfile>
+      <anchor>a7128ce73dcfac71284668748795109f0</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static Inventory *</type>
       <name>getInstance</name>
@@ -1835,6 +1897,13 @@
       <anchorfile>class_inventory.html</anchorfile>
       <anchor>ab50bb211caf30169bf59ce619d3e4e97</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function" static="yes">
+      <type>static void</type>
+      <name>updateTickerRate</name>
+      <anchorfile>class_inventory.html</anchorfile>
+      <anchor>a2172d0764eb6bfe538d18d7b59a19834</anchor>
+      <arglist>(int time)</arglist>
     </member>
     <member kind="function" protection="private">
       <type></type>
@@ -1886,6 +1955,13 @@
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
+      <type>Flyweight&lt; string * &gt; *</type>
+      <name>currentSeason</name>
+      <anchorfile>class_inventory.html</anchorfile>
+      <anchor>a85176792a1a7f05bc852bf00b17f96e6</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
       <type>vector&lt; Staff * &gt; *</type>
       <name>staffList</name>
       <anchorfile>class_inventory.html</anchorfile>
@@ -1920,6 +1996,13 @@
       <anchor>a093c5af0b6d0e18e7bb6bf983107a056</anchor>
       <arglist></arglist>
     </member>
+    <member kind="variable" protection="private" static="yes">
+      <type>static int</type>
+      <name>timeBetweenTicks</name>
+      <anchorfile>class_inventory.html</anchorfile>
+      <anchor>a5ca35c08df364963d0e017d793035c4e</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>Iterator</name>
@@ -1936,6 +2019,13 @@
       <name>next</name>
       <anchorfile>class_iterator.html</anchorfile>
       <anchor>ac639e96c519e2e78cff17bee372ad750</anchor>
+      <arglist>()=0</arglist>
+    </member>
+    <member kind="function" virtualness="pure">
+      <type>virtual void</type>
+      <name>back</name>
+      <anchorfile>class_iterator.html</anchorfile>
+      <anchor>a7056b3a7cfc04c3cdc16fb318c609b8c</anchor>
       <arglist>()=0</arglist>
     </member>
     <member kind="function" virtualness="pure">
@@ -1976,6 +2066,13 @@
       <name>JadePlantBuilder</name>
       <anchorfile>class_jade_plant_builder.html</anchorfile>
       <anchor>a949efa5a3c436fa72994c0284faebbf0</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~JadePlantBuilder</name>
+      <anchorfile>class_jade_plant_builder.html</anchorfile>
+      <anchor>a490d45f96a6461fbf2d52c9f9ab0912a</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -2162,6 +2259,13 @@
       <name>LavenderBuilder</name>
       <anchorfile>class_lavender_builder.html</anchorfile>
       <anchor>ae54b12981e960006c680f897521c0fae</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~LavenderBuilder</name>
+      <anchorfile>class_lavender_builder.html</anchorfile>
+      <anchor>a51ed2801fd8d4307d58f58b2c48abbf9</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -2435,6 +2539,20 @@
       <anchor>ae0d47a85aa12da8f447c971792c056fa</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual Flyweight&lt; std::string * &gt; *</type>
+      <name>getNameFlyweight</name>
+      <anchorfile>class_living_plant.html</anchorfile>
+      <anchor>ad77ff2ba156d296777a86c7398a3ccd8</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual string</type>
+      <name>getImageStr</name>
+      <anchorfile>class_living_plant.html</anchorfile>
+      <anchor>afce29edb13332f4abbcf85e115f63c32</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="variable" protection="protected">
       <type>Flyweight&lt; std::string * &gt; *</type>
       <name>name</name>
@@ -2569,6 +2687,13 @@
       <anchor>a1c4714c1635e3be3643f69b6c1576e22</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~MapleBuilder</name>
+      <anchorfile>class_maple_builder.html</anchorfile>
+      <anchor>a11aed3f9c6a143e40fe2a3d390b0eba6</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function">
       <type>void</type>
       <name>createObject</name>
@@ -2630,6 +2755,13 @@
       <anchor>a0ca5d3341c392a7f115bcbd34865da66</anchor>
       <arglist>(LivingPlant *plant)</arglist>
     </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const string</type>
+      <name>getName</name>
+      <anchorfile>class_mature.html</anchorfile>
+      <anchor>a57f006870f35c8f6e116786faef51851</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static const int</type>
       <name>getID</name>
@@ -2662,6 +2794,13 @@
       <anchor>acca8b62e3b2d3bb785dd78449d7fcb81</anchor>
       <arglist>(LivingPlant *plant)=0</arglist>
     </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const string</type>
+      <name>getName</name>
+      <anchorfile>class_maturity_state.html</anchorfile>
+      <anchor>a5309f5b94b84b4dcd1e4334410b967b2</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static const int</type>
       <name>getID</name>
@@ -2674,10 +2813,10 @@
     <name>Mediator</name>
     <filename>class_mediator.html</filename>
     <member kind="function" virtualness="pure">
-      <type>virtual void</type>
+      <type>virtual string</type>
       <name>getAssistance</name>
       <anchorfile>class_mediator.html</anchorfile>
-      <anchor>a1dec24c4b70fa3d865db3e086e5fbd05</anchor>
+      <anchor>ae025aa98898acab5a8af6f01672af630</anchor>
       <arglist>(User *customer)=0</arglist>
     </member>
     <member kind="function" virtualness="pure">
@@ -2765,32 +2904,25 @@
     <name>NurseryFacade</name>
     <filename>class_nursery_facade.html</filename>
     <member kind="function">
+      <type></type>
+      <name>NurseryFacade</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a9d96dc1207bf0c2b3784a0b31745fe45</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>~NurseryFacade</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>ae0c2022602c0000338a538de163bed5e</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
       <type>PlantComponent *</type>
       <name>createPlant</name>
       <anchorfile>class_nursery_facade.html</anchorfile>
-      <anchor>ab59aefacd2f467fa7dc50c45b56e0a4f</anchor>
-      <arglist>(const char *species)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>addToInventory</name>
-      <anchorfile>class_nursery_facade.html</anchorfile>
-      <anchor>a75764b2f35ad0b218cbb77ccef4eae9f</anchor>
-      <arglist>(PlantComponent *plant)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>browsePlants</name>
-      <anchorfile>class_nursery_facade.html</anchorfile>
-      <anchor>a4b8baac74731baa1eab5a90ce7e8422e</anchor>
-      <arglist>(const char *filter)</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>purchasePlant</name>
-      <anchorfile>class_nursery_facade.html</anchorfile>
-      <anchor>af28ac45f7eb4324d4a89ae46c2acaf73</anchor>
-      <arglist>(PlantComponent *plant)</arglist>
+      <anchor>a3a3a76d0bd313fe00f9d74e5673f2ab4</anchor>
+      <arglist>(const std::string &amp;type)</arglist>
     </member>
     <member kind="function">
       <type>void</type>
@@ -2801,9 +2933,240 @@
     </member>
     <member kind="function">
       <type>void</type>
-      <name>getSuggestions</name>
+      <name>addSunlight</name>
       <anchorfile>class_nursery_facade.html</anchorfile>
-      <anchor>a932f7af3ea1791748a6a19477b15e9eb</anchor>
+      <anchor>a2305ac99e20e64586f1e5acd34128ac9</anchor>
+      <arglist>(PlantComponent *plant)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::string</type>
+      <name>getPlantInfo</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>adee498adfe336cba92de7a9271d91054</anchor>
+      <arglist>(PlantComponent *plant)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::vector&lt; std::string &gt;</type>
+      <name>getAvailablePlantTypes</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a0406017a2e7d9146699bcb5f44a1584e</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>PlantComponent *</type>
+      <name>getInventoryRoot</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a30d4b2a9d27cc6b053ba639514dfc478</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>std::list&lt; PlantComponent * &gt;</type>
+      <name>getGroupContents</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a101cb9259fb0406a034abf20af62bec6</anchor>
+      <arglist>(PlantComponent *group)</arglist>
+    </member>
+    <member kind="function">
+      <type>PlantGroup *</type>
+      <name>createPlantGroup</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a87deee44bcfc9e8974de7cb9e98abfc2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>PlantGroup *</type>
+      <name>createPlantGroup</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>aeee5bd00705d4dfe002c8eb1a6219cc6</anchor>
+      <arglist>(const std::string &amp;name)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>addComponentToGroup</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>ae31c5235984e27957ee4e5f412738419</anchor>
+      <arglist>(PlantComponent *parent, PlantComponent *child)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>startNurseryTick</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>af3a4ce91cfc092f00ce897fe317e3169</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>stopNurseryTick</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>acefe76c76da87e54bce845b9eef8c211</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>Customer *</type>
+      <name>addCustomer</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a7f2fc10d1b2ebbe76b52d9b858317b71</anchor>
+      <arglist>(string)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>removeComponentFromInventory</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a4ba4da542cc84d6fc124f22708ac42dd</anchor>
+      <arglist>(PlantComponent *component)</arglist>
+    </member>
+    <member kind="function">
+      <type>string</type>
+      <name>askForSuggestion</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>ac59ce36676f274fd89d4d12139fc171d</anchor>
+      <arglist>(Customer *)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>addToCustomerBasket</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>afa441dc3f40b6742f0c4a147ebaaee95</anchor>
+      <arglist>(Customer *, PlantComponent *)</arglist>
+    </member>
+    <member kind="function">
+      <type>string</type>
+      <name>customerPurchase</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a6b0ac7680106a4166de067065be3301c</anchor>
+      <arglist>(Customer *)</arglist>
+    </member>
+    <member kind="function">
+      <type>Staff *</type>
+      <name>addStaff</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a1a503b9f21172aa35598def1dc281424</anchor>
+      <arglist>(string)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setObserver</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a56f4286b8652c12d74ceff49d69622c6</anchor>
+      <arglist>(Staff *staff, PlantGroup *)</arglist>
+    </member>
+    <member kind="function">
+      <type>PlantComponent *</type>
+      <name>getPlantFromBasket</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a5894a868c6caf5069ec3f38e5294366d</anchor>
+      <arglist>(Customer *customer, int index)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::list&lt; PlantComponent * &gt;</type>
+      <name>getCustomerPlants</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a23fbdc8fa2501f270ef1ed5844e8f518</anchor>
+      <arglist>(Customer *)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::vector&lt; string &gt;</type>
+      <name>getMenuString</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a317196cd9e291e5edb04bd91efbe694f</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>PlantComponent *</type>
+      <name>findPlant</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a7e0c4a4a8b986994f13c9eecf83f3270</anchor>
+      <arglist>(int index)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::vector&lt; string &gt;</type>
+      <name>getCustomerBasketString</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>ae820939f445abf57af009a5e7fa7729a</anchor>
+      <arglist>(Customer *customer)</arglist>
+    </member>
+    <member kind="function">
+      <type>PlantComponent *</type>
+      <name>removeFromCustomer</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>aa3702ac6491bff315997384e3f258730</anchor>
+      <arglist>(Customer *, int index)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::vector&lt; string &gt;</type>
+      <name>getAllStaffMembers</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>aefc2d9877c77bef5a6f82d4a05bd2cfc</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>Staff *</type>
+      <name>findStaff</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a4b961dab5238b90fcceab8fcee9f0b1a</anchor>
+      <arglist>(int i)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::vector&lt; string &gt;</type>
+      <name>getAllPlantGroups</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a4c8b5c7175d7155335007d2158094908</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>PlantGroup *</type>
+      <name>findPlantGroup</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>aecce416e56075568a57db79d5965fe89</anchor>
+      <arglist>(int index)</arglist>
+    </member>
+    <member kind="function">
+      <type>vector&lt; string &gt;</type>
+      <name>getPlantGroupContents</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>abd3548bd07064fb505d7ca117bd90be7</anchor>
+      <arglist>(PlantGroup *PlantGroup)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>setAsObserver</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a98050e727aaf934aa993480fca8bc0aa</anchor>
+      <arglist>(Staff *staff, PlantGroup *PG)</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>RemoveObserver</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a432c31897883cc6fb12bef842cece7eb</anchor>
+      <arglist>(Staff *staff, PlantGroup *PG)</arglist>
+    </member>
+    <member kind="function">
+      <type>vector&lt; string &gt;</type>
+      <name>getObservers</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a144940b5b193585bbfee186123759b45</anchor>
+      <arglist>(PlantGroup *pg)</arglist>
+    </member>
+    <member kind="function">
+      <type>LivingPlant *</type>
+      <name>createItr</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a927adad515f130e0e46520f69ca59578</anchor>
+      <arglist>(string filter=&quot;&quot;, bool seasonFilter=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>LivingPlant *</type>
+      <name>next</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a0355981580969475cdf4d52a4514fc6b</anchor>
+      <arglist>(string filter=&quot;&quot;, bool seasonFilter=false)</arglist>
+    </member>
+    <member kind="function">
+      <type>LivingPlant *</type>
+      <name>back</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a3e4c6db9a8d45cfb18d4ac803836ae1c</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="variable" protection="private">
@@ -2814,24 +3177,31 @@
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
-      <type>Singleton *</type>
-      <name>inventory</name>
+      <type>std::vector&lt; PlantComponent * &gt;</type>
+      <name>plants</name>
       <anchorfile>class_nursery_facade.html</anchorfile>
-      <anchor>afa97f0d9ff61fde7d070ed2294f57a4c</anchor>
+      <anchor>a651266bc5feda13599b6e345f354c7f1</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
-      <type>Mediator *</type>
-      <name>salesFloor</name>
+      <type>SalesFloor *</type>
+      <name>sales</name>
       <anchorfile>class_nursery_facade.html</anchorfile>
-      <anchor>a60215454be9376a578991fb85e2ee8e6</anchor>
+      <anchor>a2d5acfd645bbfbb91ff47fa2591cb0e9</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable" protection="private">
-      <type>Mediator *</type>
+      <type>SuggestionFloor *</type>
       <name>suggestionFloor</name>
       <anchorfile>class_nursery_facade.html</anchorfile>
-      <anchor>a39ae39ef1b98e2226a7c34cb4205c40a</anchor>
+      <anchor>a180ccc1c1842ef002ceaa3d7b3e62f38</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>Iterator *</type>
+      <name>carouselItr</name>
+      <anchorfile>class_nursery_facade.html</anchorfile>
+      <anchor>a7c3c0e3668fdac45a3c0122083ac4bf1</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -2866,6 +3236,13 @@
       <anchor>afcc6b67be6c386f2f3d2c363aa59cb47</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function" virtualness="pure">
+      <type>virtual std::string</type>
+      <name>getNameObserver</name>
+      <anchorfile>class_observer.html</anchorfile>
+      <anchor>aac23ad10cd8b3d70060123ccee96d46f</anchor>
+      <arglist>()=0</arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>PineBuilder</name>
@@ -2876,6 +3253,13 @@
       <name>PineBuilder</name>
       <anchorfile>class_pine_builder.html</anchorfile>
       <anchor>a49eab9a6bd33d62d0b1a1d76716ebf0a</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~PineBuilder</name>
+      <anchorfile>class_pine_builder.html</anchorfile>
+      <anchor>a482809a06e91d976658830ea9cd06c13</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -3049,6 +3433,13 @@
       <name>tick</name>
       <anchorfile>class_plant_attributes.html</anchorfile>
       <anchor>a8da56e8bd24559f483a9fcb6ead8c3f6</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual Flyweight&lt; std::string * &gt; *</type>
+      <name>getNameFlyweight</name>
+      <anchorfile>class_plant_attributes.html</anchorfile>
+      <anchor>a0c1905a60d1a4044a0d337f8a2ac7527</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="variable" protection="protected">
@@ -3242,6 +3633,27 @@
       <anchor>a8bea17398ac797dd2916e058b4afed54</anchor>
       <arglist>()=0</arglist>
     </member>
+    <member kind="function" virtualness="pure">
+      <type>virtual Flyweight&lt; std::string * &gt; *</type>
+      <name>getNameFlyweight</name>
+      <anchorfile>class_plant_component.html</anchorfile>
+      <anchor>a2ff9d012f04ce24b9df6482714696525</anchor>
+      <arglist>()=0</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual int</type>
+      <name>getHealth</name>
+      <anchorfile>class_plant_component.html</anchorfile>
+      <anchor>a9d724f00e52deb468adb1d4ecea2385a</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual std::string</type>
+      <name>getImageStr</name>
+      <anchorfile>class_plant_component.html</anchorfile>
+      <anchor>ae52922ac192e97a9bd6aefb35d95f4fd</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="variable" protection="protected">
       <type>double</type>
       <name>price</name>
@@ -3282,6 +3694,13 @@
       <anchorfile>class_plant_group.html</anchorfile>
       <anchor>a4da16f7b3b117dcbcce99d54baab3f31</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>PlantGroup</name>
+      <anchorfile>class_plant_group.html</anchorfile>
+      <anchor>a406ae306abad6bdacf77aa5f1b425872</anchor>
+      <arglist>(std::string groupName)</arglist>
     </member>
     <member kind="function">
       <type></type>
@@ -3410,6 +3829,13 @@
       <arglist>(PlantComponent *)</arglist>
     </member>
     <member kind="function">
+      <type>bool</type>
+      <name>removeComponent</name>
+      <anchorfile>class_plant_group.html</anchorfile>
+      <anchor>a75a7594eed585d6db0c387ea0dd8f5d0</anchor>
+      <arglist>(PlantComponent *component)</arglist>
+    </member>
+    <member kind="function">
       <type>void</type>
       <name>checkWater</name>
       <anchorfile>class_plant_group.html</anchorfile>
@@ -3451,6 +3877,34 @@
       <anchor>aaeff2fbe39801e3cef007fe2188577fc</anchor>
       <arglist>()</arglist>
     </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual Flyweight&lt; std::string * &gt; *</type>
+      <name>getNameFlyweight</name>
+      <anchorfile>class_plant_group.html</anchorfile>
+      <anchor>a22b8e6bb3282a120570ad440abdf3399</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>setGroupName</name>
+      <anchorfile>class_plant_group.html</anchorfile>
+      <anchor>a613d1999ef1bd27d191f990582dd308b</anchor>
+      <arglist>(std::string newGroupName)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::string</type>
+      <name>getGroupName</name>
+      <anchorfile>class_plant_group.html</anchorfile>
+      <anchor>a0002a8f6bb9924dc62f6699b4881c727</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>std::list&lt; Observer * &gt;</type>
+      <name>getObservers</name>
+      <anchorfile>class_plant_group.html</anchorfile>
+      <anchor>aa683606c65f876a45775bdde3eaa5cad</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function" protection="private">
       <type>void</type>
       <name>waterNeeded</name>
@@ -3486,12 +3940,18 @@
       <anchor>a5f03362b4fc4c7cf65b28ef292616bd0</anchor>
       <arglist></arglist>
     </member>
+    <member kind="variable" protection="private">
+      <type>std::string</type>
+      <name>groupName</name>
+      <anchorfile>class_plant_group.html</anchorfile>
+      <anchor>a5b7aeda0c3ace71fe8f16d4ca8a57ca0</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>PlantIterator</name>
     <filename>class_plant_iterator.html</filename>
     <base>Iterator</base>
-    <class kind="struct">PlantIterator::StackFrame</class>
     <member kind="function">
       <type></type>
       <name>PlantIterator</name>
@@ -3521,6 +3981,13 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>void</type>
+      <name>back</name>
+      <anchorfile>class_plant_iterator.html</anchorfile>
+      <anchor>a948c6cf6676aa7cd04af7c3c046c3513</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
       <type>bool</type>
       <name>isDone</name>
       <anchorfile>class_plant_iterator.html</anchorfile>
@@ -3539,6 +4006,20 @@
       <name>advanceToNextPlant</name>
       <anchorfile>class_plant_iterator.html</anchorfile>
       <anchor>a3e582669273a3f0d1b4f043bc23688bf</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>moveToPreviousPlant</name>
+      <anchorfile>class_plant_iterator.html</anchorfile>
+      <anchor>a5c316da8a30faca89133ce45dd64daa4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>findLastPlant</name>
+      <anchorfile>class_plant_iterator.html</anchorfile>
+      <anchor>a96b733ffe0a30fc786e60eb7e5ca1901</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="variable" protection="private">
@@ -3562,24 +4043,115 @@
       <anchor>a21b895324573ec1c154068cd9aa1dbc1</anchor>
       <arglist></arglist>
     </member>
+    <member kind="variable" protection="private">
+      <type>bool</type>
+      <name>pastEnd</name>
+      <anchorfile>class_plant_iterator.html</anchorfile>
+      <anchor>a5d0178193959651efd2dd91431ac1f33</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="class">
-    <name>PurchasePlantCommand</name>
-    <filename>class_purchase_plant_command.html</filename>
-    <base>Command</base>
+    <name>PlantNameIterator</name>
+    <filename>class_plant_name_iterator.html</filename>
+    <base>Iterator</base>
     <member kind="function">
-      <type>void</type>
-      <name>execute</name>
-      <anchorfile>class_purchase_plant_command.html</anchorfile>
-      <anchor>afdf8f481f1eecf153e3206b971fcb2eb</anchor>
+      <type></type>
+      <name>PlantNameIterator</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>a15257b16ef743217f8204877a8ef7650</anchor>
+      <arglist>(AggPlantName *aggregate)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~PlantNameIterator</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>a2b52473c486d5d1367f8df9ff19b1b5d</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
       <type>void</type>
-      <name>undo</name>
-      <anchorfile>class_purchase_plant_command.html</anchorfile>
-      <anchor>a9d003b4e3d0380591b1064f38dcb797d</anchor>
+      <name>first</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>abf88bbc385ca8b58080ae0866cf54fad</anchor>
       <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>next</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>af85bce2c0c16bef21e6ee9ce7f512d42</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>back</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>a62aac6b9e71e3bda2557afe974bee01a</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>isDone</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>afa05e28ba05ab0ea9506340472ed45fd</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>LivingPlant *</type>
+      <name>currentItem</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>a8f1f8f25eea3b4ced4756bd5047bff0c</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>advanceToNextPlant</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>ab6903415de67cfbd5a8557aed98138c4</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>moveToPreviousPlant</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>acb1012ac47ac93450d41dd686c0fdefe</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>findLastPlant</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>a8f449f75db8f5ee047c82fa651be07f5</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>LivingPlant *</type>
+      <name>currentPlant</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>a55d4254a59a97495909292c2a246ee85</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>std::stack&lt; StackFrame &gt;</type>
+      <name>traversalStack</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>a6cbdcce1eb61a87dad601f873ff4ab0b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>bool</type>
+      <name>inComposite</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>a83020af7368659e0f8960d53316b4650</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="private">
+      <type>bool</type>
+      <name>pastEnd</name>
+      <anchorfile>class_plant_name_iterator.html</anchorfile>
+      <anchor>a60093c5153655e86e239caa2ed1b2842</anchor>
+      <arglist></arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -3624,6 +4196,13 @@
       <name>RoseBuilder</name>
       <anchorfile>class_rose_builder.html</anchorfile>
       <anchor>a3f703502d0c25c0426725e59741dc985</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~RoseBuilder</name>
+      <anchorfile>class_rose_builder.html</anchorfile>
+      <anchor>aa66a71008134c6e2c670a707c45d47ff</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -3681,10 +4260,10 @@
       <arglist>()</arglist>
     </member>
     <member kind="function" virtualness="virtual">
-      <type>virtual void</type>
+      <type>virtual string</type>
       <name>getAssistance</name>
       <anchorfile>class_sales_floor.html</anchorfile>
-      <anchor>a8c85c1aec36a22e4878c261d9458c0ac</anchor>
+      <anchor>a5b3cc29d968b5ac7cd5a5ccf792e3e4b</anchor>
       <arglist>(User *customer)</arglist>
     </member>
     <member kind="function" virtualness="virtual">
@@ -3699,7 +4278,6 @@
     <name>SeasonIterator</name>
     <filename>class_season_iterator.html</filename>
     <base>Iterator</base>
-    <class kind="struct">SeasonIterator::StackFrame</class>
     <member kind="function">
       <type></type>
       <name>SeasonIterator</name>
@@ -3729,6 +4307,13 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
+      <type>void</type>
+      <name>back</name>
+      <anchorfile>class_season_iterator.html</anchorfile>
+      <anchor>ae5508fc5154217b080a8ea3c5cd5fc0a</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
       <type>bool</type>
       <name>isDone</name>
       <anchorfile>class_season_iterator.html</anchorfile>
@@ -3747,6 +4332,20 @@
       <name>advanceToNextPlant</name>
       <anchorfile>class_season_iterator.html</anchorfile>
       <anchor>ae3d4c1a27b5021470a70d5e19b74c8f6</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>moveToPreviousPlant</name>
+      <anchorfile>class_season_iterator.html</anchorfile>
+      <anchor>aca1134aa248a7a567f7e394fad78048d</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" protection="private">
+      <type>void</type>
+      <name>findLastPlant</name>
+      <anchorfile>class_season_iterator.html</anchorfile>
+      <anchor>a171c8c038e4b816071f4fe006b808672</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="variable" protection="private">
@@ -3770,6 +4369,13 @@
       <anchor>a6e1ee00f5f042556c3fa8362e3dd2009</anchor>
       <arglist></arglist>
     </member>
+    <member kind="variable" protection="private">
+      <type>bool</type>
+      <name>pastEnd</name>
+      <anchorfile>class_season_iterator.html</anchorfile>
+      <anchor>a1f2d5e35a8970959675c94186cf21302</anchor>
+      <arglist></arglist>
+    </member>
   </compound>
   <compound kind="class">
     <name>Seed</name>
@@ -3782,12 +4388,19 @@
       <anchor>ac4f50966046db58c4c3cfa5835247816</anchor>
       <arglist>(LivingPlant *plant)</arglist>
     </member>
-    <member kind="function">
-      <type>std::string</type>
+    <member kind="function" virtualness="virtual">
+      <type>virtual std::string</type>
       <name>getImagePath</name>
       <anchorfile>class_seed.html</anchorfile>
       <anchor>a6d0de5b9b4ca75199140eca5742b58b5</anchor>
       <arglist>(LivingPlant *plant)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const string</type>
+      <name>getName</name>
+      <anchorfile>class_seed.html</anchorfile>
+      <anchor>a05df79d0e296467d714a0b7bdc35f6a7</anchor>
+      <arglist>()</arglist>
     </member>
     <member kind="function" static="yes">
       <type>static const int</type>
@@ -3996,52 +4609,34 @@
     </member>
   </compound>
   <compound kind="struct">
-    <name>PlantIterator::StackFrame</name>
-    <filename>struct_plant_iterator_1_1_stack_frame.html</filename>
+    <name>StackFrame</name>
+    <filename>struct_stack_frame.html</filename>
     <member kind="variable">
       <type>std::list&lt; PlantComponent * &gt; *</type>
       <name>plantList</name>
-      <anchorfile>struct_plant_iterator_1_1_stack_frame.html</anchorfile>
-      <anchor>afab5208098a47c9639642e069ed45ff2</anchor>
+      <anchorfile>struct_stack_frame.html</anchorfile>
+      <anchor>abb56e859c81c10667b1019d42a90c8bc</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>std::list&lt; PlantComponent * &gt;::iterator</type>
       <name>current</name>
-      <anchorfile>struct_plant_iterator_1_1_stack_frame.html</anchorfile>
-      <anchor>ad51604c3ce0389aa7a949b3ec20deab3</anchor>
+      <anchorfile>struct_stack_frame.html</anchorfile>
+      <anchor>a7bfde72bc8d047781d04d4284bc00407</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
       <type>std::list&lt; PlantComponent * &gt;::iterator</type>
       <name>end</name>
-      <anchorfile>struct_plant_iterator_1_1_stack_frame.html</anchorfile>
-      <anchor>a40d129f7704c86381653d56b227bac89</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
-  <compound kind="struct">
-    <name>SeasonIterator::StackFrame</name>
-    <filename>struct_season_iterator_1_1_stack_frame.html</filename>
-    <member kind="variable">
-      <type>std::list&lt; PlantComponent * &gt; *</type>
-      <name>plantList</name>
-      <anchorfile>struct_season_iterator_1_1_stack_frame.html</anchorfile>
-      <anchor>a45724ed8eb8e301b1d4b58ba3c077eb5</anchor>
+      <anchorfile>struct_stack_frame.html</anchorfile>
+      <anchor>add279d46db71b55215394cece64b388a</anchor>
       <arglist></arglist>
     </member>
     <member kind="variable">
-      <type>std::list&lt; PlantComponent * &gt;::iterator</type>
-      <name>current</name>
-      <anchorfile>struct_season_iterator_1_1_stack_frame.html</anchorfile>
-      <anchor>a73eecb531e6ee953bc9630661327b573</anchor>
-      <arglist></arglist>
-    </member>
-    <member kind="variable">
-      <type>std::list&lt; PlantComponent * &gt;::iterator</type>
-      <name>end</name>
-      <anchorfile>struct_season_iterator_1_1_stack_frame.html</anchorfile>
-      <anchor>a18d733efe46589960d9886125e5d3db5</anchor>
+      <type>bool</type>
+      <name>justDescended</name>
+      <anchorfile>struct_stack_frame.html</anchorfile>
+      <anchor>a47a5a0ae8c38fce5b96c6eb2dbecb1b6</anchor>
       <arglist></arglist>
     </member>
   </compound>
@@ -4065,17 +4660,17 @@
       <arglist>(std::string name)</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>string</type>
       <name>assistSuggestion</name>
       <anchorfile>class_staff.html</anchorfile>
-      <anchor>a001780b6064992a5afbbf10dd868e27d</anchor>
+      <anchor>a38c5ff6113728259de3bdd96588fc061</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>string</type>
       <name>assistPurchases</name>
       <anchorfile>class_staff.html</anchorfile>
-      <anchor>a8232d77d66bf10e9d62cedb7ada812e0</anchor>
+      <anchor>a2605dd27a2dbc80fa529ba1595e05580</anchor>
       <arglist>(PlantGroup *plants)</arglist>
     </member>
     <member kind="function">
@@ -4098,6 +4693,13 @@
       <anchorfile>class_staff.html</anchorfile>
       <anchor>a0b9ca7cef23bd0b207445dc8ead51828</anchor>
       <arglist>(PlantComponent *plant)</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual string</type>
+      <name>getNameObserver</name>
+      <anchorfile>class_staff.html</anchorfile>
+      <anchor>af85c4972ce8149d67553b73218525ca7</anchor>
+      <arglist>()</arglist>
     </member>
   </compound>
   <compound kind="class">
@@ -4191,10 +4793,10 @@
       <arglist>()</arglist>
     </member>
     <member kind="function">
-      <type>void</type>
+      <type>string</type>
       <name>getAssistance</name>
       <anchorfile>class_suggestion_floor.html</anchorfile>
-      <anchor>a7f95ca1767d1c49460c7c69477f83032</anchor>
+      <anchor>a221f75df52a0e4e56c83733c3658a560</anchor>
       <arglist>(User *customer)</arglist>
     </member>
     <member kind="function">
@@ -4247,6 +4849,13 @@
       <name>SunflowerBuilder</name>
       <anchorfile>class_sunflower_builder.html</anchorfile>
       <anchor>ae3601ff0c72415d9f9747d8aa063c5f6</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual</type>
+      <name>~SunflowerBuilder</name>
+      <anchorfile>class_sunflower_builder.html</anchorfile>
+      <anchor>a867310b5399123270ac808f48c734a97</anchor>
       <arglist>()</arglist>
     </member>
     <member kind="function">
@@ -4435,6 +5044,13 @@
       <anchor>ab8e52987de0f7dd45d7f5037dc806ba6</anchor>
       <arglist>(Mediator *mediator)</arglist>
     </member>
+    <member kind="function">
+      <type>std::string</type>
+      <name>getName</name>
+      <anchorfile>class_user.html</anchorfile>
+      <anchor>a33d343edda32a72bf28d41b22b0de1bd</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="variable" protection="protected">
       <type>std::string</type>
       <name>name</name>
@@ -4475,30 +5091,18 @@
       <anchor>a42e225c45402d8d33f843cfb04014721</anchor>
       <arglist>(LivingPlant *plant)</arglist>
     </member>
+    <member kind="function" virtualness="virtual">
+      <type>virtual const string</type>
+      <name>getName</name>
+      <anchorfile>class_vegetative.html</anchorfile>
+      <anchor>ab7848dcc2b693914288548d05bfe6e27</anchor>
+      <arglist>()</arglist>
+    </member>
     <member kind="function" static="yes">
       <type>static const int</type>
       <name>getID</name>
       <anchorfile>class_vegetative.html</anchorfile>
       <anchor>ac92c41674f765f7850b029a289c587aa</anchor>
-      <arglist>()</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
-    <name>WaterPlantCommand</name>
-    <filename>class_water_plant_command.html</filename>
-    <base>Command</base>
-    <member kind="function">
-      <type>void</type>
-      <name>execute</name>
-      <anchorfile>class_water_plant_command.html</anchorfile>
-      <anchor>a234b5adc23ac3382b8cc07615355b79e</anchor>
-      <arglist>()</arglist>
-    </member>
-    <member kind="function">
-      <type>void</type>
-      <name>undo</name>
-      <anchorfile>class_water_plant_command.html</anchorfile>
-      <anchor>ac07412296387835b45cebd6c605805ce</anchor>
       <arglist>()</arglist>
     </member>
   </compound>
@@ -4573,11 +5177,6 @@
     <filename>md_docs_2design-patterns_2builder.html</filename>
   </compound>
   <compound kind="page">
-    <name>md_docs_2design-patterns_2command</name>
-    <title>Command Pattern</title>
-    <filename>md_docs_2design-patterns_2command.html</filename>
-  </compound>
-  <compound kind="page">
     <name>md_docs_2design-patterns_2composite</name>
     <title>Composite Pattern</title>
     <filename>md_docs_2design-patterns_2composite.html</filename>
@@ -4636,6 +5235,206 @@
     <name>md_docs_2design-patterns_2strategy</name>
     <title>Strategy Pattern</title>
     <filename>md_docs_2design-patterns_2strategy.html</filename>
+  </compound>
+  <compound kind="dir">
+    <name>builder</name>
+    <path>builder/</path>
+    <filename>dir_98210ece4f8a652fe0a2321bd18e8fca.html</filename>
+    <file>Builder.cpp</file>
+    <file>Builder.h</file>
+    <file>CactusBuilder.cpp</file>
+    <file>CactusBuilder.h</file>
+    <file>CherryBlossomBuilder.cpp</file>
+    <file>CherryBlossomBuilder.h</file>
+    <file>Director.cpp</file>
+    <file>Director.h</file>
+    <file>JadePlantBuilder.cpp</file>
+    <file>JadePlantBuilder.h</file>
+    <file>LavenderBuilder.cpp</file>
+    <file>LavenderBuilder.h</file>
+    <file>MapleBuilder.cpp</file>
+    <file>MapleBuilder.h</file>
+    <file>PineBuilder.cpp</file>
+    <file>PineBuilder.h</file>
+    <file>RoseBuilder.cpp</file>
+    <file>RoseBuilder.h</file>
+    <file>SunflowerBuilder.cpp</file>
+    <file>SunflowerBuilder.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>composite</name>
+    <path>composite/</path>
+    <filename>dir_b16217dd03acd9165a6995d70452cddd.html</filename>
+    <file>PlantComponent.cpp</file>
+    <file>PlantComponent.h</file>
+    <file>PlantGroup.cpp</file>
+    <file>PlantGroup.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>decorator/customerDecorator</name>
+    <path>decorator/customerDecorator/</path>
+    <filename>dir_869f309db6c6bb77fb67df6b7d0080c8.html</filename>
+    <file>LargePot.h</file>
+    <file>PlantCharm.h</file>
+    <file>PlantDecorationHeader.h</file>
+    <file>RedPot.h</file>
+    <file>ShopThemedCharm.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>decorator</name>
+    <path>decorator/</path>
+    <filename>dir_63ec5c7652a0a7e946d259c159c7f1fc.html</filename>
+    <dir>decorator/customerDecorator</dir>
+    <dir>decorator/plantDecorator</dir>
+    <file>ConcreteDecorators.cpp</file>
+    <file>PlantAttributes.cpp</file>
+    <file>PlantAttributes.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>docs/design-patterns</name>
+    <path>docs/design-patterns/</path>
+    <filename>dir_514c2fde2596a9a07cf7fc815679f3b3.html</filename>
+  </compound>
+  <compound kind="dir">
+    <name>docs</name>
+    <path>docs/</path>
+    <filename>dir_49e56c817e5e54854c35e136979f97ca.html</filename>
+    <dir>docs/design-patterns</dir>
+  </compound>
+  <compound kind="dir">
+    <name>facade</name>
+    <path>facade/</path>
+    <filename>dir_9149dc532ed7b9c9543b615b86658e3b.html</filename>
+    <file>NurseryFacade.cpp</file>
+    <file>NurseryFacade.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>flyweight</name>
+    <path>flyweight/</path>
+    <filename>dir_53e0f648698c9c44c59b2643276db027.html</filename>
+    <file>Flyweight.cpp</file>
+    <file>Flyweight.h</file>
+    <file>FlyweightFactory.cpp</file>
+    <file>FlyweightFactory.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>iterator</name>
+    <path>iterator/</path>
+    <filename>dir_c155de92d0cd23d6b7fca8ca69a47fe7.html</filename>
+    <file>AggPlant.cpp</file>
+    <file>AggPlant.h</file>
+    <file>AggPlantName.cpp</file>
+    <file>AggPlantName.h</file>
+    <file>Aggregate.cpp</file>
+    <file>Aggregate.h</file>
+    <file>AggSeason.cpp</file>
+    <file>AggSeason.h</file>
+    <file>Iterator.h</file>
+    <file>PlantIterator.cpp</file>
+    <file>PlantIterator.h</file>
+    <file>PlantNameIterator.cpp</file>
+    <file>PlantNameIterator.h</file>
+    <file>SeasonIterator.cpp</file>
+    <file>SeasonIterator.h</file>
+    <file>StackFrame.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>mediator</name>
+    <path>mediator/</path>
+    <filename>dir_cd247e48a55e7e3e204d5359c0d3b6cf.html</filename>
+    <file>Customer.cpp</file>
+    <file>Customer.h</file>
+    <file>Mediator.cpp</file>
+    <file>Mediator.h</file>
+    <file>SalesFloor.cpp</file>
+    <file>SalesFloor.h</file>
+    <file>Staff.cpp</file>
+    <file>Staff.h</file>
+    <file>SuggestionFloor.cpp</file>
+    <file>SuggestionFloor.h</file>
+    <file>User.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>observer</name>
+    <path>observer/</path>
+    <filename>dir_83601b61417d993a0fc3cd56c2a673f5.html</filename>
+    <file>Observer.cpp</file>
+    <file>Observer.h</file>
+    <file>Subject.cpp</file>
+    <file>Subject.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>decorator/plantDecorator</name>
+    <path>decorator/plantDecorator/</path>
+    <filename>dir_41225a8dc6d75ea81afdcce107841993.html</filename>
+    <file>Autumn.h</file>
+    <file>LargeFlowers.h</file>
+    <file>LargeLeaf.h</file>
+    <file>LargeStem.h</file>
+    <file>PlantAttributesHeader.h</file>
+    <file>SmallFlowers.h</file>
+    <file>SmallLeaf.h</file>
+    <file>SmallStem.h</file>
+    <file>Spring.h</file>
+    <file>Summer.h</file>
+    <file>Thorns.h</file>
+    <file>Winter.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>prototype</name>
+    <path>prototype/</path>
+    <filename>dir_b3a2258401d5c83a0d9518ae73f64ab9.html</filename>
+    <file>Herb.h</file>
+    <file>LivingPlant.cpp</file>
+    <file>LivingPlant.h</file>
+    <file>Shrub.h</file>
+    <file>Succulent.h</file>
+    <file>Tree.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>singleton</name>
+    <path>singleton/</path>
+    <filename>dir_412a7194e3e7e756bd9f9ba974d50196.html</filename>
+    <file>Singleton.cpp</file>
+    <file>Singleton.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>state</name>
+    <path>state/</path>
+    <filename>dir_c7224414d00e0fbdfe1ca9d7e477e7e0.html</filename>
+    <file>Dead.cpp</file>
+    <file>Dead.h</file>
+    <file>Mature.cpp</file>
+    <file>Mature.h</file>
+    <file>MaturityState.cpp</file>
+    <file>MaturityState.h</file>
+    <file>Seed.cpp</file>
+    <file>Seed.h</file>
+    <file>Vegetative.cpp</file>
+    <file>Vegetative.h</file>
+  </compound>
+  <compound kind="dir">
+    <name>strategy</name>
+    <path>strategy/</path>
+    <filename>dir_a974bd797aec674cf3748ad59a7acb61.html</filename>
+    <file>AlternatingSun.cpp</file>
+    <file>AlternatingSun.h</file>
+    <file>AlternatingWater.cpp</file>
+    <file>AlternatingWater.h</file>
+    <file>HighSun.cpp</file>
+    <file>HighSun.h</file>
+    <file>HighWater.cpp</file>
+    <file>HighWater.h</file>
+    <file>LowSun.cpp</file>
+    <file>LowSun.h</file>
+    <file>LowWater.cpp</file>
+    <file>LowWater.h</file>
+    <file>MidSun.cpp</file>
+    <file>MidSun.h</file>
+    <file>MidWater.cpp</file>
+    <file>MidWater.h</file>
+    <file>SunStrategy.h</file>
+    <file>WaterStrategy.h</file>
   </compound>
   <compound kind="page">
     <name>index</name>
