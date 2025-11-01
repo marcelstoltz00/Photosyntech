@@ -1,7 +1,7 @@
 <p align="center">
   <img src="docs/images/photosyntech_logo.JPG" alt="PhotoSyntech Logo" width="200"/>
   <br>
-  <h1 align="center">PhotoSyntech</h1>
+  <h1 align="center">Photosyntech</h1>
   <h3 align="center">A C++ Plant Management System Demonstrating Design Patterns</h3>
 </p>
 
@@ -61,23 +61,112 @@ PhotoSyntech employs 12 different design patterns to create a modular, extensibl
 
 ## Prerequisites
 
-- C++ compiler supporting C++11
-- Make build system
-- CMake 
+- **C++ Compiler**: Supporting C++11 or later (g++/clang)
+- **Make**: Build system
+- **CMake**: Version 3.10+ (for TUI components)
+- **Git**: For cloning dependencies
+- **Optional Tools**:
+  - `doxygen` - For generating documentation
+  - `gcovr` - For code coverage reports
+  - `valgrind` (Linux) or `leaks` (macOS) - For memory leak detection
 
-## Building
-To build the project, run:
+## Quick Start
+
+### 1. Clone the Repository
 ```bash
-make all
-````
+git clone https://github.com/marcelstoltz00/Photosyntech.git
+cd Photosyntech
+```
 
-<h1 align="center">🤝 PhotoSyntech 🤝</h1>
+### 2. Build and Run Tests
+```bash
+make test-run
+```
+
+This will automatically:
+- Download the doctest framework
+- Build the project using all available CPU cores
+- Run all unit tests (117 tests with 748 assertions)
+
+## 📋 Available Make Commands
+
+### Build Commands
+| Command | Description |
+|---------|-------------|
+| `make test-run` | Build and run tests in one command |
+| `make clean` or `make c` | Remove all build artifacts |
+| `make info` | Display build configuration and available commands |
+
+### Documentation Commands
+| Command | Description |
+|---------|-------------|
+| `make docs` or `make doxygen` | Generate Doxygen documentation |
+
+### Code Quality Commands
+| Command | Description |
+|---------|-------------|
+| `make cov` | Generate code coverage report (requires `gcovr`) |
+| `make leaks` | Run memory leak detection (macOS) |
+| `make valgrind` or `make v` | Run Valgrind memory check (Linux) |
+
+### TUI Commands
+| Command | Description |
+|---------|-------------|
+| `make tui-manager` | Build and launch the TUI plant manager |
+| `make tui` | Full TUI build (clone, configure, compile) |
+| `make tui-clean` | Clean TUI build directory |
+| `make tui-full` | Complete TUI setup from scratch |
+
+## 🎯 Usage Examples
+
+### Run All Tests
+```bash
+make test-run
+```
+
+### Generate Documentation
+```bash
+make docs
+# Documentation will be available at: docs/doxygen/html/index.html
+```
+
+### Launch TUI Plant Manager
+```bash
+make tui-manager
+```
+
+### Generate Coverage Report
+```bash
+make cov
+cat coverage.txt
+```
+
+### Clean Build Artifacts
+```bash
+make clean
+```
+
+### Check Build Information
+```bash
+make info
+```
 
 
-|Photo | Name                 | Student ID | Role      | 
-|-----------| -------------------- | ---------- |---------|
-|| Wilmar Smit          | u24584216  |TaskMaster|
-|| Johan Coetzer        | u24564584  |Thing One|
-|| Marcel Stoltz        | u24566552  |Thing Two|
-|| Michael Tomlinson    | u24569705  |The Brains And The Brawn|
-|| Zamokuhle Zwane      | u23533413  |The Architect|
+
+<h1 align="center">🤝 Photosyntech Team 🤝</h1>
+
+<p align="center">
+  <img src="docs/images/Team.jpg" alt="Photosyntech Team" width="600"/>
+</p>
+
+<div align="center">
+
+| Name                 | Student ID | Role                        | 
+| :------------------- | :--------- | :-------------------------- |
+| Wilmar Smit          | u24584216  | TaskMaster                  |
+| Johan Coetzer        | u24564584  | Thing One                   |
+| Marcel Stoltz        | u24566552  | Thing Two                   |
+| Michael Tomlinson    | u24569705  | The Brains And The Brawn    |
+| Zamokuhle Zwane      | u23533413  | The Architect               |
+
+</div>

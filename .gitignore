@@ -1,5 +1,9 @@
 third_party/
 
+# Image source files (use converted versions)
+*.heic
+*.HEIC
+
 # Prerequisites
 *.d
 
