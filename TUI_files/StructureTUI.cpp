@@ -13,7 +13,7 @@
 #include "../../../facade/NurseryFacade.h"
 
 #include "../TUI/TUIKit/include/tuikit.h"
-#include "../TUI/ftxui-image-view/include/image_view.hpp"
+#include "../TUI/TUIKit/external/ftxui-image-view/include/image_view.hpp"
 
 using namespace ftxui;
 

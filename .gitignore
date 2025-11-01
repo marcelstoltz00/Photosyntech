@@ -106,3 +106,6 @@ app
 *.gcno
 vgcore.*
 TUI/TUIKit
+
+
+*build
