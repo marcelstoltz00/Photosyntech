@@ -143,7 +143,7 @@ fetch-json:
 	@cp -f $(JSON_NLO_DIR)/json.hpp $(JSON_DIR)/json.hpp || true
 
 # Configure the TUIKit CMake project into the build directory
-cmake-config:
+cmake-config: tui-clone tui-deps
 	cmake -S $(TUI_SRC) -B $(TUI_BUILD)
 
 # Build the TUIKit project (uses all CPU cores by default)
@@ -151,7 +151,7 @@ cmake-build:
 	cmake --build $(TUI_BUILD) --parallel $(CPU_CORES)
 
 # Convenience target to fetch externals, configure and build TUIKit
-tui: fetch-json cmake-config cmake-build
+tui: fetch-json tui-clone tui-deps cmake-config cmake-build
 
 # Clean the TUIKit build directory
 tui-clean:
@@ -169,8 +169,10 @@ tui-clean:
 # Clone the TUIKit repository into TUI/TUIKit (if it's not already present)
 tui-clone:
 	@if [ -d "TUI/TUIKit/.git" ]; then \
-		echo "TUI/TUIKit already exists, skipping clone"; \
+		echo "TUI/TUIKit already exists (git repo found), skipping clone"; \
 	else \
+		echo "Cloning TUIKit repository..."; \
+		rm -rf TUI/TUIKit; \
 		git clone https://github.com/skhelladi/TUIKit.git TUI/TUIKit; \
 	fi
 
@@ -190,6 +192,30 @@ tui-deps:
 		echo "external/ftxui-image-view already present, skipping clone"; \
 	else \
 		git clone https://github.com/ljrrjl/ftxui-image-view.git TUI/TUIKit/external/ftxui-image-view; \
+	fi
+	# After cloning, copy project images and cmake tweaks into the TUIKit tree
+	@echo "Preparing TUIKit externals (copying images and CMake files)..."
+	@# create imgs dir in the ftxui-image-view external and copy images from docs/images
+	@mkdir -p TUI/TUIKit/external/ftxui-image-view/imgs
+	@if [ -d "docs/images" ]; then \
+		cp -af docs/images/* TUI/TUIKit/external/ftxui-image-view/imgs/ || true; \
+		echo "Copied docs/images to TUI/TUIKit/external/ftxui-image-view/imgs"; \
+	else \
+		echo "Warning: docs/images not found; skipping image copy"; \
+	fi
+	# Copy the top-level CMakeLists for TUIKit if provided in TUI_files
+	@if [ -f "TUI_files/CMakeLists.txt" ]; then \
+		mkdir -p TUI/TUIKit; \
+		cp -f TUI_files/CMakeLists.txt TUI/TUIKit/CMakeLists.txt && echo "Copied TUI_files/CMakeLists.txt -> TUI/TUIKit/CMakeLists.txt"; \
+	else \
+		echo "Warning: TUI_files/CMakeLists.txt not found; skipping"; \
+	fi
+	# Copy the CMakeLists for image dependency into the ftxui-image-view external
+	@if [ -f "TUI_files/Cmake for Image dependency/CMAKELists.txt" ]; then \
+		mkdir -p TUI/TUIKit/external/ftxui-image-view; \
+		cp -f "TUI_files/Cmake for Image dependency/CMAKELists.txt" TUI/TUIKit/external/ftxui-image-view/CMakeLists.txt && echo "Copied image-dependency CMakeLists into ftxui-image-view"; \
+	else \
+		echo "Warning: TUI_files/Cmake for Image dependency/CMAKELists.txt not found; skipping"; \
 	fi
 	@mkdir -p TUI/TUIKit/external/json
 	@echo "Downloading nlohmann/json (v3.12.0) into external/json..."

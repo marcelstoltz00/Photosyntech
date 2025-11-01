@@ -4,13 +4,47 @@ include(cmake/ftxui.cmake)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# Find PNG library for image loading support
+find_package(PNG)
+if(PNG_FOUND)
+    message(STATUS "PNG library found: ${PNG_LIBRARIES}")
+else()
+    message(WARNING "PNG library not found. PNG support will be disabled.")
+endif()
+
+# Find JPEG library for image loading support
+find_package(JPEG)
+if(JPEG_FOUND)
+    message(STATUS "JPEG library found: ${JPEG_LIBRARIES}")
+else()
+    message(WARNING "JPEG library not found. JPEG support will be disabled.")
+endif()
+
 add_library(tiv
     ${CMAKE_CURRENT_SOURCE_DIR}/libs/tiv_lib.cpp
 )
 
-target_link_libraries(tiv
-    PRIVATE X11
-)
+# Disable CImg display functionality (no X11 needed)
+target_compile_definitions(tiv PRIVATE cimg_display=0)
+
+# Enable PNG support if available
+if(PNG_FOUND)
+    target_compile_definitions(tiv PRIVATE cimg_use_png)
+    target_include_directories(tiv PRIVATE ${PNG_INCLUDE_DIRS})
+    target_link_libraries(tiv PRIVATE ${PNG_LIBRARIES})
+endif()
+
+# Enable JPEG support if available
+if(JPEG_FOUND)
+    target_compile_definitions(tiv PRIVATE cimg_use_jpeg)
+    target_include_directories(tiv PRIVATE ${JPEG_INCLUDE_DIRS})
+    target_link_libraries(tiv PRIVATE ${JPEG_LIBRARIES})
+endif()
+
+# Only link X11 on Linux
+if(UNIX AND NOT APPLE)
+    target_link_libraries(tiv PRIVATE X11)
+endif()
 # Install the tiv target
 install(TARGETS tiv
     EXPORT ftxui-image-view-targets
@@ -26,6 +60,20 @@ add_library(ftxui-image-view STATIC
     src/image_view.cpp
 )
 
+# Disable CImg display functionality (no X11 needed)
+target_compile_definitions(ftxui-image-view PRIVATE cimg_display=0)
+
+# Enable PNG support if available
+if(PNG_FOUND)
+    target_compile_definitions(ftxui-image-view PRIVATE cimg_use_png)
+    target_include_directories(ftxui-image-view PRIVATE ${PNG_INCLUDE_DIRS})
+endif()
+
+# Enable JPEG support if available
+if(JPEG_FOUND)
+    target_compile_definitions(ftxui-image-view PRIVATE cimg_use_jpeg)
+    target_include_directories(ftxui-image-view PRIVATE ${JPEG_INCLUDE_DIRS})
+endif()
 
 target_link_libraries(ftxui-image-view PUBLIC ftxui::component ftxui::dom ftxui::screen tiv)
 

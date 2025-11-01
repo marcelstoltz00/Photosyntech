@@ -52,7 +52,7 @@ std::string Seed::getImagePath(LivingPlant *plant) {
   std::string plantName = plant->getName();
   plantName.erase(std::remove(plantName.begin(), plantName.end(), ' '),
                   plantName.end());
-  return "../docs/images/" + plantName + std::to_string(getID()) + ".png";
+  return "../external/ftxui-image-view/imgs/" + plantName + std::to_string(getID()) + ".png";
 }
 
 
