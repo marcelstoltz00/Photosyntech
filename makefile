@@ -177,6 +177,31 @@ tui-clone:
 # Install dependencies: clone FTXUI into external/ftxui and download nlohmann/json
 tui-deps:
 	@mkdir -p TUI/TUIKit/external
+	@# Ensure `git` is available before attempting clones
+	@if ! command -v git >/dev/null 2>&1; then \
+		echo "git not found; please install git to clone external dependencies"; exit 127; \
+	fi
+	@if [ -d "TUI/TUIKit/external/ftxui/.git" ]; then \
+		echo "external/ftxui already present, skipping clone"; \
+	else \
+		git clone https://github.com/ArthurSonzogni/FTXUI.git TUI/TUIKit/external/ftxui; \
+	fi
+	@if [ -d "TUI/TUIKit/external/ftxui-image-view/.git" ]; then \
+		echo "external/ftxui-image-view already present, skipping clone"; \
+	else \
+		git clone https://github.com/ljrrjl/ftxui-image-view.git TUI/TUIKit/external/ftxui-image-view; \
+	fi
+	@mkdir -p TUI/TUIKit/external/json
+	@echo "Downloading nlohmann/json (v3.12.0) into external/json..."
+	@mkdir -p TUI/TUIKit/external/json/nlohmann
+	@if command -v wget >/dev/null 2>&1; then \
+		wget -q -O TUI/TUIKit/external/json/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.12.0/json.hpp || { echo "Failed to download nlohmann/json.hpp via wget"; exit 1; }; \
+	else \
+		curl -sSL -o TUI/TUIKit/external/json/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.12.0/json.hpp || { echo "Failed to download nlohmann/json.hpp via curl"; exit 1; }; \
+	fi
+	# Also put a copy at external/json/json.hpp for sources that include "json.hpp"
+	@cp -f TUI/TUIKit/external/json/nlohmann/json.hpp TUI/TUIKit/extetui-deps:
+	@mkdir -p TUI/TUIKit/external
 	@if [ -d "TUI/TUIKit/external/ftxui/.git" ]; then \
 		echo "external/ftxui already present, skipping clone"; \
 	else \
@@ -191,7 +216,7 @@ tui-deps:
 		curl -sSL -o TUI/TUIKit/external/json/nlohmann/json.hpp https://github.com/nlohmann/json/releases/download/v3.12.0/json.hpp || { echo "Failed to download nlohmann/json.hpp via curl"; exit 1; }; \
 	fi
 	# Also put a copy at external/json/json.hpp for sources that include "json.hpp"
-	@cp -f TUI/TUIKit/external/json/nlohmann/json.hpp TUI/TUIKit/external/json/json.hpp || true
+	@cp -f TUI/TUIKit/external/json/nlohmann/json.hpp TUI/TUIKit/external/json/json.hpp || truernal/json/json.hpp || true
 
 # Create build directory and run 'cmake ..' from inside it (raw command form)
 tui-configure-raw:

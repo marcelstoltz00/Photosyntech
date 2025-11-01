@@ -1,0 +1,54 @@
+cmake_minimum_required(VERSION 3.14)
+project(ftxui-image-view)
+include(cmake/ftxui.cmake)
+
+set(CMAKE_CXX_STANDARD 17)
+
+add_library(tiv
+    ${CMAKE_CURRENT_SOURCE_DIR}/libs/tiv_lib.cpp
+)
+
+target_link_libraries(tiv
+    PRIVATE X11
+)
+# Install the tiv target
+install(TARGETS tiv
+    EXPORT ftxui-image-view-targets
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+    INCLUDES DESTINATION include
+)
+
+
+add_library(ftxui-image-view STATIC
+    include/image_view.hpp
+    src/image_view.cpp
+)
+
+
+target_link_libraries(ftxui-image-view PUBLIC ftxui::component ftxui::dom ftxui::screen tiv)
+
+target_include_directories(ftxui-image-view PUBLIC 
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libs>
+    $<INSTALL_INTERFACE:include>
+    )
+    # Install the ftxui-image-view target
+install(TARGETS ftxui-image-view
+    EXPORT ftxui-image-view-targets
+    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION lib
+    RUNTIME DESTINATION bin
+    INCLUDES DESTINATION include
+)
+
+# Export configuration for find_package
+install(EXPORT ftxui-image-view-targets
+    FILE ftxui-image-view-targets.cmake
+    NAMESPACE ftxui_image_view::
+    DESTINATION lib/cmake/ftxui-image-view
+)
+
+# Install headers
+install(DIRECTORY include/ DESTINATION include FILES_MATCHING PATTERN "*.hpp")

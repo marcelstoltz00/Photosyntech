@@ -738,8 +738,7 @@ refreshCustomerView(nursery, plantNames);
         
         hbox({
             backButtonCarousel->Render()|vcenter,
-            carouselPlant?  !imgString.empty() ? imageElement|size(WIDTH,EQUAL,50)|border|size(HEIGHT,EQUAL,30) : filler() :filler(),
-
+            carouselPlant?  !imgString.empty() ? imageElement|vcenter |hcenter|size(WIDTH,EQUAL,50)|border|size(HEIGHT,EQUAL,30) : filler() :filler(),
             forwardButton->Render()|vcenter
 
         })|hcenter,
