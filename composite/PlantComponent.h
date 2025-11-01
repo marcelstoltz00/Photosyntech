@@ -162,6 +162,7 @@ public:
 
 	virtual Flyweight<std::string *> *getNameFlyweight() = 0;
 	virtual int getHealth() { return 0; };
+	std::string getImageStr(){return "";};
 };
 
 #endif

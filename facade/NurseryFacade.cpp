@@ -6,6 +6,7 @@ NurseryFacade::NurseryFacade()
     director = nullptr;
     sales = new SalesFloor();
     suggestionFloor = new SuggestionFloor();
+    this->carouselItr = nullptr;
 }
 
 NurseryFacade::~NurseryFacade()
@@ -14,6 +15,12 @@ NurseryFacade::~NurseryFacade()
 
     delete sales;
     delete suggestionFloor;
+
+    if (carouselItr)
+    {
+        delete carouselItr;
+        carouselItr = nullptr;
+    }
 }
 
 PlantComponent *NurseryFacade::createPlant(const std::string &type)
@@ -39,8 +46,8 @@ PlantComponent *NurseryFacade::createPlant(const std::string &type)
     else
         return nullptr;
     if (director)
-    delete director;
-    Builder* builder = selectedBuilder;
+        delete director;
+    Builder *builder = selectedBuilder;
     director = new Director(builder);
 
     director->construct();
@@ -433,24 +440,76 @@ bool NurseryFacade::RemoveObserver(Staff *staff, PlantGroup *PG)
     return false;
 }
 
- vector<string> NurseryFacade::getObservers(PlantGroup* pg)
- {
+vector<string> NurseryFacade::getObservers(PlantGroup *pg)
+{
     if (pg)
     {
         std::vector<string> names;
-    std::list<Observer *> staff = pg->getObservers();
-   auto itr = staff.begin();
-    while (itr != staff.end())
-    {
-        if (*itr)
-        names.push_back((*itr)->getNameObserver());
+        std::list<Observer *> staff = pg->getObservers();
+        auto itr = staff.begin();
+        while (itr != staff.end())
+        {
+            if (*itr)
+                names.push_back((*itr)->getNameObserver());
 
-        itr++;
-    }
-    return names;
+            itr++;
+        }
+        return names;
     }
     else
     {
         return {};
     }
- }
+}
+LivingPlant *NurseryFacade::createItr(string filter, bool seasonFilter)
+{
+
+    if (this->carouselItr)
+    {
+        delete carouselItr;
+        carouselItr == nullptr;
+    }
+
+    Aggregate *agg = nullptr;
+
+    if (!filter.empty())
+    {
+        if (seasonFilter)
+        {
+            // season iterator
+        }
+        else
+        {
+            // specific plant iterator
+        }
+    }
+    else
+    {
+        // all plant iterator
+        agg = new AggPlant(Inventory::getInstance()->getInventory()->getPlants());
+        carouselItr = agg->createIterator();
+        delete agg;
+        return carouselItr->currentItem();
+    }
+}
+
+LivingPlant *NurseryFacade::next()
+{
+    if (carouselItr && !carouselItr->isDone())
+    {
+        carouselItr->next();
+        return carouselItr->currentItem();
+    }
+    else
+        return nullptr;
+}
+LivingPlant *NurseryFacade::back()
+{
+    if (carouselItr && !carouselItr->isDone())
+    {
+        carouselItr->back();
+        return carouselItr->currentItem();
+    }
+    else
+        return nullptr;
+}

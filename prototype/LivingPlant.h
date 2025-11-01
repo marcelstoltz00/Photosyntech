@@ -295,7 +295,8 @@ virtual int getSunlightValue();
 virtual void tick();
 
 	virtual Flyweight<std::string *> *getNameFlyweight() { return this->name; };
-
+	
+virtual string getImageStr();
 
 
 };

@@ -15,7 +15,6 @@
 #include "../TUI/TUIKit/include/tuikit.h"
 #include "../TUI/ftxui-image-view/include/image_view.hpp"
 
-
 using namespace ftxui;
 
 std::map<int, PlantComponent *> treeIndexToComponent;
@@ -388,6 +387,7 @@ int main()
         "Plant Details",
         "Staff management",
         "Customer",
+        "Carousel"
     };
 
     auto tabToggle = Toggle(&tabTitles, &tabSelected);
@@ -529,15 +529,33 @@ int main()
 
     });
     // ########################### staff additions
-    
 
-    
+    // ########################### Iterator additions
+    PlantComponent *carouselPlant = nullptr;
+    string filterTextCarousel ="";
+    bool seasonfilter = false;
+
+    auto CreatePlantIterator = Button("CreateIterator", [&]
+                                { carouselPlant = nursery.createItr(filterTextCarousel,seasonfilter); });
+
+    auto forwardButton = Button("->", [&]
+                                { carouselPlant = nursery.next(); });
+
+    auto backButtonCarousel = Button("<-", [&]
+                             { carouselPlant = nursery.next(); });
+
+    auto carousel = Container ::Horizontal({
+        backButtonCarousel,CreatePlantIterator,forwardButton
+    });
+
+    // ########################### Iterator additions
+
     auto tabContainer = Container::Tab({
                                            managerInventoryTab,
                                            tab4Content,
                                            staffManagement,
                                            customerTab,
-
+                                            carousel
                                        },
                                        &tabSelected);
 
@@ -639,6 +657,15 @@ refreshCustomerView(nursery, plantNames);
 
         }
     ) ;
+
+    Element carouselView =vbox({
+
+        hbox({
+                    backButtonCarousel->Render()
+                    ,CreatePlantIterator->Render()
+                    ,forwardButton->Render()
+        })|hcenter
+    });
 
              Element customerView =  vbox({
             hbox({ 
@@ -773,7 +800,7 @@ refreshCustomerView(nursery, plantNames);
 
         (tabSelected == 0 ? managerInventoryView :
         tabSelected == 1 ? tab4View : tabSelected == 2 ?
-        StaffView : customerView) | flex,
+        StaffView : tabSelected ==3 ? customerView : carouselView) | flex,
 
         separator(),
         text(statusText) | border | color(Color::Cyan),
