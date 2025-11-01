@@ -57,13 +57,12 @@ TEST_CASE("Testing nursery function")
     Inventory::getInstance()->getInventory()->addComponent(dir->getPlant());
     Inventory::getInstance()->getInventory()->addComponent(dir->getPlant());
     NurseryFacade *fac = new NurseryFacade;
-    fac->createItr();
-    while (fac->next())
-    {
+    LivingPlant * p = fac->createItr();
 
-    }
-    
+    cout<< p->getImageStr()<<endl;
 
+    delete dir;
+    delete si;
     delete fac;
     delete Inventory::getInstance();
 }

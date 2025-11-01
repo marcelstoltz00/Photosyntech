@@ -349,5 +349,6 @@ void LivingPlant::tick()
 
 string LivingPlant::getImageStr()
 {
-    this->maturityState->getState()->getImagePath(this);
+    if (this->maturityState && this->maturityState->getState())
+   return this->maturityState->getState()->getImagePath(this);
 }

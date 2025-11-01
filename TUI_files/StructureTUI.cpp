@@ -16,7 +16,6 @@
 #include "../TUI/TUIKit/external/ftxui-image-view/include/image_view.hpp"
 
 using namespace ftxui;
-
 std::map<int, PlantComponent *> treeIndexToComponent;
 std::vector<std::string> treeEntries;
 int selectedTreeIndex = -1;
@@ -41,6 +40,25 @@ Component mainContainer;
 Component groupDialogueContainer;
 Component moveDialogueContainer;
 Component main_ui;
+
+unordered_map<string, Element> cache;
+
+Element  &getImage(const std::string &id)
+{
+    auto it = cache.find(id);
+    if (it != cache.end())
+        return it->second;
+
+    return cache[id] = image_view(id);
+}
+
+void preloadImages(const std::vector<std::string> &ids)
+{
+    for (const auto &id : ids)
+    {
+        cache[id] = image_view(id); // expensive, but done once
+    }
+}
 
 void buildTreeEntries(
     PlantComponent *component,
@@ -126,6 +144,18 @@ void refreshCustomerBasket(NurseryFacade &nursery, vector<string> &plantNames, C
 }
 int main()
 {
+    std::vector<std::string> imagePaths = {
+        "../docs/images/Cactus0.png", "../docs/images/Cactus1.png", "../docs/images/Cactus2.png", "../docs/images/Cactus3.png",
+        "../docs/images/CherryBlossom0.png", "../docs/images/CherryBlossom1.png", "../docs/images/CherryBlossom2.png", "../docs/images/CherryBlossom3.png",
+        "../docs/images/Jade0.png", "../docs/images/Jade1.png", "../docs/images/Jade2.png", "../docs/images/Jade3.png",
+        "../docs/images/Lavender0.png", "../docs/images/Lavender1.png", "../docs/images/Lavender2.png", "../docs/images/Lavender3.png",
+        "../docs/images/MapleTree0.png", "../docs/images/MapleTree1.png", "../docs/images/MapleTree2.png", "../docs/images/MapleTree3.png",
+        "../docs/images/photosyntech_logo.JPG",
+        "../docs/images/PineTree0.png", "../docs/images/PineTree1.png", "../docs/images/PineTree2.png", "../docs/images/PineTree3.png",
+        "../docs/images/Rose0.png", "../docs/images/Rose1.png", "../docs/images/Rose2.png", "../docs/images/Rose3.png",
+        "../docs/images/Sunflower0.png", "../docs/images/Sunflower1.png", "../docs/images/Sunflower2.png", "../docs/images/Sunflower3.png"};
+    preloadImages(imagePaths);
+
     Inventory::getInstance();
     bool refreshIterator = false;
     std::ofstream cerrLog("plant_manager_debug.txt");
@@ -375,9 +405,6 @@ int main()
         plantToView = selectedInventoryComponent;
         previousTab = tabSelected;
         tabSelected = 1;
-
-        
-    
     } else {
         inventoryStatusText = "Select a plant (not a group) to view.";
     } });
@@ -497,6 +524,7 @@ int main()
     vector<string> plantGroupContents;
     vector<string> observerNames;
 
+   
     int staffIndex = 0;
     int plantGroupIndex = 0;
     int internalPlantGroupIndex = 0;
@@ -532,13 +560,15 @@ int main()
 
     // ########################### Iterator additions
 
-    PlantComponent *carouselPlant = nullptr;
+    LivingPlant *carouselPlant = nullptr;
     string filterTextCarousel = "";
     string plantInfoCarousel = "";
     string imgString = "";
+
     bool seasonfilter = false;
     bool endOfList = true;
     bool plantChanged = true;
+
     auto CreatePlantIterator = Button("CreateIterator", [&]
                                       { carouselPlant = nursery.createItr(filterTextCarousel,seasonfilter); 
                                      endOfList = carouselPlant == nullptr;
@@ -570,10 +600,13 @@ int main()
         tabContainer,
     });
     int counter = 0;
+    Element imageElement ;
+    string prevImgStr ="";
     auto mainRenderer = Renderer(main_ui, [&]
                                  {
                                     counter++;
 
+            
 
                         if (refreshIterator)
                         {
@@ -585,21 +618,34 @@ int main()
 
          if (plantChanged  && !endOfList && carouselPlant)
         {
-                            plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
-                            imgString = carouselPlant ? carouselPlant->getImageStr(): "";
-         plantChanged = false;
+        plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
+        prevImgStr = imgString;
+        imgString = carouselPlant ? carouselPlant->getImageStr(): "";
+        if (prevImgStr != imgString)
+        {
+            imageElement  = getImage(imgString);
+        }
+        plantChanged = false;
         }
           
                         
                     if (counter == 15)
                     {
+        plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
+
+        prevImgStr = imgString;
+        imgString = carouselPlant ? carouselPlant->getImageStr(): "";
+        if (prevImgStr != imgString)
+        {
+            imageElement  = getImage(imgString);
+        }
+
 
 refreshCustomerView(nursery, plantNames);
      refreshPlantGroupView(nursery,plantGroupNames);
         currentCustomerPlant = nursery.findPlant(customerTreeIndex);
         currentStaffMember = nursery.findStaff(staffIndex);
         currentPlantGroupStaff = nursery.findPlantGroup(plantGroupIndex);
-        
                    
         plantGroupContents = nursery.getPlantGroupContents(currentPlantGroupStaff);
         observerNames = nursery.getObservers(currentPlantGroupStaff);
@@ -688,19 +734,16 @@ refreshCustomerView(nursery, plantNames);
 
     Element carouselView =vbox({
 
+                    CreatePlantIterator->Render()|hcenter,
+        
         hbox({
-            carouselPlant? 
-            window(text("Plant Info"),paragraph(plantInfoCarousel)), image_view(imgString)
-            :
-            filler() 
+            backButtonCarousel->Render()|vcenter,
+            carouselPlant?  !imgString.empty() ? imageElement|size(WIDTH,EQUAL,50)|border|size(HEIGHT,EQUAL,30) : filler() :filler(),
+
+            forwardButton->Render()|vcenter
 
         })|hcenter,
-    
-        hbox({
-                    backButtonCarousel->Render()
-                    ,CreatePlantIterator->Render()
-                    ,forwardButton->Render()
-        })|hcenter
+
     });
 
              Element customerView =  vbox({
