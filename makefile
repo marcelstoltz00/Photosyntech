@@ -215,3 +215,9 @@ tui-manager: tui
 
 tui-manager-v: tui
 	cd TUI/TUIKit/build && valgrind --leak-check=full --show-leak-kinds=all -s --track-origins=yes ./TUI
+
+
+# Build ftxui-image-view library using its own CMakeLists.txt
+img-ftx:
+	@mkdir -p TUI/ftxui-image-view/build
+	cd TUI/ftxui-image-view/build && cmake .. && cmake --build .

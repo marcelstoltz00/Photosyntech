@@ -493,12 +493,17 @@ LivingPlant *NurseryFacade::createItr(string filter, bool seasonFilter)
     }
 }
 
-LivingPlant *NurseryFacade::next()
+LivingPlant *NurseryFacade::next(string filter , bool seasonFilter)
 {
-    if (carouselItr && !carouselItr->isDone())
+    if (carouselItr && carouselItr->isDone()==false)
     {
         carouselItr->next();
+        if (carouselItr->currentItem())
         return carouselItr->currentItem();
+        else
+        {
+         return createItr(filter,seasonFilter);
+        }
     }
     else
         return nullptr;
@@ -513,3 +518,4 @@ LivingPlant *NurseryFacade::back()
     else
         return nullptr;
 }
+

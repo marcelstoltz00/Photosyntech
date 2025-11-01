@@ -189,7 +189,7 @@ public:
     vector<string> getObservers(PlantGroup *pg);
 
     LivingPlant *createItr(string filter = "", bool seasonFilter= false);
-    LivingPlant *next();
+    LivingPlant *next(string filter = "", bool seasonFilter= false);
     LivingPlant *back();
 };
 

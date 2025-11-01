@@ -21,29 +21,49 @@
 TEST_CASE("Testing nursery function")
 {
     NurseryFacade *fac = new NurseryFacade;
-   fac->createPlant("Sunflower");
-   fac->createPlant("Rose");
-      fac->createPlant("Rose");
-   /*
-   fac.createPlant("Sunflower");
+    fac->createPlant("Sunflower");
+    fac->createPlant("Rose");
+    fac->createPlant("Rose");
+    /*
     fac.createPlant("Sunflower");
-    vector<string> vec = fac.getAllPlantGroups();
+     fac.createPlant("Sunflower");
+     vector<string> vec = fac.getAllPlantGroups();
 
-*/
-delete fac;
- 
+ */
+    delete fac;
+
     delete Inventory::getInstance();
 }
 TEST_CASE("Testing nursery function")
 {
     NurseryFacade *fac = new NurseryFacade;
-    PlantGroup* pg = new PlantGroup();
-    Staff* staf = new Staff("jerry");
+    PlantGroup *pg = new PlantGroup();
+    Staff *staf = new Staff("jerry");
     pg->attach(staf);
     fac->getObservers(pg);
- 
+
     delete pg;
     delete staf;
+    delete fac;
+    delete Inventory::getInstance();
+}
+TEST_CASE("Testing nursery function")
+{
+
+    Builder *si = new SunflowerBuilder();
+    Director *dir = new Director(si);
+    dir->construct();
+    Inventory::getInstance()->getInventory()->addComponent(dir->getPlant());
+    Inventory::getInstance()->getInventory()->addComponent(dir->getPlant());
+    Inventory::getInstance()->getInventory()->addComponent(dir->getPlant());
+    NurseryFacade *fac = new NurseryFacade;
+    fac->createItr();
+    while (fac->next())
+    {
+
+    }
+    
+
     delete fac;
     delete Inventory::getInstance();
 }
