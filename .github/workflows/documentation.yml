@@ -7,7 +7,7 @@ permissions:
 
 on:
   push:
-    branches: [ main, master, devBranch, TUI , devTestFix]
+    branches: [ main, master, devBranch, TUI, devTestFix, devTUIupdates ]
   workflow_dispatch:
 
 jobs:

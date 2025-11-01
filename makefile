@@ -4,6 +4,10 @@
 CXX = g++
 CXXFLAGS = -std=c++11 -g --coverage -I. -Ithird_party/doctest
 
+# Detect number of CPU cores for parallel compilation
+CPU_CORES := $(shell sysctl -n hw.ncpu)
+MAKEFLAGS += -j$(CPU_CORES)
+
 # =============================================================================
 # Doctest Configuration
 # =============================================================================
@@ -77,7 +81,7 @@ BIN := app
 # =============================================================================
 # Build Targets
 # =============================================================================
-.PHONY: all test all-internal run r test-run cov clean c valgrind v leaks
+.PHONY: all test all-internal run r test-run cov clean c valgrind v leaks info
 
 all: test
 
@@ -118,6 +122,26 @@ valgrind v: $(BIN)
 leaks: $(BIN)
 	leaks --atExit -- ./$(BIN)
 
+info:
+	@echo "==================================================================="
+	@echo "Photosyntech Build Configuration"
+	@echo "==================================================================="
+	@echo "Compiler:        $(CXX)"
+	@echo "CPU Cores:       $(CPU_CORES)"
+	@echo "Parallel Jobs:   $(CPU_CORES) (via -j flag)"
+	@echo "C++ Standard:    C++11"
+	@echo "Build Flags:     $(CXXFLAGS)"
+	@echo "Test Files:      $(words $(TEST_SRC)) source files"
+	@echo "Binary Output:   $(BIN)"
+	@echo "==================================================================="
+	@echo "Available commands:"
+	@echo "  make test-run       - Build and run tests"
+	@echo "  make clean          - Clean build artifacts"
+	@echo "  make docs           - Generate documentation"
+	@echo "  make tui-manager    - Build TUI manager"
+	@echo "  make info           - Show this information"
+	@echo "==================================================================="
+
 # =============================================================================
 # Documentation Targets
 # =============================================================================
@@ -132,7 +156,6 @@ doxygen:
 # =============================================================================
 # TUI (TUIKit) Configuration
 # =============================================================================
-CPU_CORES := $(shell sysctl -n hw.ncpu)
 TUI_SRC := TUI/TUIKit
 TUI_BUILD := $(TUI_SRC)/build
 JSON_DIR := $(TUI_SRC)/external/json
@@ -273,7 +296,7 @@ tui-build-raw:
 		echo "Build directory not found. Run 'make tui-configure-raw' first."; \
 		exit 1; \
 	fi
-	@cd TUI/TUIKit/build && cmake --build .
+	@cd TUI/TUIKit/build && cmake --build . --parallel $(CPU_CORES)
 
 tui-full: tui-clone tui-deps tui-configure-raw tui-build-raw
 	@echo "TUI build complete (tui-full)"
