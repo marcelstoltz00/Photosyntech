@@ -101,11 +101,27 @@ DerivedData/
 
 docs/doxygen
 
-app 
+# Compiled executables
+app
+plant_growth_sim
+
+# Code coverage files
 *.gcda
 *.gcno
+*.gcov
+coverage.txt
+coverage.html
+coverage.css
+
+# Core dumps and debug files
 vgcore.*
+debug_log.txt
+
+# Doxygen generated files
+photosyntech.tag
+
+# TUI external dependencies
 TUI/TUIKit
 
-
-*build
+# Build directories with any suffix
+*build*
