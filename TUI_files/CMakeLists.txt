@@ -113,7 +113,7 @@ target_link_libraries(tuikit PUBLIC ftxui::screen ftxui::dom ftxui::component)
 
 
 add_executable(TUI
-    ../../TUI_files/UpdatedTUI.cpp
+    ../../TUI_files/StructureTUI.cpp
     ../../facade/NurseryFacade.cpp
 
     ../../prototype/LivingPlant.cpp

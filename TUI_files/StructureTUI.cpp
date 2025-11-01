@@ -11,7 +11,11 @@
 #include <memory>
 #include <algorithm>
 #include "../../../facade/NurseryFacade.h"
+
 #include "../TUI/TUIKit/include/tuikit.h"
+#include "../TUI/ftxui-image-view/include/image_view.hpp"
+
+
 using namespace ftxui;
 
 std::map<int, PlantComponent *> treeIndexToComponent;
@@ -525,6 +529,9 @@ int main()
 
     });
     // ########################### staff additions
+    
+
+    
     auto tabContainer = Container::Tab({
                                            managerInventoryTab,
                                            tab4Content,
