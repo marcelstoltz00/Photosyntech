@@ -152,8 +152,10 @@ add_executable(TUI
     ../../iterator/AggPlant.cpp
     ../../iterator/Aggregate.cpp
     ../../iterator/AggSeason.cpp
+    ../../iterator/AggPlantName.cpp
     ../../iterator/PlantIterator.cpp
     ../../iterator/SeasonIterator.cpp
+    ../../iterator/PlantNameIterator.cpp
 
     ../../mediator/Customer.cpp
     ../../mediator/Mediator.cpp

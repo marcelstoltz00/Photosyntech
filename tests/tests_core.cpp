@@ -65,4 +65,13 @@ TEST_CASE("Testing nursery function")
     delete si;
     delete fac;
     delete Inventory::getInstance();
+}TEST_CASE("Testing nursery getseason")
+{
+
+
+    NurseryFacade *fac = new NurseryFacade;
+    fac->getCurrentSeason();
+
+    delete fac;
+    delete Inventory::getInstance();
 }

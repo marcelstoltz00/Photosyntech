@@ -39,7 +39,8 @@
 #include "../mediator/SalesFloor.h"
 #include "../mediator/SuggestionFloor.h"
 #include "../iterator/AggPlant.h"
-
+#include "../iterator/AggSeason.h"
+#include "../iterator/AggPlantName.h"
 /**
  * @brief Unified facade interface for the nursery management system.
  *
@@ -101,6 +102,8 @@ public:
 
     PlantComponent *createPlant(const std::string &type);
 
+    string getCurrentSeason();
+
     void waterPlant(PlantComponent *plant);
 
     void addSunlight(PlantComponent *plant);
@@ -108,6 +111,7 @@ public:
     std::string getPlantInfo(PlantComponent *plant);
 
     std::vector<std::string> getAvailablePlantTypes();
+    std::vector<std::string> getAvailableSeasons();
 
     PlantComponent *getInventoryRoot();
 
@@ -179,7 +183,9 @@ public:
 
     std::vector<string> getAllPlantGroups();
 
-    PlantGroup *findPlantGroup(int index);
+    std::vector<PlantComponent*> getAllPlantGroupObjects();
+
+    PlantGroup *findPlantGroup(int index,  std::vector<PlantComponent*>);
     vector<string> getPlantGroupContents(PlantGroup *PlantGroup);
 
     bool setAsObserver(Staff *staff, PlantGroup *PG);
