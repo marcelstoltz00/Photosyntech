@@ -184,7 +184,8 @@ cmake-config: tui-clone tui-deps
 	fi
 	cmake -S $(TUI_SRC) -B $(TUI_BUILD)
 
-cmake-build:
+cmake-build: cmake-config
+	# Ensure configuration step runs before attempting to build.
 	cmake --build $(TUI_BUILD) --parallel $(CPU_CORES)
 
 tui: fetch-json tui-clone tui-deps cmake-config cmake-build
