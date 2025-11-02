@@ -577,12 +577,12 @@ int main()
                                statusText = currentStaffMember ? "Staff Member added " : "Staff member could not be added";
                                refreshStaffView(nursery,staffNames);
                                refreshPlantGroupView(nursery,plantGroupNames); });
-    auto AddStaffObserver = Button("set observer", [&]
+    auto AddStaffObserver = Button("Set Observer", [&]
                                    { nursery.setAsObserver(currentStaffMember, currentPlantGroupStaff);
                              statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully added as an observer":" could not process request"; });
-    auto removeStaffObserver = Button("detach observer", [&]
+    auto removeStaffObserver = Button("Detach Observer", [&]
                                       { nursery.RemoveObserver(currentStaffMember, currentPlantGroupStaff);
-                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully removed as an observer":" could not process request"; });
+                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully removed as an observer":" could not process request"; }) | color(Color::Red);
 
     auto staffManagement = Container::Vertical({
 
