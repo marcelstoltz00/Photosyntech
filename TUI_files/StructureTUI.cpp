@@ -235,7 +235,7 @@ int main()
                                     { showCreateGroupDialogue = true; });
 
     auto confirmGroupButton = Button("Create", [&]
-                                     {
+                                    {
         std::string newGroupName = "Group " + std::to_string(groupCounter);
         PlantGroup* newGroup = nursery.createPlantGroup(newGroupName);
 
@@ -249,8 +249,11 @@ int main()
         inventoryStatusText = "Created Group " + std::to_string(groupCounter);
         groupCounter++;
         showCreateGroupDialogue = false;
-        refreshInventoryView(nursery); }) |
-                              color(Color::Green);
+        
+        screen.Post([&] {
+            refreshInventoryView(nursery);
+        });
+    }) | color(Color::Green);
 
     auto cancelGroupButton = Button("Cancel", [&]
                                     { showCreateGroupDialogue = false; }) |
@@ -891,28 +894,34 @@ int main()
                     paragraph("Please enter your name first and press login") | color(Color::GrayLight))
             })
         }) | size(WIDTH,EQUAL ,500) |border|hcenter;
-            Element tab4View = vbox({
+        Element tab4View = vbox({
             window(text("Plant Details") | bold | color(Color::LightGreen),
                 vbox({
                     [=] {
                         float water_val = 0;
                         float sun_val = 0;
+                        float health_val = 0;
                         float max_stat = 200; 
                         std::string info_text = "No plant selected. Go back and select one.";
 
                         if (plantToView && plantToView->getType() != ComponentType::PLANT_GROUP) {
                             water_val = (float)plantToView->getWaterValue();
                             sun_val = (float)plantToView->getSunlightValue();
+                            health_val = (float)plantToView->getHealth();
                         }
 
                         if (plantToView) {
-                             if (plantToView->getType() == ComponentType::PLANT_GROUP) {
+                            if (plantToView->getType() == ComponentType::PLANT_GROUP) {
                                 info_text = plantToView->getInfo();
                             } else {
                                 info_text = plantToView->getDecorator()->getInfo();
                             }
                         }
 
+                        Element healthBar = hbox({
+                            text("Health: ") | size(WIDTH, EQUAL, 8) | color(Color::Red),
+                            gauge(health_val / max_stat) | color(Color::Red) | flex
+                        });
                         Element waterBar = hbox({
                             text("Water:  ") | size(WIDTH, EQUAL, 8) | color(Color::Cyan),
                             gauge(water_val / max_stat) | color(Color::Blue) | flex
@@ -923,13 +932,14 @@ int main()
                         });
 
                         Element infoBox = paragraph(info_text) |
-                                          color(Color::GrayLight) | 
-                                          yframe | 
-                                          vscroll_indicator | 
-                                          size(HEIGHT, EQUAL, 30);
+                                        color(Color::GrayLight) | 
+                                        yframe | 
+                                        vscroll_indicator | 
+                                        size(HEIGHT, EQUAL, 30);
 
                         if (plantToView && plantToView->getType() != ComponentType::PLANT_GROUP) {
-                             return vbox({
+                            return vbox({
+                                healthBar,
                                 waterBar,
                                 sunBar,
                                 separator(),
