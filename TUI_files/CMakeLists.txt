@@ -22,6 +22,9 @@ endif()
 
 # FTXUI
 add_subdirectory(external/ftxui)
+# ftxui-image-view
+add_subdirectory(external/ftxui-image-view)
+
 
 # nlohmann/json (header-only)
 include_directories(external/json)
@@ -109,7 +112,18 @@ target_include_directories(tuikit PUBLIC
     $<INSTALL_INTERFACE:include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/external/json>
 )
+
+target_include_directories(tuikit PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/external/ftxui-image-view/include>
+)
+
 target_link_libraries(tuikit PUBLIC ftxui::screen ftxui::dom ftxui::component)
+target_link_libraries(tuikit PUBLIC
+    ftxui::screen
+    ftxui::dom
+    ftxui::component
+    ftxui-image-view
+)
 
 
 add_executable(TUI
@@ -138,8 +152,10 @@ add_executable(TUI
     ../../iterator/AggPlant.cpp
     ../../iterator/Aggregate.cpp
     ../../iterator/AggSeason.cpp
+    ../../iterator/AggPlantName.cpp
     ../../iterator/PlantIterator.cpp
     ../../iterator/SeasonIterator.cpp
+    ../../iterator/PlantNameIterator.cpp
 
     ../../mediator/Customer.cpp
     ../../mediator/Mediator.cpp

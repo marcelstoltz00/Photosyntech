@@ -39,7 +39,7 @@ public:
      * @param plant Pointer to the LivingPlant
      * @return Image file path as a string
      */
-    std::string getImagePath(LivingPlant *plant);
+   virtual std::string getImagePath(LivingPlant *plant);
 
     /**
      * @brief Returns the identifier for the Seed state

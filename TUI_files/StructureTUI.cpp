@@ -13,11 +13,9 @@
 #include "../../../facade/NurseryFacade.h"
 
 #include "../TUI/TUIKit/include/tuikit.h"
-#include "../TUI/ftxui-image-view/include/image_view.hpp"
-
+#include "../TUI/TUIKit/external/ftxui-image-view/include/image_view.hpp"
 
 using namespace ftxui;
-
 std::map<int, PlantComponent *> treeIndexToComponent;
 std::vector<std::string> treeEntries;
 int selectedTreeIndex = -1;
@@ -42,6 +40,25 @@ Component mainContainer;
 Component groupDialogueContainer;
 Component moveDialogueContainer;
 Component main_ui;
+
+unordered_map<string, Element> cache;
+
+Element &getImage(const std::string &id)
+{
+    auto it = cache.find(id);
+    if (it != cache.end())
+        return it->second;
+
+    return cache[id] = image_view(id);
+}
+
+void preloadImages(const std::vector<std::string> &ids)
+{
+    for (const auto &id : ids)
+    {
+        cache[id] = image_view(id); // expensive, but done once
+    }
+}
 
 void buildTreeEntries(
     PlantComponent *component,
@@ -81,6 +98,16 @@ void buildTreeEntries(
             }
         }
     }
+}
+string getFilter(NurseryFacade &nursery, int index, bool seasonsFilter)
+{
+    vector<string> names;
+    if (seasonsFilter)
+        names = nursery.getAvailableSeasons();
+    else
+        names = nursery.getAvailablePlantTypes();
+
+    return names[index];
 }
 
 void refreshInventoryView(NurseryFacade &nursery)
@@ -127,15 +154,27 @@ void refreshCustomerBasket(NurseryFacade &nursery, vector<string> &plantNames, C
 }
 int main()
 {
+    std::vector<std::string> imagePaths = {
+        "../docs/images/Cactus0.png", "../docs/images/Cactus1.png", "../docs/images/Cactus2.png", "../docs/images/Cactus3.png",
+        "../docs/images/CherryBlossom0.png", "../docs/images/CherryBlossom1.png", "../docs/images/CherryBlossom2.png", "../docs/images/CherryBlossom3.png",
+        "../docs/images/Jade0.png", "../docs/images/Jade1.png", "../docs/images/Jade2.png", "../docs/images/Jade3.png",
+        "../docs/images/Lavender0.png", "../docs/images/Lavender1.png", "../docs/images/Lavender2.png", "../docs/images/Lavender3.png",
+        "../docs/images/MapleTree0.png", "../docs/images/MapleTree1.png", "../docs/images/MapleTree2.png", "../docs/images/MapleTree3.png",
+        "../docs/images/photosyntech_logo.JPG",
+        "../docs/images/PineTree0.png", "../docs/images/PineTree1.png", "../docs/images/PineTree2.png", "../docs/images/PineTree3.png",
+        "../docs/images/Rose0.png", "../docs/images/Rose1.png", "../docs/images/Rose2.png", "../docs/images/Rose3.png",
+        "../docs/images/Sunflower0.png", "../docs/images/Sunflower1.png", "../docs/images/Sunflower2.png", "../docs/images/Sunflower3.png"};
+    preloadImages(imagePaths);
+    ;
     Inventory::getInstance();
-
+    bool refreshIterator = false;
     std::ofstream cerrLog("plant_manager_debug.txt");
     std::streambuf *oldCerrBuf = std::cerr.rdbuf();
     std::cerr.rdbuf(cerrLog.rdbuf());
 
     auto screen = ScreenInteractive::Fullscreen();
     NurseryFacade nursery;
-
+    string seasonString = nursery.getCurrentSeason();
     auto plantTypes = nursery.getAvailablePlantTypes();
     int plantSelectorIndex = 0;
     std::string plantInfoText = "No plant selected";
@@ -349,6 +388,7 @@ int main()
 
     auto basketAddBtn = Button("Add to Basket", [&]
                                {
+        refreshIterator = true;
         bool result = nursery.addToCustomerBasket(currentCustomer, nursery.findPlant(customerTreeIndex));
         result ? statusText = "Plant added successfully" : statusText = "Something went wrong with plant adding";
         currentCustomerPlant = nursery.findPlant(customerTreeIndex);
@@ -375,9 +415,6 @@ int main()
         plantToView = selectedInventoryComponent;
         previousTab = tabSelected;
         tabSelected = 1;
-
-        
-    
     } else {
         inventoryStatusText = "Select a plant (not a group) to view.";
     } });
@@ -388,7 +425,7 @@ int main()
         "Plant Details",
         "Staff management",
         "Customer",
-    };
+        "Carousel"};
 
     auto tabToggle = Toggle(&tabTitles, &tabSelected);
 
@@ -501,6 +538,7 @@ int main()
     int plantGroupIndex = 0;
     int internalPlantGroupIndex = 0;
     int currentObserverIndex = 0;
+    vector<PlantComponent *> plantGroupObjects = nursery.getAllPlantGroupObjects();
     PlantGroup *currentPlantGroupStaff = nullptr;
     auto plantGroupMenu = Menu(&plantGroupNames, &plantGroupIndex);
 
@@ -517,7 +555,7 @@ int main()
                                refreshPlantGroupView(nursery,plantGroupNames); });
     auto AddStaffObserver = Button("set observer", [&]
                                    { nursery.setAsObserver(currentStaffMember, currentPlantGroupStaff);
-                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully added as an observer":" could nort process request"; });
+                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully added as an observer":" could not process request"; });
     auto removeStaffObserver = Button("detach observer", [&]
                                       { nursery.RemoveObserver(currentStaffMember, currentPlantGroupStaff);
                              statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully removed as an observer":" could not process request"; });
@@ -529,44 +567,168 @@ int main()
 
     });
     // ########################### staff additions
-    
 
-    
-    auto tabContainer = Container::Tab({
-                                           managerInventoryTab,
-                                           tab4Content,
-                                           staffManagement,
-                                           customerTab,
+    // ########################### Iterator additions
 
-                                       },
+    LivingPlant *carouselPlant = nullptr;
+    string filterTextCarousel = "";
+    string plantInfoCarousel = "";
+    string imgString = "";
+    string addOrRemoveFilter = "Add filter";
+    vector<string> availablePlant = nursery.getAvailablePlantTypes();
+
+    vector<string> availableSeasons = nursery.getAvailableSeasons();
+
+    int availableFilterIndex = 0;
+    int availableSeasonsFilter = 0;
+
+    bool seasonfilter = false;
+    bool endOfList = true;
+    bool plantChanged = true;
+    bool isFiltering = false;
+
+    auto changeFilterType = Button("Change Filter Type", [&]
+                                   { seasonfilter = !seasonfilter;
+                                        availableFilterIndex = 0; availableSeasonsFilter = 0; });
+
+    auto addRemoveFilter = Button(&addOrRemoveFilter, [&]
+                                  {  
+                                        filterTextCarousel = "";
+                                        !isFiltering? addOrRemoveFilter ="Remove Filter" : addOrRemoveFilter = "Add Filter" ;
+                                        isFiltering = !isFiltering; });
+
+    auto dropPlants = Dropdown(&availablePlant, &availableFilterIndex);
+
+    auto dropSeason = Dropdown(&availableSeasons, &availableSeasonsFilter);
+
+    auto CreatePlantIterator = Button("Create Iterator",
+                                      [&]
+                                      {       
+                                        
+
+
+                                        seasonfilter?  filterTextCarousel = getFilter(nursery,availableSeasonsFilter,seasonfilter) :
+                                        filterTextCarousel = getFilter(nursery,availableFilterIndex,seasonfilter) ;
+
+                                        if (isFiltering)
+                                        carouselPlant = nursery.createItr(filterTextCarousel,seasonfilter);
+                                        else
+                                        carouselPlant = nursery.createItr();
+
+                                                endOfList = carouselPlant == nullptr;
+                                                plantChanged = true; });
+
+    auto forwardButton = Button("->", [&]
+                                {    if (isFiltering)
+                                    carouselPlant = nursery.next(filterTextCarousel,seasonfilter); 
+                                    else
+                                  carouselPlant = nursery.next(); 
+                                    endOfList = carouselPlant == nullptr;
+                                    plantChanged = true; });
+
+    auto backButtonCarousel = Button("<-", [&]
+                                     { carouselPlant = nursery.back(); 
+                                endOfList = carouselPlant == nullptr;
+                                plantChanged = true; });
+
+    auto carousel = Container ::Horizontal({Container::Vertical({dropPlants, dropSeason}),
+                                            backButtonCarousel, CreatePlantIterator, changeFilterType, addRemoveFilter, forwardButton});
+
+    // ########################### Iterator additions
+
+    auto tabContainer = Container::Tab({managerInventoryTab,
+                                        tab4Content,
+                                        staffManagement,
+                                        customerTab,
+                                        carousel},
                                        &tabSelected);
+
+    auto colorAddSeason = seasonString == "🌞 Summer 🌞" ? color(Color::Yellow) : seasonString == "🍂 Autumn 🍂" ? color(Color::Orange1)
+                                                                              : seasonString == "🌸 Spring 🌸"   ? color(Color::Green)
+                                                                                                                 : color(Color::Blue1);
 
     main_ui = Container::Vertical({
         tabToggle,
         tabContainer,
     });
     int counter = 0;
+    Element imageElement;
+    string prevImgStr = "";
     auto mainRenderer = Renderer(main_ui, [&]
                                  {
                                     counter++;
 
+            
+
+                        if (refreshIterator)
+                        {
+                            if (isFiltering)
+                            carouselPlant = nursery.createItr(filterTextCarousel,seasonfilter);
+                            else
+                            carouselPlant = nursery.createItr();
+
+                            plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
+                            imgString = carouselPlant ? carouselPlant->getImageStr(): "";
+                            refreshIterator= false;
+                        }
+
+         if (plantChanged  && !endOfList && carouselPlant)
+        {
+        plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
+        prevImgStr = imgString;
+        imgString = carouselPlant ? carouselPlant->getImageStr(): "";
+        if (prevImgStr != imgString)
+        {
+            imageElement  = getImage(imgString);
+        }
+        plantChanged = false;
+        }
+          
+                        
                     if (counter == 15)
                     {
-refreshCustomerView(nursery, plantNames);
-     refreshPlantGroupView(nursery,plantGroupNames);
+        seasonString = nursery.getCurrentSeason();
+        colorAddSeason = seasonString == "🌞 Summer 🌞" ? color(Color::Yellow) : 
+            seasonString == "🍂 Autumn 🍂" ? color(Color::Orange1) :
+            seasonString == "🌸 Spring 🌸"? color(Color::Green) :
+                                             color(Color::Blue1) ;
+
+        plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
+
+        prevImgStr = imgString;
+        imgString = carouselPlant ? carouselPlant->getImageStr(): "";
+        if (prevImgStr != imgString)
+        {
+            imageElement  = getImage(imgString);
+        }
+
+
+    refreshCustomerView(nursery, plantNames);
+    refreshPlantGroupView(nursery,plantGroupNames);
         currentCustomerPlant = nursery.findPlant(customerTreeIndex);
         currentStaffMember = nursery.findStaff(staffIndex);
-        currentPlantGroupStaff = nursery.findPlantGroup(plantGroupIndex);
-                        
+
+        plantGroupObjects = nursery.getAllPlantGroupObjects();
+        currentPlantGroupStaff = nursery.findPlantGroup(plantGroupIndex,plantGroupObjects);
+        if (currentPlantGroupStaff)
+        {
         plantGroupContents = nursery.getPlantGroupContents(currentPlantGroupStaff);
         observerNames = nursery.getObservers(currentPlantGroupStaff);
-        
+        }                           
         if (currentCustomerPlant) {
             water = currentCustomerPlant->getWaterValue();
             sun = currentCustomerPlant->getSunlightValue();
             health = currentCustomerPlant->getHealth();
         }
+
+
+  
+
     counter =0;}
+
+
+
+
 
     Element managerInventoryView = vbox({
         window(text("Plant Creation") | bold | color(Color::Cyan), 
@@ -639,6 +801,30 @@ refreshCustomerView(nursery, plantNames);
 
         }
     ) ;
+
+    Element carouselView = vbox({
+               isFiltering?  
+                ( hbox({ seasonfilter ? dropSeason->Render()
+                     : dropPlants->Render()}) |hcenter )
+                     
+                     : emptyElement()
+                     
+                     ,
+             
+                 hbox({
+                    CreatePlantIterator->Render()|hcenter,
+                     isFiltering? changeFilterType->Render()|hcenter: emptyElement(), addRemoveFilter->Render() } )| hcenter | size(WIDTH,EQUAL,100),
+                     
+                    
+        
+        hbox({
+            backButtonCarousel->Render()|vcenter,
+            carouselPlant?  !imgString.empty() ? imageElement|vcenter |hcenter |size(WIDTH,GREATER_THAN,30)|size(WIDTH,LESS_THAN,50)|border|size(HEIGHT,LESS_THAN,30) : filler() :filler(),
+            forwardButton->Render()|vcenter
+
+        })|vcenter |hcenter,
+
+    })|hcenter;
 
              Element customerView =  vbox({
             hbox({ 
@@ -766,14 +952,17 @@ refreshCustomerView(nursery, plantNames);
 
         Element main = vbox({
         hbox({
-            text("🌿 Photosyntech Plant Manager 🌿") | bold | center | color(Color::Green),
+           filler(), text("🌿 Photosyntech Plant Manager 🌿 ") | bold | center | color(Color::Green),filler(), text(seasonString)|center 
+           
+           | colorAddSeason           
+           ,filler() , 
         }) | border,
         tabToggle->Render(),
         separator(),
 
         (tabSelected == 0 ? managerInventoryView :
         tabSelected == 1 ? tab4View : tabSelected == 2 ?
-        StaffView : customerView) | flex,
+        StaffView : tabSelected ==3 ? customerView : carouselView) | flex,
 
         separator(),
         text(statusText) | border | color(Color::Cyan),

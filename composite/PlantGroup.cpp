@@ -109,9 +109,7 @@ void PlantGroup::update()
 
     for (PlantComponent *component : plants)
     {
-
-     
-
+        component->update();
         if (component->getType() != ComponentType::PLANT_GROUP)
         {
             if (component->getWaterValue() <= 50)

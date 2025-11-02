@@ -39,7 +39,8 @@
 #include "../mediator/SalesFloor.h"
 #include "../mediator/SuggestionFloor.h"
 #include "../iterator/AggPlant.h"
-
+#include "../iterator/AggSeason.h"
+#include "../iterator/AggPlantName.h"
 /**
  * @brief Unified facade interface for the nursery management system.
  *
@@ -93,12 +94,15 @@ private:
     std::vector<PlantComponent *> plants;
     SalesFloor *sales;
     SuggestionFloor *suggestionFloor;
+    Iterator *carouselItr;
 
 public:
     NurseryFacade();
     ~NurseryFacade();
 
     PlantComponent *createPlant(const std::string &type);
+
+    string getCurrentSeason();
 
     void waterPlant(PlantComponent *plant);
 
@@ -107,6 +111,7 @@ public:
     std::string getPlantInfo(PlantComponent *plant);
 
     std::vector<std::string> getAvailablePlantTypes();
+    std::vector<std::string> getAvailableSeasons();
 
     PlantComponent *getInventoryRoot();
 
@@ -114,7 +119,7 @@ public:
 
     PlantGroup *createPlantGroup();
 
-    PlantGroup *createPlantGroup(const std::string& name);
+    PlantGroup *createPlantGroup(const std::string &name);
 
     void addComponentToGroup(PlantComponent *parent, PlantComponent *child);
 
@@ -159,34 +164,39 @@ public:
     void setObserver(Staff *staff, PlantGroup *);
 
     /**
- * @brief Gets a plant from the customer's basket by index.
- */
-PlantComponent* getPlantFromBasket(Customer* customer, int index);
+     * @brief Gets a plant from the customer's basket by index.
+     */
+    PlantComponent *getPlantFromBasket(Customer *customer, int index);
 
     std::list<PlantComponent *> getCustomerPlants(Customer *);
 
     std::vector<string> getMenuString();
 
-    PlantComponent*findPlant(int index);
+    PlantComponent *findPlant(int index);
 
-    std::vector<string> getCustomerBasketString(Customer* customer);
+    std::vector<string> getCustomerBasketString(Customer *customer);
 
-    PlantComponent * removeFromCustomer(Customer *,int index);
+    PlantComponent *removeFromCustomer(Customer *, int index);
 
-       std::vector<string> getAllStaffMembers();
-        Staff* findStaff(int i);
+    std::vector<string> getAllStaffMembers();
+    Staff *findStaff(int i);
 
     std::vector<string> getAllPlantGroups();
 
-    PlantGroup* findPlantGroup(int index);
-    vector<string> getPlantGroupContents(PlantGroup* PlantGroup);
+    std::vector<PlantComponent*> getAllPlantGroupObjects();
 
-    bool setAsObserver(Staff* staff,PlantGroup * PG);
+    PlantGroup *findPlantGroup(int index,  std::vector<PlantComponent*>);
+    vector<string> getPlantGroupContents(PlantGroup *PlantGroup);
+
+    bool setAsObserver(Staff *staff, PlantGroup *PG);
 
     bool RemoveObserver(Staff *staff, PlantGroup *PG);
 
-    vector<string> getObservers(PlantGroup* pg);
-    
+    vector<string> getObservers(PlantGroup *pg);
+
+    LivingPlant *createItr(string filter = "", bool seasonFilter= false);
+    LivingPlant *next(string filter = "", bool seasonFilter= false);
+    LivingPlant *back();
 };
 
 #endif

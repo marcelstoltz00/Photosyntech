@@ -2,7 +2,7 @@ name: UNIT TESTS
 
 on:
   push:
-    branches: [ main, master, devBranch, TUI, devTestFix ]
+    branches: [ main, master, devBranch, TUI, devTestFix, devTUIupdates ]
   pull_request:
     branches: [ main, master ]
 
@@ -17,6 +17,12 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y g++ lcov gcovr curl valgrind
+    
+    - name: Set up parallel compilation
+      run: |
+        # GitHub Actions runners typically have 2-4 cores
+        echo "MAKEFLAGS=-j$(nproc)" >> $GITHUB_ENV
+        echo "Using $(nproc) cores for compilation"
     
     - name: Fetch doctest
       run: make fetch-doctest

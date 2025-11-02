@@ -346,3 +346,9 @@ void LivingPlant::tick()
     this->waterLevel = std::max(0, std::min(100, this->waterLevel));
     this->sunExposure = std::max(0, std::min(100, this->sunExposure));
 }
+
+string LivingPlant::getImageStr()
+{
+    if (this->maturityState && this->maturityState->getState())
+   return this->maturityState->getState()->getImagePath(this);
+}
