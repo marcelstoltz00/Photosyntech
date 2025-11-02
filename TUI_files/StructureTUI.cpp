@@ -603,10 +603,10 @@ int main()
 
     auto CreatePlantIterator = Button("Create Iterator",
                                       [&]
-                                      {       
+                                      {   
+                                        carouselPlant = nullptr;
+
                                         
-
-
                                         seasonfilter?  filterTextCarousel = getFilter(nursery,availableSeasonsFilter,seasonfilter) :
                                         filterTextCarousel = getFilter(nursery,availableFilterIndex,seasonfilter) ;
 
@@ -623,6 +623,7 @@ int main()
                                     carouselPlant = nursery.next(filterTextCarousel,seasonfilter); 
                                     else
                                   carouselPlant = nursery.next(); 
+
                                     endOfList = carouselPlant == nullptr;
                                     plantChanged = true; });
 
@@ -632,7 +633,8 @@ int main()
                                 plantChanged = true; });
 
     auto carousel = Container ::Horizontal({Container::Vertical({dropPlants, dropSeason}),
-                                            backButtonCarousel, CreatePlantIterator, changeFilterType, addRemoveFilter, forwardButton});
+                                            
+    backButtonCarousel, CreatePlantIterator, changeFilterType, addRemoveFilter, forwardButton});
 
     // ########################### Iterator additions
 
@@ -660,30 +662,7 @@ int main()
 
             
 
-                        if (refreshIterator)
-                        {
-                            if (isFiltering)
-                            carouselPlant = nursery.createItr(filterTextCarousel,seasonfilter);
-                            else
-                            carouselPlant = nursery.createItr();
 
-                            plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
-                            imgString = carouselPlant ? carouselPlant->getImageStr(): "";
-                            refreshIterator= false;
-                        }
-
-         if (plantChanged  && !endOfList && carouselPlant)
-        {
-        plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
-        prevImgStr = imgString;
-        imgString = carouselPlant ? carouselPlant->getImageStr(): "";
-        if (prevImgStr != imgString)
-        {
-            imageElement  = getImage(imgString);
-        }
-        plantChanged = false;
-        }
-          
                         
                     if (counter == 15)
                     {
@@ -725,7 +704,32 @@ int main()
   
 
     counter =0;}
+                        if (refreshIterator)
+                        {
+                            carouselPlant = nullptr;
+                            imgString = "";
+                            if (isFiltering)
+                            carouselPlant = nursery.createItr(filterTextCarousel,seasonfilter);
+                            else
+                            carouselPlant = nursery.createItr();
 
+                            plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
+                            imgString = carouselPlant ? carouselPlant->getImageStr(): "";
+                            refreshIterator= false;
+                        }
+
+         if (plantChanged  && !endOfList && carouselPlant)
+        {
+        plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
+        prevImgStr = imgString;
+        imgString = carouselPlant ? carouselPlant->getImageStr(): "";
+        if (prevImgStr != imgString)
+        {
+            imageElement  = getImage(imgString);
+        }
+        plantChanged = false;
+        }
+          
 
 
 

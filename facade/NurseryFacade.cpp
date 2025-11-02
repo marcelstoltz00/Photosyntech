@@ -24,7 +24,7 @@ NurseryFacade::~NurseryFacade()
 }
 string NurseryFacade::getCurrentSeason()
 {
-    string output = "Season : ";
+    string output = "";
     string seasonStr = "";
     Flyweight<string *> *season = Inventory::getInstance()->getSeason();
 
@@ -530,6 +530,8 @@ LivingPlant *NurseryFacade::createItr(string filter, bool seasonFilter)
     {
         agg = new AggPlant(Inventory::getInstance()->getInventory()->getPlants());
     }
+
+
     carouselItr = agg->createIterator();
     delete agg;
     return carouselItr->currentItem();
