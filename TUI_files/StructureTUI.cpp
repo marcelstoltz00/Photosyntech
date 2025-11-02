@@ -193,7 +193,7 @@ int main()
                 statusText = "Status: Created new " + selectedType + " and added to Inventory.";
                 refreshInventoryView(nursery);
             }
-        } });
+        } }) | color(Color::LightGreen);
 
     auto waterButton = Button("Water Plant", [&]
                               {
@@ -381,7 +381,7 @@ int main()
         screen.Post([&] {
             if (currentCustomer)
                 refreshCustomerBasket(nursery, basketNames, currentCustomer);
-        }); });
+        }); }) | color(Color::LightGreen);
 
     auto askAdvice = Button("Get Suggestion", [&]
                             { customerTerminalStr = nursery.askForSuggestion(currentCustomer); });
@@ -394,7 +394,7 @@ int main()
         currentCustomerPlant = nursery.findPlant(customerTreeIndex);
         customerTreeIndex = 0;
         refreshCustomerBasket(nursery, basketNames, currentCustomer);
-        refreshInventoryView(nursery); });
+        refreshInventoryView(nursery); }) | color(Color::LightGreen);
 
     auto purchaseBtn = Button("Purchase Plants", [&]
                               {
@@ -479,12 +479,12 @@ int main()
     health_Slider_option.min = 0;
     health_Slider_option.max = 200;
     health_Slider_option.increment = 1;
-    health_Slider_option.color_active = ftxui::Color::LightGreen;
+    health_Slider_option.color_active = ftxui::Color::Red;
     health_Slider_option.color_inactive = ftxui::Color::GrayDark;
 
-    auto healthSlider = Slider(health_Slider_option);
+    auto healthSlider = Slider(health_Slider_option) | color(Color::Red);
     auto healthStyled = Renderer(healthSlider, [&]
-                                 { return healthSlider->Render() | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 65); });
+                                 { return healthSlider->Render() | color(Color::Red) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 65); }) | color(Color::Red);
 
     auto backButton = Button("<< Back", [&]
                              {
@@ -552,10 +552,10 @@ int main()
                                currentStaffMember= nursery.addStaff(staffName);
                                statusText = currentStaffMember ? "Staff Member added " : "Staff member could not be added";
                                refreshStaffView(nursery,staffNames);
-                               refreshPlantGroupView(nursery,plantGroupNames); });
+                               refreshPlantGroupView(nursery,plantGroupNames); }) | color(Color::LightGreen);
     auto AddStaffObserver = Button("Set Observer", [&]
                                    { nursery.setAsObserver(currentStaffMember, currentPlantGroupStaff);
-                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully added as an observer":" could not process request"; });
+                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully added as an observer":" could not process request"; }) | color(Color::Yellow);
     auto removeStaffObserver = Button("Detach Observer", [&]
                                       { nursery.RemoveObserver(currentStaffMember, currentPlantGroupStaff);
                              statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully removed as an observer":" could not process request"; }) | color(Color::Red);
@@ -589,13 +589,13 @@ int main()
 
     auto changeFilterType = Button("Change Filter Type", [&]
                                    { seasonfilter = !seasonfilter;
-                                        availableFilterIndex = 0; availableSeasonsFilter = 0; });
+                                        availableFilterIndex = 0; availableSeasonsFilter = 0; }) | color(Color::LightGreen);
 
     auto addRemoveFilter = Button(&addOrRemoveFilter, [&]
                                   {  
                                         filterTextCarousel = "";
                                         !isFiltering? addOrRemoveFilter ="Remove Filter" : addOrRemoveFilter = "Add Filter" ;
-                                        isFiltering = !isFiltering; });
+                                        isFiltering = !isFiltering; }) | color(Color::Cyan);
 
     auto dropPlants = Dropdown(&availablePlant, &availableFilterIndex);
 
@@ -616,7 +616,7 @@ int main()
                                         carouselPlant = nursery.createItr();
 
                                                 endOfList = carouselPlant == nullptr;
-                                                plantChanged = true; });
+                                                plantChanged = true; }) | color(Color::Yellow);
 
     auto forwardButton = Button("->", [&]
                                 {    if (isFiltering)
@@ -625,12 +625,12 @@ int main()
                                   carouselPlant = nursery.next(); 
 
                                     endOfList = carouselPlant == nullptr;
-                                    plantChanged = true; });
+                                    plantChanged = true; }) | color(Color::White);
 
     auto backButtonCarousel = Button("<-", [&]
                                      { carouselPlant = nursery.back(); 
                                 endOfList = carouselPlant == nullptr;
-                                plantChanged = true; });
+                                plantChanged = true; }) | color(Color::White);
 
     auto carousel = Container ::Horizontal({Container::Vertical({dropPlants, dropSeason}),
                                             
@@ -786,18 +786,18 @@ int main()
     Element StaffView = vbox(
         {
            hcenter (hbox({ filler(),removeStaffObserver->Render()|center| size(WIDTH,EQUAL,20),filler(),
-               window(text("Enter staff"), staffNameInput->Render()| size(WIDTH,EQUAL,40)|size(HEIGHT,EQUAL,2)) ,addStaff->Render() |center |size(WIDTH,LESS_THAN,13),filler(),
+               window(text("Enter staff") | color(Color::Yellow), staffNameInput->Render() | color(Color::White)| size(WIDTH,EQUAL,40)|size(HEIGHT,EQUAL,2)) ,addStaff->Render() |center |size(WIDTH,LESS_THAN,13),filler(),
                AddStaffObserver->Render()|center| size(WIDTH,EQUAL,20),
          filler()   })  |size(HEIGHT,EQUAL,3)| size(WIDTH,EQUAL,300)|border),
             hbox({
 
              filler(),
-            window(text("Staff members"),staffMenu->Render())|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,30), 
-            window(text("Plant groups"),plantGroupMenu->Render())|size(WIDTH,EQUAL,80)|size(HEIGHT,GREATER_THAN,30),
+            window(text("Staff members") | color(Color::Cyan),staffMenu->Render() | color(Color::White))|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,30), 
+            window(text("Plant groups") | color(Color::Cyan),plantGroupMenu->Render() | color(Color::White))|size(WIDTH,EQUAL,80)|size(HEIGHT,GREATER_THAN,30),
 
             vbox({
-            window(text("Plant group contents"),plantGroupContentsMenu->Render())|size(WIDTH,GREATER_THAN,32)|size(HEIGHT,GREATER_THAN,15),
-            window(text("Observers for current group"),plantGroupObservers->Render())|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,15)               
+            window(text("Plant group contents") | color(Color::Cyan),plantGroupContentsMenu->Render() | color(Color::White))|size(WIDTH,GREATER_THAN,32)|size(HEIGHT,GREATER_THAN,15),
+            window(text("Observers for current group") | color(Color::Cyan),plantGroupObservers->Render() | color(Color::White))|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,15)               
             }),
             filler()
         
@@ -836,7 +836,7 @@ int main()
                 currentCustomer?  
                 hbox({
                 filler(),
-                askAdvice->Render()|center | color(Color::Magenta) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
+                askAdvice->Render()|center | color(Color::Cyan) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
                 filler(),               
                 basketAddBtn->Render()|center | color(Color::Green) | size(WIDTH, EQUAL, 25),
                 filler()
@@ -863,19 +863,18 @@ int main()
 
                   
                 hbox({
-                    window(text("Available Plants") | bold | color(Color::Cyan), customerMenu->Render())
+                    window(text("Available Plants") | bold | color(Color::Cyan), customerMenu->Render() | color(Color::White))
                     | size(WIDTH, GREATER_THAN, 100)
                     | size(HEIGHT, GREATER_THAN, 12),
-                    window(text(currentCustomer->getName() + "'s basket") | bold | color(Color::Cyan), customerBasket->Render())
+                    window(text(currentCustomer->getName() + "'s basket") | bold | color(Color::Cyan), customerBasket->Render() | color(Color::White))
                     | size(WIDTH, GREATER_THAN, 100)
                     | size(HEIGHT, GREATER_THAN, 12)
                 }),
 
                 hbox({
-                    
-                    window (text("Water Level"),{waterStyled->Render()}),
-                     window (text("Health Level"),{healthStyled->Render()}),
-                     window (text("Sun level"),{sunStyled->Render()}),
+                    window (text("Health Level") | color(Color::Red),{healthStyled->Render()}),
+                    window (text("Water Level") | color(Color::Cyan),{waterStyled->Render()}), 
+                     window (text("Sun level") | color(Color::Yellow),{sunStyled->Render()}),
                 }),
                 filler(),
 
