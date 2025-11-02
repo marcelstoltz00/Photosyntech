@@ -765,11 +765,11 @@ int main()
 
 
     Element managerInventoryView = applyBackground(vbox({
-        window(text("Plant Creation") | bold | color(Color::Green), 
+        window(text("Plant Creation") | bold | color(Color::LightGreen), 
         vbox({
     
            hbox({ filler(),
-           window(text("Plant Interactions") | color(Color::GrayLight),
+           window(text("Plant Interactions") | color(Color::Cyan),
             hbox( { 
                  filler(),
             createButton->Render() | color(Color::Green) ,
@@ -785,13 +785,13 @@ int main()
 
         | size(HEIGHT,LESS_THAN,3)  | color(Color::Green),
                              filler(),      
-                         vbox({text("Select Plant Type: ")|hcenter | color(Color::GrayLight), 
-                            text(plantTypes[plantSelectorIndex]) |hcenter| bold | color(Color::Green),
+                         vbox({text("Select Plant Type: ")|hcenter | color(Color::LightGreen), 
+                            text(plantTypes[plantSelectorIndex]) |hcenter| bold | color(Color::Yellow),
                             plantSelector->Render()|hcenter,}) ,
                        filler(),
             filler(),
 
-            window( text("Inventory interactions") | color(Color::GrayLight),   hbox({
+            window( text("Inventory interactions") | color(Color::Cyan),   hbox({
             refreshButton->Render() | color(Color::Cyan) ,
             filler(),
             createGroupButton->Render() | color(Color::Green) ,
@@ -809,8 +809,8 @@ int main()
 
         text(inventoryStatusText) | color(Color::Green) | bold,
         separator() | color(Color::Green),
-        window(text("Inventory Hierarchy") | bold | color(Color::Green),
-            treeMenu->Render() | frame | size(HEIGHT,LESS_THAN,16)| size(HEIGHT,GREATER_THAN,12) 
+        window(text("Inventory Hierarchy") | bold | color(Color::LightGreen),
+            treeMenu->Render() | color(Color::White) | frame | size(HEIGHT,LESS_THAN,16)| size(HEIGHT,GREATER_THAN,12) 
         )  | color(Color::Green),
     }));
     Element StaffView = applyBackground(vbox(
@@ -920,7 +920,7 @@ int main()
                 window(text("Enter details") | bold | color(Color::Yellow), 
                     paragraph("Please enter your name first and press login") | color(Color::GrayLight) ) | color(Color::Green)
             })
-        }) | size(WIDTH,EQUAL ,500) |border|hcenter;
+        }) | size(WIDTH,EQUAL ,500) |border|hcenter);
         Element tab4View = vbox({
             window(text("Plant Details") | bold | color(Color::LightGreen),
                 vbox({
@@ -988,7 +988,7 @@ int main()
             }) | vcenter | size(HEIGHT, EQUAL, 3) ,
             separator() | color(Color::Green),
             backButton->Render() | color(Color::RedLight)  | center
-        }));
+        });
 
         Element main = applyBackground(vbox({
         applyBackground(hbox({
@@ -997,7 +997,7 @@ int main()
            text(seasonString) | colorAddSeason           
             , 
         }) | border | color(Color::Green)),
-        applyBackground(tabToggle->Render()),
+        applyBackground(tabToggle->Render() | color(Color::White)),
         separator() | color(Color::Green),
 
         (tabSelected == 0 ? managerInventoryView :
@@ -1010,7 +1010,7 @@ int main()
             filler(),
             themeToggleButton->Render() | color(themeMode == 0 ? Color::Yellow : themeMode == 1 ? Color::Cyan : Color::Green),
         })),
-    }));
+    })) | color(Color::Green);
 
 
         return main; });
