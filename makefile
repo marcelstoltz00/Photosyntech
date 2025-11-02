@@ -203,11 +203,14 @@ tui-clone:
 		echo "git not found; please install git to clone repositories"; \
 		exit 127; \
 	fi
-	@if [ -d "TUI/TUIKit/.git" ]; then \
-		echo "TUI/TUIKit already exists (git repo found), skipping clone"; \
+	@if [ -d "TUI/TUIKit/.git" ] && git -C TUI/TUIKit rev-parse --git-dir >/dev/null 2>&1; then \
+		echo "TUI/TUIKit already exists (valid git repo found), skipping clone"; \
 	else \
+		if [ -d "TUI/TUIKit" ]; then \
+			echo "TUI/TUIKit exists but is not a valid git repo; cleaning up..."; \
+			rm -rf TUI/TUIKit; \
+		fi; \
 		echo "Cloning TUIKit repository..."; \
-		rm -rf TUI/TUIKit; \
 		git clone https://github.com/skhelladi/TUIKit.git TUI/TUIKit; \
 		if [ $$? -ne 0 ]; then \
 			echo "Failed to clone TUIKit repository"; \
@@ -215,7 +218,7 @@ tui-clone:
 		fi; \
 	fi
 
-tui-deps:
+tui-deps: tui-clone
 	@mkdir -p TUI/TUIKit/external
 	@if ! command -v git >/dev/null 2>&1; then \
 		echo "git not found; please install git to clone external dependencies"; \
