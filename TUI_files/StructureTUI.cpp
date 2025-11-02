@@ -41,7 +41,19 @@ Component groupDialogueContainer;
 Component moveDialogueContainer;
 Component main_ui;
 
+int themeMode = 0;
+
 unordered_map<string, Element> cache;
+
+auto applyBackground(Element elem) {
+    if (themeMode == 0) {
+        return elem | bgcolor(Color::Black);
+    } else if (themeMode == 1) {
+        return elem | bgcolor(Color::GrayLight);
+    } else {
+        return elem; 
+    }
+}
 
 Element &getImage(const std::string &id)
 {
@@ -124,7 +136,7 @@ void refreshInventoryView(NurseryFacade &nursery)
         buildTreeEntries(root, treeEntries, treeIndexToComponent);
     }
 
-    if (selectedTreeIndex >= 0 && selectedTreeIndex < treeEntries.size())
+    if (selectedTreeIndex >= 0 && selectedTreeIndex < static_cast<int>(treeEntries.size()))
     {
         auto it = treeIndexToComponent.find(selectedTreeIndex);
         if (it != treeIndexToComponent.end())
@@ -185,7 +197,7 @@ int main()
 
     auto createButton = Button("Create Plant", [&]
                                {
-        if (plantSelectorIndex >= 0 && plantSelectorIndex < plantTypes.size()) {
+        if (plantSelectorIndex >= 0 && plantSelectorIndex < static_cast<int>(plantTypes.size())) {
             std::string selectedType = plantTypes[plantSelectorIndex];
             currentPlant = nursery.createPlant(selectedType);
             if (currentPlant) {
@@ -233,6 +245,18 @@ int main()
 
     auto createGroupButton = Button("Create Group", [&]
                                     { showCreateGroupDialogue = true; });
+
+    auto themeToggleButton = Button("Toggle Theme", [&]
+                                   { 
+        themeMode = (themeMode + 1) % 3; // Cycle through 0, 1, 2
+        if (themeMode == 0) {
+            statusText = "Status: Dark Mode (Black)";
+        } else if (themeMode == 1) {
+            statusText = "Status: Light Mode (Gray)";
+        } else {
+            statusText = "Status: Default Mode (Terminal)";
+        }
+    });
 
     auto confirmGroupButton = Button("Create", [&]
                                      {
@@ -315,7 +339,7 @@ int main()
 
     auto confirmMoveButton = Button("Move", [&]
                                     {
-        if (selectedGroupIndex >= 0 && selectedGroupIndex < groupComponents.size()) {
+        if (selectedGroupIndex >= 0 && selectedGroupIndex < static_cast<int>(groupComponents.size())) {
             targetGroup = groupComponents[selectedGroupIndex];
             nursery.removeComponentFromInventory(componentToMove);
             nursery.addComponentToGroup(targetGroup, componentToMove);
@@ -331,7 +355,7 @@ int main()
 
     auto on_menu_change = [&]
     {
-        if (selectedTreeIndex >= 0 && selectedTreeIndex < treeEntries.size())
+        if (selectedTreeIndex >= 0 && selectedTreeIndex < static_cast<int>(treeEntries.size()))
         {
             auto it = treeIndexToComponent.find(selectedTreeIndex);
             if (it != treeIndexToComponent.end())
@@ -650,7 +674,10 @@ int main()
                                                                                                                  : color(Color::Blue1);
 
     main_ui = Container::Vertical({
-        tabToggle,
+        Container::Horizontal({
+            tabToggle,
+            themeToggleButton,
+        }),
         tabContainer,
     });
     int counter = 0;
@@ -734,166 +761,167 @@ int main()
 
 
 
-    Element managerInventoryView = vbox({
-        window(text("Plant Creation") | bold | color(Color::LightGreen), 
+    Element managerInventoryView = applyBackground(vbox({
+        window(text("Plant Creation") | bold | color(Color::Green), 
         vbox({
     
            hbox({ filler(),
-           window(text("Plant Interactions")  | color(Color::Cyan),
+           window(text("Plant Interactions") | color(Color::GrayLight),
             hbox( { 
                  filler(),
-            createButton->Render() | color(Color::Green),
+            createButton->Render() | color(Color::Green) ,
             filler(),
-            waterButton->Render() | color(Color::Blue),
+            waterButton->Render() | color(Color::Blue) ,
             filler(),
-            sunButton->Render() | color(Color::Yellow),
+            sunButton->Render() | color(Color::Yellow) ,
                      filler(),
-            addToGroupButton->Render() | color(Color::Yellow),
+            addToGroupButton->Render() | color(Color::LightGreen) ,
             filler(),
-            viewInventoryPlantButton->Render() | color(Color::Cyan),
-            })) 
+            viewInventoryPlantButton->Render() | color(Color::Cyan) ,
+            }) ) 
 
-        | size(HEIGHT,LESS_THAN,3),
+        | size(HEIGHT,LESS_THAN,3)  | color(Color::Green),
                              filler(),      
-                         vbox({text("Select Plant Type: ")|hcenter | color(Color::LightGreen), 
-                            text(plantTypes[plantSelectorIndex]) |hcenter| bold | color(Color::Yellow),
-                            plantSelector->Render()|hcenter,}),
+                         vbox({text("Select Plant Type: ")|hcenter | color(Color::GrayLight), 
+                            text(plantTypes[plantSelectorIndex]) |hcenter| bold | color(Color::Green),
+                            plantSelector->Render()|hcenter,}) ,
                        filler(),
             filler(),
 
-            window( text("Inventory interactions") | color(Color::Cyan),   hbox({
-            refreshButton->Render() | color(Color::Blue),
+            window( text("Inventory interactions") | color(Color::GrayLight),   hbox({
+            refreshButton->Render() | color(Color::Cyan) ,
             filler(),
-            createGroupButton->Render() | color(Color::Green),
+            createGroupButton->Render() | color(Color::Green) ,
 
             filler(),
-         startTickButton->Render() | color(Color::LightGreen),
+         startTickButton->Render() | color(Color::LightGreen) ,
            filler(),
-            stopTickButton->Render() | color(Color::RedLight),
-        }))| size(HEIGHT,EQUAL,3),
+            stopTickButton->Render() | color(Color::RedLight) ,
+        }) )| size(HEIGHT,EQUAL,3) | color(Color::Green),
 
     filler(),})
 
-        })| size(HEIGHT,GREATER_THAN,5)| size(HEIGHT,LESS_THAN,15)) | color(Color::Green),
+        })  | color(Color::Green) | size(HEIGHT,GREATER_THAN,5)| size(HEIGHT,LESS_THAN,15)),
 
 
-        text(inventoryStatusText) | color(Color::Yellow),
-        separator(),
-        window(text("Inventory Hierarchy") | bold | color(Color::LightGreen),
-            treeMenu->Render() | frame | size(HEIGHT,LESS_THAN,25)| size(HEIGHT,GREATER_THAN,16) | color(Color::White)
-        ),
-    }) | color(Color::Green);
-    Element StaffView = vbox(
+        text(inventoryStatusText) | color(Color::Green) | bold,
+        separator() | color(Color::Green),
+        window(text("Inventory Hierarchy") | bold | color(Color::Green),
+            treeMenu->Render() | frame | size(HEIGHT,LESS_THAN,16)| size(HEIGHT,GREATER_THAN,12) 
+        )  | color(Color::Green),
+    }));
+    Element StaffView = applyBackground(vbox(
         {
-           hcenter (hbox({ filler(),removeStaffObserver->Render()|center| size(WIDTH,EQUAL,20),filler(),
-               window(text("Enter staff"), staffNameInput->Render()| size(WIDTH,EQUAL,40)|size(HEIGHT,EQUAL,2)) ,addStaff->Render() |center |size(WIDTH,LESS_THAN,13),filler(),
-               AddStaffObserver->Render()|center| size(WIDTH,EQUAL,20),
-         filler()   })  |size(HEIGHT,EQUAL,3)| size(WIDTH,EQUAL,300)|border),
+           hcenter (hbox({ filler(),removeStaffObserver->Render()|center| size(WIDTH,EQUAL,20)  | color(Color::RedLight),filler(),
+               window(text("Enter staff") | color(Color::Cyan), staffNameInput->Render()| size(WIDTH,EQUAL,40)|size(HEIGHT,EQUAL,2) ) | color(Color::Cyan),addStaff->Render() |center |size(WIDTH,LESS_THAN,13) | color(Color::Cyan),filler(),
+               AddStaffObserver->Render()|center| size(WIDTH,EQUAL,20)  | color(Color::Cyan),
+         filler()   })  |size(HEIGHT,EQUAL,3)| size(WIDTH,EQUAL,300)|border | color(Color::Green) ),
             hbox({
 
              filler(),
-            window(text("Staff members"),staffMenu->Render())|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,30), 
-            window(text("Plant groups"),plantGroupMenu->Render())|size(WIDTH,EQUAL,80)|size(HEIGHT,GREATER_THAN,30),
+            window(text("Staff members") | color(Color::Cyan),staffMenu->Render() )|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,30) | color(Color::Green), 
+            window(text("Plant groups") | color(Color::Cyan),plantGroupMenu->Render() )|size(WIDTH,EQUAL,80)|size(HEIGHT,GREATER_THAN,30) | color(Color::Green),
 
             vbox({
-            window(text("Plant group contents"),plantGroupContentsMenu->Render())|size(WIDTH,GREATER_THAN,32)|size(HEIGHT,GREATER_THAN,15),
-            window(text("Observers for current group"),plantGroupObservers->Render())|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,15)               
+            window(text("Plant group contents") | color(Color::Cyan),plantGroupContentsMenu->Render() )|size(WIDTH,GREATER_THAN,32)|size(HEIGHT,GREATER_THAN,15) | color(Color::Green),
+            window(text("Observers for current group") | color(Color::Cyan),plantGroupObservers->Render() )|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,15) | color(Color::Green)               
             }),
             filler()
         
-        })| border 
+        })| border | color(Color::Green) 
 
         }
-    ) ;
+    ));
 
-    Element carouselView = vbox({
+    Element carouselView = applyBackground(vbox({
                isFiltering?  
-                ( hbox({ seasonfilter ? dropSeason->Render()
-                     : dropPlants->Render()}) |hcenter )
+                ( hbox({ seasonfilter ? dropSeason->Render() 
+                     : dropPlants->Render() }) |hcenter | border | color(Color::Green) )
                      
                      : emptyElement()
                      
                      ,
              
                  hbox({
-                    CreatePlantIterator->Render()|hcenter,
-                     isFiltering? changeFilterType->Render()|hcenter: emptyElement(), addRemoveFilter->Render() } )| hcenter | size(WIDTH,EQUAL,100),
+                    CreatePlantIterator->Render()|hcenter  | color(Color::Blue),
+                     isFiltering? changeFilterType->Render()|hcenter  | color(Color::Cyan): emptyElement(), addRemoveFilter->Render() | color(Color::Blue) } )| hcenter | size(WIDTH,EQUAL,100),
                      
                     
         
         hbox({
-            backButtonCarousel->Render()|vcenter,
-            carouselPlant?  !imgString.empty() ? imageElement|vcenter |hcenter |size(WIDTH,GREATER_THAN,30)|size(WIDTH,LESS_THAN,50)|border|size(HEIGHT,LESS_THAN,30) : filler() :filler(),
-            forwardButton->Render()|vcenter
+            backButtonCarousel->Render()|vcenter  | color(Color::Blue),
+            carouselPlant?  !imgString.empty() ? imageElement|vcenter |hcenter |size(WIDTH,GREATER_THAN,30)|size(WIDTH,LESS_THAN,50)|border | color(Color::Green) |size(HEIGHT,LESS_THAN,30) : filler() :filler(),
+            forwardButton->Render()|vcenter  | color(Color::Blue)
 
-        })|vcenter |hcenter,
+        })|vcenter |hcenter ,
 
-    })|hcenter;
+    }))|hcenter;
 
-             Element customerView =  vbox({
+             Element customerView =  applyBackground(vbox({
             hbox({ 
                 filler(),
                 currentCustomer?  
                 hbox({
                 filler(),
-                askAdvice->Render()|center | color(Color::Magenta) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
+                askAdvice->Render()|center | color(Color::Yellow)  | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
                 filler(),               
-                basketAddBtn->Render()|center | color(Color::Green) | size(WIDTH, EQUAL, 25),
+                basketAddBtn->Render()|center | color(Color::Green)  | size(WIDTH, EQUAL, 25),
                 filler()
                 }): filler(),
                 filler(),
-                window(text("Enter username") | bold | color(Color::Cyan), nameInput->Render() | frame | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 40)),
+                window(text("Enter username") | bold | color(Color::Yellow), nameInput->Render() | frame | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 40) ) | color(Color::Green),
                 
-                addCustomerButton->Render() |center| color(Color::Green) | size(HEIGHT, EQUAL, 2) | size(WIDTH, EQUAL, 10),
+                addCustomerButton->Render() |center| color(Color::Green)  | size(HEIGHT, EQUAL, 2) | size(WIDTH, EQUAL, 10),
                 filler(),
 
                 currentCustomer? 
                 hbox({
                 filler(),
-                purchaseBtn->Render()|center | color(Color::Yellow) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 25),
+                purchaseBtn->Render()|center | color(Color::Yellow)  | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 25),
                 filler(),          
-                removeFromBasket->Render() |center| color(Color::Red) | size(WIDTH, EQUAL, 25),
+                removeFromBasket->Render() |center| color(Color::Red)  | size(WIDTH, EQUAL, 25),
 
                 }): filler() ,
             filler(),
-            }) |size(HEIGHT, EQUAL, 3) |size(WIDTH, GREATER_THAN, 200) ,
+            }) |size(HEIGHT, EQUAL, 3) |size(WIDTH, GREATER_THAN, 200)  ,
 
             currentCustomer
             ? hcenter(vbox({
 
                   
                 hbox({
-                    window(text("Available Plants") | bold | color(Color::Cyan), customerMenu->Render())
+                    window(text("Available Plants") | bold | color(Color::Yellow), customerMenu->Render() )
                     | size(WIDTH, GREATER_THAN, 100)
-                    | size(HEIGHT, GREATER_THAN, 12),
-                    window(text(currentCustomer->getName() + "'s basket") | bold | color(Color::Cyan), customerBasket->Render())
+                    | size(HEIGHT, GREATER_THAN, 12)  | color(Color::Green),
+                    window(text(currentCustomer->getName() + "'s basket") | bold | color(Color::Yellow), customerBasket->Render() )
                     | size(WIDTH, GREATER_THAN, 100)
-                    | size(HEIGHT, GREATER_THAN, 12)
+                    | size(HEIGHT, GREATER_THAN, 12)  | color(Color::Green)
                 }),
 
                 hbox({
                     
-                    window (text("Water Level"),{waterStyled->Render()}),
-                     window (text("Health Level"),{healthStyled->Render()}),
-                     window (text("Sun level"),{sunStyled->Render()}),
+                    window (text("Water Level") | color(Color::Yellow), vbox({waterStyled->Render()}) ) | color(Color::Green),
+                     window (text("Health Level") | color(Color::Yellow), vbox({healthStyled->Render()}) ) | color(Color::Green),
+                     window (text("Sun level") | color(Color::Yellow), vbox({sunStyled->Render()}) ) | color(Color::Green),
                 }),
                 filler(),
 
                 window(
-                    text("Conversations") | bold | color(Color::Cyan),
+                    text("Conversations") | bold | color(Color::Yellow),
                     paragraph(customerTerminalStr) | frame | vscroll_indicator | size(HEIGHT, EQUAL, 15) | color(Color::GrayLight) 
-                )|size(WIDTH, EQUAL, 200),
+                )|size(WIDTH, EQUAL, 200)  | color(Color::Green),
 
 
                 filler()
             }))
             : vbox({
                 window(text("Enter details") | bold | color(Color::Yellow), 
-                    paragraph("Please enter your name first and press login") | color(Color::GrayLight))
+                    paragraph("Please enter your name first and press login") | color(Color::GrayLight) ) | color(Color::Green)
             })
-        }) | size(WIDTH,EQUAL ,500) |border|hcenter;
-            Element tab4View = vbox({
-            window(text("Plant Details") | bold | color(Color::LightGreen),
+        }) | size(WIDTH,EQUAL ,500) |border | color(Color::Green) |hcenter);
+            
+    Element tab4View = applyBackground(vbox({
+            window(text("Plant Details") | bold | color(Color::Cyan),
                 vbox({
                     [=] {
                         float water_val = 0;
@@ -919,7 +947,7 @@ int main()
                             gauge(water_val / max_stat) | color(Color::Blue) | flex
                         });
                         Element sunBar = hbox({
-                            text("Sun:    ") | size(WIDTH, EQUAL, 8) | color(Color::Yellow),
+                            text("Sun:    ") | size(WIDTH, EQUAL, 8) | color(Color::Cyan),
                             gauge(sun_val / max_stat) | color(Color::Yellow) | flex
                         });
 
@@ -933,44 +961,48 @@ int main()
                              return vbox({
                                 waterBar,
                                 sunBar,
-                                separator(),
+                                separator() | color(Color::Green),
                                 infoBox
-                            });
+                            }) ;
                         } else {
-                            return vbox({infoBox});
+                            return vbox({infoBox}) ;
                         }
                     }()
-                })
-            ),
-            separator(),
+                }) 
+            )  | color(Color::Green),
+            separator() | color(Color::Green),
             hbox({
                 filler(),
-                detailsWaterButton->Render() | color(Color::Blue),
+                detailsWaterButton->Render() | color(Color::Blue) ,
                 text(" "),
-                detailsSunButton->Render() | color(Color::Yellow),
+                detailsSunButton->Render() | color(Color::Yellow) ,
                 filler()
-            }) | vcenter | size(HEIGHT, EQUAL, 3),
-            separator(),
-            backButton->Render() | color(Color::RedLight) | center
-        });
+            }) | vcenter | size(HEIGHT, EQUAL, 3) ,
+            separator() | color(Color::Green),
+            backButton->Render() | color(Color::RedLight)  | center
+        }));
 
-        Element main = vbox({
-        hbox({
-           filler(), text("🌿 Photosyntech Plant Manager 🌿 ") | bold | center | color(Color::LightGreen),filler(), text(seasonString)|center 
-           
-           | colorAddSeason           
-           ,filler() , 
-        }) | border,
-        tabToggle->Render() | color(Color::White),
-        separator(),
+        Element main = applyBackground(vbox({
+        applyBackground(hbox({
+           text("🌿 Photosyntech Plant Manager 🌿 ") | bold | color(Color::Green), 
+           filler(), 
+           text(seasonString) | colorAddSeason           
+            , 
+        }) | border | color(Color::Green)),
+        applyBackground(tabToggle->Render()),
+        separator() | color(Color::Green),
 
         (tabSelected == 0 ? managerInventoryView :
         tabSelected == 1 ? tab4View : tabSelected == 2 ?
         StaffView : tabSelected ==3 ? customerView : carouselView) | flex,
 
-        separator(),
-        text(statusText) | border | color(Color::Cyan),
-    }) | bgcolor(Color::Black) | color(Color::Green);
+        separator() | color(Color::Green),
+        applyBackground(hbox({
+            text(statusText) | border | color(Color::Cyan),
+            filler(),
+            themeToggleButton->Render() | color(themeMode == 0 ? Color::Yellow : themeMode == 1 ? Color::Cyan : Color::Green),
+        })),
+    }));
 
 
         return main; });
@@ -981,23 +1013,23 @@ int main()
                                                          cancelGroupButton});
 
     auto createGroupModal = Renderer(groupDialogueComponent, [&]
-                                     { return window(text("Create New Group") | bold | color(Color::Yellow),
-                                                     vbox({text("Create a new, empty group?"),
-                                                           separator(),
-                                                           groupDialogueComponent->Render() | center})) |
-                                              center; });
+                                     { return applyBackground(window(text("Create New Group") | bold | color(Color::Green),
+                                                     applyBackground(vbox({text("Create a new, empty group?") | color(Color::GrayLight),
+                                                           separator() | color(Color::Green),
+                                                           groupDialogueComponent->Render() | center})) ) |
+                                              center  | color(Color::Green)); });
 
     auto moveDialogueComponent = Container::Vertical({groupSelectMenu,
                                                       Container::Horizontal({confirmMoveButton,
                                                                              cancelMoveButton})});
 
     auto moveDialogModal = Renderer(moveDialogueComponent, [&]
-                                    { return window(text("Move Component") | bold | color(Color::Yellow),
-                                                    vbox({text("Select target group:") | color(Color::GrayLight),
-                                                          moveDialogueComponent->ChildAt(0)->Render() | frame | size(HEIGHT, LESS_THAN, 10),
-                                                          separator(),
-                                                          moveDialogueComponent->ChildAt(1)->Render() | center})) |
-                                             center; });
+                                    { return applyBackground(window(text("Move Component") | bold | color(Color::Green),
+                                                    applyBackground(vbox({text("Select target group:") | color(Color::GrayLight),
+                                                          moveDialogueComponent->ChildAt(0)->Render() | frame | size(HEIGHT, LESS_THAN, 10) ,
+                                                          separator() | color(Color::Green),
+                                                          moveDialogueComponent->ChildAt(1)->Render() | center})) ) |
+                                             center  | color(Color::Green)); });
 
     auto modal_component = Modal(mainRenderer, createGroupModal, &showCreateGroupDialogue);
     auto final_component = Modal(modal_component, moveDialogModal, &showMoveDialogue);

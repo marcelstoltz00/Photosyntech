@@ -19,8 +19,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        submodules: 'recursive'
 
     - name: Install Doxygen and Graphviz
       run: sudo apt-get update && sudo apt-get install -y doxygen graphviz
@@ -29,28 +27,20 @@ jobs:
       run: mkdir -p docs/doxygen/html
 
     - name: Run Doxygen
-      run: doxygen Doxyfile # This runs Doxygen and creates the HTML files
+      run: doxygen Doxyfile 
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v3
       with:
-        # This path MUST match the 'OUTPUT_DIRECTORY' + 'HTML_OUTPUT'
-        # from your Doxyfile.
-        #
-        # Current Doxyfile configuration:
-        # OUTPUT_DIRECTORY = docs/doxygen
-        # HTML_OUTPUT      = html
-        # Result path: "docs/doxygen/html"
         path: 'docs/doxygen/html'
 
   # ----------------------------------------------------
   # 2. DEPLOY JOB: Deploy the artifact to Pages
   # ----------------------------------------------------
   deploy:
-    # This job must wait for the build job to finish
     needs: build-documentation
 
-    # Use the same environment as your first working log
+  
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -59,4 +49,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4 # The action from your working log
+        uses: actions/deploy-pages@v4 
