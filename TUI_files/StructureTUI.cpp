@@ -553,12 +553,12 @@ int main()
                                statusText = currentStaffMember ? "Staff Member added " : "Staff member could not be added";
                                refreshStaffView(nursery,staffNames);
                                refreshPlantGroupView(nursery,plantGroupNames); });
-    auto AddStaffObserver = Button("set observer", [&]
+    auto AddStaffObserver = Button("Set Observer", [&]
                                    { nursery.setAsObserver(currentStaffMember, currentPlantGroupStaff);
                              statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully added as an observer":" could not process request"; });
-    auto removeStaffObserver = Button("detach observer", [&]
+    auto removeStaffObserver = Button("Detach Observer", [&]
                                       { nursery.RemoveObserver(currentStaffMember, currentPlantGroupStaff);
-                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully removed as an observer":" could not process request"; });
+                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully removed as an observer":" could not process request"; }) | color(Color::Red);
 
     auto staffManagement = Container::Vertical({
 
@@ -735,11 +735,11 @@ int main()
 
 
     Element managerInventoryView = vbox({
-        window(text("Plant Creation") | bold | color(Color::Cyan), 
+        window(text("Plant Creation") | bold | color(Color::LightGreen), 
         vbox({
     
            hbox({ filler(),
-           window(text("Plant Interactions"),
+           window(text("Plant Interactions")  | color(Color::Cyan),
             hbox( { 
                  filler(),
             createButton->Render() | color(Color::Green),
@@ -755,13 +755,13 @@ int main()
 
         | size(HEIGHT,LESS_THAN,3),
                              filler(),      
-                         vbox({text("Select Plant Type: ")|hcenter | color(Color::GrayLight), 
-                            text(plantTypes[plantSelectorIndex]) |hcenter| bold | color(Color::White),
+                         vbox({text("Select Plant Type: ")|hcenter | color(Color::LightGreen), 
+                            text(plantTypes[plantSelectorIndex]) |hcenter| bold | color(Color::Yellow),
                             plantSelector->Render()|hcenter,}),
                        filler(),
             filler(),
 
-            window( text("Inventory interactions"),   hbox({
+            window( text("Inventory interactions") | color(Color::Cyan),   hbox({
             refreshButton->Render() | color(Color::Blue),
             filler(),
             createGroupButton->Render() | color(Color::Green),
@@ -774,15 +774,15 @@ int main()
 
     filler(),})
 
-        })| size(HEIGHT,GREATER_THAN,5)| size(HEIGHT,LESS_THAN,15)),
+        })| size(HEIGHT,GREATER_THAN,5)| size(HEIGHT,LESS_THAN,15)) | color(Color::Green),
 
 
         text(inventoryStatusText) | color(Color::Yellow),
         separator(),
-        window(text("Inventory Hierarchy") | bold | color(Color::Cyan),
-            treeMenu->Render() | frame | size(HEIGHT,LESS_THAN,16)| size(HEIGHT,GREATER_THAN,12)
+        window(text("Inventory Hierarchy") | bold | color(Color::LightGreen),
+            treeMenu->Render() | frame | size(HEIGHT,LESS_THAN,25)| size(HEIGHT,GREATER_THAN,16) | color(Color::White)
         ),
-    });
+    }) | color(Color::Green);
     Element StaffView = vbox(
         {
            hcenter (hbox({ filler(),removeStaffObserver->Render()|center| size(WIDTH,EQUAL,20),filler(),
@@ -893,7 +893,7 @@ int main()
             })
         }) | size(WIDTH,EQUAL ,500) |border|hcenter;
             Element tab4View = vbox({
-            window(text("Plant Details") | bold | color(Color::Cyan),
+            window(text("Plant Details") | bold | color(Color::LightGreen),
                 vbox({
                     [=] {
                         float water_val = 0;
@@ -915,11 +915,11 @@ int main()
                         }
 
                         Element waterBar = hbox({
-                            text("Water:  ") | size(WIDTH, EQUAL, 8),
+                            text("Water:  ") | size(WIDTH, EQUAL, 8) | color(Color::Cyan),
                             gauge(water_val / max_stat) | color(Color::Blue) | flex
                         });
                         Element sunBar = hbox({
-                            text("Sun:    ") | size(WIDTH, EQUAL, 8),
+                            text("Sun:    ") | size(WIDTH, EQUAL, 8) | color(Color::Yellow),
                             gauge(sun_val / max_stat) | color(Color::Yellow) | flex
                         });
 
@@ -956,12 +956,12 @@ int main()
 
         Element main = vbox({
         hbox({
-           filler(), text("🌿 Photosyntech Plant Manager 🌿 ") | bold | center | color(Color::Green),filler(), text(seasonString)|center 
+           filler(), text("🌿 Photosyntech Plant Manager 🌿 ") | bold | center | color(Color::LightGreen),filler(), text(seasonString)|center 
            
            | colorAddSeason           
            ,filler() , 
         }) | border,
-        tabToggle->Render(),
+        tabToggle->Render() | color(Color::White),
         separator(),
 
         (tabSelected == 0 ? managerInventoryView :
@@ -970,7 +970,7 @@ int main()
 
         separator(),
         text(statusText) | border | color(Color::Cyan),
-    });
+    }) | bgcolor(Color::Black) | color(Color::Green);
 
 
         return main; });
