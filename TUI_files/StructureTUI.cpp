@@ -511,12 +511,12 @@ int main()
     health_Slider_option.min = 0;
     health_Slider_option.max = 200;
     health_Slider_option.increment = 1;
-    health_Slider_option.color_active = ftxui::Color::Red;
+    health_Slider_option.color_active = ftxui::Color::Green;
     health_Slider_option.color_inactive = ftxui::Color::GrayDark;
 
-    auto healthSlider = Slider(health_Slider_option) | color(Color::Red);
+    auto healthSlider = Slider(health_Slider_option) | color(Color::Green);
     auto healthStyled = Renderer(healthSlider, [&]
-                                 { return healthSlider->Render() | color(Color::Red) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 65); }) | color(Color::Red);
+                                 { return healthSlider->Render() | color(Color::LightGreen) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 65); }) | color(Color::Green);
 
     auto backButton = Button("<< Back", [&]
                              {
@@ -906,7 +906,7 @@ int main()
                 }),
 
                 hbox({
-                    window (text("Health Level") | color(Color::Red),{healthStyled->Render()}),
+                    window (text("Health Level") | color(Color::LightGreen),{healthStyled->Render()}),
                     window (text("Water Level") | color(Color::Cyan),{waterStyled->Render()}), 
                      window (text("Sun level") | color(Color::Yellow),{sunStyled->Render()}),
                 }),
@@ -950,15 +950,15 @@ int main()
                         }
 
                         Element healthBar = hbox({
-                            text("Health: ") | size(WIDTH, EQUAL, 8) | color(Color::Red),
-                            gauge(health_val / max_stat) | color(Color::Red) | flex
+                            text("Health: ") | size(WIDTH, EQUAL, 8) | color(Color::Green),
+                            gauge(health_val / max_stat) | color(Color::Green) | flex
                         });
                         Element waterBar = hbox({
                             text("Water:  ") | size(WIDTH, EQUAL, 8) | color(Color::Cyan),
                             gauge(water_val / max_stat) | color(Color::Blue) | flex
                         });
                         Element sunBar = hbox({
-                            text("Sun:    ") | size(WIDTH, EQUAL, 8) | color(Color::Cyan),
+                            text("Sun:    ") | size(WIDTH, EQUAL, 8) | color(Color::Yellow),
                             gauge(sun_val / max_stat) | color(Color::Yellow) | flex
                         });
 
