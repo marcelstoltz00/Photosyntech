@@ -98,7 +98,7 @@ Assume a living plant is made to the above assumptions, where there is a plant t
 - Saving = 143 808 Bytes = 143 KB
 #### 1 000 000 of X and Y 
 - `1 000 000X = 1 000 000(192) = 192 000 000 Bytes`
-- `1 000 000(Y) + F = 1 000 000(48) + 192 = 48 000 000 192 Bytes`
+- `1 000 000(Y) + F = 1 000 000(48) + 192 = 48 000 192 Bytes`
 - Saving = 143 999 808 = 143 .9 MB
 #### 100 000 000 of X and Y 
 - `100 000 000X = 100 000 000(192) = 19 200 000 000 Bytes`
