@@ -1,56 +1,68 @@
 # Builder Pattern
 
-## Responsibility
-Separates the construction of complex plant objects from their representation, allowing the same construction process to create different plant species with varying configurations (water strategies, sun strategies, and maturity states).
+## 1. Responsibility
+Separates the construction of complex plant objects from their representation. This allows the same construction process, orchestrated by a `Director`, to create different and complex plant species, each with its own unique set of strategies, decorators, and initial states.
 
-The construction sequence is:
-1. Create base plant object (Tree, Shrub, Herb, etc.)
-2. Assign water strategy
-3. Assign sun strategy
-4. Assign maturity state
-5. Add decorators (season and plant attributes)
-6. Set up initial health, water, and sun levels
+## 2. File Structure
+```
+builder/
+├── Director.h/.cpp               # Orchestrates the build process
+├── Builder.h/.cpp                # Abstract builder interface
+├── RoseBuilder.h/.cpp            # Concrete builder for Roses
+├── SunflowerBuilder.h/.cpp     # Concrete builder for Sunflowers
+├── CactusBuilder.h/.cpp          # Concrete builder for Cacti
+├── CherryBlossomBuilder.h/.cpp # Concrete builder for Cherry Blossoms
+├── JadePlantBuilder.h/.cpp       # Concrete builder for Jade Plants
+├── LavenderBuilder.h/.cpp      # Concrete builder for Lavender
+├── MapleBuilder.h/.cpp           # Concrete builder for Maple Trees
+└── PineBuilder.h/.cpp            # Concrete builder for Pine Trees
+```
 
-## Participant Mapping
+## 3. Participant Mapping
 
 | Pattern Role | Photosyntech Class(es) | Responsibility |
 |--------------|------------------------|----------------|
-| **Director** | `Director` | Orchestrates the plant construction process by calling builder methods in sequence. |
-| **Builder** | `Builder` (abstract) | Defines the interface for creating plant components (water strategy, sun strategy, maturity state, decorators). |
-| **ConcreteBuilder** | `CactusBuilder`<br>`CherryBlossomBuilder`<br>`JadePlantBuilder`<br>`LavenderBuilder`<br>`MapleBuilder`<br>`PineBuilder`<br>`RoseBuilder`<br>`SunflowerBuilder` | Implements specific construction steps for creating different plant species with their unique configurations. |
-| **Product** | `PlantComponent` (`LivingPlant` and its subclasses) | The complex plant object being constructed, returned as a `PlantComponent`. |
+| **Director** | `Director` | Orchestrates the plant construction by calling the abstract builder's methods in a predefined sequence. |
+| **Builder** | `Builder` (abstract) | Defines the abstract interface for the construction steps (e.g., `createObject`, `assignWaterStrategy`, `addDecorators`). |
+| **ConcreteBuilder** | `CactusBuilder`, `RoseBuilder`, etc. | Implement the builder interface to construct a specific plant species with its unique configuration of prototype, strategies, and decorators. |
+| **Product** | `PlantComponent` | The complex object being constructed. The builder's `getResult()` method returns a clone of the fully configured plant. |
 
-## Functional Requirements
+## 4. Functional Requirements
 
 ### Primary Requirements
-- **FR-1: Plant Species Creation and Configuration** - Provides systematic plant creation from base types, ensures all required attributes are initialized, validates configuration options, and supports complex plant compositions.
+- **FR-1: Plant Species Creation and Configuration**: Directly addressed by providing a controlled, step-by-step process for creating complex plant compositions from a base type and ensuring all required attributes are initialized.
 
 ### Supporting Requirements
-- **NFR-2: Maintainability/Extensibility** - Adding new plant species requires only creating a new builder class.
-- **NFR-5: Reliability** - Ensures plants are always in a valid state after construction.
+- **NFR-2: Maintainability/Extensibility**: New plant species can be introduced by simply adding a new `ConcreteBuilder` class, without altering the Director or existing builders.
+- **NFR-5: Reliability**: The pattern ensures that plants are only returned to the client after being fully constructed, preventing partially-initialized objects.
 
-## System Role & Integration
+## 5. System Role & Integration
 
-### Pattern Integration
-The **Builder** pattern serves as the primary **plant creation engine** in Photosyntech, orchestrating construction through these key interactions:
+The **Builder** pattern is the cornerstone of plant creation, orchestrating several other patterns:
 
-- **Strategy Pattern**: The builder assigns appropriate `WaterStrategy` and `SunStrategy` instances (retrieved as flyweights) to the plant.
-- **State Pattern**: The builder initializes the plant with its starting `MaturityState` (typically `Seed`).
-- **Decorator Pattern**: The builder applies decorators to the plant for seasonal attributes and physical characteristics (e.g., `Summer`, `LargeFlowers`).
-- **Prototype Pattern**: The builder often starts with a prototypical `LivingPlant` instance which it then configures.
-- **Singleton Pattern**: Builders obtain shared `Strategy` objects from a `FlyweightFactory` which is managed as a Singleton.
-- **Composite Pattern**: The final product is a `PlantComponent`, which can be treated uniformly with other components or groups in the composite structure (`PlantGroup`).
-- **Facade Pattern**: The `NurseryFacade` simplifies the creation of plants by providing a simple interface that internally uses a `Director` and a `Builder`.
+- **Director-Driven Construction**: The `Director` dictates a fixed construction sequence, ensuring every plant is built consistently:
+  1. `createObject()`
+  2. `assignWaterStrategy()`
+  3. `assignSunStrategy()`
+  4. `assignMaturityState()`
+  5. `addDecorators()`
+  6. `setUp()` (for initial health/water/sun levels)
 
-### System Dependencies
-- **Primary Consumer**: The inventory system, which uses the `NurseryFacade` to create new plants.
-- **Integration Point**: The `Director` class, which encapsulates the construction logic.
-- **Data Flow**: A client requests a plant from the `NurseryFacade`, which uses a `Director` and a concrete `Builder` to create the `PlantComponent`.
+- **Prototype & Cloning**: The builder first creates a base `LivingPlant` object (e.g., `Tree`, `Shrub`), which acts as a prototype. After the director process is complete, the `getResult()` method returns a `clone()` of the finished product. This allows the same builder instance to be reused to efficiently produce multiple identical plants.
 
-## Design Rationale
+- **Pattern Integration**:
+  - **Strategy Pattern**: The builder assigns `WaterStrategy` and `SunStrategy` objects to the plant.
+  - **State Pattern**: The builder sets the plant's initial `MaturityState` (usually `Seed`).
+  - **Decorator Pattern**: The builder applies seasonal and physical decorators (`Summer`, `Thorns`, etc.).
+  - **Singleton & Flyweight**: Builders fetch shared `Strategy` instances from the `FlyweightFactory`, which is managed by the `Inventory` Singleton, to conserve memory.
+  - **Facade Pattern**: The `NurseryFacade` provides a simplified `createPlant()` method to the client, hiding the complexity of initializing the Director and a specific ConcreteBuilder.
 
-The Builder pattern was chosen for plant creation because:
-1. **Complexity**: Plants require initialization of multiple attributes (species type, water strategy, sun strategy, maturity state, decorators, and initial levels).
-2. **Flexibility**: Different plant species follow the same construction sequence but with different implementations for each step.
-3. **Separation of Concerns**: The complex construction logic is isolated from the `PlantComponent`'s own logic.
-4. **Extensibility**: Adding new plant species is simplified to creating a new `ConcreteBuilder` class.
+## 6. Design Rationale
+
+The Builder pattern was chosen because:
+1. **Complex Construction**: Creating a plant is a multi-step process involving a base type, strategies, state, decorators, and initial values. Builder manages this complexity effectively.
+2. **Separation of Concerns**: It separates the high-level construction logic (the `Director`) from the specific details of creating a particular plant (the `ConcreteBuilder`).
+3. **Extensibility**: The system can be extended with new plant types with minimal changes to existing code.
+4. **Controlled Process**: The `Director` ensures that every plant is constructed in the correct order and is always in a valid, complete state when it is retrieved.
+
+![Builder Diagram](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Builder.jpg)

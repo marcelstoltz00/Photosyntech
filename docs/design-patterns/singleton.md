@@ -1,59 +1,57 @@
 # Singleton Pattern
 
-## Responsibility
-Ensures a single, globally accessible instance of the `Inventory` class exists, providing centralized access to shared plant data, flyweight factories, and a thread-safe ticking mechanism for inventory updates.
+## 1. Responsibility
+Ensures that a single, globally accessible instance of the `Inventory` class exists. This instance serves as the central authority for managing shared resources, including the main plant hierarchy, all flyweight factories, entity lists (staff and customers), and the global simulation clock (ticker).
 
-## Participant Mapping
+## 2. File Structure
+```
+singleton/
+├── Singleton.h     # Header for the Inventory class
+└── Singleton.cpp   # Implementation of the Inventory class
+```
+
+## 3. Participant Mapping
 
 | Pattern Role | Photosyntech Class(es) | Responsibility |
-|---|---|---|
-| **Singleton** | `Inventory` | Ensures only one instance exists; provides a global access point through `getInstance()`; manages the inventory, flyweight factories, staff/customer lists, and a background ticker thread. |
-| **Managed Resources** | `PlantGroup* inventory`<br>`FlyweightFactory<string, string*>* stringFactory`<br>`FlyweightFactory<int, WaterStrategy*>* waterStrategies`<br>`FlyweightFactory<int, SunStrategy*>* sunStrategies`<br>`FlyweightFactory<int, MaturityState*>* states`<br>`vector<Staff*>* staffList`<br>`vector<Customer*>* customerList` | Centralized resources managed by the `Inventory` singleton instance. |
+|--------------|------------------------|----------------|
+| **Singleton** | `Inventory` | Guarantees only one instance of itself can be created via a private constructor and a static `getInstance()` method. It provides a global access point to all the resources it manages. |
+| **Managed Resources** | `PlantGroup* inventory`<br>`FlyweightFactory<>* ...Factories`<br>`vector<Staff*>* staffList`<br>`vector<Customer*>* customerList` | The collection of system-wide resources owned and managed by the `Inventory` singleton. |
 
-## Functional Requirements
+## 4. Functional Requirements
 
 ### Primary Requirements
-- **FR-6: Centralized Inventory** - Maintains a single, shared inventory accessible to both customers and staff to ensure consistency.
-- **FR-10: Shared Data Memory Optimization** - Manages flyweight factories that minimize memory usage by sharing immutable data objects.
+- **FR-6: Centralised Inventory**: Directly implemented by providing a single, shared `PlantGroup` instance accessible system-wide.
+- **FR-10: Shared Data Memory Optimisation**: Fulfilled by creating, managing, and providing access to all `FlyweightFactory` instances for strategies, states, and strings.
 
 ### Supporting Requirements
-- **NFR-4: Scalability** - Central management of shared objects reduces the memory footprint for large inventories.
-- **NFR-5: Reliability** - A single source of truth prevents data inconsistencies.
-- **FR-17: Unified System Interface** - Provides a centralized access point for system-wide resources.
+- **NFR-4: Scalability**: Centralizing shared flyweight objects is critical to reducing the memory footprint, allowing the system to scale to millions of plants.
+- **NFR-5: Reliability**: By providing a single source of truth for the inventory and shared objects, the singleton prevents data inconsistencies.
 
-## System Role & Integration
+## 5. System Role & Integration
 
-### Pattern Integration
-The **Singleton** pattern serves as the **central resource hub** of Photosyntech, managing these critical interactions:
+The `Inventory` singleton acts as the **central nervous system** of the application.
 
-- **Flyweight Pattern**: Manages flyweight factories for water strategies, sun strategies, maturity states, and season names.
-- **Composite Pattern**: Owns and manages the root `PlantGroup` representing the centralized inventory.
-- **Builder Pattern**: The `Director` accesses the singleton to obtain strategy and state instances during plant construction.
-- **Facade Pattern**: The `NurseryFacade` accesses the singleton for inventory operations and resource management, and modifies the inventory state through direct facade operations.
-- **Observer Pattern**: The `PlantGroup` (managed by the singleton) acts as a `Subject` for staff notifications.
-- **Iterator Pattern**: Iterator factories obtain a reference to the plant collection from the singleton inventory.
+- **Global Access Point**: The `static Inventory* getInstance()` method provides lazy initialization and global access to the single instance.
 
-### Multithreading
-The `Inventory` singleton also manages a background thread that periodically updates the state of all plants in the inventory. This is handled by:
+- **Flyweight Factory Hub**: It is the only place where `FlyweightFactory` objects are created. Any code that needs a shared object (like a `WaterStrategy` or `MaturityState`) must request it from the `Inventory` singleton. This centralizes and controls the creation of all flyweights.
 
-- A `TickerThread` that runs in the background.
-- An `on` flag to safely start and stop the thread.
-- A `TickInventory()` method that is called by the thread to update each plant.
+- **Simulation Clock (Ticker)**: The singleton manages a background `thread` that drives the entire simulation. 
+  - `startTicker()` and `stopTicker()` control the thread's lifecycle.
+  - The thread periodically calls `tick()` on the entire inventory, causing plants to age and consume resources.
+  - It also manages the progression of seasons (`changeSeason()`), making it the master clock for the application.
 
-This ensures that the plants' states (e.g., water level, sun exposure, maturity) are updated over time without blocking the main application thread.
+- **Pattern Integration**:
+  - **Composite**: It holds the root `PlantGroup` of the entire plant inventory.
+  - **Flyweight**: It creates and manages all `FlyweightFactory` instances.
+  - **Builder**: Builders query the singleton to get flyweight objects (strategies, states) during plant construction.
+  - **Facade**: The `NurseryFacade` relies on the singleton to access the inventory and other shared resources to fulfill its operations.
 
-## Design Rationale
+## 6. Design Rationale
 
-The Singleton pattern was chosen because:
-1. **Single Source of Truth**: One inventory prevents inconsistent plant data across the application.
-2. **Resource Sharing**: It provides centralized management of expensive resources like flyweight factories.
-3. **Global Access**: It simplifies access to system-wide resources without needing to pass them as parameters.
-4. **Initialization Control**: It ensures that resources are created in the correct order and only once.
-5. **Thread-Safe Updates**: It provides a centralized mechanism for updating the inventory in a thread-safe manner.
+The Singleton pattern was essential for this system because:
+1. **Single Source of Truth**: A single inventory is mandatory to prevent data duplication and inconsistencies between what a customer sees and what a staff member manages.
+2. **Centralized Resource Management**: The flyweight factories are critical for performance and must be shared globally. The singleton is the natural owner for these factories.
+3. **Global Coordination**: The simulation ticker needs a single, authoritative owner to ensure time progresses consistently for all objects in the system.
+4. **Controlled Initialization**: It guarantees that expensive resources (like the flyweight factories) are initialized only once and in the correct order.
 
-## Extension Points
-
-**Adding New Shared Resources:**
-1. Add a new member variable for the resource to the `Inventory` class in `singleton/Singleton.h`.
-2. Initialize the resource in the `Inventory` constructor.
-3. Provide a getter method to allow other parts of the system to access the resource.
+![Singleton Diagram](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Singleton.jpg)
