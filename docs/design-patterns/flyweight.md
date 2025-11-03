@@ -58,3 +58,51 @@ The Flyweight pattern was chosen for its critical role in addressing performance
 5.  **Simplified Client Code**: Clients can use the objects as normal, unaware that they are shared instances, simplifying the application logic.
 
 ![Flyweight Diagram](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Flyweight.jpg)
+
+## Math
+- String memory optimization.
+
+- Assumptions 
+	- Assume a Living plant object has 
+		- 5 attributes 
+			- each storing a name
+		- 1 name attribute
+			- storing a name
+		- Each of these names can be stored in either a flyweight or a string itself. However the data remains identical in both ways.
+- Sizes 
+	- Strings are 32 Bytes 
+		- Based off of size_of() in c++
+	- Object pointers are 8 bytes 
+		- Based off of size_of() in c++
+### Proof 
+- Internally stored strings 
+Assume a living plant is made to the above assumptions, where there is a plant that stores all its strings internally without the use of flyweight, as strings are 32 bytes this would be 6 x 32 pointers accumulating in 192 bytes per plant. Let this plant be **X**
+
+- Externally stored strings in flyweight 
+Assume a living plant is made to the above assumptions, where there is a plant that stores all its strings externally with the use of flyweights, as strings are 32 bytes this would be 6 x 32 pointers accumulating in 192 bytes stored in 6 flyweights as well as 6 x 8 pointers to those flyweights in each attribute accumulating to 48 bytes and in total 240. let the plant itself with 48 bytes of pointers be called **Y** and let the group of flyweights be called **F**
+
+- In a one to one comparison 
+**X** has 48 less bytes than **Y + F**
+
+- To scale however 
+
+#### 2 of X and Y 
+- `2X = 2(192) =  384 Bytes`
+- `2Y + F =2(48) + 192 = 288 Bytes`
+- Saving = 96 Bytes
+#### 1000 of X and Y 
+- `1000X = 1000(192) = 192 000 Bytes`
+- `1000(Y) + F = 1000(48) + 192 = 48 192 Bytes`
+- Saving = 143 808 Bytes = 143 KB
+#### 1 000 000 of X and Y 
+- `1 000 000X = 1 000 000(192) = 192 000 000 Bytes`
+- `1 000 000(Y) + F = 1 000 000(48) + 192 = 48 000 192 Bytes`
+- Saving = 143 999 808 = 143 .9 MB
+#### 100 000 000 of X and Y 
+- `100 000 000X = 100 000 000(192) = 19 200 000 000 Bytes`
+- `100 000 000(Y) + F = 100 000 000(48) + 192 = 4 800 192 Bytes`
+- Saving = 14 399 999 808 = 14.4 GB
+- Which is the extent of our stress testing. 
+#### Efficiency calculation 
+- (4 800 000 192 Bytes  / 19 200 000 000 Bytes) x 100  = 25% 
+- Thus 75% less memory is used.

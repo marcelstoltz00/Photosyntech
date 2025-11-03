@@ -351,4 +351,6 @@ string LivingPlant::getImageStr()
 {
     if (this->maturityState && this->maturityState->getState())
    return this->maturityState->getState()->getImagePath(this);
+   else
+   return "";
 }
