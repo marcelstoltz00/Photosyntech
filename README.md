@@ -56,9 +56,9 @@ This project employs 12 different design patterns. For a detailed explanation of
 
 | Category     | Patterns                                                                                                                                                                                                                                                                                       | 
 | :----------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Creational** | [Builder](wiki/builder.md) · [Prototype](wiki/prototype.md) · [Singleton](wiki/singleton.md)                                                                                                                                                                                                  |
-| **Structural** | [Composite](wiki/composite.md) · [Decorator](wiki/decorator.md) · [Facade](wiki/facade.md) · [Flyweight](wiki/flyweight.md)                                                                                                                                                                     |
-| **Behavioral** | [Iterator](wiki/iterator.md) · [Mediator](wiki/mediator.md) · [Observer](wiki/observer.md) · [State](wiki/state.md) · [Strategy](wiki/strategy.md)                                                                                                                                               |
+| **Creational** | [Builder](https://github.com/marcelstoltz00/Photosyntech/wiki/builder) · [Prototype](https://github.com/marcelstoltz00/Photosyntech/wiki/prototype) · [Singleton](https://github.com/marcelstoltz00/Photosyntech/wiki/singleton)                                                                                                                                                                                                  |
+| **Structural** | [Composite](https://github.com/marcelstoltz00/Photosyntech/wiki/composite) · [Decorator](https://github.com/marcelstoltz00/Photosyntech/wiki/decorator) · [Facade](https://github.com/marcelstoltz00/Photosyntech/wiki/facade) · [Flyweight](https://github.com/marcelstoltz00/Photosyntech/wiki/flyweight)                                                                                                                                                                     |
+| **Behavioral** | [Iterator](https://github.com/marcelstoltz00/Photosyntech/wiki/iterator) · [Mediator](https://github.com/marcelstoltz00/Photosyntech/wiki/mediator) · [Observer](https://github.com/marcelstoltz00/Photosyntech/wiki/observer) · [State](https://github.com/marcelstoltz00/Photosyntech/wiki/state) · [Strategy](https://github.com/marcelstoltz00/Photosyntech/wiki/strategy)                                                                                                                                               |
 
 
 ## 🛠️ Technologies & Tools
@@ -88,9 +88,9 @@ This project employs 12 different design patterns. For a detailed explanation of
 
 | Diagram Type         | Link                                                                                             |
 | :------------------- | :----------------------------------------------------------------------------------------------- |
-| Activity Diagram     | [View Diagram](wiki/Activity-Diagram.md)                                                         |
-| Communication Diagram| [View Diagram](wiki/Communication-Diagram.md)                                                      |
-| Object Diagram       | [View Diagram](wiki/Object-Diagram.md)                                                           |
-| Sequence Diagram     | [View Diagram](wiki/Sequence-Diagram.md)                                                         |
-| State Diagram        | [View Diagram](wiki/State-Diagram.md)                                                            |
-| System Class Diagram | [View Diagram](wiki/System-Class-Diagram.md)                                                     |
+| Activity Diagram     | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/Activity-Diagram)             |
+| Communication Diagram| [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/Communication-Diagram)          |
+| Object Diagram       | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/Object-Diagram)               |
+| Sequence Diagram     | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/Sequence-Diagram)             |
+| State Diagram        | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/State-Diagram)                |
+| System Class Diagram | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/System-Class-Diagram)         |
