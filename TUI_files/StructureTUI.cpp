@@ -243,20 +243,13 @@ int main()
         }
         refreshInventoryView(nursery); });
 
-    auto createGroupButton = Button("Create Group", [&]
-                                    { showCreateGroupDialogue = true; });
-
-    auto themeToggleButton = Button("Toggle Theme", [&]
-                                   { 
-        themeMode = (themeMode + 1) % 3; // Cycle through 0, 1, 2
-        if (themeMode == 0) {
-            statusText = "Status: Dark Mode (Black)";
-        } else if (themeMode == 1) {
-            statusText = "Status: Light Mode (Gray)";
-        } else {
-            statusText = "Status: Default Mode (Terminal)";
-        }
+    auto createGroupButton = Button("Create Group", [&]{ 
+            showCreateGroupDialogue = true; 
+            screen.Post([&] {
+                refreshInventoryView(nursery);
+        });
     });
+
 
     auto confirmGroupButton = Button("Create", [&]
                                     {
@@ -691,7 +684,6 @@ int main()
     main_ui = Container::Vertical({
         Container::Horizontal({
             tabToggle,
-            themeToggleButton,
         }),
         tabContainer,
     });
@@ -1020,7 +1012,6 @@ int main()
         applyBackground(hbox({
             text(statusText) | border | color(Color::Cyan),
             filler(),
-            themeToggleButton->Render() | color(themeMode == 0 ? Color::Yellow : themeMode == 1 ? Color::Cyan : Color::Green),
         })),
     })) | color(Color::Green);
 
