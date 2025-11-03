@@ -102,7 +102,7 @@ Assume a living plant is made to the above assumptions, where there is a plant t
 - Saving = 143 999 808 = 143 .9 MB
 #### 100 000 000 of X and Y 
 - `100 000 000X = 100 000 000(192) = 19 200 000 000 Bytes`
-- `100 000 000(Y) + F = 100 000 000(48) + 192 = 4 800 000 192 Bytes`
+- `100 000 000(Y) + F = 100 000 000(48) + 192 = 4 800 192 Bytes`
 - Saving = 14 399 999 808 = 14.4 GB
 - Which is the extent of our stress testing. 
 #### Efficiency calculation 
