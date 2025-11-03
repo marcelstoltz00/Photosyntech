@@ -90,11 +90,11 @@ This project employs 12 different design patterns. For a detailed explanation of
 
 | Diagram Type         | Link                                                                                             |
 | :------------------- | :----------------------------------------------------------------------------------------------- |
-| Activity Diagram     | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/Activity-Diagram)             |
-| Communication Diagram| [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/Communication-Diagram)          |
-| Object Diagram       | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/Object-Diagram)               |
-| Sequence Diagram     | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/Sequence-Diagram)             |
-| State Diagram        | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/State-Diagram)                |
-| System Class Diagram | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/System-Class-Diagram)         |
+| Activity Diagram     | [View Diagram](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Builder%20Activity%20Diagram.jpg)             |
+| Communication Diagram| [View Diagram](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Builder%20Communication%20Diagram.jpg)          |
+| Object Diagram       | [View Diagram](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Object%20Diagram.jpg)               |
+| Sequence Diagram     | [View Diagram](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Singleton%20memory%20management.jpg)             |
+| State Diagram        | [View Diagram](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Maturity%20state%20diagram1.jpg)                |
+| System Class Diagram | [View Diagram](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Full-Class-Diagram-Colour.jpg)         |
 
 </div>
