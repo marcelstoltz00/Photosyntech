@@ -48,7 +48,7 @@ class Mediator
 		 * @brief Routes a customer's assistance request to available staff.
 		 * @param customer Pointer to the User requesting assistance.
 		 */
-		virtual string getAssistance(User* customer) = 0;
+		virtual string getAssistance(Customer* customer) = 0;
 
 		/**
 		 * @brief Coordinates staff assistance operations.

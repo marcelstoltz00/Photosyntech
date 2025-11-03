@@ -166,7 +166,7 @@ int main()
 {
 
     Inventory::getInstance();
-    Inventory::updateTickerRate(1);
+    Inventory::updateTickerRate(2);
     
     LivingPlant *carouselPlant = nullptr;
     std::ofstream cerrLog("plant_manager_debug.txt");

@@ -22,7 +22,7 @@ public:
      * @brief Routes customer assistance requests to available sales staff.
      * @param customer Pointer to the User requesting sales assistance.
      */
-    virtual string getAssistance(User* customer) ;
+    virtual string getAssistance(Customer* customer) ;
 
     /**
      * @brief Coordinates staff assistance for sales operations.

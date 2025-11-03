@@ -1,121 +1,61 @@
 # Prototype Pattern
 
-## Responsibility
+## 1. Responsibility
+Specifies the kinds of objects to create using a prototypical instance, and creates new objects by copying this prototype. In this system, it allows for the efficient creation of new, fully-configured plant instances by cloning an already-configured object, preserving its internal state, strategies, and decorators.
 
-Enables creation of new plant instances by cloning existing configured plants, preserving all attributes including strategies, states, and decorators without coupling to concrete classes. Supports efficient mass production of identical plants for inventory distribution.
+## 2. File Structure
+```
+prototype/
+├── LivingPlant.h/.cpp  # Abstract prototype, defines the clone interface and base copy logic
+├── Herb.h/.cpp         # Concrete prototype
+├── Shrub.h/.cpp        # Concrete prototype
+├── Succulent.h/.cpp    # Concrete prototype
+└── Tree.h/.cpp         # Concrete prototype
+```
 
-## Participant Mapping
+## 3. Participant Mapping
 
-|Pattern Role|Photosyntech Class(es)|Responsibility|
-|---|---|---|
-|Prototype|`PlantComponent`|Declares clone() interface for all plant components, defining the contract for creating copies of plant objects|
-|ConcretePrototype|`LivingPlant` `Herb` `Shrub` `Succulent` `Tree`|Implements clone() method to create deep copies of plant instances with member-wise shallow copy for flyweights and independent decorator chains|
-|Client|`Inventory` `Builder` `Customer`|Uses clone() to create new plant instances without knowing concrete classes, requesting copies from configured plants for mass production|
+| Pattern Role | Photosyntech Class(es) | Responsibility |
+|--------------|------------------------|----------------|
+| **Abstract Prototype** | `LivingPlant` | Defines the `clone()` interface and provides the core copy-constructor logic that handles the shallow copy of all shared flyweight objects (strategies, states, name, etc.). |
+| **Concrete Prototype** | `Herb`, `Shrub`, `Succulent`, `Tree` | The four base plant types. They implement `clone()` by calling their own copy constructor, which in turn delegates the core copying work back to `LivingPlant`. |
+| **Client** | `Builder` | The primary client. After configuring a complex plant object (a `LivingPlant` wrapped in decorators), the builder's `getResult()` method calls `clone()` on the final object to produce identical copies for the inventory. |
 
-## Functional Requirements
+## 4. Functional Requirements
 
-**Primary Requirements**
+### Primary Requirements
+- **FR-2: Plant Type Cloning**: Directly enables the creation of new plant instances by copying existing, fully-configured plant objects, ensuring all properties (base type, decorations, strategies, and state) are preserved.
 
-- **FR-2: Plant Type Cloning** - Enables creation of new plant instances by copying existing plant types with all attributes, decorations, strategies, and states preserved; multiple identical copies can be created from a single configured plant
+### Supporting Requirements
+- **NFR-4: Scalability/Memory Efficiency**: The prototype's copy mechanism is designed to be highly efficient. It performs a shallow copy of pointers to shared flyweight objects (strategies, states, seasons), ensuring that creating thousands of clones has a minimal memory footprint.
 
-**Supporting Requirements**
+## 5. System Role & Integration
 
-- **NFR-4: Scalability/Memory Efficiency** - Supports efficient cloning while maintaining shallow copies of shared flyweight objects (strategies, seasons) for memory efficiency when handling up to 5,000 plant instances
-- **FR-3: Plant Lifecycle Management** - Cloned plants preserve maturity state references, enabling proper lifecycle management across all copies while sharing immutable state objects
-- **NFR-2: Maintainability/Extensibility** - Adding new plant species requires only creating a new concrete prototype class inheriting from LivingPlant (≤2 file modification requirement)
+The Prototype pattern is the system's engine for mass-producing plants, integrating tightly with several other patterns:
 
-## System Role & Integration
+- **Builder Pattern**: The Builder's primary role is to construct a single, complex, fully-configured plant object. The Prototype pattern then takes over; the builder calls `clone()` on this finished object to stamp out identical copies for the inventory.
 
-### Pattern Integration
+- **Decorator Pattern**: The cloning process is a deep copy of the decorator chain. When `clone()` is called on the outermost decorator, it clones itself and then recursively calls `clone()` on the component it wraps, all the way down to the base `LivingPlant`. This ensures each cloned plant has a new, independent decorator chain.
 
-The Prototype pattern serves as the inventory multiplication mechanism in Photosyntech, enabling efficient plant replication through these key interactions:
+- **Flyweight Pattern**: The `LivingPlant` copy constructor, which is at the heart of the clone operation, is designed to support the Flyweight pattern. It performs a **shallow copy** of all flyweight pointers (`name`, `season`, `waterStrategy`, `sunStrategy`, `maturityState`). This is critical for memory efficiency, as it ensures all cloned plants share the same immutable state and strategy objects.
 
-- **Builder Pattern**: Builder creates the initial configured plant prototype that serves as the template for cloning operations
-- **Flyweight Pattern**: Prototype performs shallow copy of shared immutable objects (name, season, waterStrategy, sunStrategy, maturityState) to maintain memory efficiency across clones
-- **Decorator Pattern**: Clone operation preserves decorator chain structure, requiring separate deep copy of decorators to ensure independence between cloned plants
-- **Composite Pattern**: Cloned plants can be added to PlantGroup hierarchies, enabling bulk operations on identical plant collections
-- **Strategy Pattern**: Cloned plants share strategy flyweight references, ensuring consistent behavior across all copies without memory duplication
-- **State Pattern**: Cloned plants reference the same maturity state flyweights, enabling synchronized lifecycle transitions across plant batches
-- **Singleton Pattern**: Inventory singleton manages cloned plant instances, coordinating distribution and tracking
+### The Cloning Process in Detail
 
-### System Dependencies
+When a client needs a copy of a fully built plant (e.g., a Rose with decorators for thorns and flowers), the process is simple and powerful:
 
-- **Primary Consumer**: Inventory system uses clone() for mass production when fulfilling large customer orders
-- **Integration Point**: Builder creates initial prototypes; clone() replicates them for distribution
-- **Data Flow**: Builder → Prototype creation → clone() invocation → Inventory addition → Customer distribution
+1.  The client calls `clone()` on the outermost object (e.g., the `Thorns` decorator instance).
+2.  The `Thorns` decorator's `clone()` method creates a `new Thorns()` and, in its copy constructor, calls `clone()` on the object it wraps (the `Flowers` decorator).
+3.  This process cascades downwards through the decorator chain until the `LivingPlant::clone()` method is called.
+4.  `LivingPlant::clone()` calls its copy constructor, which performs a shallow copy of all its members, including the pointers to the shared flyweight objects.
+5.  The result is a brand new, fully independent `PlantComponent` that is an exact replica of the original, with a deep-copied decorator chain and shallow-copied flyweight data.
 
-## Design Rationale
+## 6. Design Rationale
 
 The Prototype pattern was chosen for plant replication because:
 
-1. **Performance**: Cloning configured plants is significantly faster than rebuilding through Builder pattern repeatedly, especially for complex decorator chains
-2. **Memory Efficiency**: Shallow copy of flyweight objects (strategies, states, seasons) ensures minimal memory overhead while creating thousands of plant instances
-3. **Separation of Concerns**: Cloning logic isolated in concrete prototypes, allowing independent evolution of plant types and cloning behavior
-4. **Configuration Preservation**: Enables exact replication of fully configured plants including all strategies, states, and decorations without reconstruction
-5. **Scalability**: Supports NFR-4 requirement for 5,000+ plant instances through efficient flyweight sharing and targeted deep copying
+1.  **Performance**: Cloning a pre-configured plant is significantly faster than repeatedly using the Builder to construct each new plant from scratch.
+2.  **Configuration Preservation**: It guarantees an exact, faithful copy of a complex object without needing to know the details of its construction.
+3.  **Memory Efficiency**: The shallow-copy approach for flyweights is essential for scalability, preventing massive memory consumption when creating thousands of plant instances.
+4.  **Simplicity for the Client**: The client (the `Builder`) does not need to know how to construct a complex object; it only needs a single `clone()` call to get a perfect copy.
 
-## Implementation Details
-
-### Key Methods
-
-**`clone()`** - Creates a copy of the plant instance; each concrete prototype overrides this to return a new instance of its specific type using the copy constructor
-
-**`PlantComponent(const PlantComponent& other)`** - Base copy constructor that copies price, affectWaterValue, and affectSunValue attributes
-
-**`LivingPlant(const LivingPlant& other)`** - Copy constructor performing member-wise shallow copy of flyweight pointers (name, season, strategies, states); sets decorator to nullptr for independent decorator management
-
-**`Herb(const Herb& other), Shrub(const Shrub& other), Succulent(const Succulent& other), Tree(const Tree& other)`** - Concrete copy constructors delegating to LivingPlant, preserving all parent attributes for specific plant types
-
-### Implementation Challenges
-
-**Shallow vs Deep Copy**: Determined which attributes required shallow copy (flyweights) versus deep copy (decorators). Resolved by implementing shallow copy for all shared immutable objects in copy constructor, leaving decorator as nullptr for separate deep copy management.
-
-**Decorator Chain Independence**: Ensuring cloned plants have independent decorator chains while preserving structure. Resolved by setting decorator to nullptr in LivingPlant copy constructor, allowing client to manage decorator deep copying through `correctShape()`.
-
-**Type-Specific Cloning**: Each concrete prototype returns correct type without code duplication. Resolved by having each concrete class override clone() to call its own copy constructor, delegating shared logic to LivingPlant.
-
-### Usage Example
-
-```cpp
-// Create and configure a prototype plant
-Herb* prototypeHerb = new Herb();
-prototypeHerb->setWaterStrategy(MODERATE_WATER);
-prototypeHerb->setSunStrategy(MODERATE_SUN);
-prototypeHerb->setMaturity(SEEDLING);
-prototypeHerb->setSeason(Inventory::getInstance()->getString("Spring"));
-
-// Add decorative pot
-PlantAttributes* pot = new DecorativePot();
-prototypeHerb->addAttribute(pot);
-
-// Clone for inventory - creates 100 identical herbs
-std::vector<PlantComponent*> inventory;
-for (int i = 0; i < 100; i++) {
-    PlantComponent* clone = prototypeHerb->clone();
-    
-    // Deep copy decorator chain independently
-    if (prototypeHerb->getDecorator() != nullptr) {
-        PlantComponent* decoratorCopy = prototypeHerb->getDecorator()->clone();
-        clone->correctShape(decoratorCopy);
-    }
-    
-    inventory.push_back(clone);
-}
-
-// All clones share flyweight strategies/states but have independent decorators
-// Memory efficient: strategies and seasons reused across all 100 instances
-```
-
-### Flow Example
-
-**Scenario**: Customer orders 50 identical Rose plants for an event
-
-1. Staff creates a Rose plant using Builder, configuring it with decorative pot, watering strategy, and maturity state
-2. Customer places order for 50 identical Rose plants through NurseryFacade
-3. Inventory calls `clone()` on the configured Rose instance: `PlantComponent* copy = rosePrototype->clone();`
-4. `clone()` invokes Herb copy constructor (Rose is an Herb type): `return new Herb(*this);`
-5. Herb copy constructor delegates to LivingPlant copy constructor, performing shallow copy of flyweights
-6. LivingPlant copy constructor preserves name, season, waterStrategy, sunStrategy, maturityState pointers; sets decorator to nullptr
-7. Client code deep copies decorator chain through `correctShape()` for independent customization
-8. New cloned plant added to inventory with all strategies and states preserved
-9. Process repeats 49 more times to fulfill order efficiently without rebuilding configuration
+![Prototype Diagram](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Prototype.jpg)

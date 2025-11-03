@@ -19,7 +19,7 @@ SuggestionFloor::SuggestionFloor()
  * @brief Routes customer suggestion requests to available staff.
  * @param customer Pointer to the User requesting suggestions.
  */
-string SuggestionFloor::getAssistance(User *customer)
+string SuggestionFloor::getAssistance(Customer *customer)
 {
     // Get staff list directly from Singleton
     std::vector<Staff *> &staffList = *(Inventory::getInstance()->getStaff());

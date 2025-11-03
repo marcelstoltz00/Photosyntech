@@ -164,7 +164,7 @@ JSON_URL := https://raw.githubusercontent.com/nlohmann/json/develop/single_inclu
 
 .PHONY: fetch-json cmake-config cmake-build tui tui-clean
 
-fetch-json:
+fetch-json: tui-clone
 	@mkdir -p $(JSON_NLO_DIR)
 	@if [ ! -f $(JSON_NLO_DIR)/json.hpp ]; then \
 		echo "Downloading nlohmann/json single header..."; \
@@ -322,4 +322,3 @@ tui-manager-v: tui
 		exit 127; \
 	fi
 	cd TUI/TUIKit/build && valgrind --leak-check=full --show-leak-kinds=all -s --track-origins=yes ./TUI
-

@@ -1,57 +1,60 @@
 # Composite Pattern
 
-## Responsibility
+## 1. Responsibility
+Composes objects into tree structures to represent part-whole hierarchies, allowing clients to treat individual objects (plants) and compositions of objects (plant groups) uniformly. This enables the hierarchical organization of the plant inventory, where operations can traverse and manipulate entire collections transparently.
 
-Composes plant objects into tree structures to represent part-whole hierarchies, allowing clients to treat individual plants and groups of plants uniformly through a common interface. Enables hierarchical organization of inventory with operations that traverse and manipulate entire collections transparently.
+## 2. File Structure
+```
+composite/
+├── PlantComponent.h/.cpp # Abstract base class (Component)
+└── PlantGroup.h/.cpp     # Composite class
+```
 
-## Participant Mapping
+## 3. Participant Mapping
 
 | Pattern Role | Photosyntech Class(es) | Responsibility |
 |--------------|------------------------|----------------|
-| **Component** | `PlantComponent` (abstract) | Declares the common interface for both individual plants (`Leaf`) and plant groups (`Composite`). It includes a `getType()` method to allow for efficient type checking without `dynamic_cast`. |
-| **Leaf** | `LivingPlant` and subclasses<br>(Succulent, Shrub, Tree, Herb) | Represents individual plants with no children. Implements the `PlantComponent` interface for leaf-level behavior. |
-| **Composite** | `PlantGroup` | Represents groups of plants. It stores child `PlantComponent` objects and implements the `PlantComponent` interface, typically by delegating to its children. |
-| **Client** | Any code that interacts with the plant hierarchy | Works with `PlantComponent` objects through the common interface, without needing to distinguish between individual plants (`Leaf`) and groups of plants (`Composite`). Examples include the `NurseryFacade`, `Iterator` classes, and `Staff`. |
+| **Component** | `PlantComponent` (abstract) | Declares the common interface for all objects in the composition, including operations like `water()`, `setOutside()`, `getPrice()`, `getInfo()`, and `clone()`. |
+| **Leaf** | `LivingPlant` and its subclasses (`Herb`, `Shrub`, `Succulent`, `Tree`) | Represents individual plants that have no children. They implement the `PlantComponent` interface for leaf-level behavior. |
+| **Composite** | `PlantGroup` | Represents groups of plants. It implements the `PlantComponent` interface and manages a collection of child `PlantComponent` objects, delegating operations to them. |
+| **Client** | `Inventory`, `NurseryFacade`, `Iterator` classes, `Staff` | Interacts with objects in the hierarchy through the `PlantComponent` interface, treating individual plants and groups uniformly. |
 
-## Functional Requirements
+## 4. Functional Requirements
 
 ### Primary Requirements
-- **FR-7: Hierarchical Plant Organization** - Organizes plants into hierarchical structures where plants can be individual items or groups; handles plants and groups uniformly; enables traversal across all levels.
+- **FR-7: Hierarchical Plant Organization**: Directly enables the organization of plants into tree-like structures, allowing for individual plants and groups to be managed consistently.
 
 ### Supporting Requirements
-- **FR-9: Seasonal Plant Filtering** - Enables traversal through plant collections for filtering operations.
-- **NFR-4: Scalability** - Hierarchical organization supports efficient management of large plant collections.
-- **FR-17: Unified System Interface** - Provides a consistent interface for operations on both individual plants and groups.
+- **FR-9: Seasonal Plant Filtering**: The hierarchical structure provides the foundation for iterators to traverse and filter plants based on various criteria, including season.
+- **NFR-4: Scalability**: Efficiently manages large collections of plants by organizing them into manageable groups.
+- **FR-17: Unified System Interface**: Provides a consistent interface for performing operations on both single plants and entire groups.
 
-## System Role & Integration
+## 5. System Role & Integration
 
-### Pattern Integration
+The Composite pattern forms the **core hierarchical structure** of the plant inventory, enabling flexible and scalable management:
 
-- **Observer Pattern**: `PlantGroup` acts as a `Subject`, notifying registered `Observer`s (e.g., `Staff`) of significant events occurring within the group, such as a plant needing water or sunlight.
-- **Iterator Pattern**: Iterators are used to traverse the `PlantComponent` structures, allowing for filtering by season or other criteria.
-- **Singleton Pattern**: The root of the plant inventory is a `PlantGroup` that is managed as a `Singleton`.
-- **Decorator Pattern**: Decorators can wrap `PlantComponent` objects, adding new functionality while preserving the common interface.
-- **Prototype Pattern**: The `clone()` method on `PlantComponent` allows for the deep copying of the composite structure.
-- **Facade Pattern**: The `NurseryFacade` provides a simplified interface for interacting with the plant hierarchy, hiding the complexity of the composite structure from the client, and operations on `PlantGroup` objects are managed through the facade.
+- **Uniformity**: Clients can perform operations (e.g., `water()`, `getInfo()`, `getPrice()`) on any `PlantComponent` without needing to know if it's a single `LivingPlant` or a `PlantGroup`.
 
-### System Dependencies
-- **Primary Structure**: Forms the core hierarchical inventory representation.
-- **Notification Flow**: Changes within a `PlantGroup` can trigger notifications to `Observer`s.
-- **Traversal Base**: The composite structure is the foundation for `Iterator`-based filtering and traversal.
-- **Mass Operations**: Operations on a `PlantGroup` are applied uniformly to all its child components.
+- **Aggregation of Operations**: `PlantGroup` methods typically iterate through their child `PlantComponent`s and delegate the operation, aggregating results where appropriate (e.g., `getPrice()` sums prices of all children).
 
-## Design Rationale
+- **Deep Copying**: The `PlantGroup::clone()` method performs a deep copy of the entire subtree by iterating through its children and calling `clone()` on each, ensuring that cloned groups are fully independent.
 
-The Composite pattern was chosen because:
-1. **Flexibility**: It allows clients to treat individual plants and groups of plants uniformly through a common interface.
-2. **Hierarchy**: It enables the creation of complex, tree-like structures of plants.
-3. **Scalability**: It provides an efficient way to represent and manage large collections of plants.
-4. **Mass Operations**: It simplifies the application of operations to entire groups of plants.
-5. **Observer Integration**: It allows for group-level notifications, which can be more efficient than observing every single plant.
+- **Interaction with Decorator**: The `PlantGroup::getInfo()` method demonstrates interaction with the Decorator pattern by calling `component->getDecorator()->getInfo()` on its children, ensuring that decorated plant information is correctly retrieved.
 
-**Scenario**: Staff waters all spring plants through inventory system
+- **Interaction with Prototype**: The `PlantGroup::addAttribute()` method iterates through its children and calls `component->addAttribute(clonedAttribute)`. This means that when an attribute is added to a group, a *clone* of that attribute is added to *each* child, ensuring independent decoration for each plant.
 
-**Creating Plant Hierarchies:**
-1. Use the `PlantComponent` interface for all plant and group operations.
-2. Build the hierarchy by adding `PlantComponent` objects to a `PlantGroup` using the `addComponent()` method.
-3. All operations (e.g., `water()`, `getInfo()`) will work uniformly on both individual plants and plant groups.
+- **Pattern Integration**:
+  - **Observer Pattern**: `PlantGroup` acts as a `Subject`, notifying registered `Observer`s (e.g., `Staff`) about events like plants needing water or sunlight.
+  - **Iterator Pattern**: Iterators are designed to traverse this composite structure, allowing for efficient filtering and access to plants.
+  - **Singleton Pattern**: The root of the entire plant inventory is a `PlantGroup` instance, managed by the `Inventory` singleton.
+  - **Facade Pattern**: The `NurseryFacade` provides a simplified interface for interacting with the plant hierarchy, abstracting away the complexities of the composite structure.
+
+## 6. Design Rationale
+
+The Composite pattern was chosen for the plant inventory because:
+1. **Flexibility**: It allows for the creation of complex, tree-like structures of plants, from individual items to nested groups.
+2. **Simplified Client Code**: Clients can interact with any part of the hierarchy using a single, consistent interface, reducing complexity.
+3. **Scalability**: It provides an efficient and natural way to represent and manage potentially very large collections of plants.
+4. **Mass Operations**: Operations applied to a `PlantGroup` automatically propagate to all its children, simplifying bulk actions.
+
+![Composite Diagram](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Composite.jpg)
