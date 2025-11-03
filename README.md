@@ -22,13 +22,13 @@
 
 </div>
 
-## 🌱 Key Features
+<h2 align="center">🌱 Key Features 🌱</h2>
 
 *   **Plant Management:** Track and manage a virtual collection of plants.
 *   **Growth Simulation:** Watch your plants grow, change and react based on care routines.
 *   **Design Pattern Showcase:** A practical C++ demonstration of 12 different GoF design patterns.
 
-## 🚀 Quick Start
+<h2 align="center">🚀 Quick Start 🚀</h2>
 
 ### Prerequisites
 
@@ -50,7 +50,7 @@ make test-run
 make tui-manager
 ```
 
-## 🏛️ Design Patterns Used
+<h2 align="center">🏛️ Design Patterns Used 🏛️</h2>
 
 This project employs 12 different design patterns. For a detailed explanation of each, please see their individual pages on our project wiki.
 
@@ -61,12 +61,12 @@ This project employs 12 different design patterns. For a detailed explanation of
 | **Behavioral** | [Iterator](https://github.com/marcelstoltz00/Photosyntech/wiki/iterator) · [Mediator](https://github.com/marcelstoltz00/Photosyntech/wiki/mediator) · [Observer](https://github.com/marcelstoltz00/Photosyntech/wiki/observer) · [State](https://github.com/marcelstoltz00/Photosyntech/wiki/state) · [Strategy](https://github.com/marcelstoltz00/Photosyntech/wiki/strategy)                                                                                                                                               |
 
 
-## 🛠️ Technologies & Tools
+<h2 align="center">🛠️ Technologies & Tools 🛠️</h2>
 <div align="center">
   <img src="https://skillicons.dev/icons?i=cpp,git,github,githubactions,cmake,latex"/>
 </div>
 
-## 🤝 Our Team
+<h2 align="center">🤝 Photosyntech Team 🤝</h2>
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/images/Team.jpg" alt="Photosyntech Team" width="600"/>
@@ -84,7 +84,9 @@ This project employs 12 different design patterns. For a detailed explanation of
 
 </div>
 
-## 📊 UML Diagrams
+<h2 align="center">📊 UML Diagrams 📊</h2>
+
+<div align="center">
 
 | Diagram Type         | Link                                                                                             |
 | :------------------- | :----------------------------------------------------------------------------------------------- |
@@ -94,3 +96,5 @@ This project employs 12 different design patterns. For a detailed explanation of
 | Sequence Diagram     | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/Sequence-Diagram)             |
 | State Diagram        | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/State-Diagram)                |
 | System Class Diagram | [View Diagram](https://github.com/marcelstoltz00/Photosyntech/wiki/System-Class-Diagram)         |
+
+</div>
