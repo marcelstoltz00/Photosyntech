@@ -19,10 +19,10 @@ SalesFloor::SalesFloor()
  * @brief Routes customer assistance requests to available sales staff.
  * @param customer Pointer to the User requesting sales assistance.
  */
-string SalesFloor::getAssistance(User *customer)
+string SalesFloor::getAssistance(Customer *customer)
 {
-    Customer *cust = dynamic_cast<Customer *>(customer);
-    if (cust == 0)
+
+    if (customer == 0)
     {
         std::cout << "SalesFloor: Invalid customer type for sales assistance" << std::endl;
         return "SalesFloor: Invalid customer type for sales assistance";
@@ -45,7 +45,7 @@ string SalesFloor::getAssistance(User *customer)
 
     std::cout << "SalesFloor: Assigning customer to staff member " << randomIndex << std::endl;
 
-    PlantGroup *basket = cust->getBasket();
+    PlantGroup *basket = customer->getBasket();
     if (basket != 0)
     {
         return availableStaff->assistPurchases(basket);
