@@ -128,4 +128,4 @@ photosyntech.tag
 TUI/TUIKit
 
 # Build directories with any suffix
-*build*
+build/
