@@ -45,13 +45,19 @@ int themeMode = 0;
 
 unordered_map<string, Element> cache;
 
-auto applyBackground(Element elem) {
-    if (themeMode == 0) {
+auto applyBackground(Element elem)
+{
+    if (themeMode == 0)
+    {
         return elem | bgcolor(Color::Black);
-    } else if (themeMode == 1) {
+    }
+    else if (themeMode == 1)
+    {
         return elem | bgcolor(Color::GrayLight);
-    } else {
-        return elem; 
+    }
+    else
+    {
+        return elem;
     }
 }
 
@@ -62,14 +68,6 @@ Element &getImage(const std::string &id)
         return it->second;
 
     return cache[id] = image_view(id);
-}
-
-void preloadImages(const std::vector<std::string> &ids)
-{
-    for (const auto &id : ids)
-    {
-        cache[id] = image_view(id); // expensive, but done once
-    }
 }
 
 void buildTreeEntries(
@@ -166,20 +164,9 @@ void refreshCustomerBasket(NurseryFacade &nursery, vector<string> &plantNames, C
 }
 int main()
 {
-    std::vector<std::string> imagePaths = {
-        "../docs/images/Cactus0.png", "../docs/images/Cactus1.png", "../docs/images/Cactus2.png", "../docs/images/Cactus3.png",
-        "../docs/images/CherryBlossom0.png", "../docs/images/CherryBlossom1.png", "../docs/images/CherryBlossom2.png", "../docs/images/CherryBlossom3.png",
-        "../docs/images/Jade0.png", "../docs/images/Jade1.png", "../docs/images/Jade2.png", "../docs/images/Jade3.png",
-        "../docs/images/Lavender0.png", "../docs/images/Lavender1.png", "../docs/images/Lavender2.png", "../docs/images/Lavender3.png",
-        "../docs/images/MapleTree0.png", "../docs/images/MapleTree1.png", "../docs/images/MapleTree2.png", "../docs/images/MapleTree3.png",
-        "../docs/images/photosyntech_logo.JPG",
-        "../docs/images/PineTree0.png", "../docs/images/PineTree1.png", "../docs/images/PineTree2.png", "../docs/images/PineTree3.png",
-        "../docs/images/Rose0.png", "../docs/images/Rose1.png", "../docs/images/Rose2.png", "../docs/images/Rose3.png",
-        "../docs/images/Sunflower0.png", "../docs/images/Sunflower1.png", "../docs/images/Sunflower2.png", "../docs/images/Sunflower3.png"};
-    preloadImages(imagePaths);
-    ;
+
     Inventory::getInstance();
-    bool refreshIterator = false;
+        LivingPlant *carouselPlant = nullptr;
     std::ofstream cerrLog("plant_manager_debug.txt");
     std::streambuf *oldCerrBuf = std::cerr.rdbuf();
     std::cerr.rdbuf(cerrLog.rdbuf());
@@ -205,7 +192,8 @@ int main()
                 statusText = "Status: Created new " + selectedType + " and added to Inventory.";
                 refreshInventoryView(nursery);
             }
-        } });
+        } }) |
+                        color(Color::LightGreen);
 
     auto waterButton = Button("Water Plant", [&]
                               {
@@ -226,37 +214,29 @@ int main()
     auto refreshButton = Button("Refresh", [&]
                                 { refreshInventoryView(nursery); });
 
-    auto startTickButton = Button("Start Ticker", [&]
+    auto startTickButton = Button("Start Simulating", [&]
                                   {
         if (nursery.startNurseryTick()) {
-            inventoryStatusText = "Inventory: Ticker Started.";
+            inventoryStatusText = "Inventory: Simulation Started.";
         } else {
-            inventoryStatusText = "Inventory: Ticker already running.";
+            inventoryStatusText = "Inventory: Simulation already running.";
         } });
 
-    auto stopTickButton = Button("Stop Ticker", [&]
+    auto stopTickButton = Button("Stop Simulation", [&]
                                  {
         if (nursery.stopNurseryTick()) {
-            inventoryStatusText = "Inventory: Ticker Stopped.";
+            inventoryStatusText = "Inventory: Simulation Stopped.";
         } else {
-            inventoryStatusText = "Inventory: Ticker was not running.";
+            inventoryStatusText = "Inventory: Simulation was not running.";
         }
         refreshInventoryView(nursery); });
 
     auto createGroupButton = Button("Create Group", [&]
-                                    { showCreateGroupDialogue = true; });
-
-    auto themeToggleButton = Button("Toggle Theme", [&]
-                                   { 
-        themeMode = (themeMode + 1) % 3; // Cycle through 0, 1, 2
-        if (themeMode == 0) {
-            statusText = "Status: Dark Mode (Black)";
-        } else if (themeMode == 1) {
-            statusText = "Status: Light Mode (Gray)";
-        } else {
-            statusText = "Status: Default Mode (Terminal)";
-        }
-    });
+                                    { 
+            showCreateGroupDialogue = true; 
+            screen.Post([&] {
+                refreshInventoryView(nursery);
+        }); });
 
     auto confirmGroupButton = Button("Create", [&]
                                      {
@@ -273,7 +253,10 @@ int main()
         inventoryStatusText = "Created Group " + std::to_string(groupCounter);
         groupCounter++;
         showCreateGroupDialogue = false;
-        refreshInventoryView(nursery); }) |
+        
+        screen.Post([&] {
+            refreshInventoryView(nursery);
+        }); }) |
                               color(Color::Green);
 
     auto cancelGroupButton = Button("Cancel", [&]
@@ -327,7 +310,14 @@ int main()
 
     auto addToGroupButton = Button("Move to Group", [&]
                                    {
+                      
+                                    carouselPlant == nullptr;
+
     if (selectedInventoryComponent){
+        if (selectedInventoryComponent == nursery.getInventoryRoot()) {
+            inventoryStatusText = "Cannot move the root inventory.";
+            return;
+        }
         componentToMove = selectedInventoryComponent;
         showMoveDialogue = true;
         buildGroupList();
@@ -339,13 +329,21 @@ int main()
 
     auto confirmMoveButton = Button("Move", [&]
                                     {
+        if (componentToMove == nursery.getInventoryRoot()) {
+            inventoryStatusText = "Cannot move the root inventory.";
+            showMoveDialogue = false;
+            return;
+        }
+        
         if (selectedGroupIndex >= 0 && selectedGroupIndex < static_cast<int>(groupComponents.size())) {
             targetGroup = groupComponents[selectedGroupIndex];
             nursery.removeComponentFromInventory(componentToMove);
             nursery.addComponentToGroup(targetGroup, componentToMove);
             inventoryStatusText = "Moved component to " + targetGroup->getName();
             showMoveDialogue = false;
-            refreshInventoryView(nursery);
+            screen.Post([&] {
+                refreshInventoryView(nursery);
+            });
         } }) |
                              color(Color::Green);
 
@@ -405,20 +403,22 @@ int main()
         screen.Post([&] {
             if (currentCustomer)
                 refreshCustomerBasket(nursery, basketNames, currentCustomer);
-        }); });
+        }); }) |
+                             color(Color::LightGreen);
 
     auto askAdvice = Button("Get Suggestion", [&]
                             { customerTerminalStr = nursery.askForSuggestion(currentCustomer); });
 
     auto basketAddBtn = Button("Add to Basket", [&]
                                {
-        refreshIterator = true;
+   
         bool result = nursery.addToCustomerBasket(currentCustomer, nursery.findPlant(customerTreeIndex));
         result ? statusText = "Plant added successfully" : statusText = "Something went wrong with plant adding";
         currentCustomerPlant = nursery.findPlant(customerTreeIndex);
         customerTreeIndex = 0;
         refreshCustomerBasket(nursery, basketNames, currentCustomer);
-        refreshInventoryView(nursery); });
+        refreshInventoryView(nursery); }) |
+                        color(Color::LightGreen);
 
     auto purchaseBtn = Button("Purchase Plants", [&]
                               {
@@ -456,23 +456,20 @@ int main()
     auto plantInfoRenderer = Renderer([&]
                                       { return paragraph(plantInfoText) | color(Color::GrayLight); });
 
-    auto managerInventoryTab = Container::Vertical({
-        plantSelector,
-        createButton,
-        Container::Horizontal({
-            waterButton,
-            sunButton,
-        }),
+    auto managerInventoryTab = Container::Horizontal({
 
-        Container::Horizontal({refreshButton,
-                               createGroupButton,
-                               addToGroupButton,
-                               viewInventoryPlantButton}),
+        Container::Horizontal({createButton, waterButton, sunButton, addToGroupButton, viewInventoryPlantButton}),
+
+        plantSelector,
+
         Container::Horizontal({
+            refreshButton,
+            createGroupButton,
             startTickButton,
             stopTickButton,
         }),
         treeMenu | size(HEIGHT, EQUAL, 15),
+
     });
 
     ftxui::SliderOption<int> water_slider_option;
@@ -503,12 +500,13 @@ int main()
     health_Slider_option.min = 0;
     health_Slider_option.max = 200;
     health_Slider_option.increment = 1;
-    health_Slider_option.color_active = ftxui::Color::LightGreen;
+    health_Slider_option.color_active = ftxui::Color::Green;
     health_Slider_option.color_inactive = ftxui::Color::GrayDark;
 
-    auto healthSlider = Slider(health_Slider_option);
+    auto healthSlider = Slider(health_Slider_option) | color(Color::Green);
     auto healthStyled = Renderer(healthSlider, [&]
-                                 { return healthSlider->Render() | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 65); });
+                                 { return healthSlider->Render() | color(Color::LightGreen) | size(HEIGHT, EQUAL, 1) | size(WIDTH, EQUAL, 65); }) |
+                        color(Color::Green);
 
     auto backButton = Button("<< Back", [&]
                              {
@@ -576,13 +574,16 @@ int main()
                                currentStaffMember= nursery.addStaff(staffName);
                                statusText = currentStaffMember ? "Staff Member added " : "Staff member could not be added";
                                refreshStaffView(nursery,staffNames);
-                               refreshPlantGroupView(nursery,plantGroupNames); });
+                               refreshPlantGroupView(nursery,plantGroupNames); }) |
+                    color(Color::LightGreen);
     auto AddStaffObserver = Button("Set Observer", [&]
                                    { nursery.setAsObserver(currentStaffMember, currentPlantGroupStaff);
-                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully added as an observer":" could not process request"; });
+                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully added as an observer":" could not process request"; }) |
+                            color(Color::Yellow);
     auto removeStaffObserver = Button("Detach Observer", [&]
                                       { nursery.RemoveObserver(currentStaffMember, currentPlantGroupStaff);
-                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully removed as an observer":" could not process request"; }) | color(Color::Red);
+                             statusText =    currentPlantGroupStaff?    currentStaffMember->getName() + " successfully removed as an observer":" could not process request"; }) |
+                               color(Color::Red);
 
     auto staffManagement = Container::Vertical({
 
@@ -594,7 +595,6 @@ int main()
 
     // ########################### Iterator additions
 
-    LivingPlant *carouselPlant = nullptr;
     string filterTextCarousel = "";
     string plantInfoCarousel = "";
     string imgString = "";
@@ -613,13 +613,16 @@ int main()
 
     auto changeFilterType = Button("Change Filter Type", [&]
                                    { seasonfilter = !seasonfilter;
-                                        availableFilterIndex = 0; availableSeasonsFilter = 0; });
+                                        availableFilterIndex = 0; availableSeasonsFilter = 0; }) |
+                            color(Color::LightGreen);
 
     auto addRemoveFilter = Button(&addOrRemoveFilter, [&]
                                   {  
                                         filterTextCarousel = "";
                                         !isFiltering? addOrRemoveFilter ="Remove Filter" : addOrRemoveFilter = "Add Filter" ;
-                                        isFiltering = !isFiltering; });
+                                        isFiltering = !isFiltering; 
+                                      carouselPlant = nursery.createItr(); }) |
+                           color(Color::Cyan);
 
     auto dropPlants = Dropdown(&availablePlant, &availableFilterIndex);
 
@@ -627,20 +630,23 @@ int main()
 
     auto CreatePlantIterator = Button("Create Iterator",
                                       [&]
-                                      {   
-                                        carouselPlant = nullptr;
+                                      {
+                                          carouselPlant = nullptr;
 
-                                        
-                                        seasonfilter?  filterTextCarousel = getFilter(nursery,availableSeasonsFilter,seasonfilter) :
-                                        filterTextCarousel = getFilter(nursery,availableFilterIndex,seasonfilter) ;
+                                          seasonfilter ? filterTextCarousel = getFilter(nursery, availableSeasonsFilter, seasonfilter) : filterTextCarousel = getFilter(nursery, availableFilterIndex, seasonfilter);
 
-                                        if (isFiltering)
-                                        carouselPlant = nursery.createItr(filterTextCarousel,seasonfilter);
-                                        else
-                                        carouselPlant = nursery.createItr();
+                                          if (isFiltering)
+                                              carouselPlant = nursery.createItr(filterTextCarousel, seasonfilter);
+                                          else
+                                              carouselPlant = nursery.createItr();
 
-                                                endOfList = carouselPlant == nullptr;
-                                                plantChanged = true; });
+                                          endOfList = carouselPlant == nullptr;
+                                          plantChanged = true;
+
+                                          screen.Post([&]
+                                                      { refreshInventoryView(nursery); });
+                                      }) |
+                               color(Color::Yellow);
 
     auto forwardButton = Button("->", [&]
                                 {    if (isFiltering)
@@ -649,16 +655,18 @@ int main()
                                   carouselPlant = nursery.next(); 
 
                                     endOfList = carouselPlant == nullptr;
-                                    plantChanged = true; });
+                                    plantChanged = true; }) |
+                         color(Color::White);
 
     auto backButtonCarousel = Button("<-", [&]
                                      { carouselPlant = nursery.back(); 
                                 endOfList = carouselPlant == nullptr;
-                                plantChanged = true; });
+                                plantChanged = true; }) |
+                              color(Color::White);
 
     auto carousel = Container ::Horizontal({Container::Vertical({dropPlants, dropSeason}),
-                                            
-    backButtonCarousel, CreatePlantIterator, changeFilterType, addRemoveFilter, forwardButton});
+
+                                            backButtonCarousel, CreatePlantIterator, changeFilterType, addRemoveFilter, forwardButton});
 
     // ########################### Iterator additions
 
@@ -676,7 +684,6 @@ int main()
     main_ui = Container::Vertical({
         Container::Horizontal({
             tabToggle,
-            themeToggleButton,
         }),
         tabContainer,
     });
@@ -687,18 +694,23 @@ int main()
                                  {
                                     counter++;
 
-            
 
+          
 
                         
                     if (counter == 15)
                     {
+
+                    refreshInventoryView(nursery);
+
         seasonString = nursery.getCurrentSeason();
         colorAddSeason = seasonString == "🌞 Summer 🌞" ? color(Color::Yellow) : 
             seasonString == "🍂 Autumn 🍂" ? color(Color::Orange1) :
             seasonString == "🌸 Spring 🌸"? color(Color::Green) :
                                              color(Color::Blue1) ;
 
+if (tabSelected == 4)
+{                                             
         plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
 
         prevImgStr = imgString;
@@ -708,44 +720,23 @@ int main()
             imageElement  = getImage(imgString);
         }
 
+    }
+        if (tabSelected == 3)
+  {  refreshCustomerView(nursery, plantNames);
 
-    refreshCustomerView(nursery, plantNames);
-    refreshPlantGroupView(nursery,plantGroupNames);
         currentCustomerPlant = nursery.findPlant(customerTreeIndex);
-        currentStaffMember = nursery.findStaff(staffIndex);
+}
 
-        plantGroupObjects = nursery.getAllPlantGroupObjects();
-        currentPlantGroupStaff = nursery.findPlantGroup(plantGroupIndex,plantGroupObjects);
-        if (currentPlantGroupStaff)
-        {
-        plantGroupContents = nursery.getPlantGroupContents(currentPlantGroupStaff);
-        observerNames = nursery.getObservers(currentPlantGroupStaff);
-        }                           
-        if (currentCustomerPlant) {
-            water = currentCustomerPlant->getWaterValue();
-            sun = currentCustomerPlant->getSunlightValue();
-            health = currentCustomerPlant->getHealth();
-        }
-
-
-  
-
-    counter =0;}
-                        if (refreshIterator)
+   
+                        if ( tabSelected != 4)
                         {
                             carouselPlant = nullptr;
                             imgString = "";
-                            if (isFiltering)
-                            carouselPlant = nursery.createItr(filterTextCarousel,seasonfilter);
-                            else
-                            carouselPlant = nursery.createItr();
-
-                            plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
-                            imgString = carouselPlant ? carouselPlant->getImageStr(): "";
-                            refreshIterator= false;
+           
                         }
 
-         if (plantChanged  && !endOfList && carouselPlant)
+
+         if ( tabSelected == 4 && plantChanged  && !endOfList && carouselPlant )
         {
         plantInfoCarousel = carouselPlant ? carouselPlant->getInfo(): "";
         prevImgStr = imgString;
@@ -756,17 +747,50 @@ int main()
         }
         plantChanged = false;
         }
-          
+
+
+        if (tabSelected == 2)
+        {     currentStaffMember = nursery.findStaff(staffIndex);
+        plantGroupObjects = nursery.getAllPlantGroupObjects();
+        currentPlantGroupStaff = nursery.findPlantGroup(plantGroupIndex,plantGroupObjects);
+            refreshPlantGroupView(nursery,plantGroupNames);}
+
+
+
+        if (currentPlantGroupStaff && tabSelected == 2)
+        {
+        plantGroupContents = nursery.getPlantGroupContents(currentPlantGroupStaff);
+        observerNames = nursery.getObservers(currentPlantGroupStaff);
+        }          
+        
+        
+        if (currentCustomerPlant && tabSelected == 3) {
+            water = currentCustomerPlant->getWaterValue();
+            sun = currentCustomerPlant->getSunlightValue();
+            health = currentCustomerPlant->getHealth();
+        }
+
+        /*
+        
+        (tabSelected == 0 ? managerInventoryView :
+        tabSelected == 1 ? tab4View : tabSelected == 2 ?
+        StaffView : tabSelected ==3 ? customerView : carouselView) | flex,
+        */
+
+  
+
+    counter =0;}
+
 
 
 
 
     Element managerInventoryView = applyBackground(vbox({
-        window(text("Plant Creation") | bold | color(Color::Green), 
+        window(text("Plant Creation") | bold | color(Color::LightGreen), 
         vbox({
     
            hbox({ filler(),
-           window(text("Plant Interactions") | color(Color::GrayLight),
+           window(text("Plant Interactions") | color(Color::Cyan),
             hbox( { 
                  filler(),
             createButton->Render() | color(Color::Green) ,
@@ -782,13 +806,13 @@ int main()
 
         | size(HEIGHT,LESS_THAN,3)  | color(Color::Green),
                              filler(),      
-                         vbox({text("Select Plant Type: ")|hcenter | color(Color::GrayLight), 
-                            text(plantTypes[plantSelectorIndex]) |hcenter| bold | color(Color::Green),
+                         vbox({text("Select Plant Type: ")|hcenter | color(Color::LightGreen), 
+                            text(plantTypes[plantSelectorIndex]) |hcenter| bold | color(Color::Yellow),
                             plantSelector->Render()|hcenter,}) ,
                        filler(),
             filler(),
 
-            window( text("Inventory interactions") | color(Color::GrayLight),   hbox({
+            window( text("Inventory interactions") | color(Color::Cyan),   hbox({
             refreshButton->Render() | color(Color::Cyan) ,
             filler(),
             createGroupButton->Render() | color(Color::Green) ,
@@ -806,25 +830,25 @@ int main()
 
         text(inventoryStatusText) | color(Color::Green) | bold,
         separator() | color(Color::Green),
-        window(text("Inventory Hierarchy") | bold | color(Color::Green),
-            treeMenu->Render() | frame | size(HEIGHT,LESS_THAN,16)| size(HEIGHT,GREATER_THAN,12) 
+        window(text("Inventory Hierarchy") | bold | color(Color::LightGreen),
+            treeMenu->Render() | color(Color::White) | frame | size(HEIGHT,LESS_THAN,16)| size(HEIGHT,GREATER_THAN,12) 
         )  | color(Color::Green),
     }));
     Element StaffView = applyBackground(vbox(
         {
-           hcenter (hbox({ filler(),removeStaffObserver->Render()|center| size(WIDTH,EQUAL,20)  | color(Color::RedLight),filler(),
-               window(text("Enter staff") | color(Color::Cyan), staffNameInput->Render()| size(WIDTH,EQUAL,40)|size(HEIGHT,EQUAL,2) ) | color(Color::Cyan),addStaff->Render() |center |size(WIDTH,LESS_THAN,13) | color(Color::Cyan),filler(),
-               AddStaffObserver->Render()|center| size(WIDTH,EQUAL,20)  | color(Color::Cyan),
-         filler()   })  |size(HEIGHT,EQUAL,3)| size(WIDTH,EQUAL,300)|border | color(Color::Green) ),
+           hcenter (hbox({ filler(),removeStaffObserver->Render()|center| size(WIDTH,EQUAL,20),filler(),
+               window(text("Enter staff") | color(Color::Yellow), staffNameInput->Render() | color(Color::White)| size(WIDTH,EQUAL,40)|size(HEIGHT,EQUAL,2)) ,addStaff->Render() |center |size(WIDTH,LESS_THAN,13),filler(),
+               AddStaffObserver->Render()|center| size(WIDTH,EQUAL,20),
+         filler()   })  |size(HEIGHT,EQUAL,3)| size(WIDTH,EQUAL,300)|border),
             hbox({
 
              filler(),
-            window(text("Staff members") | color(Color::Cyan),staffMenu->Render() )|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,30) | color(Color::Green), 
-            window(text("Plant groups") | color(Color::Cyan),plantGroupMenu->Render() )|size(WIDTH,EQUAL,80)|size(HEIGHT,GREATER_THAN,30) | color(Color::Green),
+            window(text("Staff members") | color(Color::Cyan),staffMenu->Render() | color(Color::White))|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,30), 
+            window(text("Plant groups") | color(Color::Cyan),plantGroupMenu->Render() | color(Color::White))|size(WIDTH,EQUAL,80)|size(HEIGHT,GREATER_THAN,30),
 
             vbox({
-            window(text("Plant group contents") | color(Color::Cyan),plantGroupContentsMenu->Render() )|size(WIDTH,GREATER_THAN,32)|size(HEIGHT,GREATER_THAN,15) | color(Color::Green),
-            window(text("Observers for current group") | color(Color::Cyan),plantGroupObservers->Render() )|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,15) | color(Color::Green)               
+            window(text("Plant group contents") | color(Color::Cyan),plantGroupContentsMenu->Render() | color(Color::White))|size(WIDTH,GREATER_THAN,32)|size(HEIGHT,GREATER_THAN,15),
+            window(text("Observers for current group") | color(Color::Cyan),plantGroupObservers->Render() | color(Color::White))|size(WIDTH,EQUAL,32)|size(HEIGHT,GREATER_THAN,15)               
             }),
             filler()
         
@@ -863,7 +887,7 @@ int main()
                 currentCustomer?  
                 hbox({
                 filler(),
-                askAdvice->Render()|center | color(Color::Yellow)  | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
+                askAdvice->Render()|center | color(Color::Cyan) | size(HEIGHT, EQUAL, 3) | size(WIDTH, EQUAL, 20),
                 filler(),               
                 basketAddBtn->Render()|center | color(Color::Green)  | size(WIDTH, EQUAL, 25),
                 filler()
@@ -890,19 +914,18 @@ int main()
 
                   
                 hbox({
-                    window(text("Available Plants") | bold | color(Color::Yellow), customerMenu->Render() )
+                    window(text("Available Plants") | bold | color(Color::Cyan), customerMenu->Render() | color(Color::White))
                     | size(WIDTH, GREATER_THAN, 100)
-                    | size(HEIGHT, GREATER_THAN, 12)  | color(Color::Green),
-                    window(text(currentCustomer->getName() + "'s basket") | bold | color(Color::Yellow), customerBasket->Render() )
+                    | size(HEIGHT, GREATER_THAN, 12),
+                    window(text(currentCustomer->getName() + "'s basket") | bold | color(Color::Cyan), customerBasket->Render() | color(Color::White))
                     | size(WIDTH, GREATER_THAN, 100)
                     | size(HEIGHT, GREATER_THAN, 12)  | color(Color::Green)
                 }),
 
                 hbox({
-                    
-                    window (text("Water Level") | color(Color::Yellow), vbox({waterStyled->Render()}) ) | color(Color::Green),
-                     window (text("Health Level") | color(Color::Yellow), vbox({healthStyled->Render()}) ) | color(Color::Green),
-                     window (text("Sun level") | color(Color::Yellow), vbox({sunStyled->Render()}) ) | color(Color::Green),
+                    window (text("Health Level") | color(Color::LightGreen),{healthStyled->Render()}),
+                    window (text("Water Level") | color(Color::Cyan),{waterStyled->Render()}), 
+                     window (text("Sun level") | color(Color::Yellow),{sunStyled->Render()}),
                 }),
                 filler(),
 
@@ -918,47 +941,53 @@ int main()
                 window(text("Enter details") | bold | color(Color::Yellow), 
                     paragraph("Please enter your name first and press login") | color(Color::GrayLight) ) | color(Color::Green)
             })
-        }) | size(WIDTH,EQUAL ,500) |border | color(Color::Green) |hcenter);
-            
-    Element tab4View = applyBackground(vbox({
-            window(text("Plant Details") | bold | color(Color::Cyan),
+        }) | size(WIDTH,EQUAL ,500) |border|hcenter);
+        Element tab4View = vbox({
+            window(text("Plant Details") | bold | color(Color::LightGreen),
                 vbox({
                     [=] {
                         float water_val = 0;
                         float sun_val = 0;
+                        float health_val = 0;
                         float max_stat = 200; 
                         std::string info_text = "No plant selected. Go back and select one.";
 
                         if (plantToView && plantToView->getType() != ComponentType::PLANT_GROUP) {
                             water_val = (float)plantToView->getWaterValue();
                             sun_val = (float)plantToView->getSunlightValue();
+                            health_val = (float)plantToView->getHealth();
                         }
 
                         if (plantToView) {
-                             if (plantToView->getType() == ComponentType::PLANT_GROUP) {
+                            if (plantToView->getType() == ComponentType::PLANT_GROUP) {
                                 info_text = plantToView->getInfo();
                             } else {
                                 info_text = plantToView->getDecorator()->getInfo();
                             }
                         }
 
+                        Element healthBar = hbox({
+                            text("Health: ") | size(WIDTH, EQUAL, 8) | color(Color::Green),
+                            gauge(health_val / max_stat) | color(Color::Green) | flex
+                        });
                         Element waterBar = hbox({
                             text("Water:  ") | size(WIDTH, EQUAL, 8) | color(Color::Cyan),
                             gauge(water_val / max_stat) | color(Color::Blue) | flex
                         });
                         Element sunBar = hbox({
-                            text("Sun:    ") | size(WIDTH, EQUAL, 8) | color(Color::Cyan),
+                            text("Sun:    ") | size(WIDTH, EQUAL, 8) | color(Color::Yellow),
                             gauge(sun_val / max_stat) | color(Color::Yellow) | flex
                         });
 
                         Element infoBox = paragraph(info_text) |
-                                          color(Color::GrayLight) | 
-                                          yframe | 
-                                          vscroll_indicator | 
-                                          size(HEIGHT, EQUAL, 30);
+                                        color(Color::GrayLight) | 
+                                        yframe | 
+                                        vscroll_indicator | 
+                                        size(HEIGHT, EQUAL, 30);
 
                         if (plantToView && plantToView->getType() != ComponentType::PLANT_GROUP) {
-                             return vbox({
+                            return vbox({
+                                healthBar,
                                 waterBar,
                                 sunBar,
                                 separator() | color(Color::Green),
@@ -980,16 +1009,16 @@ int main()
             }) | vcenter | size(HEIGHT, EQUAL, 3) ,
             separator() | color(Color::Green),
             backButton->Render() | color(Color::RedLight)  | center
-        }));
+        });
 
         Element main = applyBackground(vbox({
-        applyBackground(hbox({
+        applyBackground(hbox({ filler(),
            text("🌿 Photosyntech Plant Manager 🌿 ") | bold | color(Color::Green), 
            filler(), 
-           text(seasonString) | colorAddSeason           
+           text(seasonString) | colorAddSeason    , filler()       
             , 
         }) | border | color(Color::Green)),
-        applyBackground(tabToggle->Render()),
+        applyBackground(tabToggle->Render() | color(Color::White)),
         separator() | color(Color::Green),
 
         (tabSelected == 0 ? managerInventoryView :
@@ -1000,9 +1029,8 @@ int main()
         applyBackground(hbox({
             text(statusText) | border | color(Color::Cyan),
             filler(),
-            themeToggleButton->Render() | color(themeMode == 0 ? Color::Yellow : themeMode == 1 ? Color::Cyan : Color::Green),
         })),
-    }));
+    })) | color(Color::Green);
 
 
         return main; });
@@ -1014,10 +1042,10 @@ int main()
 
     auto createGroupModal = Renderer(groupDialogueComponent, [&]
                                      { return applyBackground(window(text("Create New Group") | bold | color(Color::Green),
-                                                     applyBackground(vbox({text("Create a new, empty group?") | color(Color::GrayLight),
-                                                           separator() | color(Color::Green),
-                                                           groupDialogueComponent->Render() | center})) ) |
-                                              center  | color(Color::Green)); });
+                                                                     applyBackground(vbox({text("Create a new, empty group?") | color(Color::GrayLight),
+                                                                                           separator() | color(Color::Green),
+                                                                                           groupDialogueComponent->Render() | center}))) |
+                                                              center | color(Color::Green)); });
 
     auto moveDialogueComponent = Container::Vertical({groupSelectMenu,
                                                       Container::Horizontal({confirmMoveButton,
@@ -1025,11 +1053,11 @@ int main()
 
     auto moveDialogModal = Renderer(moveDialogueComponent, [&]
                                     { return applyBackground(window(text("Move Component") | bold | color(Color::Green),
-                                                    applyBackground(vbox({text("Select target group:") | color(Color::GrayLight),
-                                                          moveDialogueComponent->ChildAt(0)->Render() | frame | size(HEIGHT, LESS_THAN, 10) ,
-                                                          separator() | color(Color::Green),
-                                                          moveDialogueComponent->ChildAt(1)->Render() | center})) ) |
-                                             center  | color(Color::Green)); });
+                                                                    applyBackground(vbox({text("Select target group:") | color(Color::GrayLight),
+                                                                                          moveDialogueComponent->ChildAt(0)->Render() | frame | size(HEIGHT, LESS_THAN, 10),
+                                                                                          separator() | color(Color::Green),
+                                                                                          moveDialogueComponent->ChildAt(1)->Render() | center}))) |
+                                                             center | color(Color::Green)); });
 
     auto modal_component = Modal(mainRenderer, createGroupModal, &showCreateGroupDialogue);
     auto final_component = Modal(modal_component, moveDialogModal, &showMoveDialogue);

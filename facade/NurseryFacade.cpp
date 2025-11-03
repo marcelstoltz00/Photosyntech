@@ -431,8 +431,9 @@ std::vector<PlantComponent *> NurseryFacade::getAllPlantGroupObjects()
 PlantGroup *NurseryFacade::findPlantGroup(int index, std::vector<PlantComponent *> groups)
 {
 
-    if (groups.size() != 0)
+    if (groups.size() != 0 && index< groups.size())
     {
+
         PlantComponent *pg = groups[index];
 
         if (pg && (pg)->getType() == ComponentType::PLANT_GROUP)
