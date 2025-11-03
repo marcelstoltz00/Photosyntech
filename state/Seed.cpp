@@ -34,8 +34,11 @@ void Seed::grow(LivingPlant *plant) {
   plant->setWaterLevel(plant->getWaterLevel() - waterusage);
 
   if (plant->getWaterLevel() >= 40 && plant->getSunExposure() >= 20) {
-    plant->setHealth(plant->getHealth() + 1);
+    plant->setHealth(plant->getHealth() + 5);
   }
+
+    if (plant->getWaterLevel() <= 10 || plant->getSunExposure() <= 10)
+    plant->setHealth(plant->getHealth() - 5);
 
   if (plant->getAge() >= 7 && plant->getHealth() >= 50 &&
       plant->getWaterLevel() >= 50 && plant->getSunExposure() >= 30) {

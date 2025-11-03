@@ -166,7 +166,9 @@ int main()
 {
 
     Inventory::getInstance();
-        LivingPlant *carouselPlant = nullptr;
+    Inventory::updateTickerRate(2);
+    
+    LivingPlant *carouselPlant = nullptr;
     std::ofstream cerrLog("plant_manager_debug.txt");
     std::streambuf *oldCerrBuf = std::cerr.rdbuf();
     std::cerr.rdbuf(cerrLog.rdbuf());
@@ -422,6 +424,7 @@ int main()
 
     auto purchaseBtn = Button("Purchase Plants", [&]
                               {
+        plantToView =nullptr;
         customerTerminalStr = nursery.customerPurchase(currentCustomer);
         refreshCustomerBasket(nursery, basketNames, currentCustomer); });
 
