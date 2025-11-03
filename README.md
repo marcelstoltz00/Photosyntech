@@ -25,7 +25,7 @@
 ## 🌱 Key Features
 
 *   **Plant Management:** Track and manage a virtual collection of plants.
-*   **Growth Simulation:** Watch your plants grow, change, and react based on care routines.
+*   **Growth Simulation:** Watch your plants grow, change and react based on care routines.
 *   **Design Pattern Showcase:** A practical C++ demonstration of 12 different GoF design patterns.
 
 ## 🚀 Quick Start
@@ -50,6 +50,17 @@ make test-run
 make tui-manager
 ```
 
+## 🏛️ Design Patterns Used
+
+This project employs 12 different design patterns. For a detailed explanation of each, please see their individual pages on our project wiki.
+
+| Category     | Patterns                                                                                                                                                                                                                                                                                       | 
+| :----------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Creational** | [Builder](wiki/builder.md) · [Prototype](wiki/prototype.md) · [Singleton](wiki/singleton.md)                                                                                                                                                                                                  |
+| **Structural** | [Composite](wiki/composite.md) · [Decorator](wiki/decorator.md) · [Facade](wiki/facade.md) · [Flyweight](wiki/flyweight.md)                                                                                                                                                                     |
+| **Behavioral** | [Iterator](wiki/iterator.md) · [Mediator](wiki/mediator.md) · [Observer](wiki/observer.md) · [State](wiki/state.md) · [Strategy](wiki/strategy.md)                                                                                                                                               |
+
+
 ## 🛠️ Technologies & Tools
 <div align="center">
   <img src="https://skillicons.dev/icons?i=cpp,git,github,githubactions,cmake,latex"/>
@@ -72,3 +83,14 @@ make tui-manager
 | Zamokuhle Zwane      | u23533413  | The Architect               |
 
 </div>
+
+## 📊 UML Diagrams
+
+| Diagram Type         | Link                                                                                             |
+| :------------------- | :----------------------------------------------------------------------------------------------- |
+| Activity Diagram     | [View Diagram](wiki/Activity-Diagram.md)                                                         |
+| Communication Diagram| [View Diagram](wiki/Communication-Diagram.md)                                                      |
+| Object Diagram       | [View Diagram](wiki/Object-Diagram.md)                                                           |
+| Sequence Diagram     | [View Diagram](wiki/Sequence-Diagram.md)                                                         |
+| State Diagram        | [View Diagram](wiki/State-Diagram.md)                                                            |
+| System Class Diagram | [View Diagram](wiki/System-Class-Diagram.md)                                                     |
