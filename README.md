@@ -18,7 +18,7 @@
 
 <div align="center">
 
-**[View the Project Wiki](https://github.com/marcelstoltz00/Photosyntech/wiki) | [Full Documentation (Doxygen)](https://marcelstoltz00.github.io/Photosyntech/) | [Read the Report](docs/report.pdf)**
+**[View the Project Wiki](https://github.com/marcelstoltz00/Photosyntech/wiki) | [Full Documentation (Doxygen)](https://marcelstoltz00.github.io/Photosyntech/) | [Read the Report](https://raw.githubusercontent.com/marcelstoltz00/Photosyntech/main/docs/COS214FinalReport.pdf)**
 
 </div>
 
