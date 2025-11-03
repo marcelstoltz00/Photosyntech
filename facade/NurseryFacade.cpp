@@ -6,6 +6,7 @@ NurseryFacade::NurseryFacade()
     director = nullptr;
     sales = new SalesFloor();
     suggestionFloor = new SuggestionFloor();
+    this->carouselItr = nullptr;
 }
 
 NurseryFacade::~NurseryFacade()
@@ -14,6 +15,35 @@ NurseryFacade::~NurseryFacade()
 
     delete sales;
     delete suggestionFloor;
+
+    if (carouselItr)
+    {
+        delete carouselItr;
+        carouselItr = nullptr;
+    }
+}
+string NurseryFacade::getCurrentSeason()
+{
+    string output = "";
+    string seasonStr = "";
+    Flyweight<string *> *season = Inventory::getInstance()->getSeason();
+
+    if (season)
+    {
+    if (*season->getState() == "Winter Season")
+        seasonStr = "❄️ Winter ❄️";
+    else if (*season->getState() == "Summer Season")
+        seasonStr = "🌞 Summer 🌞";
+    else if (*season->getState() == "Autumn Season")
+        seasonStr = "🍂 Autumn 🍂";
+    else
+        seasonStr = "🌸 Spring 🌸";
+    }
+    else
+    return "";
+
+    return output+=seasonStr;
+    //❄️☆°~✧🦢.ೃ❄️
 }
 
 PlantComponent *NurseryFacade::createPlant(const std::string &type)
@@ -24,9 +54,9 @@ PlantComponent *NurseryFacade::createPlant(const std::string &type)
         selectedBuilder = new SunflowerBuilder();
     else if (type == "Rose")
         selectedBuilder = new RoseBuilder;
-    else if (type == "Jade Plant")
+    else if (type == "Jade")
         selectedBuilder = new JadePlantBuilder;
-    else if (type == "Maple")
+    else if (type == "Maple Tree")
         selectedBuilder = new MapleBuilder;
     else if (type == "Cactus")
         selectedBuilder = new CactusBuilder;
@@ -34,13 +64,13 @@ PlantComponent *NurseryFacade::createPlant(const std::string &type)
         selectedBuilder = new CherryBlossomBuilder;
     else if (type == "Lavender")
         selectedBuilder = new LavenderBuilder;
-    else if (type == "Pine")
+    else if (type == "Pine Tree")
         selectedBuilder = new PineBuilder;
     else
         return nullptr;
     if (director)
-    delete director;
-    Builder* builder = selectedBuilder;
+        delete director;
+    Builder *builder = selectedBuilder;
     director = new Director(builder);
 
     director->construct();
@@ -106,8 +136,16 @@ PlantComponent *NurseryFacade::getPlantFromBasket(Customer *customer, int index)
 std::vector<std::string> NurseryFacade::getAvailablePlantTypes()
 {
     return {
-        "Sunflower", "Rose", "Jade Plant", "Maple",
-        "Cactus", "Cherry Blossom", "Lavender", "Pine"};
+        "Sunflower", "Rose", "Jade", "Maple Tree",
+        "Cactus", "Cherry Blossom", "Lavender", "Pine Tree"};
+}
+std::vector<std::string> NurseryFacade::getAvailableSeasons()
+{
+    return {
+        "Winter Season",
+        "Summer Season",
+        "Spring Season",
+        "Autumn Season"};
 }
 
 PlantComponent *NurseryFacade::getInventoryRoot()
@@ -372,27 +410,40 @@ std::vector<string> NurseryFacade::getAllPlantGroups()
     }
     return groupNames;
 }
-
-PlantGroup *NurseryFacade::findPlantGroup(int index)
+std::vector<PlantComponent *> NurseryFacade::getAllPlantGroupObjects()
 {
 
     std::list<PlantComponent *> groups = *Inventory::getInstance()->getInventory()->getPlants();
+    std::vector<PlantComponent *> groupNames;
     int count = 0;
     auto itr = groups.begin();
-    while (itr != groups.end() && count < index)
+    while (itr != groups.end())
     {
-        if ((*itr)->getType() == ComponentType::PLANT_GROUP)
+        if (*itr && (*itr)->getType() == ComponentType::PLANT_GROUP)
         {
-            count++;
+            groupNames.push_back((*itr));
         }
         itr++;
     }
-    if (*itr && (*itr)->getType() == ComponentType::PLANT_GROUP)
+    return groupNames;
+}
+
+PlantGroup *NurseryFacade::findPlantGroup(int index, std::vector<PlantComponent *> groups)
+{
+
+    if (groups.size() != 0 && index< groups.size())
     {
-        return static_cast<PlantGroup *>(*itr);
+
+        PlantComponent *pg = groups[index];
+
+        if (pg && (pg)->getType() == ComponentType::PLANT_GROUP)
+        {
+            return static_cast<PlantGroup *>(pg);
+        }
+        else
+            return nullptr;
     }
-    else
-        return nullptr;
+    return nullptr;
 }
 vector<string> NurseryFacade::getPlantGroupContents(PlantGroup *PlantGroup)
 {
@@ -433,24 +484,82 @@ bool NurseryFacade::RemoveObserver(Staff *staff, PlantGroup *PG)
     return false;
 }
 
- vector<string> NurseryFacade::getObservers(PlantGroup* pg)
- {
+vector<string> NurseryFacade::getObservers(PlantGroup *pg)
+{
     if (pg)
     {
         std::vector<string> names;
-    std::list<Observer *> staff = pg->getObservers();
-   auto itr = staff.begin();
-    while (itr != staff.end())
-    {
-        if (*itr)
-        names.push_back((*itr)->getNameObserver());
+        std::list<Observer *> staff = pg->getObservers();
+        auto itr = staff.begin();
+        while (itr != staff.end())
+        {
+            if (*itr)
+                names.push_back((*itr)->getNameObserver());
 
-        itr++;
-    }
-    return names;
+            itr++;
+        }
+        return names;
     }
     else
     {
         return {};
     }
- }
+}
+LivingPlant *NurseryFacade::createItr(string filter, bool seasonFilter)
+{
+
+    if (this->carouselItr)
+    {
+        delete carouselItr;
+        carouselItr == nullptr;
+    }
+
+    Aggregate *agg = nullptr;
+
+    if (!filter.empty())
+    {
+        if (seasonFilter)
+        {
+            agg = new AggSeason(Inventory::getInstance()->getInventory()->getPlants(), filter);
+        }
+        else
+        {
+            agg = new AggPlantName(Inventory::getInstance()->getInventory()->getPlants(), filter);
+        }
+    }
+    else
+    {
+        agg = new AggPlant(Inventory::getInstance()->getInventory()->getPlants());
+    }
+
+
+    carouselItr = agg->createIterator();
+    delete agg;
+    return carouselItr->currentItem();
+}
+
+LivingPlant *NurseryFacade::next(string filter, bool seasonFilter)
+{
+    if (carouselItr && carouselItr->isDone() == false)
+    {
+        carouselItr->next();
+        if (carouselItr->currentItem())
+            return carouselItr->currentItem();
+        else
+        {
+            return createItr(filter, seasonFilter);
+        }
+    }
+    else
+        return nullptr;
+}
+LivingPlant *NurseryFacade::back()
+{
+    if (carouselItr && !carouselItr->isDone())
+    {
+        carouselItr->back();
+        return carouselItr->currentItem();
+    }
+    else
+        return nullptr;
+}

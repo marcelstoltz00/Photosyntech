@@ -1,3 +1,0 @@
-[DEBUG] TUIApp constructor: screen_ initialized.
-TUIResizableSplit: Constructor called.
-[TUIApp] Setting main widget

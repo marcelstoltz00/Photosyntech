@@ -55,3 +55,11 @@ table.doxtable th {
     background-color: #4CAF50;
     color: white;
 }
+
+/* Center images processed from Markdown files */
+.contents .image {
+    text-align: center;
+}
+.contents .image img {
+    display: inline-block;
+}
