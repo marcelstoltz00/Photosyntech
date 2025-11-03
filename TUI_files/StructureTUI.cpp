@@ -329,8 +329,12 @@ int main()
     };
 
     auto addToGroupButton = Button("Move to Group", [&]
-                                   {
+                            {
     if (selectedInventoryComponent){
+        if (selectedInventoryComponent == nursery.getInventoryRoot()) {
+            inventoryStatusText = "Cannot move the root inventory.";
+            return;
+        }
         componentToMove = selectedInventoryComponent;
         showMoveDialogue = true;
         buildGroupList();
@@ -342,15 +346,23 @@ int main()
 
     auto confirmMoveButton = Button("Move", [&]
                                     {
+        if (componentToMove == nursery.getInventoryRoot()) {
+            inventoryStatusText = "Cannot move the root inventory.";
+            showMoveDialogue = false;
+            return;
+        }
+        
         if (selectedGroupIndex >= 0 && selectedGroupIndex < static_cast<int>(groupComponents.size())) {
             targetGroup = groupComponents[selectedGroupIndex];
             nursery.removeComponentFromInventory(componentToMove);
             nursery.addComponentToGroup(targetGroup, componentToMove);
             inventoryStatusText = "Moved component to " + targetGroup->getName();
             showMoveDialogue = false;
-            refreshInventoryView(nursery);
+            screen.Post([&] {
+                refreshInventoryView(nursery);
+            });
         } }) |
-                             color(Color::Green);
+                            color(Color::Green);
 
     auto cancelMoveButton = Button("Cancel", [&]
                                    { showMoveDialogue = false; }) |
