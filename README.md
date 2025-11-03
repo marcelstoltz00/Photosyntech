@@ -28,6 +28,23 @@
 *   **Growth Simulation:** Watch your plants grow, change and react based on care routines.
 *   **Design Pattern Showcase:** A practical C++ demonstration of 12 different GoF design patterns.
 
+#### Manage a plant inventory
+![Inventory](https://github.com/user-attachments/assets/e7107b02-9bfe-4141-ad53-5ca5b247a42a)
+
+#### Simulate plant life cycles
+![simulatePlants](https://github.com/user-attachments/assets/c3296be3-70af-4171-b8df-5c8c294de7cf)
+
+#### Manage Staff
+![manageStaff](https://github.com/user-attachments/assets/788b012d-0932-41f5-a538-710f0ee9ec54)
+
+
+#### Handle customer interactions
+![customerInteractions](https://github.com/user-attachments/assets/4155c72b-de44-4647-b325-42759f9ee365)
+
+
+#### Watch your plants grow
+![growth](https://github.com/user-attachments/assets/1aeb2f4d-c730-4523-86f4-dffa76cce5b8)
+
 <h2 align="center">🚀 Quick Start 🚀</h2>
 
 ### Prerequisites
